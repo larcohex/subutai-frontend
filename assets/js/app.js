@@ -1,5 +1,6 @@
-var app = angular.module('MainApp',[]);
+var app = angular.module('app', ['mc.resizer']);
 
-app.controller('ModulesCtrl', function ($scope) {
-	
-})
+app.controller('ConsoleCtrl', function($scope) {
+  
+});
+

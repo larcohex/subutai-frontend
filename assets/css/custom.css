@@ -4,7 +4,50 @@
 .img-circle {
   border-radius: 10px; }
 
-.navbar-static-side {
-  height: 100%; }
+#consoleLayout .navbar-static-side {
+  height: 100%;
+  width: 100%; }
+#consoleLayout #topnav {
+  display: block;
+  height: 60px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0; }
+#consoleLayout #sidebar {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  width: 220px;
+  overflow: auto; }
+#consoleLayout #content {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 225px;
+  right: 0;
+  overflow: hidden; }
+#consoleLayout #top-content {
+  position: absolute;
+  top: 0;
+  bottom: 136px;
+  /* 130 + 6 */
+  left: 0;
+  right: 0;
+  overflow: auto; }
+#consoleLayout #sidebar-resizer {
+  background-color: #666;
+  position: absolute;
+  top: 35px;
+  bottom: 0;
+  left: 220px;
+  width: 6px;
+  cursor: col-resize;
+  z-index: 2015; }
+#consoleLayout #sidebar-resizer:hover, #consoleLayout #preview-resizer:hover {
+  background-color: #AAA; }
+#consoleLayout .nav-header {
+  background-size: cover; }
 
 /*# sourceMappingURL=custom.css.map */

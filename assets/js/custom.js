@@ -10,11 +10,13 @@ jQuery(function($, undefined) {
                 term.error(new String(e));
             }
         } else {
-           term.echo('');
-        }
-    }, {
-        greetings: 'Javascript Interpreter',
-        name: 'js_demo',
-        height: 200,
-        prompt: 'js> '});
+         term.echo('');
+     }
+ }, {
+    greetings: 'Javascript Interpreter',
+    name: 'js_demo',
+    height: 400,
+    prompt: 'js> '});
+
+    
 });
