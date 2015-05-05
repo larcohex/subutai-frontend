@@ -1,10 +1,13 @@
+.container {
+	width: 90%;
+}
 #core-modules {
 	position: relative;
 }
 .img-circle {
 	border-radius: 10px;
 }
-#consoleLayout {
+#resizableLayout {
 	.navbar-static-side {
 	height: 100%;
 	width: 100%;
@@ -32,8 +35,8 @@
 	bottom: 0;
 	left: 225px /* 200 + 6*/;
 	right: 0;
-	overflow: hidden;
-
+	overflow-x: hidden;
+	overflow-y: auto;
 	}
 	#top-content {
 	position: absolute;
@@ -62,5 +65,15 @@
 	.nav-header {
 	background-size: cover;
 	}
-
+	.footer {
+	position: fixed;
+	left: 225px;
+	}
+	.jqGrid_wrapper {
+	margin: 20px 0;
+	}
+	.tab-content {
+	margin: 20px;
+	}
 }
+

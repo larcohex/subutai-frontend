@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Identity Manager</title>
+
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../assets/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css">
+    <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="../assets/css/animate.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../assets/css/plugins/jqGrid/ui.jqgrid.css">
+    <link href="../assets/css/custom.css" rel="stylesheet">
+</head>
+
+<body data-ng-controller="MainCtrl" class="fixed-nav">
+    <div id="resizableLayout">
+
+        <!-- snippet -->
+        <div id="topnav">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" action="search_results.html">
+                            <div class="form-group">
+                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" src="../assets/img/a7.jpg">
+                                        </a>
+                                        <div class="media-body">
+                                            <small class="pull-right">46h ago</small>
+                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" src="../assets/img/a4.jpg">
+                                        </a>
+                                        <div class="media-body ">
+                                            <small class="pull-right text-navy">5h ago</small>
+                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" src="../assets/img/profile.jpg">
+                                        </a>
+                                        <div class="media-body ">
+                                            <small class="pull-right">23h ago</small>
+                                            <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                                            <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="mailbox.html">
+                                            <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <a href="mailbox.html">
+                                        <div>
+                                            <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                            <span class="pull-right text-muted small">4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="profile.html">
+                                        <div>
+                                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                            <span class="pull-right text-muted small">12 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="grid_options.html">
+                                        <div>
+                                            <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                            <span class="pull-right text-muted small">4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="notifications.html">
+                                            <strong>See All Alerts</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="login.html">
+                                <i class="fa fa-sign-out"></i> Log out
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+            
+        </div>
+
+
+        <div id="sidebar">
+         <nav class="navbar-default navbar-static-side " role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element"> 
+                            <span>
+                                <img alt="image" class="img-circle" src="../assets/img/profile_small.jpg" />
+                            </span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear"> 
+                                    <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                                    </span> 
+                                    <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> 
+                                </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a href="profile.html">Profile</a></li>
+                                    <li><a href="contacts.html">Contacts</a></li>
+                                    <li><a href="mailbox.html">Mailbox</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="login.html">Logout</a></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                                IN+
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Menu Levels </span    ><span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Third Level <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li><a href="#">Second Level Item</a></li>
+                                <li>
+                                    <a href="#">Second Level Item</a></li>
+                                    <li>
+                                        <a href="#">Second Level Item</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        
+                    </nav>
+                </div>
+
+                <div id="content" class="gray-bg">
+
+                    <div class="row wrapper border-bottom white-bg page-heading">
+                        <div class="col-lg-9">
+                            <h2>Identity Manager</h2>
+                            <ol class="breadcrumb">
+                                <li>
+                                    <a href="index.html">Home</a>
+                                </li>
+                                <li class="active">
+                                    <strong>Identity Manager</strong>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="">
+                            <div class="col-lg-12">
+                                <div class="panel blank-panel">
+
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="#tab-1">User Management</a></li>
+                                                <li class=""><a data-toggle="tab" href="#tab-2">Roles Management</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+
+                                        <div class="tab-content">
+                                            <div id="tab-1" class="tab-pane active">
+                                                <button type="button" class="btn btn-primary">Users</button>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUser">New user</button>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="jqGrid_wrapper">
+                                                            <table id="table_list_2"></table>
+                                                            <div id="pager_list_2"></div>
+                                                        </div>
+                                                        <hr/>
+                                                        or this way
+                                                        <div class="ibox">
+                                                            <div class="ibox-title">
+                                                                <h5>All users</h5>
+                                                                <div class="ibox-tools">
+                                                                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#newUser">Create new user</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ibox-content">
+                                                                <div class="project-list">
+
+                                                                    <table class="table table-hover">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="">
+                                                                                    Karaf
+                                                                                </td>
+                                                                                <td class="">
+                                                                                    Full name of karaf 
+                                                                                </td>
+                                                                                <td>
+                                                                                    Karaf@subutai.at
+                                                                                </td>
+                                                                                <td class="">
+                                                                                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="">
+                                                                                    Karaf
+                                                                                </td>
+                                                                                <td class="">
+                                                                                    Full name of karaf 
+                                                                                </td>
+                                                                                <td>
+                                                                                    Karaf@subutai.at
+                                                                                </td>
+                                                                                <td class="">
+                                                                                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <!-- Button trigger modal -->
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                          <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                              <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                ...
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div id="tab-2" class="tab-pane">
+                                        <strong>Donec quam felis</strong>
+
+                                        <p>Thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath </p>
+                                        <button type="button" class="btn btn-primary">Default button</button>                                    <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet.</p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+
+                <div class="pull-right">
+                    10GB of <strong>250GB</strong> Free.
+                </div>
+                <div>
+                    <strong>Copyright</strong> Example Company &copy; 2014-2015
+                </div>
+            </div>
+
+        </div>
+
+        <div id="sidebar-resizer" 
+        resizer="vertical" 
+        resizer-width="6" 
+        resizer-left="#sidebar" 
+        resizer-right="#content"
+        resizer-max="500">
+    </div>
+
+</div>
+
+
+
+
+<script src="../assets/js/jquery-2.1.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Peity -->
+<script src="../assets/js/plugins/peity/jquery.peity.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../assets/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="../assets/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+
+<script src="../assets/js/inspinia.js"></script>
+<script src="../assets/js/plugins/pace/pace.min.js"></script>
+
+
+<script>
+    $(document).ready(function(){
+        $('.contact-box').each(function() {
+            animationHover(this, 'pulse');
+        });
+
+        
+            // Examle data for jqGrid
+            var mydata = [
+            {username: "Karaf", fullname: "Full name of karaf", email: "Karaf@subutai.at", edit: ""} ,
+            {username: "Karaf", fullname: "Full name of karaf", email: "Karaf@subutai.at", edit: ""} ,
+            {username: "Karaf", fullname: "Full name of karaf", email: "Karaf@subutai.at", edit: ""} 
+            ];
+            var lastTd = $()
+            // Configuration for jqGrid Example 2
+            $("#table_list_2").jqGrid({
+                data: mydata,
+                datatype: "local",
+                autowidth: true,
+                shrinkToFit: true,
+                rowNum: 3,
+                rowList: [10, 20, 30],
+                colNames:['Username','Full name', 'Email', 'Edit'],
+                colModel:[
+                {name:'username',index:'username', editable: true, search:true},
+                {name:'fullname',index:'fullname', editable: true, search:true},
+                {name:'email',index:'email', editable: true},
+                {name:'edit',index:'edit', editable: true, align:"right"}
+                ],
+                pager: "#pager_list_2",
+                viewrecords: true,
+                add: true,
+                edit: true,
+                addtext: 'Add',
+                edittext: 'Edit',
+                hidegrid: false
+            });
+            // Add selection
+            $("#table_list_2").setSelection(4, true);
+            // Setup buttons
+            $("#table_list_2").jqGrid('navGrid', '#pager_list_2',
+                {edit: true, add: true, del: true, search: true},
+                {height: 200, reloadAfterSubmit: true}
+                );
+            // Add responsive to jqGrid
+            $(window).bind('resize', function () {
+                var width = $('.jqGrid_wrapper').width();
+                $('#table_list_2').setGridWidth(width);
+            });
+
+        });
+</script>
+<script type="text/javascript" src="../assets/js/app.js"></script>
+<script type="text/javascript" src="../assets/js/resizer.js"></script>
+<script type="text/javascript" src="../assets/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="../assets/js/custom.js"></script>
+</body>
+
+</html>
+

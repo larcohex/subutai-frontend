@@ -18,5 +18,4 @@ jQuery(function($, undefined) {
     height: 400,
     prompt: 'js> '});
 
-    
 });
