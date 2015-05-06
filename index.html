@@ -8,13 +8,13 @@
     <title>{{ Page.title() }}</title>
 
     <!-- BASE -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="assets/css/animate.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets-angular/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets-angular/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="assets-angular/css/animate.css" rel="stylesheet">
+    <link href="assets-angular/css/style.css" rel="stylesheet">
     <!-- ENDBASE -->
 
-    <link href="assets/css/custom.css" rel="stylesheet">
+    <link href="assets-angular/css/subutai.css" rel="stylesheet">
 </head>
 
 <body class="top-navigation">
@@ -22,139 +22,35 @@
 <div id="wrapper">
     <div ng-include="'subutai-app/common/partials/topnav.html'"></div>
 
-    <div ui-view></div>
+    <div id="page-wrapper" class="grey-bg">
 
-    <!--<div ng-include="'subutai-app/common/partials/footer.html'"></div>-->
+        <div ui-view></div>
+
+        <div ng-include="'subutai-app/common/partials/footer.html'"></div>
+    </div>
 </div>
 
 
 <!-- BASE -->
-<script src="assets/js/jquery-2.1.1.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/angular/angular.min.js"></script>
-<script src="assets/js/ui-router/angular-ui-router.min.js"></script>
+<script src="assets-angular/js/jquery/jquery-2.1.1.min.js"></script>
+<script src="assets-angular/js/bootstrap/bootstrap.min.js"></script>
+<script src="assets-angular/js/angular/angular.min.js"></script>
+<script src="assets-angular/js/ui-router/angular-ui-router.min.js"></script>
 
-<script src="assets/js/plugins/angular-notify/angular-notify.min.js"></script>
-<script src="assets/js/angular/angular-resource.min.js"></script>
-<script src="assets/js/angular-translate/angular-translate.min.js"></script>
+<script src="assets-angular/js/plugins/angular-notify/angular-notify.min.js"></script>
+<script src="assets-angular/js/angular/angular-resource.min.js"></script>
+<script src="assets-angular/js/angular-translate/angular-translate.min.js"></script>
 
 <script src="subutai-app/subutai-app.js"></script>
 <!-- ENDBASE -->
 
-<!-- used or not????-->
-<script src="assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets-angular/js/resizer.js"></script>
+<script src="assets-angular/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="assets/js/inspinia.js"></script>
-<script src="assets/js/plugins/pace/pace.min.js"></script>
+<script src="assets-angular/js/subutai.js"></script>
+<!--<script src="assets-angular/js/plugins/pace/pace.min.js"></script>-->
 
-<!-- Flot -->
-<script src="assets/js/plugins/flot/jquery.flot.js"></script>
-<script src="assets/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-<script src="assets/js/plugins/flot/jquery.flot.resize.js"></script>
-
-<!-- ChartJS-->
-<script src="assets/js/plugins/chartJs/Chart.min.js"></script>
-
-<!-- Peity -->
-<script src="assets/js/plugins/peity/jquery.peity.min.js"></script>
-<!-- Peity demo -->
-<script src="assets/js/demo/peity-demo.js"></script>
-
-<script type="text/javascript" src="../assets/js/resizer.js"></script>
-<script src="../assets/js/jquery.terminal-0.8.8.js"></script>
-<script src="../assets/js/custom.js"></script>
-
-<script>
-    //        $(document).ready(function() {
-    //
-    //
-    //            var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];
-    //            var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];
-    //
-    //            var data1 = [
-    //            { label: "Data 1", data: d1, color: '#17a084'},
-    //            { label: "Data 2", data: d2, color: '#127e68' }
-    //            ];
-    //            $.plot($("#flot-chart1"), data1, {
-    //                xaxis: {
-    //                    tickDecimals: 0
-    //                },
-    //                series: {
-    //                    lines: {
-    //                        show: true,
-    //                        fill: true,
-    //                        fillColor: {
-    //                            colors: [{
-    //                                opacity: 1
-    //                            }, {
-    //                                opacity: 1
-    //                            }]
-    //                        },
-    //                    },
-    //                    points: {
-    //                        width: 0.1,
-    //                        show: false
-    //                    },
-    //                },
-    //                grid: {
-    //                    show: false,
-    //                    borderWidth: 0
-    //                },
-    //                legend: {
-    //                    show: false,
-    //                }
-    //            });
-    //
-    //            var lineData = {
-    //                labels: ["January", "February", "March", "April", "May", "June", "July"],
-    //                datasets: [
-    //                {
-    //                    label: "Example dataset",
-    //                    fillColor: "rgba(220,220,220,0.5)",
-    //                    strokeColor: "rgba(220,220,220,1)",
-    //                    pointColor: "rgba(220,220,220,1)",
-    //                    pointStrokeColor: "#fff",
-    //                    pointHighlightFill: "#fff",
-    //                    pointHighlightStroke: "rgba(220,220,220,1)",
-    //                    data: [65, 59, 40, 51, 36, 25, 40]
-    //                },
-    //                {
-    //                    label: "Example dataset",
-    //                    fillColor: "rgba(26,179,148,0.5)",
-    //                    strokeColor: "rgba(26,179,148,0.7)",
-    //                    pointColor: "rgba(26,179,148,1)",
-    //                    pointStrokeColor: "#fff",
-    //                    pointHighlightFill: "#fff",
-    //                    pointHighlightStroke: "rgba(26,179,148,1)",
-    //                    data: [48, 48, 60, 39, 56, 37, 30]
-    //                }
-    //                ]
-    //            };
-    //
-    //            var lineOptions = {
-    //                scaleShowGridLines: true,
-    //                scaleGridLineColor: "rgba(0,0,0,.05)",
-    //                scaleGridLineWidth: 1,
-    //                bezierCurve: true,
-    //                bezierCurveTension: 0.4,
-    //                pointDot: true,
-    //                pointDotRadius: 4,
-    //                pointDotStrokeWidth: 1,
-    //                pointHitDetectionRadius: 20,
-    //                datasetStroke: true,
-    //                datasetStrokeWidth: 2,
-    //                datasetFill: true,
-    //                responsive: true,
-    //            };
-    //
-    //
-    //            var ctx = document.getElementById("lineChart").getContext("2d");
-    //            var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
-    //
-    //        });
-</script>
 
 </body>
 

@@ -1,5 +1,6 @@
 var app = angular.module("subutai-app", [
     'ui.router',
+    'mc.resizer'
     //'pascalprecht.translate',
     //'app.notifyGrowl'
 ])
@@ -20,6 +21,12 @@ function routesConf($stateProvider) {
         "console", {
             url: "/console",
             templateUrl: "subutai-app/console/partials/view.html"
+        }
+    )
+        .state(
+        "identity", {
+            url: "/identity",
+            templateUrl: "subutai-app/identity/partials/view.html"
         }
     );
 }
