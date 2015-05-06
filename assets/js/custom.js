@@ -17,5 +17,4 @@ jQuery(function($, undefined) {
     name: 'js_demo',
     height: 400,
     prompt: 'js> '});
-
 });
