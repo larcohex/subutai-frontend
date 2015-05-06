@@ -22,9 +22,12 @@
 <div id="wrapper">
     <div ng-include="'subutai-app/common/partials/topnav.html'"></div>
 
-    <div ui-view></div>
+    <div id="page-wrapper">
 
-    <!--<div ng-include="'subutai-app/common/partials/footer.html'"></div>-->
+        <div ui-view></div>
+
+        <div ng-include="'subutai-app/common/partials/footer.html'"></div>
+    </div>
 </div>
 
 
