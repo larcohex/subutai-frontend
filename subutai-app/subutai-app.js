@@ -28,5 +28,11 @@ function routesConf($stateProvider) {
             url: "/identity",
             templateUrl: "subutai-app/identity/partials/view.html"
         }
+    )
+    .state(
+    "environment", {
+        url: "/environment",
+        templateUrl: "subutai-app/environment/partials/view.html"
+        }
     );
 }
