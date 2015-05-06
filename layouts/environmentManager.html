@@ -137,10 +137,33 @@
                                             </div>
                                     </div>
                                     <div id="tab-environment" class="tab-pane">
-                                        TAB 2
+                                        <table class="table table-bordered ibox-content">
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Container</th>
+                                                <th>SSH Key</th>
+                                                <th>Destroy</th>
+                                                <th>Refresh Info</th>
+                                                <th>Remove</th>
+                                            </tr>
+                                            <tr>
+                                                <td>351bb6bf-bf59-4e65-90be-794cb5e72402</td>
+                                                <td>Hadoop-84061789-a078-48ca-bd7a-39fe997f814e</td>
+                                                <td>May 05,2015 11:30</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td><a href="#" class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentContainer">Containers</a></td>
+                                                <td><a href="#" class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentSshKey" >SSH Key</a></td>
+                                                <td><a href="#" class="btn btn-outline btn-danger btn-sm" data-toggle="modal" data-target="#deleteBlueprint" >Destroy</a></td>
+                                                <td><a href="#" class="btn btn-outline btn-default btn-sm">Refresh Info</a></td>
+                                                <td><a href="#" class="btn btn-outline btn-danger btn-sm">Remove</a></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div id="tab-environment-container" class="tab-pane">
-                                        TAB 3
+                                        Environment Container
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +302,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal inmodal" id="deleteBlueprint" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content animated bounceInRight">
@@ -300,6 +322,61 @@
             </div>
         </div>
 
+        <div class="modal inmodal" id="environmentContainer" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h5>Environment Containers</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <table class="table table-bordered ibox-content">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Template</th>
+                                    <th>Hostname</th>
+                                    <th>IP</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>351bb6bf-bf59-4e65-90be-794cb5e72402</td>
+                                    <td>Hadoop</td>
+                                    <td>Hadoop-84061789-a078-48ca-bd7a-39fe997f814e</td>
+                                    <td>192.168.34.3</td>
+                                    <td><a href="#" class="btn btn-outline btn-default btn-sm">Tags</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal inmodal" id="environmentSshKey" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h5>Environment SSH Keys</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <label>SSH Key</label>
+                            <textarea class="form-control"></textarea><br>
+                            <a href="#" class="btn btn-outline btn-default btn-sm">Add key</a>
+                            <a href="#" class="btn btn-outline btn-danger btn-sm">Remove key</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="footer">
             <div class="pull-right">
