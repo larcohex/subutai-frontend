@@ -1,3 +1,6 @@
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  outline: none;
+}
 .container {
   width: 90%; }
 
@@ -10,27 +13,55 @@
 .tab-content {
   margin: 20px; }
 
-.columnsContainer {
-
-
+#identity {
+  position: relative;
+  padding: 50px;
+  box-sizing: border-box;
 }
 .one {
   width: 50%;
   float: left;
   position: relative;
   top: 0;
-  background-color: lightblue;
+  background: white;
   z-index: 1;
+  padding: 20px;
 }
 .two {
   width: 50%;
   float: left;
   position: relative;
   right: -50%;
-  background: white;
-  z-index: -1;
+  padding: 0 65px;
   -webkit-transition: right 1s;
   -moz-transition: right 1s;
   -o-transition: right 1s;
   transition: right 1s;
+}
+.userManagement {
+  background: white;
+  width: 100%;
+  padding: 20px 10px 50px 10px;
+}
+.userManagement label {
+  display: inline-block;
+  width: 40%;
+  text-align: right;
+  padding: 0 10px;
+  line-height: 3;
+  float: left;
+}
+.userManagement .form-control {
+  width: 60%;
+}
+.userManagement h1 {
+  margin: 0;
+  margin-bottom: 40px;
+}
+.closeForm {
+  position: absolute;
+  top: 0;
+  right: 70px;
+  font-size: 20px;
+  cursor: pointer;
 }
