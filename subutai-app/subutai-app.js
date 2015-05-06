@@ -1,5 +1,6 @@
 var app = angular.module("subutai-app", [
     'ui.router',
+    'ui.bootstrap',
     'mc.resizer'
     //'pascalprecht.translate',
     //'app.notifyGrowl'
