@@ -18,7 +18,7 @@
   padding: 50px;
   box-sizing: border-box;
 }
-.one {
+#one {
   width: 50%;
   float: left;
   position: relative;
@@ -27,23 +27,23 @@
   z-index: 1;
   padding: 20px;
 }
-.two {
+#two {
   width: 50%;
   float: left;
   position: relative;
-  right: -50%;
+  right: 0;
   padding: 0 65px;
   -webkit-transition: right 1s;
   -moz-transition: right 1s;
   -o-transition: right 1s;
   transition: right 1s;
 }
-.userManagement {
+.createUserForm {
   background: white;
   width: 100%;
   padding: 20px 10px 50px 10px;
 }
-.userManagement label {
+.createUserForm label {
   display: inline-block;
   width: 40%;
   text-align: right;
@@ -51,10 +51,10 @@
   line-height: 3;
   float: left;
 }
-.userManagement .form-control {
+.createUserForm .form-control {
   width: 60%;
 }
-.userManagement h1 {
+.createUserForm h1 {
   margin: 0;
   margin-bottom: 40px;
 }
@@ -65,3 +65,9 @@
   font-size: 20px;
   cursor: pointer;
 }
+.hiddenRightHalf {
+  right: -50% !important;
+}
+.required:after {
+  content:" *";
+  color: red;}
