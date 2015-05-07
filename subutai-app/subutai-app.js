@@ -37,11 +37,3 @@ function routesConf($stateProvider) {
         }
     );
 }
-
-app.controller('identityController', function ($http, $scope) {
-    $http.get('user.json').success(function (res) {
-
-        $scope.users = res;
-        console.log($scope.users);
-    })
-});

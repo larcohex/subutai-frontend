@@ -1,22 +1,23 @@
-<div id="identity" ng-controller="">
-    <div id="one">
+<div id="identity">
+
+    <div id="one" ng-controller="IdentityTableCtrl">
         <button class="createUserBtn btn btn-primary btn-lg">Create new user</button>
         <table class="table">
             <thead>
-                <tr>
-                    <th>username</th>
-                    <th>fulname</th>
-                    <th>email</th>
-                    <th>edit</th>
-                </tr>
+            <tr>
+                <th>username</th>
+                <th>fulname</th>
+                <th>email</th>
+                <th>edit</th>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="user in users">
-                    <td>{{user.username}}</td>
-                    <td>{{user.fullname}}</td>
-                    <td>{{user.email}}</td>
-                    <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
-                </tr>
+            <tr ng-repeat="user in users">
+                <td>{{user.username}}</td>
+                <td>{{user.fullname}}</td>
+                <td>{{user.email}}</td>
+                <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -48,15 +49,21 @@
                 <label>User roles</label>
                 <div id="dragNdrop" class="dragNdropContainer"></div>
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary btn-md pull-right form-control" type="submit">Submit</button>
+            <div class="form-group userFormBtns">
+                <button class="btn btn-primary btn-md pull-right" type="submit">Save user</button>
+                <button class="btn btn-primary btn-md pull-right">Cancel</button>
             </div>
 
         </form>
     </div>
+
+
+
 </div>
 <script>
+    console.log('success');
     $(".createUserBtn").on('click', function(){
+
         $("#two").toggleClass("hiddenRightHalf");
     });
     $(".closeForm").on('click', function(){
