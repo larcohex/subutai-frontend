@@ -1,4 +1,4 @@
-<div id="identity" ng-controller="identity.controller">
+<div id="identity" ng-controller="">
     <div id="one">
         <button class="createUserBtn btn btn-primary btn-lg">Create new user</button>
         <table class="table">
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label>User roles</label>
-                <div id="test" class="input-xlarge"></div>
+                <div id="dragNdrop" class="dragNdropContainer"></div>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-md pull-right form-control" type="submit">Submit</button>
@@ -63,12 +63,13 @@
         $("#two").toggleClass("hiddenRightHalf");
     });
 
-    var t = $('#test').bootstrapTransfer();
+
+    var t = $('#dragNdrop').bootstrapTransfer();
     t.populate([
-        {value:"1", content:"Apple"},
-        {value:"2", content:"Orange"},
-        {value:"3", content:"Banana"},
-        {value:"4", content:"Peach"},
-        {value:"5", content:"Grapes"}
+        {value:"1", content:"option 1"},
+        {value:"2", content:"option 2"},
+        {value:"3", content:"option 3"},
+        {value:"4", content:"option 4"},
+        {value:"5", content:"option 5"}
     ]);
 </script>
