@@ -36,6 +36,8 @@ $(document).ready(function () {
     setTimeout(function(){
         fix_height();
     });
+
+
 });
 
 $(function() {
@@ -47,3 +49,4 @@ $(function() {
         }
     })
 });
+
