@@ -32,6 +32,12 @@ function routesConf($stateProvider) {
             templateUrl: "subutai-app/identity/partials/view.html"
         }
     )
+        .state(
+        "metrics", {
+            url: "/metrics",
+            templateUrl: "subutai-app/metrics/partials/view.html"
+        }
+    )
     .state(
     "environment", {
         url: "/environment",

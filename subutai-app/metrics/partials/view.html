@@ -1,0 +1,97 @@
+<div id="sidebar">
+
+    <div id="jstree1">
+        <ul>
+            <li class="jstree-open">Hosts
+                <ul>
+                    <li class="jstree-open">RH 1
+                        <ul>
+                            <li data-jstree='{"type":"css"}'>cont 1</li>
+                            <li data-jstree='{"type":"css"}'>cont 2</li>
+                            <li data-jstree='{"type":"css"}'>cont 3</li>
+                        </ul>
+                    </li>
+                    <li class="jstree-open">RH 2
+                        <ul>
+                            <li data-jstree='{"type":"css"}'>cont 1</li>
+                            <li data-jstree='{"type":"css"}'>cont 2</li>
+                            <li data-jstree='{"type":"css"}'>cont 3</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <select data-placeholder="Choose a Country..." class="chosen-select" tabindex="2" style="width: 100%;" multiple>
+        <option value="plugin1">Plugin 1</option>
+        <option value="plugin2">Plugin 2</option>
+    </select>
+
+</div>
+<div id="content">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>Monitoring</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Monitoring</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-12">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="sidebar-resizer"
+     resizer="vertical"
+     resizer-width="6"
+     resizer-left="#sidebar"
+     resizer-right="#content"
+     resizer-max="400">
+</div>
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#jstree1').jstree({
+            'core' : {
+                'check_callback' : true
+            },
+            'plugins' : [ 'types', 'dnd' ],
+            'types' : {
+                'default' : {
+                    'icon' : 'fa fa-folder'
+                },
+                'html' : {
+                    'icon' : 'fa fa-file-code-o'
+                },
+                'svg' : {
+                    'icon' : 'fa fa-file-picture-o'
+                },
+                'css' : {
+                    'icon' : 'fa fa-file-code-o'
+                },
+                'img' : {
+                    'icon' : 'fa fa-file-image-o'
+                },
+                'js' : {
+                    'icon' : 'fa fa-file-text-o'
+                }
+
+            }
+        });
+
+        $('.chosen-select').chosen();
+
+    });
+</script>
