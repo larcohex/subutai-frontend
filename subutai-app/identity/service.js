@@ -7,11 +7,13 @@ angular.module('subutai.identity.service', [])
 identitySrv.$inject = ['$http'];
 
 function identitySrv($http) {
-    var getUsersURL = 'users.json';
+    var getUsersURL = 'subutai-app/identity/dummy-api/users.json';
+    var getRolesURL = 'subutai-app/identity/dummy-api/roles.json';
 
     var identitySrv = {
         getUsers: getUsers,
-        addUser : addUser
+        addUser : addUser,
+        getRoles: getRoles
     };
 
     return identitySrv;
@@ -24,5 +26,9 @@ function identitySrv($http) {
 
     function addUser() {
 
+    }
+
+    function getRoles() {
+        return $http.get(getRolesURL);
     }
 }

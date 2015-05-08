@@ -5,9 +5,13 @@ angular.module('subutai.identity.controller', [])
 
 IdentityTableCtrl.$inject = ['$scope', 'identitySrv'];
 function IdentityTableCtrl($scope, identitySrv) {
+
     identitySrv.getUsers().success(function (data) {
-        $scope.users = data.users;
-        $scope.roles = data.roles;
-        //subutai-app/identity/users.json
+        $scope.users = data;
+        console.log(data);
+    });
+
+    identitySrv.getRoles().success(function (data) {
+        $scope.roles = data;
     });
 }
