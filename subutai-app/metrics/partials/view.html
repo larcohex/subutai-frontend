@@ -23,11 +23,12 @@
         </ul>
     </div>
 
-    <select data-placeholder="Choose a Country..." class="chosen-select" tabindex="2" style="width: 100%;" multiple>
-        <option value="plugin1">Plugin 1</option>
-        <option value="plugin2">Plugin 2</option>
+    <select>
+        <option>Plugin 1</option>
+        <option>Plugin 2</option>
     </select>
 
+    <button class="btn btn-primary btn-md">Get metrics</button>
 </div>
 <div id="content">
     <div class="row wrapper border-bottom white-bg page-heading">
@@ -45,7 +46,8 @@
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" style="position: relative">
+                <div id="morris-area-chart"></div>
             </div>
         </div>
     </div>
@@ -61,6 +63,24 @@
 
 
 <script>
+    new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'morris-area-chart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: [
+            { time: '02:00:00.000', usage: 5 },
+            { time: '03:00:00.000', usage: 18 },
+            { time: '04:00:00.000', usage: 20 }
+        ],
+        // The name of the data record attribute that contains x-values.
+        xkey: 'time',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['usage'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Usage']
+    });
     $(document).ready(function(){
 
         $('#jstree1').jstree({
@@ -91,7 +111,7 @@
             }
         });
 
-        $('.chosen-select').chosen();
+//        $('.chosen-select').chosen();
 
     });
 </script>
