@@ -1,6 +1,9 @@
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
   outline: none;
 }
+input[type="checkbox"]:focus, input[type="checkbox"]:checked {
+  outline: none;
+}
 .container {
   width: 90%; }
 
@@ -17,7 +20,7 @@
   position: relative;
   box-sizing: border-box;
 }
-#one {
+#userOne, #roleOne {
   width: 50%;
   float: left;
   position: relative;
@@ -26,7 +29,7 @@
   z-index: 1;
   padding: 20px;
 }
-#two {
+#userTwo, #roleTwo {
   width: 50%;
   float: left;
   position: relative;
@@ -37,12 +40,12 @@
   -o-transition: right 1s;
   transition: right 1s;
 }
-.createUserForm {
+.createUserForm, .createRoleForm {
   background: white;
   width: 100%;
   padding: 20px 10px 50px 10px;
 }
-.createUserForm label {
+.createUserForm label, .createRoleForm label {
   display: inline-block;
   width: 40%;
   text-align: right;
@@ -50,10 +53,17 @@
   line-height: 3;
   float: left;
 }
-.createUserForm .form-control {
+.createRoleForm label {
+  padding: 0;
+}
+.createUserForm .form-control, .createRoleForm .form-control {
   width: 60%;
 }
-.createUserForm h1 {
+.createRoleForm .form-control {
+  margin: 0;
+  float: left;
+}
+.createUserForm h1, .createRoleForm h1 {
   margin: 0;
   margin-bottom: 40px;
 }

@@ -1,82 +1,192 @@
 <div id="identity">
+    <tabset type="pills">
+        <!-- users tab-->
+        <tab heading="User management space">
+            <div id="userOne">
+                <button class="createUserBtn btn btn-primary btn-lg">Create new user</button>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>username</th>
+                        <th>fulname</th>
+                        <th>email</th>
+                        <th>edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>sdv</td>
+                        <td>fdg</td>
+                        <td>sewf</td>
+                        <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>sdv</td>
+                        <td>fdg</td>
+                        <td>sewf</td>
+                        <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="userTwo" class="">
+                <span class="closeForm">&times;</span>
+                <form action="" method="" class="createUserForm">
+                    <h1>User registration</h1>
+                    <div class="form-group">
+                        <label class="required">Username</label>
+                        <input type="text" placeholder="Username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Surname</label>
+                        <input type="text" placeholder="Surname"  class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Password</label>
+                        <input type="password" placeholder="***********"  class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Confirm password</label>
+                        <input type="password" placeholder="***********"  class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Email</label>
+                        <input type="password" placeholder="email@mail.com"  class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>User roles</label>
+                        <div id="dragNdrop" class="dragNdropContainer"></div>
+                    </div>
+                    <div class="form-group userFormBtns">
+                        <button class="btn btn-primary btn-md pull-right" type="submit">Save user</button>
+                        <button class="btn btn-primary btn-md pull-right cancelForm">Cancel</button>
+                    </div>
 
-    <div id="one" ng-controller="IdentityTableCtrl">
-        <button class="createUserBtn btn btn-primary btn-lg">Create new user</button>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>username</th>
-                <th>fulname</th>
-                <th>email</th>
-                <th>edit</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="user in users">
-                <td>{{user.username}}</td>
-                <td>{{user.fullname}}</td>
-                <td>{{user.email}}</td>
-                <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="two" class="hiddenRightHalf">
-        <span class="closeForm">&times;</span>
-        <form action="" method="" class="createUserForm">
-            <h1>User registration</h1>
-            <div class="form-group">
-                <label class="required">Username</label>
-                <input type="text" placeholder="Username" class="form-control" required>
+                </form>
             </div>
-            <div class="form-group">
-                <label class="required">Surname</label>
-                <input type="text" placeholder="Surname"  class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label class="required">Password</label>
-                <input type="password" placeholder="***********"  class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label class="required">Confirm password</label>
-                <input type="password" placeholder="***********"  class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label class="required">Email</label>
-                <input type="password" placeholder="email@mail.com"  class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>User roles</label>
-                <div id="dragNdrop" class="dragNdropContainer"></div>
-            </div>
-            <div class="form-group userFormBtns">
-                <button class="btn btn-primary btn-md pull-right" type="submit">Save user</button>
-                <button class="btn btn-primary btn-md pull-right">Cancel</button>
-            </div>
+        </tab>
 
-        </form>
-    </div>
+        <!-- roles tab-->
+        <tab heading="Roles management space">
+            <div id="roleOne">
+                <button class="createRoleBtn btn btn-primary btn-lg">Create new role</button>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>username</th>
+                        <th>ID</th>
+                        <th>name</th>
+                        <th>edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>sdv</td>
+                        <td>fdg</td>
+                        <td>sewf</td>
+                        <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>sdv</td>
+                        <td>fdg</td>
+                        <td>sewf</td>
+                        <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="roleTwo" class="">
+                <span class="closeForm">&times;</span>
+                <form action="" method="" class="createRoleForm">
+                    <h1>Roles management</h1>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 1</label>
+                                </div>
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 2</label>
+                                </div>
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 3</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 1</label>
+                                </div>
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 2</label>
+                                </div>
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 3</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 1</label>
+                                </div>
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 2</label>
+                                </div>
+                                <div class="rolesBox form-group">
+                                    <input type="checkbox" class="form-control">
+                                    <label>Role 3</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </tab>
+    </tabset>
+
 
 
 
 </div>
 <script>
-    console.log('success');
-    $(".createUserBtn").on('click', function(){
+    $(document).ready(function () {
+        $(".createUserBtn").on('click', function(){
+            $("#userTwo").toggleClass("hiddenRightHalf");
+        });
+        $(".closeForm").on('click', function(){
+            $("#userTwo").toggleClass("hiddenRightHalf");
+        });
+        $(".cancelForm").on('click', function(e){
+            e.preventDefault();
+            $("#userTwo").toggleClass("hiddenRightHalf");
+        });
 
-        $("#two").toggleClass("hiddenRightHalf");
+//        $(".createRoleBtn").on('click', function(){
+//            $("#userTwo").toggleClass("hiddenRightHalf");
+//        });
+//        $(".closeForm").on('click', function(){
+//            $("#roleTwo").toggleClass("hiddenRightHalf");
+//        });
+//        $(".cancelForm").on('click', function(e){
+//            e.preventDefault();
+//            $("#roleTwo").toggleClass("hiddenRightHalf");
+//        });
+
+        var t = $('#dragNdrop').bootstrapTransfer();
+        t.populate([
+            {value:"1", content:"option 1"},
+            {value:"2", content:"option 2"},
+            {value:"3", content:"option 3"},
+            {value:"4", content:"option 4"},
+            {value:"5", content:"option 5"}
+        ]);
     });
-    $(".closeForm").on('click', function(){
-        $("#two").toggleClass("hiddenRightHalf");
-    });
 
-
-    var t = $('#dragNdrop').bootstrapTransfer();
-    t.populate([
-        {value:"1", content:"option 1"},
-        {value:"2", content:"option 2"},
-        {value:"3", content:"option 3"},
-        {value:"4", content:"option 4"},
-        {value:"5", content:"option 5"}
-    ]);
 </script>

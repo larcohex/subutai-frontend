@@ -6,7 +6,7 @@ angular.module('subutai.identity.controller',[])
 
 IdentityTableCtrl.$inject = ['$scope'];
 function IdentityTableCtrl($scope) {
-    $http.get("../users.json").success(function (res) {
-        $scope.users = res.data;
+    $http.get("users.json").success(function (res) {
+        $scope.users = res;
     })
 }
