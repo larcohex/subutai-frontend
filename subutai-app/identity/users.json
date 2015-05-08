@@ -1,12 +1,27 @@
+
 {
-  "user1": {
-    "username": "karaf1",
-    "fullname": "karaf1Fullname",
-    "email": "karaf1@email.com"
-  },
-  "user2": {
-    "username": "karaf2",
-    "fullname": "karaf2Fullname",
-    "email": "karaf2@email.com"
-  }
+  "users": [
+    {
+      "username": "karaf1",
+      "fullname": "karaf1Fullname",
+      "email": "karaf1@email.com"
+    },
+    {
+      "username": "karaf2",
+      "fullname": "karaf2Fullname",
+      "email": "karaf2@email.com"
+    }
+  ],
+  "roles": [
+    {
+      "username": "Admin",
+      "ID": "Admin fullname",
+      "name": "Administrator"
+    },
+    {
+      "username": "Manager",
+      "ID": "Manager fullname",
+      "name": "Moder"
+    }
+  ]
 }
