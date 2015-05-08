@@ -13,30 +13,29 @@ routesConf.$inject = ['$stateProvider'];
 
 function routesConf($stateProvider) {
 
-
     $stateProvider
-        .state(
+    .state(
         "home", {
             url: "",
             templateUrl: "subutai-app/home/partials/view.html"
         }
     )
-        .state(
+    .state(
         "console", {
             url: "/console",
             templateUrl: "subutai-app/console/partials/view.html"
         }
     )
-        .state(
+    .state(
         "identity", {
             url: "/identity",
             templateUrl: "subutai-app/identity/partials/view.html"
         }
     )
-        .state(
-        "environment", {
-            url: "/environment",
-            templateUrl: "subutai-app/environment/partials/view.html"
+    .state(
+    "environment", {
+        url: "/environment",
+        templateUrl: "subutai-app/environment/partials/view.html"
         }
     );
 }
