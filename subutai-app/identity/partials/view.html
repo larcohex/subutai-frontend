@@ -4,7 +4,7 @@
         <tab heading="User management space">
             <div id="userOne">
                 <button class="createUserBtn btn btn-primary btn-lg">Create new user</button>
-                <table class="table">
+                <table class="table" ng-controller="IdentityTableCtrl">
                     <thead>
                     <tr>
                         <th>username</th>
@@ -14,16 +14,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>sdv</td>
-                        <td>fdg</td>
-                        <td>sewf</td>
-                        <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
-                    </tr>
-                    <tr>
-                        <td>sdv</td>
-                        <td>fdg</td>
-                        <td>sewf</td>
+                    <tr ng-repeat="user in users">
+                        <td>{{user.username}}</td>
+                        <td>{{user.fullname}}</td>
+                        <td>{{user.email}}</td>
                         <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
                     </tr>
                     </tbody>
@@ -80,18 +74,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>sdv</td>
-                        <td>fdg</td>
-                        <td>sewf</td>
+                    <tr ng-repeat="role in roles">
+                        <td>{{role.username}}</td>
+                        <td>{{role.ID}}</td>
+                        <td>{{role.name}}</td>
                         <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
                     </tr>
-                    <tr>
-                        <td>sdv</td>
-                        <td>fdg</td>
-                        <td>sewf</td>
-                        <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -100,6 +89,12 @@
                 <form action="" method="" class="createRoleForm">
                     <h1>Roles management</h1>
                     <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group pull-left">
+                                <label class="required">New</label>
+                                <input type="text" class="form-control" placeholder="Role name">
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             <div class="col-lg-4">
                                 <div class="rolesBox form-group">
@@ -142,6 +137,12 @@
                                     <input type="checkbox" class="form-control">
                                     <label>Role 3</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group pull-right">
+                                <button class="btn btn-primary btn-md">Save role</button>
+                                <button class="btn btn-primary btn-md">Cancel</button>
                             </div>
                         </div>
                     </div>
