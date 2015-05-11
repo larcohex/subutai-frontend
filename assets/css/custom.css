@@ -222,6 +222,8 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
 /*----------------------------------*/
 
 
-
+.metricsWrapper svg {
+  width: 100%;
+}
 
 
