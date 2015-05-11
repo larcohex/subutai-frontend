@@ -46,9 +46,119 @@
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <div class="col-md-12" style="position: relative">
-                <div id="morris-area-chart"></div>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                CPU
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div id="cpu-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                RAM
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <canvas id="lineChart" height="140"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Dataset
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            <div id="dataset-chart"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!--<div class="col-lg-12">-->
+                <!--<div class="ibox float-e-margins">-->
+                    <!--<div class="ibox-title">-->
+                        <!--<h5>Metrics</h5>-->
+                        <!--<div class="ibox-tools">-->
+                            <!--<a class="collapse-link">-->
+                                <!--<i class="fa fa-chevron-up"></i>-->
+                            <!--</a>-->
+                            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+                                <!--<i class="fa fa-wrench"></i>-->
+                            <!--</a>-->
+                            <!--<ul class="dropdown-menu dropdown-user">-->
+                                <!--<li><a href="#">Config option 1</a>-->
+                                <!--</li>-->
+                                <!--<li><a href="#">Config option 2</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                            <!--<a class="close-link">-->
+                                <!--<i class="fa fa-times"></i>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="ibox-content">-->
+                        <!--<div class="panel-body">-->
+                            <!--<div class="panel-group" id="accordion">-->
+                                <!--<div class="panel panel-default">-->
+                                    <!--<div class="panel-heading">-->
+                                        <!--<h5 class="panel-title">-->
+                                            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">CPU</a>-->
+                                        <!--</h5>-->
+                                    <!--</div>-->
+                                    <!--<div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">-->
+                                        <!--<div class="panel-body">-->
+                                            <!--<div id="morris-area-chart"></div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="panel panel-default">-->
+                                    <!--<div class="panel-heading">-->
+                                        <!--<h4 class="panel-title">-->
+                                            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed" aria-expanded="false">RAM</a>-->
+                                        <!--</h4>-->
+                                    <!--</div>-->
+                                    <!--<div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false">-->
+                                        <!--<div class="panel-body">-->
+                                            <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="panel panel-default">-->
+                                    <!--<div class="panel-heading">-->
+                                        <!--<h4 class="panel-title">-->
+                                            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed" aria-expanded="false">Dataset</a>-->
+                                        <!--</h4>-->
+                                    <!--</div>-->
+                                    <!--<div id="collapseThree" class="panel-collapse collapse" aria-expanded="false">-->
+                                        <!--<div class="panel-body">-->
+                                            <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-md-12" style="position: relative">-->
+
+            <!--</div>-->
         </div>
     </div>
 </div>
@@ -63,24 +173,7 @@
 
 
 <script>
-    new Morris.Line({
-        // ID of the element in which to draw the chart.
-        element: 'morris-area-chart',
-        // Chart data records -- each entry in this array corresponds to a point on
-        // the chart.
-        data: [
-            { time: '02:00:00.000', usage: 5 },
-            { time: '03:00:00.000', usage: 18 },
-            { time: '04:00:00.000', usage: 20 }
-        ],
-        // The name of the data record attribute that contains x-values.
-        xkey: 'time',
-        // A list of names of data record attributes that contain y-values.
-        ykeys: ['usage'],
-        // Labels for the ykeys -- will be displayed when you hover over the
-        // chart.
-        labels: ['Usage']
-    });
+
     $(document).ready(function(){
 
         $('#jstree1').jstree({
@@ -109,9 +202,29 @@
                 }
 
             }
+
         });
 
 //        $('.chosen-select').chosen();
 
     });
+    new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'cpu-chart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: [
+            { time: '02:00:00.000', usage: 5 },
+            { time: '03:00:00.000', usage: 18 },
+            { time: '04:00:00.000', usage: 20 }
+        ],
+        // The name of the data record attribute that contains x-values.
+        xkey: 'time',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['usage'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Usage']
+    });
+
 </script>
