@@ -4,7 +4,8 @@ var app = angular.module("subutai-app", [
     'mc.resizer',
     'pascalprecht.translate',
 
-    'subutai.identity'
+    'subutai.identity',
+    'subutai.environment'
     //'app.notifyGrowl'
 ])
     .config(routesConf)
