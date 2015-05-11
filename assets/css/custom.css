@@ -16,10 +16,31 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
 .tab-content {
   margin: 20px; }
 
+#identity {
+  padding: 50px 0;
+}
+
 #identity .tab-content {
   position: relative;
   box-sizing: border-box;
+  margin: 0;
 }
+#identity .nav-pills {
+  width: 50%;
+  border-bottom: 1px solid #ddd;
+}
+#identity .nav-pills>li>a {
+  border-radius: 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+}
+#identity .nav-pills>li.active>a {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-bottom: none;
+}
+
+
 #userOne, #roleOne {
   width: 50%;
   float: left;
@@ -28,6 +49,8 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
   background: white;
   z-index: 1;
   padding: 20px;
+  border: 1px solid #ddd;
+  border-top: none;
 }
 #userTwo, #roleTwo {
   width: 50%;
@@ -77,6 +100,8 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
 .hiddenRightHalf {
   right: -50% !important;
 }
+
+
 .required:after {
   content:" *";
   color: red;}
@@ -89,8 +114,8 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
 .form-group {
   clear: both;
 }
-.userFormBtns button {
-  margin: 20px 10px;
+.cancelForm {
+  margin-right: 10px;
 }
 
 /*----------------------------------*/
@@ -225,5 +250,17 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
 .metricsWrapper svg {
   width: 100%;
 }
-
-
+.metricsWrapper .tab-content {
+  background: white;
+  padding: 20px;
+  margin: 0;
+  border: 1px solid #DDD;
+  border-top: none;
+}
+.metricsWrapper .nav-tabs>li>a{
+  margin: 0;
+  border-radius: 0;
+}
+.metricsWrapper .nav-tabs > li.active > a {
+  border-bottom: transparent;
+}

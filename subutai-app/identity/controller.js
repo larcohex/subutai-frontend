@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('subutai.identity.controller', [])
-    .controller('IdentityTableCtrl', IdentityTableCtrl);
+    .controller('IdentityCtrl', IdentityCtrl);
 
-IdentityTableCtrl.$inject = ['$scope', 'identitySrv'];
-function IdentityTableCtrl($scope, identitySrv) {
+IdentityCtrl.$inject = ['$scope', 'identitySrv'];
+function IdentityCtrl($scope, identitySrv) {
 
     identitySrv.getUsers().success(function (data) {
         $scope.users = data;
@@ -13,4 +13,6 @@ function IdentityTableCtrl($scope, identitySrv) {
     identitySrv.getRoles().success(function (data) {
         $scope.roles = data;
     });
+
 }
+

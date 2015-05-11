@@ -1,28 +1,47 @@
 <div id="sidebar">
 
-    <div id="jstree1">
-        <ul>
-            <li class="jstree-open">Hosts
-                <ul>
-                    <li class="jstree-open">RH 1
-                        <ul>
-                            <li data-jstree='{"type":"css"}'>cont 1</li>
-                            <li data-jstree='{"type":"css"}'>cont 2</li>
-                            <li data-jstree='{"type":"css"}'>cont 3</li>
-                        </ul>
-                    </li>
-                    <li class="jstree-open">RH 2
-                        <ul>
-                            <li data-jstree='{"type":"css"}'>cont 1</li>
-                            <li data-jstree='{"type":"css"}'>cont 2</li>
-                            <li data-jstree='{"type":"css"}'>cont 3</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+    <!--<div id="jstree1">-->
+        <!--<ul>-->
+            <!--<li class="jstree-open">Hosts-->
+                <!--<ul>-->
+                    <!--<li class="jstree-open">RH 1-->
+                        <!--<ul>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 1</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 2</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 3</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li class="jstree-open">RH 2-->
+                        <!--<ul>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 1</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 2</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 3</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+    <ul class="nav" id="side-menu">
+        <li class="active">
+            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Menu Levels </span><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                <li>
+                    lorem
+                    <ul class="nav nav-third-level collapse">
+                        <li>lorem</li>
+                        <li>lorem</li>
+                        <li>lorem</li>
+                    </ul>
+                </li>
+                <li>lorem</li>
+                <li>lorem</li>
+                <li>lorem</li>
+                <li>lorem</li>
+            </ul>
+        </li>
 
+    </ul>
     <select>
         <option>Plugin 1</option>
         <option>Plugin 2</option>
@@ -125,7 +144,10 @@
         usage_graph_ram.redraw();
         usage_graph_dataset.redraw();
     });
+
+
     $(document).ready(function(){
+
         $('#jstree1').jstree({
             'core' : {
                 'check_callback' : true
@@ -154,6 +176,8 @@
             }
 
         });
+
+
     });
 
 </script>
