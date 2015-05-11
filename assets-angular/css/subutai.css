@@ -1,7 +1,8 @@
 #sidebar {
-    background-color: #EEE;
+    background-color: #2F4050;
+    color: #A7B1C2;
     position: absolute;
-    top: 35px;
+    top: 0px;
     bottom: 0;
     left: 0;
     width: 200px;
@@ -9,7 +10,7 @@
 }
 #content {
     position: absolute;
-    top: 35px;
+    top: 0px;
     bottom: 0;
     left: 206px /* 200 + 6*/;
     right: 0;
@@ -18,9 +19,9 @@
 }
 
 #sidebar-resizer {
-    background-color: #666;
+    background-color: #2F4050;
     position: absolute;
-    top: 35px;
+    top: 0px;
     bottom: 0;
     left: 200px;
     width: 6px;
@@ -28,5 +29,5 @@
 }
 
 #sidebar-resizer:hover, #preview-resizer:hover {
-    background-color: #AAA;
+    background-color: #676A6C;
 }
