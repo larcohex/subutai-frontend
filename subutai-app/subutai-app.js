@@ -3,7 +3,9 @@ var app = angular.module("subutai-app", [
     'ui.bootstrap',
     'mc.resizer',
     'pascalprecht.translate',
-
+    
+    'subutai.col-select',
+    
     'subutai.identity',
     'subutai.environment'
     //'app.notifyGrowl'
@@ -40,9 +42,9 @@ function routesConf($stateProvider) {
         }
     )
     .state(
-    "environment", {
-        url: "/environment",
-        templateUrl: "subutai-app/environment/partials/view.html"
-        }
+        "environment", {
+            url: "/environment",
+            templateUrl: "subutai-app/environment/partials/view.html"
+            }
     );
 }
