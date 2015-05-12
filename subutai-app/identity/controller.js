@@ -13,6 +13,4 @@ function IdentityCtrl($scope, identitySrv) {
     identitySrv.getRoles().success(function (data) {
         $scope.roles = data;
     });
-
-
 }
