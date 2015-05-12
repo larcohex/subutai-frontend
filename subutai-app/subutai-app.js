@@ -3,10 +3,11 @@ var app = angular.module("subutai-app", [
     'ui.bootstrap',
     'mc.resizer',
     'pascalprecht.translate',
-
+    
     'subutai.col-select',
-
-    'subutai.identity'
+    
+    'subutai.identity',
+    'subutai.environment'
     //'app.notifyGrowl'
 ])
     .config(routesConf)
@@ -32,6 +33,12 @@ function routesConf($stateProvider) {
         "identity", {
             url: "/identity",
             templateUrl: "subutai-app/identity/partials/view.html"
+        }
+    )
+        .state(
+        "metrics", {
+            url: "/metrics",
+            templateUrl: "subutai-app/metrics/partials/view.html"
         }
     )
     .state(

@@ -1,0 +1,183 @@
+<div id="sidebar">
+
+    <!--<div id="jstree1">-->
+        <!--<ul>-->
+            <!--<li class="jstree-open">Hosts-->
+                <!--<ul>-->
+                    <!--<li class="jstree-open">RH 1-->
+                        <!--<ul>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 1</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 2</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 3</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li class="jstree-open">RH 2-->
+                        <!--<ul>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 1</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 2</li>-->
+                            <!--<li data-jstree='{"type":"css"}'>cont 3</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+    <ul class="nav" id="side-menu">
+        <li class="active">
+            <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Menu Levels </span><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                <li>
+                    lorem
+                    <ul class="nav nav-third-level collapse">
+                        <li>lorem</li>
+                        <li>lorem</li>
+                        <li>lorem</li>
+                    </ul>
+                </li>
+                <li>lorem</li>
+                <li>lorem</li>
+                <li>lorem</li>
+                <li>lorem</li>
+            </ul>
+        </li>
+
+    </ul>
+    <select>
+        <option>Plugin 1</option>
+        <option>Plugin 2</option>
+    </select>
+
+    <button class="btn btn-primary btn-md">Get metrics</button>
+</div>
+<div id="content" class="metricsWrapper">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>Monitoring</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Monitoring</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#cpu" data-toggle="tab">CPU</a></li>
+                <li><a href="#ram" data-toggle="tab">RAM</a></li>
+                <li><a href="#dataset" data-toggle="tab">DATASET</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="cpu">
+                    <div id="cpu-chart"></div>
+                </div>
+                <div class="tab-pane" id="ram">
+                    <div id="ram-chart"></div>
+                </div>
+                <div class="tab-pane" id="dataset">
+                    <div id="dataset-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="sidebar-resizer"
+     resizer="vertical"
+     resizer-width="6"
+     resizer-left="#sidebar"
+     resizer-right="#content"
+     resizer-max="400">
+</div>
+
+
+<script>
+
+    var usage_graph_cpu = Morris.Line({
+        element: 'cpu-chart',
+        data: [
+            { time: '01:00:00.000', usage: 5 },
+            { time: '02:00:00.000', usage: 18 },
+            { time: '03:00:00.000', usage: 20 },
+            { time: '04:00:00.000', usage: 10 },
+            { time: '05:00:00.000', usage: 5 },
+            { time: '06:00:00.000', usage: 7 }
+        ],
+        xkey: 'time',
+        ykeys: ['usage'],
+        labels: ['Usage']
+    });
+    var usage_graph_ram = Morris.Line({
+        element: 'ram-chart',
+        data: [
+            { time: '01:00:00.000', usage: 12 },
+            { time: '02:00:00.000', usage: 15 },
+            { time: '03:00:00.000', usage: 19 },
+            { time: '04:00:00.000', usage: 52 },
+            { time: '05:00:00.000', usage: 30 },
+            { time: '06:00:00.000', usage: 44 }
+        ],
+        xkey: 'time',
+        ykeys: ['usage'],
+        labels: ['Usage']
+    });
+    var usage_graph_dataset = Morris.Area({
+        element: 'dataset-chart',
+        data: [
+            {x: '2011 Q1', y: 3, z: 3},
+            {x: '2011 Q2', y: 2, z: 0},
+            {x: '2011 Q3', y: 2, z: 5},
+            {x: '2011 Q4', y: 4, z: 4}
+        ],
+        xkey: 'x',
+        ykeys: ['y', 'z'],
+        labels: ['Y', 'Z']
+    }).on('click', function(i, row){
+        console.log(i, row);
+    });
+    $('ul.nav a').on('shown.bs.tab', function (e) {
+        usage_graph_cpu.redraw();
+        usage_graph_ram.redraw();
+        usage_graph_dataset.redraw();
+    });
+
+
+    $(document).ready(function(){
+
+        $('#jstree1').jstree({
+            'core' : {
+                'check_callback' : true
+            },
+            'plugins' : [ 'types', 'dnd' ],
+            'types' : {
+                'default' : {
+                    'icon' : 'fa fa-folder'
+                },
+                'html' : {
+                    'icon' : 'fa fa-file-code-o'
+                },
+                'svg' : {
+                    'icon' : 'fa fa-file-picture-o'
+                },
+                'css' : {
+                    'icon' : 'fa fa-file-code-o'
+                },
+                'img' : {
+                    'icon' : 'fa fa-file-image-o'
+                },
+                'js' : {
+                    'icon' : 'fa fa-file-text-o'
+                }
+
+            }
+
+        });
+
+
+    });
+
+</script>
