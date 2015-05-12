@@ -39,7 +39,10 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
   border: 1px solid #ddd;
   border-bottom: none;
 }
-
+#identity .newRoleLabel {
+  padding: 0 10px !important;
+  text-align: center
+}
 
 #userOne, #roleOne {
   width: 50%;
