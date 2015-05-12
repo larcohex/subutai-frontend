@@ -81,11 +81,11 @@ input[type="checkbox"]:focus, input[type="checkbox"]:checked {
   content:" *";
   color: red;}
 
-.dragNdropContainer {
-  width: 60%;
-  float: left;
-  background: white;
-}
+/*.dragNdropContainer {*/
+  /*width: 60%;*/
+  /*float: left;*/
+  /*background: white;*/
+/*}*/
 .form-group {
   clear: both;
 }
