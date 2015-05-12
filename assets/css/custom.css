@@ -97,6 +97,7 @@
   background: white;
   width: 100%;
   padding: 20px 10px 50px 10px;
+  border: 1px solid #ddd;
 }
 .createUserForm label, .createRoleForm label {
   display: inline-block;
@@ -123,12 +124,15 @@
 .closeForm {
   position: absolute;
   top: 0;
-  right: 70px;
-  font-size: 20px;
+  right: 80px;
+  font-size: 30px;
   cursor: pointer;
 }
-.hiddenRightHalf {
+.hiddenRightHalf, .hiddenRightHalf.revealed {
   right: -50% !important;
+}
+.revealed, .revealed.hiddenRightHalf {
+  right: 0 !important;
 }
 
 
@@ -294,3 +298,4 @@
 .metricsWrapper .nav-tabs > li.active > a {
   border-bottom: transparent;
 }
+

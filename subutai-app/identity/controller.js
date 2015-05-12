@@ -14,5 +14,5 @@ function IdentityCtrl($scope, identitySrv) {
         $scope.roles = data;
     });
 
-}
 
+}

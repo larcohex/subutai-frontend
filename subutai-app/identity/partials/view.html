@@ -3,7 +3,7 @@
         <!-- users tab-->
         <tab heading="User management space">
             <div id="userOne">
-                <button class="createUserBtn btn btn-primary btn-lg">Create new user</button>
+                <button class="createUserBtn btn btn-primary btn-lg" ng-click="class='revealed'">Create new user</button>
                 <table class="table">
                     <thead>
                     <tr>
@@ -23,8 +23,8 @@
                     </tbody>
                 </table>
             </div>
-            <div id="userTwo" class="">
-                <span class="closeForm">&times;</span>
+            <div id="userTwo" ng-class="class" class="hiddenRightHalf">
+                <span class="closeForm" ng-click="class=''">&times;</span>
                 <form action="" method="" class="createUserForm">
                     <h1>User registration</h1>
                     <div class="form-group">
@@ -47,10 +47,6 @@
                         <label class="required">Email</label>
                         <input type="password" placeholder="email@mail.com"  class="form-control" required>
                     </div>
-                    <!--<div class="form-group">-->
-                        <!--<label>User roles</label>-->
-                        <!--<div id="dragNdrop" class="dragNdropContainer"></div>-->
-                    <!--</div>-->
                     <div class="form-group">
                         <button class="btn btn-primary btn-md pull-right" type="submit">Save user</button>
                         <button class="btn btn-primary btn-md pull-right cancelForm">Cancel</button>
@@ -63,7 +59,7 @@
         <!-- roles tab-->
         <tab heading="Roles management space">
             <div id="roleOne">
-                <button class="createRoleBtn btn btn-primary btn-lg">Create new role</button>
+                <button class="createRoleBtn btn btn-primary btn-lg"  ng-click="class='revealed'">Create new role</button>
                 <table class="table">
                     <thead>
                     <tr>
@@ -84,8 +80,8 @@
                     </tbody>
                 </table>
             </div>
-            <div id="roleTwo" class="">
-                <span class="closeForm">&times;</span>
+            <div id="roleTwo" ng-class="class" class="hiddenRightHalf">
+                <span class="closeForm" ng-click="class=''">&times;</span>
                 <form action="" method="" class="createRoleForm">
                     <h1>Roles management</h1>
                     <div class="row">
@@ -134,52 +130,13 @@
         </tab>
     </tabset>
 
-
-
-
 </div>
+
 <script>
     $('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
         radioClass: 'iradio_square-green',
         toggle: true
-    });
-
-    $(document).ready(function () {
-
-//        $(".createUserBtn").on('click', function(){
-//    console.log('clicked');
-//    $("#userTwo").toggleClass("hiddenRightHalf");
-//});
-//$(".closeForm").on('click', function(){
-//    $("#userTwo").toggleClass("hiddenRightHalf");
-//});
-//$(".cancelForm").on('click', function(e){
-//    e.preventDefault();
-//    $("#userTwo").toggleClass("hiddenRightHalf");
-//});
-
-
-
-//        $(".createRoleBtn").on('click', function(){
-//            $("#userTwo").toggleClass("hiddenRightHalf");
-//        });
-//        $(".closeForm").on('click', function(){
-//            $("#roleTwo").toggleClass("hiddenRightHalf");
-//        });
-//        $(".cancelForm").on('click', function(e){
-//            e.preventDefault();
-//            $("#roleTwo").toggleClass("hiddenRightHalf");
-//        });
-
-//        var t = $('#dragNdrop').bootstrapTransfer();
-//        t.populate([
-//            {value:"1", content:"option 1"},
-//            {value:"2", content:"option 2"},
-//            {value:"3", content:"option 3"},
-//            {value:"4", content:"option 4"},
-//            {value:"5", content:"option 5"}
-//        ]);
     });
 
 </script>
