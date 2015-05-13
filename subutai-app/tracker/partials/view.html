@@ -11,11 +11,11 @@
         </ol>
     </div>
 </div>
-<div class="panel-body">
+<div class="panel-body trackerWrapper">
     <div class="col-md-12">
         <div class="col-md-3">
             <div class="form-group">
-                <label>Source</label>
+                <label class="font-noraml">Source</label>
                 <select class="chosen-select" data-placeholder="hadoop">
                     <option value=""></option>
                     <option value="hadoop">Hadoop</option>
@@ -25,20 +25,45 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="form-group" id="data_1">
-                <label class="font-noraml">Simple data input format</label>
+            <div class="form-group" id="date_1">
+                <label class="font-noraml">From</label>
                 <div class="input-group date">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
                 </div>
             </div>
         </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div class="form-group" id="date_2">
+                <label class="font-noraml">To</label>
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="font-noraml">Show last</label>
+                <select class="chosen-select" data-placeholder="10">
+                    <option value=""></option>
+                    <option value="10">10</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    $('#data_1 .input-group.date').datepicker({
+    $('#date_1 .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+    $('#date_2 .input-group.date').datepicker({
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
