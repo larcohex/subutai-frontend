@@ -3,14 +3,28 @@
 angular.module('subutai.identity.controller', [])
     .controller('IdentityCtrl', IdentityCtrl);
 
-IdentityCtrl.$inject = ['$scope', 'identitySrv'];
-function IdentityCtrl($scope, identitySrv) {
+IdentityCtrl.$inject = ['identitySrv'];
+function IdentityCtrl(identitySrv) {
+    var vm = this;
+
+    vm.addNew = addNew;
+
+    vm.isUser = true;
+    vm.isRole = false;
+    vm.userFrame = false;
 
     identitySrv.getUsers().success(function (data) {
-        $scope.users = data;
+        vm.users = data;
     });
 
     identitySrv.getRoles().success(function (data) {
-        $scope.roles = data;
+        vm.roles = data;
     });
+
+
+    //// Implementation
+
+    function addNew() {
+        vm.userFrame = true;
+    }
 }

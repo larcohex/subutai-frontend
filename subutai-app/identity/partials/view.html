@@ -1,10 +1,10 @@
-<div id="identity" ng-controller="IdentityCtrl">
+<div id="identity" ng-controller="IdentityCtrl as identityCtrl">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
             <h2>User identity</h2>
             <ol class="breadcrumb">
                 <li>
-                    <a href="index.html">Home</a>
+                    <a href="/">Home</a>
                 </li>
                 <li class="active">
                     <strong>User identity</strong>
@@ -12,137 +12,172 @@
             </ol>
         </div>
     </div>
-    <div class="panel-body">
+    <div class="animated fadeIn wrapper-content">
 
-        <tabset>
-            <!-- users tab-->
-            <tab heading="User management space">
-                <div id="userOne">
-                    <button class="createUserBtn btn btn-primary btn-lg" ng-click="class='revealed'">Create new user</button>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>username</th>
-                            <th>fulname</th>
-                            <th>email</th>
-                            <th>edit</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="user in users">
-                            <td>{{user.username}}</td>
-                            <td>{{user.fullname}}</td>
-                            <td>{{user.email}}</td>
-                            <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
-                        </tr>
-                        </tbody>
-                    </table>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="white-bg ibox float-e-margins">
+                    <div class="ibox-title ibox-tools-right">
+
+                        <div class="ibox-tools dropdown">
+                            <a ng-click="identityCtrl.addNew()"><i class="fa fa-plus-square"></i></a>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <tabset>
+                            <!-- users tab-->
+                            <tab heading="User management space" active="identityCtrl.isUser">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>username</th>
+                                        <th>fulname</th>
+                                        <th>email</th>
+                                        <th>edit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="user in identityCtrl.users">
+                                        <td>{{user.username}}</td>
+                                        <td>{{user.fullname}}</td>
+                                        <td>{{user.email}}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-md editUserBtn">edit</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </tab>
+
+                            <!-- roles tab-->
+                            <tab heading="Roles management space" active="identityCtrl.isRole">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>username</th>
+                                        <th>ID</th>
+                                        <th>name</th>
+                                        <th>edit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="role in identityCtrl.roles">
+                                        <td>{{role.username}}</td>
+                                        <td>{{role.ID}}</td>
+                                        <td>{{role.name}}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-md editUserBtn">edit</button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </tab>
+                        </tabset>
+                    </div>
                 </div>
-                <div id="userTwo" ng-class="class" class="hiddenRightHalf">
-                    <span class="closeForm" ng-click="class=''">&times;</span>
-                    <form action="" method="" class="createUserForm">
-                        <h1>User registration</h1>
-                        <div class="form-group">
-                            <label class="required">Username</label>
-                            <input type="text" placeholder="Username" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="required">Surname</label>
-                            <input type="text" placeholder="Surname"  class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="required">Password</label>
-                            <input type="password" placeholder="***********"  class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="required">Confirm password</label>
-                            <input type="password" placeholder="***********"  class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="required">Email</label>
-                            <input type="password" placeholder="email@mail.com"  class="form-control" required>
-                        </div>
-                        <div class="form-group pull-right">
-                            <button class="btn btn-primary btn-md" type="submit">Save user</button>
-                            <button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>
-                        </div>
+            </div>
 
-                    </form>
-                </div>
-            </tab>
+            <div class="col-lg-6" ng-show="identityCtrl.userFrame" class="animated fadeIn">
+                <!--<div id="userTwo" ng-class="class" class="hiddenRightHalf">-->
+                <!--<span class="closeForm" ng-click="class=''">&times;</span>-->
 
-            <!-- roles tab-->
-            <tab heading="Roles management space">
-                <div id="roleOne">
-                    <button class="createRoleBtn btn btn-primary btn-lg"  ng-click="class='revealed'">Create new role</button>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>username</th>
-                            <th>ID</th>
-                            <th>name</th>
-                            <th>edit</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="role in roles">
-                            <td>{{role.username}}</td>
-                            <td>{{role.ID}}</td>
-                            <td>{{role.name}}</td>
-                            <td><button class="btn btn-primary btn-md editUserBtn">edit</button></td>
-                        </tr>
+                <form action="" method="" class="createUserForm">
+                    <h1>User registration</h1>
 
-                        </tbody>
-                    </table>
-                </div>
-                <div id="roleTwo" ng-class="class" class="hiddenRightHalf">
-                    <span class="closeForm" ng-click="class=''">&times;</span>
-                    <form action="" method="" class="createRoleForm">
-                        <h1>Roles management</h1>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group pull-left">
-                                    <label class="required newRoleLabel">New</label>
-                                    <input type="text" class="form-control" placeholder="Role name">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 form-group">
-                                <div class="col-lg-4">
-                                    <div class="rolesBox">
-                                        <h5 class="rolesTitle">Accessible modules</h5>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox"> Project A </label>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"> Project B </label>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"> Project C </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="rolesBox">
-                                        <h5 class="rolesTitle">Accessible modules</h5>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks" checked> Project A </label>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"> Project B </label>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"> Project C </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="rolesBox">
-                                        <h5 class="rolesTitle">Accessible modules</h5>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks" checked> Project A </label>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"> Project B </label>
-                                        <label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"> Project C </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="pull-right">
-                                    <button class="btn btn-primary btn-md">Save role</button>
-                                    <button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label class="required">Username</label>
+                        <input type="text" placeholder="Username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Surname</label>
+                        <input type="text" placeholder="Surname" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Password</label>
+                        <input type="password" placeholder="***********" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Confirm password</label>
+                        <input type="password" placeholder="***********" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="required">Email</label>
+                        <input type="password" placeholder="email@mail.com" class="form-control" required>
+                    </div>
+                    <div>
+                        <col-select></col-select>
+                    </div>
+                    <div class="form-group pull-right">
+                        <button class="btn btn-primary btn-md" type="submit">Save user</button>
+                        <button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>
+                    </div>
 
-                    </form>
-                </div>
-            </tab>
-        </tabset>
+                </form>
+                <!--</div>-->
+
+
+                <!--<div id="roleTwo" ng-class="class" class="hiddenRightHalf">-->
+                <!--<span class="closeForm" ng-click="class=''">&times;</span>-->
+
+                <!--<form action="" method="" class="createRoleForm">-->
+                <!--<h1>Roles management</h1>-->
+
+                <!--<div class="row">-->
+                <!--<div class="col-lg-12">-->
+                <!--<div class="form-group pull-left">-->
+                <!--<label class="required newRoleLabel">New</label>-->
+                <!--<input type="text" class="form-control" placeholder="Role name">-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-lg-12 form-group">-->
+                <!--<div class="col-lg-4">-->
+                <!--<div class="rolesBox">-->
+                <!--<h5 class="rolesTitle">Accessible modules</h5>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox"> Project A </label>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks">-->
+                <!--Project B </label>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks">-->
+                <!--Project C </label>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-lg-4">-->
+                <!--<div class="rolesBox">-->
+                <!--<h5 class="rolesTitle">Accessible modules</h5>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"-->
+                <!--checked> Project A </label>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks">-->
+                <!--Project B </label>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks">-->
+                <!--Project C </label>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-lg-4">-->
+                <!--<div class="rolesBox">-->
+                <!--<h5 class="rolesTitle">Accessible modules</h5>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks"-->
+                <!--checked> Project A </label>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks">-->
+                <!--Project B </label>-->
+                <!--<label> <input icheck ng-model="unCheck" type="checkbox" class="i-checks">-->
+                <!--Project C </label>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-lg-12">-->
+                <!--<div class="pull-right">-->
+                <!--<button class="btn btn-primary btn-md">Save role</button>-->
+                <!--<button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+                <!--</form>-->
+                <!--</div>-->
+            </div>
+        </div>
     </div>
 </div>
