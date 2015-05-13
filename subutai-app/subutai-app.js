@@ -41,6 +41,12 @@ function routesConf($stateProvider) {
             templateUrl: "subutai-app/metrics/partials/view.html"
         }
     )
+        .state(
+        "tracker", {
+            url: "/tracker",
+            templateUrl: "subutai-app/tracker/partials/view.html"
+        }
+    )
     .state(
         "environment", {
             url: "/environment",
