@@ -31,3 +31,12 @@
 #sidebar-resizer:hover, #preview-resizer:hover {
     background-color: #676A6C;
 }
+
+.ibox-tools-right {
+    float: right;
+}
+
+.ibox-tools-right a {
+    color: #F8AC59;
+    font-size: 20px;
+}
