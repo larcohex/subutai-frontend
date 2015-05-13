@@ -12,5 +12,38 @@
     </div>
 </div>
 <div class="panel-body">
-    
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Source</label>
+                <select class="chosen-select" data-placeholder="hadoop">
+                    <option value=""></option>
+                    <option value="hadoop">Hadoop</option>
+                    <option value="oozie">Oozie</option>
+                    <option value="envmanager">Environment manager</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group" id="data_1">
+                <label class="font-noraml">Simple data input format</label>
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+    </div>
 </div>
+
+<script>
+    $('#data_1 .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+    $('.chosen-select').chosen();
+</script>
