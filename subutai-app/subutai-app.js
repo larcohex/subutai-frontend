@@ -7,7 +7,8 @@ var app = angular.module("subutai-app", [
     'subutai.col-select',
     
     'subutai.identity',
-    'subutai.environment'
+    'subutai.environment',
+    'subutai.tracker'
     //'app.notifyGrowl'
 ])
     .config(routesConf)

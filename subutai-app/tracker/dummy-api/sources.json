@@ -1,0 +1,11 @@
+[
+  {
+    "name": "hadoop"
+  },
+  {
+    "name": "oozie"
+  },
+  {
+    "name": "environment manager"
+  }
+]
