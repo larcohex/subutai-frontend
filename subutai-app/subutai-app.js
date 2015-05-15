@@ -7,10 +7,11 @@ var app = angular.module("subutai-app", [
     'subutai.col-select',
     
     'subutai.identity',
-    'subutai.environment'
+    'subutai.environment',
+    'subutai.peerManagement'
     //'app.notifyGrowl'
 ])
-    .config(routesConf)
+    .config(routesConf);
 
 routesConf.$inject = ['$stateProvider'];
 
@@ -46,5 +47,11 @@ function routesConf($stateProvider) {
             url: "/environment",
             templateUrl: "subutai-app/environment/partials/view.html"
             }
+    )
+    .state(
+    "peerManagement", {
+        url: "/peerManagement",
+        templateUrl: "subutai-app/peerManagement/partials/view.html"
+    }
     );
 }
