@@ -15,7 +15,7 @@
     <div class="animated fadeIn wrapper-content">
 
         <div class="row">
-            <div id="resizable-pane" class="col-lg-6">
+            <div id="resizable-pane" class="col-lg-6 fullWidthPane">
                 <div class="white-bg ibox float-e-margins">
                     <div class="ibox-title ibox-tools-right">
 
@@ -29,7 +29,7 @@
 
                         <tabset>
                             <!-- users tab-->
-                            <tab heading="User management space" active="identityCtrl.isUser">
+                            <tab heading="User management" active="identityCtrl.isUser">
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -53,7 +53,7 @@
                             </tab>
 
                             <!-- roles tab-->
-                            <tab heading="Roles management space" active="identityCtrl.isRole">
+                            <tab heading="Roles management" active="identityCtrl.isRole">
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -73,6 +73,30 @@
                                         </td>
                                     </tr>
 
+                                    </tbody>
+                                </table>
+                            </tab>
+
+                            <!-- tokens tab-->
+                            <tab heading="Token management" active="identityCtrl.isToken">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>username</th>
+                                        <th>fulname</th>
+                                        <th>email</th>
+                                        <th>edit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="user in identityCtrl.tokens">
+                                        <td>{{token.username}}</td>
+                                        <td>{{token.fullname}}</td>
+                                        <td>{{token.email}}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-md editUserBtn">edit</button>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </tab>
@@ -141,7 +165,7 @@
                             <div class="form-group">
                                 <div class="col-sm-9 col-sm-offset-3">
                                     <button class="btn btn-primary btn-md" type="submit">Save user</button>
-                                    <button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>
+                                    <button class="btn btn-primary btn-md" ng-click="identityCtrl.closePane()">Cancel</button>
                                 </div>
                             </div>
 
@@ -189,9 +213,76 @@
                             <div class="form-group">
                                 <div class="col-sm-9 col-sm-offset-3">
                                     <button class="btn btn-primary btn-md" type="submit">Save user</button>
-                                    <button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>
+                                    <button class="btn btn-primary btn-md" ng-click="identityCtrl.closePane()">Cancel</button>
                                 </div>
                             </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="token-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
+                    <div class="ibox-title">
+                        <h5>Token registration</h5>
+                        <div class="ibox-tools dropdown">
+                            <a ng-click="identityCtrl.closePane()"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content">
+
+                        <form class="form-horizontal">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Username</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="Username" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Fullname</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="Fullname" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Email</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="email@mail.com" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Password</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="***********" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Confirm password</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="***********" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Roles</label>
+
+                                <div class="col-sm-9">
+                                    <col-select></col-select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-9 col-sm-offset-3">
+                                    <button class="btn btn-primary btn-md" type="submit">Save user</button>
+                                    <button class="btn btn-primary btn-md" ng-click="identityCtrl.closePane()">Cancel</button>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>

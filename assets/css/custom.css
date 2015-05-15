@@ -117,3 +117,13 @@
 #logsContainer .logInfo .error {
   color: red;
 }
+#resizable-pane {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.fullWidthPane {
+  width: 100%;
+}
