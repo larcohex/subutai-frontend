@@ -15,12 +15,12 @@
     <div class="animated fadeIn wrapper-content">
 
         <div class="row">
-            <div class="col-lg-6">
+            <div id="resizable-pane" class="col-lg-6">
                 <div class="white-bg ibox float-e-margins">
                     <div class="ibox-title ibox-tools-right">
 
                         <div class="ibox-tools dropdown">
-                            <a ng-click="identityCtrl.addNew()"><i class="fa fa-plus-square"></i></a>
+                            <a ng-click="identityCtrl.addPane()"><i class="fa fa-plus-square"></i></a>
                         </div>
                     </div>
 
@@ -81,42 +81,73 @@
                 </div>
             </div>
 
-            <div class="col-lg-6" ng-show="identityCtrl.userFrame" class="animated fadeIn">
-                <!--<div id="userTwo" ng-class="class" class="hiddenRightHalf">-->
-                <!--<span class="closeForm" ng-click="class=''">&times;</span>-->
-
-                <form action="" method="" class="createUserForm">
-                    <h1>User registration</h1>
-
-                    <div class="form-group">
-                        <label class="required">Username</label>
-                        <input type="text" placeholder="Username" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Surname</label>
-                        <input type="text" placeholder="Surname" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Password</label>
-                        <input type="password" placeholder="***********" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Confirm password</label>
-                        <input type="password" placeholder="***********" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Email</label>
-                        <input type="password" placeholder="email@mail.com" class="form-control" required>
-                    </div>
-                    <div>
-                        <col-select></col-select>
-                    </div>
-                    <div class="form-group pull-right">
-                        <button class="btn btn-primary btn-md" type="submit">Save user</button>
-                        <button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>
+            <div id="user-form" class="col-lg-6" style="visibility: hidden;">
+                <div class="white-bg ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>User registration</h5>
+                        <div class="ibox-tools dropdown">
+                            <a ng-click="identityCtrl.closePane()"><i class="fa fa-times"></i></a>
+                        </div>
                     </div>
 
-                </form>
+                    <div class="ibox-content">
+
+                        <form class="form-horizontal">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Username</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="Username" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Fullname</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="Fullname" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Email</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="email@mail.com" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Password</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="***********" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Confirm password</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="***********" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Roles</label>
+
+                                <div class="col-sm-9">
+                                    <col-select></col-select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-9 col-sm-offset-3">
+                                    <button class="btn btn-primary btn-md" type="submit">Save user</button>
+                                    <button class="btn btn-primary btn-md" ng-click="class=''">Cancel</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
                 <!--</div>-->
 
 
