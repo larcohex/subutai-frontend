@@ -1,5 +1,5 @@
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-9">
+    <div class="col-md-9">
         <h2>Tracker</h2>
         <ol class="breadcrumb">
             <li>
@@ -11,39 +11,104 @@
         </ol>
     </div>
 </div>
-<div class="panel-body">
-    <div class="col-md-12">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Source</label>
-                <select class="chosen-select" data-placeholder="hadoop">
-                    <option value=""></option>
-                    <option value="hadoop">Hadoop</option>
-                    <option value="oozie">Oozie</option>
-                    <option value="envmanager">Environment manager</option>
-                </select>
+<div class="panel-body trackerWrapper" ng-controller="TrackerCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="font-noraml">Source</label>
+
+                    <div class="input-group">
+                        <select chosen id="states" class="chosen-select" tabindex="4" ng-model="state" ng-options="s in TrackerCtrl.sources">
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group" id="data_1">
-                <label class="font-noraml">Simple data input format</label>
-                <div class="input-group date">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
+            <div class="col-md-3">
+                <div class="form-group" id="data_1">
+                    <label class="font-noraml">From</label>
+
+                    <div class="input-group date">
+                        <input type="datetime" class="form-control" date-time ng-model="sampleDate" view="date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group" id="data_2">
+                    <label class="font-noraml">To</label>
+
+                    <div class="input-group date">
+                        <input type="datetime" class="form-control" date-time ng-model="sampleDate" view="date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="font-noraml">Show last</label>
+
+                    <div class="input-group">
+                        <select chosen id="" class="chosen-select" tabindex="4" ng-model="state" ng-options="s for s in main.states">
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-3"></div>
-    </div>
-</div>
+        <div class="col-md-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Operations</h5>
+                    <div class="ibox-tools">
+                        <a class="close-link">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
 
-<script>
-    $('#data_1 .input-group.date').datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true
-    });
-    $('.chosen-select').chosen();
-</script>
+                    <table datatable="" class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Operations</th>
+                            <th>Check</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>May 15, 2015 15:35</td>
+                            <td>Creating environment</td>
+                            <td><button class="btn">View log</button></td>
+                            <td><button class="btn btn-success">Successful</button></td>
+                        </tr>
+                        <tr>
+                            <td>May 15, 2015 15:35</td>
+                            <td>Creating environment</td>
+                            <td><button class="btn">View log</button></td>
+                            <td><button class="btn btn-danger">Failed</button></td>
+                        </tr>
+                        <tr>
+                            <td>May 15, 2015 15:35</td>
+                            <td>Creating environment</td>
+                            <td><button class="btn">View log</button></td>
+                            <td><button class="btn btn-warning">In progress</button></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="logsContainer">
+                <p class="logInfo">Creating environment</p>
+                <p class="logInfo">State: <span class="error">FAILED</span></p>
+                <p class="logInfo">Setting up secure channel</p>
+            </div>
+        </div>
+    </div>
+
+</div>
