@@ -7,7 +7,7 @@ var app = angular.module("subutai-app", [
     
     'subutai.col-select',
     
-    //'subutai.identity',
+    'subutai.identity',
     'subutai.environment',
     'subutai.tracker'
     //'app.notifyGrowl'
@@ -70,7 +70,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             url: "/environment",
             templateUrl: "subutai-app/environment/partials/view.html"
         }
-    ).state(
+    )
+        .state(
         "404", {
             url: "/404",
             template: "Not found"
