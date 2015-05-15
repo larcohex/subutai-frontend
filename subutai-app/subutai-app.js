@@ -1,5 +1,6 @@
 var app = angular.module("subutai-app", [
     'ui.router',
+    'oc.lazyLoad',
     'ui.bootstrap',
     'mc.resizer',
     'pascalprecht.translate',
@@ -8,14 +9,21 @@ var app = angular.module("subutai-app", [
     
     'subutai.identity',
     'subutai.environment',
+    'subutai.tracker',
     'subutai.peerManagement'
     //'app.notifyGrowl'
 ])
     .config(routesConf);
 
-routesConf.$inject = ['$stateProvider'];
+routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 
-function routesConf($stateProvider) {
+function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+
+    $urlRouterProvider.otherwise("/404");
+
+    $ocLazyLoadProvider.config({
+        debug: true
+    });
 
     $stateProvider
     .state(
@@ -34,19 +42,41 @@ function routesConf($stateProvider) {
         "identity", {
             url: "/identity",
             templateUrl: "subutai-app/identity/partials/view.html"
+            //resolve: {
+            //    loadPlugin: function ($ocLazyLoad) {
+            //        return $ocLazyLoad.load([
+            //            {
+            //                name: subutai.identity,
+            //                files: ['subutai-app/identity/identity.js', 'subutai-app/identity/controller.js', 'subutai-app/identity/service.js']
+            //            }
+            //        ]);
+            //    }
+            //}
         }
     )
-        .state(
+    .state(
         "metrics", {
             url: "/metrics",
             templateUrl: "subutai-app/metrics/partials/view.html"
         }
     )
     .state(
+        "tracker", {
+            url: "/tracker",
+            templateUrl: "subutai-app/tracker/partials/view.html"
+        }
+    )
+    .state(
         "environment", {
             url: "/environment",
             templateUrl: "subutai-app/environment/partials/view.html"
-            }
+        }
+    )
+        .state(
+        "404", {
+            url: "/404",
+            template: "Not found"
+        }
     )
     .state(
     "peerManagement", {
