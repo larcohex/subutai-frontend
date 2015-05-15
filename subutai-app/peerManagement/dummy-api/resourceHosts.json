@@ -1,0 +1,17 @@
+[
+  {
+    "id": "01",
+    "name": "Resource Host1",
+    "color": "{'color':'#6666FF'}"
+  },
+  {
+    "id": "02",
+    "name": "Resource Host2",
+    "color": "{'color':'#FF9966'}"
+  },
+  {
+    "id": "03",
+    "name": "Resource Host3",
+    "color": "{'color':'#00CC99'}"
+  }
+]

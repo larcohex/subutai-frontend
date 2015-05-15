@@ -12,9 +12,10 @@ var app = angular.module("subutai-app", [
     'subutai.environment',
     'subutai.tracker',
     'subutai.metrics'
+    'subutai.peerManagement'
     //'app.notifyGrowl'
 ])
-    .config(routesConf)
+    .config(routesConf);
 
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 
@@ -79,4 +80,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             template: "Not found"
         }
     )
+    .state(
+    "peerManagement", {
+        url: "/peerManagement",
+        templateUrl: "subutai-app/peerManagement/partials/view.html"
+    }
+    );
 }

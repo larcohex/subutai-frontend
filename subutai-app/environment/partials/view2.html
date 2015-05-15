@@ -1,115 +1,18 @@
-<div id="identity" ng-controller="EnvironmentViewCtrl">
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-9">
-            <h2>User identity</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="active">
-                    <strong>Environment</strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="panel-body">
-        <tabset>
-            <tab heading="Blueprints">
-                <button type="button" class="btn btn-primary" ng-click="class='revealed'">Create new blueprint</button>
-                <div class="project-list col-md-6 ibox-content">
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr ng-repeat = "blueprint in blueprints">
-                            <td class="project-title">
-                                <a href="">{{blueprint.name}}</a>
-                            </td>
-                            <td class="project-completion">{{blueprint.nodes}}</td>
-                            <td class="project-actions">
-                                <a class="btn btn-white btn-sm" data-toggle="modal" data-target="#deleteBlueprint"><i class="fa fa-folder"></i> Delete </a>
-                                <a class="btn btn-white btn-sm" type="button" ng-click="class='revealed'"><i class="fa fa-pencil"></i> Build </a>
-                                <a class="btn btn-white btn-sm" type="button" ng-click="class='revealed'"><i class="fa fa-pencil"></i> Grow </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!--hidden panel-->
-                <div id="userTwo" ng-class="class" class="hiddenRightHalf col-md-6">
-                    <span class="closeForm" ng-click="class=''">&times;</span>
-                    <form action="" method="" class="createUserForm">
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="ibox float-e-margins">
-                                        <table class="table table-bordered ibox-content">
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Amount</th>
-                                                <th>Peer</th>
-                                                <th></th>
-                                            </tr>
-                                            <tr>
-                                                <td>Cassandra node group</td>
-                                                <td>
-                                                    <input type="range" id="myRange" value="90">
-                                                </td>
-                                                <td>
-                                                    <select class="form-control">
-                                                        <option value="peer1">Peer on 172.16.131.204</option>
-                                                        <option value="peer1">Peer on 172.16.131.203</option>
-                                                        <option value="peer1">Peer on 172.16.131.202</option>
-                                                        <option value="peer1">Peer on 172.16.131.200</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> Place </a>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                        <table class="table table-bordered ibox-content">
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Amount</th>
-                                                <th>Peer</th>
-                                                <th></th>
-                                            </tr>
-                                            <tr>
-                                                <td>Cassandra node group</td>
-                                                <td>3</td>
-                                                <td>Peer on 172.16.131.204</td>
-                                                <td>
-                                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> Remove</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                        <div>
-                                            <label>Subnet CIDR</label>
-                                            <input placeholder="Enter Subnet CIDR" class="form-control">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+<div id="environment" ng-controller="EnvironmentViewCtrl">
+    <div class="wrapper wrapper-content" >
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 ibox-content">
+                    <div class="panel-heading">
+                        <div class="panel-options">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" data-target="#tab-blueprints">Blueprints</a></li>
+                                <li class=""><a data-toggle="tab" data-target="#tab-environment">Environment</a></li>
+                                <li class=""><a data-toggle="tab" data-target="#tab-environment-container">Environment container quote</a></li>
+                            </ul>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Build</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
 
-
-            </tab>
-            <tab heading="Environments">
-
-            </tab>
-            <tab heading="Environment container quote">
-
-            </tab>
-        </tabset>
                     <div class="panel-body">
                         <div class="tab-content">
                             <div id="tab-blueprints" class="tab-pane active">
@@ -237,7 +140,77 @@
             </div>
         </div>
     </div>
+    <div class="modal inmodal" id="buildBlueprint" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated bounceInRight">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <i class="fa fa-puzzle-piece modal-icon"></i>
+                    <h4 class="modal-title">Build blueprint</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <table class="table table-bordered ibox-content">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Amount</th>
+                                        <th>Peer</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td>Cassandra node group</td>
+                                        <td>
+                                            <input type="range" id="myRange" value="90">
+                                        </td>
+                                        <td>
+                                            <select class="form-control">
+                                                <option value="peer1">Peer on 172.16.131.204</option>
+                                                <option value="peer1">Peer on 172.16.131.203</option>
+                                                <option value="peer1">Peer on 172.16.131.202</option>
+                                                <option value="peer1">Peer on 172.16.131.200</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> Place </a>
+                                        </td>
+                                    </tr>
+                                </table>
 
+                                <table class="table table-bordered ibox-content">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Amount</th>
+                                        <th>Peer</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td>Cassandra node group</td>
+                                        <td>3</td>
+                                        <td>Peer on 172.16.131.204</td>
+                                        <td>
+                                            <a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> Remove</a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div>
+                                    <label>Subnet CIDR</label>
+                                    <input placeholder="Enter Subnet CIDR" class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Build</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal inmodal" id="deleteBlueprint" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content animated bounceInRight">
