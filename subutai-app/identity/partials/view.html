@@ -15,7 +15,7 @@
     <div class="animated fadeIn wrapper-content">
 
         <div class="row">
-            <div id="resizable-pane" class="col-lg-6 fullWidthPane">
+            <div id="resizable-pane" class="col-lg-7 fullWidthPane">
                 <div class="white-bg ibox float-e-margins">
                     <div class="ibox-title ibox-tools-right">
 
@@ -69,7 +69,7 @@
                                         <td>{{role.ID}}</td>
                                         <td>{{role.name}}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-md editUserBtn">edit</button>
+                                            <button class="btn btn-primary btn-md editRoleBtn">edit</button>
                                         </td>
                                     </tr>
 
@@ -79,22 +79,34 @@
 
                             <!-- tokens tab-->
                             <tab heading="Token management" active="identityCtrl.isToken">
-                                <table class="table">
+                                <table class="table table-responsive">
                                     <thead>
                                     <tr>
                                         <th>username</th>
-                                        <th>fulname</th>
-                                        <th>email</th>
+                                        <th>tokenname</th>
+                                        <th>ip range</th>
+                                        <th>ttl</th>
+                                        <th>create date</th>
+                                        <th>status</th>
+                                        <th>token</th>
                                         <th>edit</th>
+                                        <th>delete</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="user in identityCtrl.tokens">
+                                    <tr ng-repeat="token in identityCtrl.tokens">
                                         <td>{{token.username}}</td>
-                                        <td>{{token.fullname}}</td>
-                                        <td>{{token.email}}</td>
+                                        <td>{{token.tokenname}}</td>
+                                        <td>{{token.iprange}}</td>
+                                        <td>{{token.ttl}}</td>
+                                        <td>{{token.createdate}}</td>
+                                        <td>{{token.status}}</td>
+                                        <td>{{token.token}}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-md editUserBtn">edit</button>
+                                            <button class="btn btn-primary btn-md editTokenBtn">edit</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-md deleteTokenBtn">delete</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -105,7 +117,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <div id="user-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
                     <div class="ibox-title">
                         <h5>User registration</h5>
@@ -157,7 +169,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label required-label">Roles</label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-12">
                                     <col-select></col-select>
                                 </div>
                             </div>
@@ -176,7 +188,7 @@
                 <div id="role-form" class="white-bg ibox float-e-margins" style="visibility: hidden; display: none;">
 
                     <div class="ibox-title">
-                        <h5>User registration</h5>
+                        <h5>Roles registration</h5>
                         <div class="ibox-tools dropdown">
                             <a ng-click="identityCtrl.closePane()"><i class="fa fa-times"></i></a>
                         </div>
@@ -188,7 +200,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label required-label">Roles</label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-12">
                                     <col-select></col-select>
                                 </div>
                             </div>
@@ -196,7 +208,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label required-label">Roles</label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-12">
                                     <col-select></col-select>
                                 </div>
                             </div>
@@ -204,7 +216,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label required-label">Roles</label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-12">
                                     <col-select></col-select>
                                 </div>
                             </div>
@@ -240,45 +252,52 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Fullname</label>
+                                <label class="col-sm-3 control-label required-label">Token name</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" placeholder="Fullname" class="form-control" required>
+                                    <input type="text" placeholder="Token name" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Email</label>
+                                <label class="col-sm-3 control-label required-label">IP range</label>
 
                                 <div class="col-sm-9">
-                                    <input type="password" placeholder="email@mail.com" class="form-control" required>
+                                    <input type="password" placeholder="IP range" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Password</label>
+                                <label class="col-sm-3 control-label required-label">TTL</label>
 
                                 <div class="col-sm-9">
-                                    <input type="password" placeholder="***********" class="form-control" required>
+                                    <input type="password" placeholder="TTL" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Confirm password</label>
+                                <label class="col-sm-3 control-label required-label">Create date</label>
 
                                 <div class="col-sm-9">
-                                    <input type="password" placeholder="***********" class="form-control" required>
+                                    <input type="password" placeholder="2015-05-15 15:15" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Roles</label>
+                                <label class="col-sm-3 control-label required-label">Status</label>
 
                                 <div class="col-sm-9">
-                                    <col-select></col-select>
+                                    <input type="password" placeholder="valid" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label required-label">Token</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="1515615616" class="form-control" required>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="col-sm-9 col-sm-offset-3">
-                                    <button class="btn btn-primary btn-md" type="submit">Save user</button>
+                                    <button class="btn btn-primary btn-md" type="submit">Save token</button>
                                     <button class="btn btn-primary btn-md" ng-click="identityCtrl.closePane()">Cancel</button>
                                 </div>
                             </div>
