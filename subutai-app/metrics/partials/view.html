@@ -1,6 +1,12 @@
-<div id="sidebar">
+<div id="sidebar" ng-controller="MetricsCtrl">
 
-    <div id="using_json"></div>
+
+    <div ui-tree="treeOptions">
+        <ol ui-tree-nodes ng-model="nodes">
+            <li ng-repeat="node in nodes" ui-tree-node>{{node.title}}</li>
+        </ol>
+    </div>
+
 
     <select data-placeholder="Choose a plugin" multiple class="chosen-select">
         <option value=""></option>
@@ -109,40 +115,6 @@
 
     $(document).ready(function(){
         $('.chosen-select').chosen();
-        $('#using_json').jstree({ 'core' : {
-            'data' : [
-                'Empty Folder',
-                {
-                    'text': 'Resources',
-                    'state': {
-                        'opened': true
-                    },
-                    'children': [
-                        {
-                            'text': 'css',
-                            'children': [
-                                {
-                                    'text': 'animate.css', 'icon': 'none'
-                                },
-                                {
-                                    'text': 'bootstrap.css', 'icon': 'none'
-                                },
-                                {
-                                    'text': 'main.css', 'icon': 'none'
-                                },
-                                {
-                                    'text': 'style.css', 'icon': 'none'
-                                }
-                            ],
-                            'state': {
-                                'opened': true
-                            }
-                        }
-                    ]
-                }
-            ]
-        } });
-
     });
 
 </script>

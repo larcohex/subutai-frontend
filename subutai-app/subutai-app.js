@@ -4,12 +4,14 @@ var app = angular.module("subutai-app", [
     'ui.bootstrap',
     'mc.resizer',
     'pascalprecht.translate',
+    'ui.tree',
     
     'subutai.col-select',
     
     'subutai.identity',
     'subutai.environment',
-    'subutai.tracker'
+    'subutai.tracker',
+    'subutai.metrics'
     //'app.notifyGrowl'
 ])
     .config(routesConf)
