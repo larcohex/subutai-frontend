@@ -13,7 +13,7 @@ function trackerSrv($http) {
     var getSourcesURL = 'subutai-app/tracker/dummy-api/sources.json';
 
     var trackerSrv = {
-        getUsers: getSources
+        getSources: getSources
     };
 
     return trackerSrv;
