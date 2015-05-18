@@ -11,7 +11,7 @@ var app = angular.module("subutai-app", [
     'subutai.identity',
     'subutai.environment',
     'subutai.tracker',
-    'subutai.metrics'
+    'subutai.metrics',
     'subutai.peerManagement'
     //'app.notifyGrowl'
 ])
@@ -74,16 +74,16 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             templateUrl: "subutai-app/environment/partials/view.html"
         }
     )
-        .state(
+    .state(
         "404", {
             url: "/404",
             template: "Not found"
         }
     )
     .state(
-    "peerManagement", {
-        url: "/peerManagement",
-        templateUrl: "subutai-app/peerManagement/partials/view.html"
-    }
-    );
+        "peerManagement", {
+            url: "/peerManagement",
+            templateUrl: "subutai-app/peerManagement/partials/view.html"
+        }
+    )
 }

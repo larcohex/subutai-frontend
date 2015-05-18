@@ -10,8 +10,11 @@ TrackerCtrl.$inject = ['trackerSrv'];
 function TrackerCtrl(trackerSrv) {
     var vm = this;
 
-    trackerSrv.getSources().success(function (data) {
-        vm.sources = data;
+    trackerSrv.getLogs().success(function (data) {
+        vm.logs = data;
+        if(vm.logs.status === "successful"){
+            vm.logStatus.addClass('btn-success');
+        }
     });
 
 }
