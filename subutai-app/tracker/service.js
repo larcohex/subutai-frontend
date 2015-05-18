@@ -11,9 +11,11 @@ trackerSrv.$inject = ['$http'];
 
 function trackerSrv($http) {
     var getLogsURL = 'subutai-app/tracker/dummy-api/logs.json';
+    var viewLogsURL = 'subutai-app/tracker/dummy-api/specificLogs.json';
 
     var trackerSrv = {
-        getLogs: getLogs
+        getLogs: getLogs,
+        getSpecificLogs: getSpecificLogs
     };
 
     return trackerSrv;
@@ -22,6 +24,9 @@ function trackerSrv($http) {
 
     function getLogs() {
         return $http.get(getLogsURL);
+    }
+    function getSpecificLogs() {
+        return $http.get(viewLogsURL);
     }
 
 }

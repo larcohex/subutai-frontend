@@ -80,7 +80,7 @@
                         <tr ng-repeat="l in trackerCtrl.logs">
                             <td>{{l.date}}</td>
                             <td>{{l.operation}}</td>
-                            <td><button class="btn" ng-model="logStatus">{{l.status}}</button></td>
+                            <td><button class="btn logStatus ">{{l.status}}</button></td>
                             <td><button class="btn">View log</button></td>
                         </tr>
                         </tbody>
@@ -91,9 +91,10 @@
         </div>
         <div class="col-md-6">
             <div id="logsContainer">
-                <p class="logInfo">Creating environment</p>
-                <p class="logInfo">State: <span class="error">FAILED</span></p>
-                <p class="logInfo">Setting up secure channel</p>
+                <ul ng-repeat="sl in trackerCtrl.specificLogs">
+                    <li>{{sl.date}}</li>
+                    <li>{{sl.logs}}</li>
+                </ul>
             </div>
         </div>
     </div>
