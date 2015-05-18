@@ -11,7 +11,7 @@ metricsSrv.$inject = ['$http'];
 
 function metricsSrv($http) {
     console.log('in metrics service');
-    var getMetricsTreeURL = 'subutai-app/metrics/dummy-api/metricsTree.json';
+    var getMetricsTreeURL = 'subutai-app/metrics/dummy-api/treeData.json';
 
     var metricsSrv = {
         getMetricsTree: getMetricsTree
@@ -24,5 +24,7 @@ function metricsSrv($http) {
     function getMetricsTree() {
         return $http.get(getMetricsTreeURL);
     }
+
+
 
 }

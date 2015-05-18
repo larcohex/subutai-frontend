@@ -5,15 +5,14 @@
     top: 0px;
     bottom: 0;
     left: 0;
-    width: 200px;
+    width: 300px;
     overflow: auto;
-    padding: 10px;
 }
 #content {
     position: absolute;
     top: 0px;
     bottom: 0;
-    left: 206px /* 200 + 6*/;
+    left: 306px /* 200 + 6*/;
     right: 0;
     overflow: hidden;
 
@@ -24,7 +23,7 @@
     position: absolute;
     top: 0px;
     bottom: 0;
-    left: 200px;
+    left: 300px;
     width: 6px;
     cursor: e-resize;
 }
