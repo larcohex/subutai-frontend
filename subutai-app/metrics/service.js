@@ -10,7 +10,6 @@ angular.module('subutai.metrics.service', [])
 metricsSrv.$inject = ['$http'];
 
 function metricsSrv($http) {
-    console.log('in metrics service');
     var getMetricsTreeURL = 'subutai-app/metrics/dummy-api/treeData.json';
 
     var metricsSrv = {
@@ -24,7 +23,4 @@ function metricsSrv($http) {
     function getMetricsTree() {
         return $http.get(getMetricsTreeURL);
     }
-
-
-
 }
