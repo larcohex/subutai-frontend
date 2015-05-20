@@ -11,7 +11,7 @@
         </ol>
     </div>
 </div>
-<div class="panel-body trackerWrapper" ng-controller="TrackerCtrl">
+<div class="panel-body trackerWrapper" ng-controller="TrackerCtrl as trackerCtrl">
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-3">
@@ -19,7 +19,7 @@
                     <label class="font-noraml">Source</label>
 
                     <div class="input-group">
-                        <select chosen id="states" class="chosen-select" tabindex="4" ng-model="state" ng-options="s in TrackerCtrl.sources">
+                        <select chosen id="states" class="chosen-select" tabindex="4">
                         </select>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <label class="font-noraml">From</label>
 
                     <div class="input-group date">
-                        <input type="datetime" class="form-control" date-time ng-model="sampleDate" view="date">
+                        <input type="datetime" class="form-control" date-time view="date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <label class="font-noraml">To</label>
 
                     <div class="input-group date">
-                        <input type="datetime" class="form-control" date-time ng-model="sampleDate" view="date">
+                        <input type="datetime" class="form-control" date-time view="date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                     <label class="font-noraml">Show last</label>
 
                     <div class="input-group">
-                        <select chosen id="" class="chosen-select" tabindex="4" ng-model="state" ng-options="s for s in main.states">
+                        <select chosen id="" class="chosen-select" tabindex="4">
                         </select>
                     </div>
                 </div>
@@ -72,31 +72,18 @@
                         <tr>
                             <th>Date</th>
                             <th>Operations</th>
-                            <th>Check</th>
                             <th>Status</th>
+                            <th>Check</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>May 15, 2015 15:35</td>
-                            <td>Creating environment</td>
+                        <tr ng-repeat="l in trackerCtrl.logs">
+                            <td>{{l.date}}</td>
+                            <td>{{l.operation}}</td>
+                            <td><button class="btn logStatus ">{{l.status}}</button></td>
                             <td><button class="btn">View log</button></td>
-                            <td><button class="btn btn-success">Successful</button></td>
-                        </tr>
-                        <tr>
-                            <td>May 15, 2015 15:35</td>
-                            <td>Creating environment</td>
-                            <td><button class="btn">View log</button></td>
-                            <td><button class="btn btn-danger">Failed</button></td>
-                        </tr>
-                        <tr>
-                            <td>May 15, 2015 15:35</td>
-                            <td>Creating environment</td>
-                            <td><button class="btn">View log</button></td>
-                            <td><button class="btn btn-warning">In progress</button></td>
                         </tr>
                         </tbody>
-
                     </table>
 
                 </div>
@@ -104,9 +91,10 @@
         </div>
         <div class="col-md-6">
             <div id="logsContainer">
-                <p class="logInfo">Creating environment</p>
-                <p class="logInfo">State: <span class="error">FAILED</span></p>
-                <p class="logInfo">Setting up secure channel</p>
+                <ul ng-repeat="sl in trackerCtrl.specificLogs">
+                    <li>{{sl.date}}</li>
+                    <li>{{sl.logs}}</li>
+                </ul>
             </div>
         </div>
     </div>

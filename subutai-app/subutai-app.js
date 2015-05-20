@@ -4,26 +4,21 @@ var app = angular.module("subutai-app", [
     'ui.bootstrap',
     'mc.resizer',
     'pascalprecht.translate',
-    
-    'subutai.col-select',
-    
-    'subutai.identity',
-    'subutai.environment',
-    'subutai.tracker',
-    'subutai.peerManagement',
-    'localytics.directives'
+    'ui.tree'
     //'app.notifyGrowl'
 ])
-    .config(routesConf);
+    .config(routesConf)
+    .run(startup);
 
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
+startup.$inject = ['$rootScope', '$state'];
 
 function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
     $urlRouterProvider.otherwise("/404");
 
     $ocLazyLoadProvider.config({
-        debug: true
+        debug: false
     });
 
     $stateProvider
@@ -42,47 +37,115 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
     .state(
         "identity", {
             url: "/identity",
-            templateUrl: "subutai-app/identity/partials/view.html"
-            //resolve: {
-            //    loadPlugin: function ($ocLazyLoad) {
-            //        return $ocLazyLoad.load([
-            //            {
-            //                name: subutai.identity,
-            //                files: ['subutai-app/identity/identity.js', 'subutai-app/identity/controller.js', 'subutai-app/identity/service.js']
-            //            }
-            //        ]);
-            //    }
-            //}
+            templateUrl: "subutai-app/identity/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.identity',
+                            files: [
+                                'subutai-app/identity/identity.js',
+                                'subutai-app/identity/controller.js',
+                                'subutai-app/identity/service.js'
+                            ]
+                        },
+                        {
+                            name: 'subutai.col-select',
+                            files: ['subutai-app/common/directives/col-select/col-select.js']
+                        }
+                    ]);
+                } ]
+            }
         }
     )
     .state(
         "metrics", {
             url: "/metrics",
-            templateUrl: "subutai-app/metrics/partials/view.html"
+            templateUrl: "subutai-app/metrics/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.metrics',
+                            files: [
+                                'subutai-app/metrics/metrics.js',
+                                'subutai-app/metrics/controller.js',
+                                'subutai-app/metrics/service.js'
+                            ]
+                        }
+                    ]);
+                } ]
+            }
         }
     )
     .state(
         "tracker", {
             url: "/tracker",
-            templateUrl: "subutai-app/tracker/partials/view.html"
+            templateUrl: "subutai-app/tracker/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.tracker',
+                            files: [
+                                'subutai-app/tracker/tracker.js',
+                                'subutai-app/tracker/controller.js',
+                                'subutai-app/tracker/service.js'
+                            ]
+                        }
+                    ]);
+                } ]
+            }
         }
     )
     .state(
         "environment", {
             url: "/environment",
-            templateUrl: "subutai-app/environment/partials/view.html"
+            templateUrl: "subutai-app/environment/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.environment',
+                            files: [
+                                'subutai-app/environment/environment.js',
+                                'subutai-app/environment/controller.js',
+                                'subutai-app/environment/service.js'
+                            ]
+                        }
+                    ]);
+                } ]
+            }
         }
     )
-        .state(
+    .state(
+        "peerManagement", {
+            url: "/peerManagement",
+            templateUrl: "subutai-app/peerManagement/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.peerManagement',
+                            files: [
+                                'subutai-app/peerManagement/peerManagement.js',
+                                'subutai-app/peerManagement/controller.js',
+                                'subutai-app/peerManagement/service.js'
+                            ]
+                        }
+                    ]);
+                } ]
+            }
+        }
+    )
+    .state(
         "404", {
             url: "/404",
             template: "Not found"
         }
     )
-    .state(
-    "peerManagement", {
-        url: "/peerManagement",
-        templateUrl: "subutai-app/peerManagement/partials/view.html"
-    }
-    );
+}
+
+function startup($rootScope, $state) {
+    $rootScope.$state = $state;
 }

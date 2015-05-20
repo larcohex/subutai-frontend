@@ -1,13 +1,29 @@
-<div id="sidebar">
+<div id="sidebar" ng-controller="MetricsCtrl as metricsCtrl">
 
-    <div id="using_json"></div>
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle class="tree-node tree-node-content">
+            <a class="pull-right btn btn-white btn-xs" data-nodrag ng-click="remove(this)"><span class="fa fa-trash"></span></a>
+            <a class="pull-right btn btn-white btn-xs" data-nodrag ng-click="newSubItem(this)"><span class="fa fa-plus"></span></a>
+            <a class="btn btn-primary btn-xs" data-nodrag ng-click="toggle(this)"><span class="fa" ng-class="{'fa-angle-down': collapsed, 'fa-angle-right': !collapsed}"></span></a>
+            {{node.title}}
 
-    <select data-placeholder="Choose a plugin" multiple class="chosen-select">
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+            <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+            </li>
+        </ol>
+    </script>
+    <div ui-tree id="tree-root">
+        <ol ui-tree-nodes ng-model="nodes">
+            <li ng-repeat="node in metricsCtrl.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+        </ol>
+    </div>
+
+    <select data-placeholder="Choose a resource host" multiple class="chosen-select">
         <option value=""></option>
-        <option value="plugin 1">plugin 1</option>
-        <option value="plugin 2">plugin 2</option>
-        <option value="plugin 3">plugin 3</option>
-        <option value="plugin 4">plugin 4</option>
+        <option value="rh1">rh1</option>
+        <option value="rh2">rh2</option>
+        <option value="rh3">rh3</option>
     </select>
     <button class="btn btn-primary btn-md">Get metrics</button>
 </div>
@@ -109,40 +125,6 @@
 
     $(document).ready(function(){
         $('.chosen-select').chosen();
-        $('#using_json').jstree({ 'core' : {
-            'data' : [
-                'Empty Folder',
-                {
-                    'text': 'Resources',
-                    'state': {
-                        'opened': true
-                    },
-                    'children': [
-                        {
-                            'text': 'css',
-                            'children': [
-                                {
-                                    'text': 'animate.css', 'icon': 'none'
-                                },
-                                {
-                                    'text': 'bootstrap.css', 'icon': 'none'
-                                },
-                                {
-                                    'text': 'main.css', 'icon': 'none'
-                                },
-                                {
-                                    'text': 'style.css', 'icon': 'none'
-                                }
-                            ],
-                            'state': {
-                                'opened': true
-                            }
-                        }
-                    ]
-                }
-            ]
-        } });
-
     });
 
 </script>
