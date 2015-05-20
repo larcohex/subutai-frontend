@@ -10,7 +10,8 @@ var app = angular.module("subutai-app", [
     'subutai.identity',
     'subutai.environment',
     'subutai.tracker',
-    'subutai.peerManagement'
+    'subutai.peerManagement',
+    'localytics.directives'
     //'app.notifyGrowl'
 ])
     .config(routesConf);
