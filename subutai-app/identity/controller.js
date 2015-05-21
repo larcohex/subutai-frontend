@@ -28,7 +28,7 @@ function IdentityCtrl(identitySrv) {
 
     //// Implementation
 
-    function addPane() {
+    function addPane(z) {
         jQuery('#resizable-pane').removeClass('fullWidthPane');
         if( vm.isUser ) {
             jQuery('#role-form').css('display', 'none');

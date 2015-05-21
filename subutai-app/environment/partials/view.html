@@ -17,19 +17,16 @@
         <div class="row">
             <div id="resizable-pane" class="col-lg-7 fullWidthPane">
                 <div class="white-bg ibox float-e-margins">
-                    <div class="ibox-title ibox-tools-right">
-
-                        <div class="ibox-tools dropdown">
-                            <a ng-click="addPane()"><i class="fa fa-plus-square"></i></a>
-                        </div>
-                    </div>
-
-
                     <div class="panel-body">
 
                         <tabset>
-                            <!-- users tab-->
-                            <tab heading="Blueprints" active="isUser">
+                            <!-- Blueprints tab-->
+                            <tab heading="Blueprints">
+                                <div class="ibox-title">
+                                    <div class="ibox-tools">
+                                        <button type="button" class="btn btn-primary" ng-click="addPanel('createBlueprint')">Create new blueprint</button>
+                                    </div>
+                                </div>
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -46,16 +43,16 @@
                                         <td class="project-completion">{{blueprint.nodes}}</td>
                                         <td class="project-actions">
                                             <a class="btn btn-white btn-sm" data-toggle="modal" data-target="#deleteBlueprint"><i class="fa fa-folder"></i> Delete </a>
-                                            <a class="btn btn-white btn-sm" type="button" ng-click="class='revealed'"><i class="fa fa-pencil"></i> Build </a>
-                                            <a class="btn btn-white btn-sm" type="button" ng-click="class='revealed'"><i class="fa fa-pencil"></i> Grow </a>
+                                            <a class="btn btn-white btn-sm" type="button" ng-click="addPanel('buildBlueprint')"><i class="fa fa-pencil"></i> Build </a>
+                                            <a class="btn btn-white btn-sm" type="button"><i class="fa fa-pencil"></i> Grow </a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </tab>
 
-                            <!-- roles tab-->
-                            <tab heading="Environments" active="isRole">
+                            <!-- Environment tab-->
+                            <tab heading="Environments">
                                 <table class="table table-bordered ibox-content">
                                     <tr>
                                         <th>Id</th>
@@ -73,17 +70,17 @@
                                         <td>{{environment.name}}</td>
                                         <td>{{environment.date}}</td>
                                         <td>{{environment.status}}</td>
-                                        <td><a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentContainer">Containers</a></td>
-                                        <td><a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentSshKey" >SSH Key</a></td>
-                                        <td><a class="btn btn-outline btn-danger btn-sm" data-toggle="modal" data-target="#deleteBlueprint" >Destroy</a></td>
+                                        <td><a class="btn btn-outline btn-default btn-sm" ng-click="addPanel('envContainers')">Containers</a></td>
+                                        <td><a class="btn btn-outline btn-default btn-sm" ng-click="addPanel('envSshKey')">SSH Key</a></td>
+                                        <td><a class="btn btn-outline btn-danger btn-sm" data-toggle="modal" data-target="#destroyEnvironment">Destroy</a></td>
                                         <td><a class="btn btn-outline btn-default btn-sm">Refresh Info</a></td>
                                         <td><a class="btn btn-outline btn-danger btn-sm">Remove</a></td>
                                     </tr>
                                 </table>
                             </tab>
 
-                            <!-- tokens tab-->
-                            <tab heading="Environment container quote" active="isToken">
+                            <!-- EnvironmentContainer tab-->
+                            <tab heading="Environment container quote">
                                ....................
                             </tab>
                         </tabset>
@@ -92,14 +89,13 @@
             </div>
 
             <div class="col-lg-5">
-                <div id="user-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
+                <div id="create-blueprint-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
                     <div class="ibox-title">
                         <h5>Create blueprint</h5>
                         <div class="ibox-tools dropdown">
-                            <a ng-click="closePane()"><i class="fa fa-times"></i></a>
+                            <a ng-click="closePanel('createBlueprint')"><i class="fa fa-times"></i></a>
                         </div>
                     </div>
-
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-md-6">
@@ -146,19 +142,17 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-white" ng-click="closePane()">Close</button>
+                        <button type="button" class="btn btn-white" ng-click="closePanel('createBlueprint')">Close</button>
                     </div>
                 </div>
 
-                <div id="role-form" class="white-bg ibox float-e-margins" style="visibility: hidden; display: none;">
-
+                <div id="build-blueprint-form" class="white-bg ibox float-e-margins" style="visibility: hidden; display: none;">
                     <div class="ibox-title">
                         <h5>Build blueprint</h5>
                         <div class="ibox-tools dropdown">
-                            <a ng-click="closePane()"><i class="fa fa-times"></i></a>
+                            <a ng-click="closePanel('buildBlueprint')"><i class="fa fa-times"></i></a>
                         </div>
                     </div>
-
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-lg-12">
@@ -217,79 +211,116 @@
                     </div>
                 </div>
 
-                <div id="token-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
+                <div id="environment-containers-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
                     <div class="ibox-title">
-                        <h5>Token registration</h5>
+                        <h5>Environment containers</h5>
                         <div class="ibox-tools dropdown">
-                            <a ng-click="closePane()"><i class="fa fa-times"></i></a>
+                            <a ng-click="closePanel('envContainers')"><i class="fa fa-times"></i></a>
                         </div>
                     </div>
-
                     <div class="ibox-content">
-
-                        <form class="form-horizontal">
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Username</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" placeholder="Username" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Token name</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" placeholder="Token name" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">IP range</label>
-
-                                <div class="col-sm-9">
-                                    <input type="password" placeholder="IP range" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">TTL</label>
-
-                                <div class="col-sm-9">
-                                    <input type="password" placeholder="TTL" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Create date</label>
-
-                                <div class="col-sm-9">
-                                    <input type="password" placeholder="2015-05-15 15:15" class="form-control" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Status</label>
-
-                                <div class="col-sm-9">
-                                    <input type="password" placeholder="valid" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required-label">Token</label>
-
-                                <div class="col-sm-9">
-                                    <input type="password" placeholder="1515615616" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <div class="col-sm-9 col-sm-offset-3">
-                                    <button class="btn btn-primary btn-md" type="submit">Save token</button>
-                                    <button class="btn btn-primary btn-md" ng-click="closePane()">Cancel</button>
-                                </div>
-                            </div>
-
-                        </form>
+                        <div class="row">
+                            <table class="table table-bordered ibox-content">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Template</th>
+                                    <th>Hostname</th>
+                                    <th>IP</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>351bb6bf-bf59-4e65-90be-794cb5e72402</td>
+                                    <td>Hadoop</td>
+                                    <td>Hadoop-84061789-a078-48ca-bd7a-39fe997f814e</td>
+                                    <td>192.168.34.3</td>
+                                    <td><a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentTag">Tags</a></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
+                <div id="environment-sshkey-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
+                    <div class="ibox-title">
+                        <h5>Environment SSH Keys</h5>
+                        <div class="ibox-tools dropdown">
+                            <a ng-click="closePanel('envSshKey')"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <label>SSH Key</label>
+                            <textarea class="form-control"></textarea><br>
+                            <a href="" class="btn btn-outline btn-default btn-sm">Add key</a>
+                            <a href="" class="btn btn-outline btn-danger btn-sm">Remove key</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Panles-->
+
+<!--Delete Blueprint modal-->
+<div class="modal inmodal" id="deleteBlueprint" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5>Delete blueprint</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    Are you sure to delete this blueprint?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Environment tag modal-->
+<div class="modal inmodal" id="environmentTag" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5>Environment Tag</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    ..................
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Destroy Environment modal-->
+<div class="modal inmodal" id="destroyEnvironment" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5>Destroy Environment</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    Are you sure to destroy this environment?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
             </div>
         </div>
     </div>

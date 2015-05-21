@@ -120,26 +120,6 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         }
     )
     .state(
-        "environment2", {
-            url: "/environment2",
-            templateUrl: "subutai-app/environment/partials/view4.html",
-            resolve: {
-                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            name: 'subutai.environment',
-                            files: [
-                                'subutai-app/environment/environment.js',
-                                'subutai-app/environment/controller.js',
-                                'subutai-app/environment/service.js'
-                            ]
-                        }
-                    ]);
-                } ]
-            }
-        }
-    )
-    .state(
         "peers", {
             url: "/peers",
             templateUrl: "subutai-app/peerManagement/partials/view.html",
