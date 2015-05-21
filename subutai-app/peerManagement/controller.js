@@ -9,6 +9,10 @@ function PeerManagementViewCtrl($scope, peerManagementService) {
     $scope.getResourceHosts = getResourceHosts;
     $scope.getAllContainers = getAllContainers;
     $scope.getContainer = getContainer;
+    $scope.stopContainer = stopContainer;
+    $scope.startContainer = startContainer;
+    $scope.checkContainer = checkContainer;
+    $scope.destroyContainer = destroyContainer;
 
     $scope.resourceHosts = [];
     $scope.containers = [];
@@ -21,7 +25,6 @@ function PeerManagementViewCtrl($scope, peerManagementService) {
     function getAllContainers() {
         peerManagementService.getAllContainers().success(function (data) {
             $scope.containers = data;
-            console.log(data);
         }).error(function () {
             $scope.status = "Could not get all containers";
         });
@@ -54,11 +57,32 @@ function PeerManagementViewCtrl($scope, peerManagementService) {
     }
 
     function getContainer() {
-        console.log(this.rHost);
-        $scope.containers = [];
         peerManagementService.getContainer(this.rHost).success(function (data) {
-            $scope.containers = $scope.containers.concat(data);
-            console.log($scope.containers );
+            $scope.containers = data;
+        });
+    }
+
+    function stopContainer(id) {
+        peerManagementService.stopContainer(id).success(function (data) {
+            $scope.containers = data;
+        });
+    }
+
+    function startContainer(id) {
+        peerManagementService.startContainer(id).success(function (data) {
+            $scope.containers = data;
+        });
+    }
+
+    function checkContainer(id) {
+        peerManagementService.checkContainer(id).success(function (data) {
+            $scope.containers = data;
+        });
+    }
+
+    function destroyContainer(id) {
+        peerManagementService.destroyContainer(id).success(function (data) {
+            $scope.containers = data;
         });
     }
 
