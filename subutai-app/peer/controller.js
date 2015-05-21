@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('subutai.peerManagement.controller', [])
-    .controller('PeerManagementViewCtrl', PeerManagementViewCtrl);
+angular.module('subutai.peer.controller', [])
+    .controller('peerViewCtrl', peerViewCtrl);
 
-PeerManagementViewCtrl.$inject = ['$scope', 'peerManagementService'];
+peerViewCtrl.$inject = ['$scope', 'peerService'];
 
-function PeerManagementViewCtrl($scope, peerManagementService) {
+function peerViewCtrl($scope, peerService) {
     $scope.getResourceHosts = getResourceHosts;
     $scope.getAllContainers = getAllContainers;
     $scope.getContainer = getContainer;
@@ -23,7 +23,7 @@ function PeerManagementViewCtrl($scope, peerManagementService) {
     getResourceHosts();
 
     function getAllContainers() {
-        peerManagementService.getAllContainers().success(function (data) {
+        peerService.getAllContainers().success(function (data) {
             $scope.containers = data;
         }).error(function () {
             $scope.status = "Could not get all containers";
@@ -31,7 +31,7 @@ function PeerManagementViewCtrl($scope, peerManagementService) {
     }
 
     function getResourceHosts() {
-        peerManagementService.getResourceHosts().success(function (data) {
+        peerService.getResourceHosts().success(function (data) {
             $scope.resourceHosts = data;
 
             //var selectOpt = document.getElementById('selectResourceHost'),
@@ -57,31 +57,31 @@ function PeerManagementViewCtrl($scope, peerManagementService) {
     }
 
     function getContainer() {
-        peerManagementService.getContainer(this.rHost).success(function (data) {
+        peerService.getContainer(this.rHost).success(function (data) {
             $scope.containers = data;
         });
     }
 
     function stopContainer(id) {
-        peerManagementService.stopContainer(id).success(function (data) {
+        peerService.stopContainer(id).success(function (data) {
             $scope.containers = data;
         });
     }
 
     function startContainer(id) {
-        peerManagementService.startContainer(id).success(function (data) {
+        peerService.startContainer(id).success(function (data) {
             $scope.containers = data;
         });
     }
 
     function checkContainer(id) {
-        peerManagementService.checkContainer(id).success(function (data) {
+        peerService.checkContainer(id).success(function (data) {
             $scope.containers = data;
         });
     }
 
     function destroyContainer(id) {
-        peerManagementService.destroyContainer(id).success(function (data) {
+        peerService.destroyContainer(id).success(function (data) {
             $scope.containers = data;
         });
     }

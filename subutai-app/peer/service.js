@@ -1,22 +1,22 @@
 'use strict';
 
-angular.module('subutai.peerManagement.service', [])
-    .factory('peerManagementService', peerManagementService);
+angular.module('subutai.peer.service', [])
+    .factory('peerService', peerService);
 
 
-peerManagementService.$inject = ['$http'];
+peerService.$inject = ['$http'];
 
-function peerManagementService($http) {
-    var getAllContainersURL = 'subutai-app/peerManagement/dummy-api/containers.json';
-    var getResourceHostsURL = 'subutai-app/peerManagement/dummy-api/resourceHosts.json';
+function peerService($http) {
+    var getAllContainersURL = 'subutai-app/peer/dummy-api/containers.json';
+    var getResourceHostsURL = 'subutai-app/peer/dummy-api/resourceHosts.json';
 
-    var getContainer1URL = 'subutai-app/peerManagement/dummy-api/container1.json';
-    var getContainer2URL = 'subutai-app/peerManagement/dummy-api/container2.json';
-    var getContainer3URL = 'subutai-app/peerManagement/dummy-api/container3.json';
-    var updateContainerURL = 'subutai-app/peerManagement/dummy-api/update.json';
-    var destroyContainerURL = 'subutai-app/peerManagement/dummy-api/';
+    var getContainer1URL = 'subutai-app/peer/dummy-api/container1.json';
+    var getContainer2URL = 'subutai-app/peer/dummy-api/container2.json';
+    var getContainer3URL = 'subutai-app/peer/dummy-api/container3.json';
+    var updateContainerURL = 'subutai-app/peer/dummy-api/update.json';
+    var destroyContainerURL = 'subutai-app/peer/dummy-api/';
 
-    var peerManagementService = {
+    var peerService = {
         getAllContainers: getAllContainers,
         getContainer: getContainer,
         getResourceHosts : getResourceHosts,
@@ -26,7 +26,7 @@ function peerManagementService($http) {
         destroyContainer: destroyContainer
     };
 
-    return peerManagementService;
+    return peerService;
 
     //// Implementation
 

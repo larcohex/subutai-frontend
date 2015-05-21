@@ -1,4 +1,4 @@
-<div id="identity" ng-controller="PeerManagementViewCtrl">
+<div id="identity" ng-controller="peerViewCtrl">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
             <h2>Peer Management</h2>
@@ -25,25 +25,7 @@
 
             <div class="col-md-6">
               <div class="col-md-6">
-                  <script type="text/javascript">
-                    $(document).ready(function() {
-                      $('#example-getting-started').multiselect({
-                        buttonWidth: '400px'
-                      });
-                    });
-                  </script>
-                  <select class="form-control" id="example-getting-started" multiple="multiple">
-                    <option value="cheese">Cheese</option>
-                    <option value="tomatoes">Tomatoes</option>
-                    <option value="Mozzarella">Mozzarella</option>
-                    <option value="Mushrooms">Mushrooms</option>
-                    <option value="Pepperoni">Pepperoni</option>
-                    <option value="Onions">Onions</option>
-                  </select>
-              </div>
-
-              <div class="col-md-6">
-                <select class="form-control" ng-model="rHost">
+                <select class="chosen form-control" ng-model="rHost">
                   <option multiple ng-repeat = "resourceHost in resourceHosts" ng-style="{{resourceHost.color}}">{{resourceHost.name}}</option>
                 </select>
               </div>

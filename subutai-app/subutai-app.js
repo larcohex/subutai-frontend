@@ -122,16 +122,16 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
     .state(
         "peers", {
             url: "/peers",
-            templateUrl: "subutai-app/peerManagement/partials/view.html",
+            templateUrl: "subutai-app/peer/partials/view.html",
             resolve: {
                 loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load([
                         {
-                            name: 'subutai.peerManagement',
+                            name: 'subutai.peer',
                             files: [
-                                'subutai-app/peerManagement/peerManagement.js',
-                                'subutai-app/peerManagement/controller.js',
-                                'subutai-app/peerManagement/service.js'
+                                'subutai-app/peer/peer.js',
+                                'subutai-app/peer/controller.js',
+                                'subutai-app/peer/service.js'
                             ]
                         }
                     ]);
