@@ -6,6 +6,7 @@ var app = angular.module("subutai-app", [
     'mc.resizer',
     'pascalprecht.translate',
     'ui.tree',
+    'localytics.directives',
     'datatables'
     //'app.notifyGrowl'
 ])
@@ -121,18 +122,18 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         }
     )
     .state(
-        "peerManagement", {
-            url: "/peerManagement",
-            templateUrl: "subutai-app/peerManagement/partials/view.html",
+        "peers", {
+            url: "/peers",
+            templateUrl: "subutai-app/peer/partials/view.html",
             resolve: {
                 loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load([
                         {
-                            name: 'subutai.peerManagement',
+                            name: 'subutai.peer',
                             files: [
-                                'subutai-app/peerManagement/peerManagement.js',
-                                'subutai-app/peerManagement/controller.js',
-                                'subutai-app/peerManagement/service.js'
+                                'subutai-app/peer/peer.js',
+                                'subutai-app/peer/controller.js',
+                                'subutai-app/peer/service.js'
                             ]
                         }
                     ]);
