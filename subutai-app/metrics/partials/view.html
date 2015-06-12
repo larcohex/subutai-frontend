@@ -1,29 +1,28 @@
-<div id="sidebar" ng-controller="MetricsCtrl as metricsCtrl">
+<div id="sidebar">
 
-    <script type="text/ng-template" id="nodes_renderer.html">
-        <div ui-tree-handle class="tree-node tree-node-content">
+    <div id="nodesTree"></div>
+    <!--<script type="text/ng-template" id="nodes_renderer.html">-->
+        <!--<div ui-tree-handle class="tree-node tree-node-content">-->
             <!--<a class="pull-right btn btn-white btn-xs" data-nodrag ng-click="remove(this)"><span class="fa fa-trash"></span></a>-->
             <!--<a class="pull-right btn btn-white btn-xs" data-nodrag ng-click="newSubItem(this)"><span class="fa fa-plus"></span></a>-->
             <!--<a class="btn btn-primary btn-xs" data-nodrag ng-click="toggle(this)"><span class="fa" ng-class="{'fa-angle-down': !collapsed, 'fa-angle-right': collapsed}"></span></a>-->
-            {{node.title}}
+            <!--{{node.title}}-->
 
-        </div>
+        <!--</div>-->
         <!--<ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">-->
             <!--<li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">-->
             <!--</li>-->
         <!--</ol>-->
-    </script>
-    <div ui-tree id="tree-root" data-drag-enabled="false">
-        <ol ui-tree-nodes ng-model="nodes">
-            <li ng-repeat="node in metricsCtrl.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>
-        </ol>
-    </div>
+<!--//    </script>-->
+<!--//    <div ui-tree id="tree-root" data-drag-enabled="false">-->
+<!--//        <ol ui-tree-nodes ng-model="nodes">-->
+<!--//            <li ng-repeat="node in metricsCtrl.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>-->
+<!--//        </ol>-->
+<!--//    </div>-->
 
-    <select data-placeholder="Choose a resource host" multiple class="chosen-select">
-        <option value=""></option>
-        <option value="rh1">rh1</option>
-        <option value="rh2">rh2</option>
-        <option value="rh3">rh3</option>
+    <select data-placeholder="Choose an environment" multiple class="chosen-select">
+        <option value="env1">Environment 1</option>
+        <option value="env2">Environment 2</option>
     </select>
     <button class="btn btn-primary btn-md" onclick="getMetrics()">Get metrics</button>
 </div>
@@ -43,7 +42,7 @@
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" id="metricsTab">
                 <li class="active"><a href="#cpu" data-toggle="tab">CPU</a></li>
                 <li><a href="#ram" data-toggle="tab">RAM</a></li>
                 <li><a href="#dataset" data-toggle="tab">DATASET</a></li>
@@ -74,6 +73,7 @@
 
 
 <script>
+
 
 //    (function($){
 //        $(window).load(function(){
@@ -133,6 +133,19 @@
 
     $(document).ready(function(){
         $('.chosen-select').chosen();
+
+        $('#metricsTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('#nodesTree').jstree({ 'core' : {
+            'data' : [
+                { "id" : "ajson2", "parent" : "#", "text" : "Resource host" },
+                { "id" : "ajson3", "parent" : "ajson2", "text" : "Container 1" },
+                { "id" : "ajson4", "parent" : "ajson2", "text" : "Container 2" }
+            ]
+        } });
     });
 
 </script>

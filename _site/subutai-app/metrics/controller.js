@@ -15,9 +15,9 @@ function MetricsCtrl(metricsSrv) {
     //        return true;
     //    }
     //};
-    metricsSrv.getMetricsTree().success(function (data) {
-        vm.nodes = data;
-    });
+    //metricsSrv.getMetricsTree().success(function (data) {
+    //    vm.nodes = data;
+    //});
 
 }
 //function nestableCtrl($scope) {
