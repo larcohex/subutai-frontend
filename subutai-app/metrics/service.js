@@ -6,21 +6,21 @@
 angular.module('subutai.metrics.service', [])
     .factory('metricsSrv', metricsSrv);
 
-
 metricsSrv.$inject = ['$http'];
 
 function metricsSrv($http) {
-    //var getMetricsTreeURL = 'subutai-app/metrics/dummy-api/treeData.json';
-    //
-    //var metricsSrv = {
-    //    getMetricsTree: getMetricsTree
-    //};
-    //
-    //return metricsSrv;
+    var getMetricsTreeURL = 'subutai-app/metrics/dummy-api/treeData.json';
 
-    //// Implementation
+    var metricsSrv = {
+        getMetricsTree: getMetricsTree
+    };
 
-    //function getMetricsTree() {
-    //    return $http.get(getMetricsTreeURL);
-    //}
+    return metricsSrv;
+
+    // Implementation
+
+    function getMetricsTree() {
+        return $http.get(getMetricsTreeURL);
+    }
+
 }
