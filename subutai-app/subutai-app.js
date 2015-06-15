@@ -24,20 +24,17 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         debug: false
     });
 
-    $stateProvider
-    .state(
+    $stateProvider.state(
         "home", {
             url: "",
             templateUrl: "subutai-app/home/partials/view.html"
         }
-    )
-    .state(
+    ).state(
         "console", {
             url: "/console",
             templateUrl: "subutai-app/console/partials/view.html"
         }
-    )
-    .state(
+    ).state(
         "identity", {
             url: "/identity",
             templateUrl: "subutai-app/identity/partials/view.html",
@@ -57,11 +54,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             files: ['subutai-app/common/directives/col-select/col-select.js']
                         }
                     ]);
-                } ]
+                }]
             }
         }
-    )
-    .state(
+    ).state(
         "metrics", {
             url: "/metrics",
             templateUrl: "subutai-app/metrics/partials/view.html",
@@ -77,11 +73,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             ]
                         }
                     ]);
-                } ]
+                }]
             }
         }
-    )
-    .state(
+    ).state(
         "tracker", {
             url: "/tracker",
             templateUrl: "subutai-app/tracker/partials/view.html",
@@ -97,11 +92,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             ]
                         }
                     ]);
-                } ]
+                }]
             }
         }
-    )
-    .state(
+    ).state(
         "environment", {
             url: "/environment",
             templateUrl: "subutai-app/environment/partials/view.html",
@@ -117,11 +111,35 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             ]
                         }
                     ]);
-                } ]
+                }]
             }
         }
-    )
-    .state(
+    ).state("registry", {
+            url: "/registry",
+            templateUrl: "subutai-app/registry/partials/view.html",
+            data: {pageTitle: 'Template Registry'},
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            files: ['assets-angular/js/plugins/diff_match_patch/javascript/diff_match_patch.js']
+                        },
+                        {
+                            name: 'diff-match-patch',
+                            files: ['assets-angular/js/plugins/angular-diff-match-patch/angular-diff-match-patch.js']
+                        },
+                        {
+                            name: 'subutai.registry',
+                            files: [
+                                'subutai-app/registry/registry.js',
+                                'subutai-app/registry/controller.js',
+                                'subutai-app/registry/service.js'
+                            ]
+                        }
+                    ]);
+                }
+            }
+        }).state(
         "peers", {
             url: "/peers",
             templateUrl: "subutai-app/peer/partials/view.html",
@@ -137,11 +155,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             ]
                         }
                     ]);
-                } ]
+                }]
             }
         }
-    )
-    .state(
+    ).state(
         "404", {
             url: "/404",
             template: "Not found"

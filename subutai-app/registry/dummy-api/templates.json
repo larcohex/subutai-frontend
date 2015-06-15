@@ -1,0 +1,156 @@
+{
+  "pk": {
+    "templateName": "openjre7",
+    "lxcArch": "amd64",
+    "templateVersion": "2.1.1",
+    "md5sum": "74063b0721e7ce98c0d3a97799190d0f"
+  },
+  "parentTemplateName": "master",
+  "lxcUtsname": "openjre7",
+  "subutaiConfigPath": "/etc",
+  "subutaiParent": "master",
+  "subutaiGitBranch": "openjre7",
+  "subutaiGitUuid": "0274eee6bee0de07285aa0c553789b421fc28e3e",
+  "children": [
+    {
+      "pk": {
+        "templateName": "solr",
+        "lxcArch": "amd64",
+        "templateVersion": "2.1.1",
+        "md5sum": "9e0a49114665c87fcc962d1d8d8974b8"
+      },
+      "parentTemplateName": "openjre7",
+      "lxcUtsname": "solr",
+      "subutaiConfigPath": "/etc",
+      "subutaiParent": "openjre7",
+      "subutaiGitBranch": "solr",
+      "subutaiGitUuid": "fde8d22075c86a1ad565e4e01c1e8237ddcbe56c",
+      "products": [
+        "subutai-solr"
+      ],
+      "faisUsingThisTemplate": [],
+      "remote": false
+    },
+    {
+      "pk": {
+        "templateName": "openjdk7",
+        "lxcArch": "amd64",
+        "templateVersion": "2.1.1",
+        "md5sum": "2e38ca909bc2026f04c9f428d11feeb7"
+      },
+      "parentTemplateName": "openjre7",
+      "lxcUtsname": "openjdk7",
+      "subutaiConfigPath": "/etc",
+      "subutaiParent": "openjre7",
+      "subutaiGitBranch": "openjdk7",
+      "subutaiGitUuid": "d82e0cdb0c9299440ede91fe58bd35bb3ac7a174",
+      "products": [],
+      "faisUsingThisTemplate": [],
+      "remote": false
+    },
+    {
+      "pk": {
+        "templateName": "zookeeper",
+        "lxcArch": "amd64",
+        "templateVersion": "2.1.1",
+        "md5sum": "7de37f7e0f0a3f7de685cebafd6f7411"
+      },
+      "parentTemplateName": "openjre7",
+      "lxcUtsname": "zookeeper",
+      "subutaiConfigPath": "/etc",
+      "subutaiParent": "openjre7",
+      "subutaiGitBranch": "zookeeper",
+      "subutaiGitUuid": "55e1165a9ebd105cc9f25d40cbf6f68a8c053bd6",
+      "products": [
+        "subutai-zookeeper"
+      ],
+      "faisUsingThisTemplate": [],
+      "remote": false
+    },
+    {
+      "pk": {
+        "templateName": "elasticsearch",
+        "lxcArch": "amd64",
+        "templateVersion": "2.1.1",
+        "md5sum": "6a3a6203433a765730175bba87f34495"
+      },
+      "parentTemplateName": "openjre7",
+      "lxcUtsname": "elasticsearch",
+      "subutaiConfigPath": "/etc",
+      "subutaiParent": "openjre7",
+      "subutaiGitBranch": "elasticsearch",
+      "subutaiGitUuid": "dc4030d366686f0879bec477fc55d75773644bb1",
+      "products": [
+        "subutai-elasticsearch"
+      ],
+      "faisUsingThisTemplate": [],
+      "remote": false
+    },
+    {
+      "pk": {
+        "templateName": "storm",
+        "lxcArch": "amd64",
+        "templateVersion": "2.1.2",
+        "md5sum": "9dc12a780c3ec8e9da93e3b4babd31cb"
+      },
+      "parentTemplateName": "openjre7",
+      "lxcUtsname": "storm",
+      "subutaiConfigPath": "/etc",
+      "subutaiParent": "openjre7",
+      "subutaiGitBranch": "storm",
+      "subutaiGitUuid": "2835b2beb51bc39c5907cb0d6b771af59836b154",
+      "products": [
+        "subutai-storm"
+      ],
+      "faisUsingThisTemplate": [],
+      "remote": false
+    },
+    {
+      "pk": {
+        "templateName": "hadoop",
+        "lxcArch": "amd64",
+        "templateVersion": "2.1.2",
+        "md5sum": "25fc7a6c5b41a44328e5703f8a3859c6"
+      },
+      "parentTemplateName": "openjre7",
+      "lxcUtsname": "hadoop",
+      "subutaiConfigPath": "/etc",
+      "subutaiParent": "openjre7",
+      "subutaiGitBranch": "hadoop",
+      "subutaiGitUuid": "df4f6bec0c14560a8ad1bc06b52211ae1047dba0",
+      "products": [
+        "subutai-hadoop"
+      ],
+      "faisUsingThisTemplate": [],
+      "remote": false
+    },
+    {
+      "pk": {
+        "templateName": "cassandra",
+        "lxcArch": "amd64",
+        "templateVersion": "2.1.1",
+        "md5sum": "2008cfdd72dfff5ed304073657db5d26"
+      },
+      "parentTemplateName": "openjre7",
+      "lxcUtsname": "cassandra",
+      "subutaiConfigPath": "/etc",
+      "subutaiParent": "openjre7",
+      "subutaiGitBranch": "cassandra",
+      "subutaiGitUuid": "736a4e43b04d41946f1b3779e1a7e8205a982d6d",
+      "products": [
+        "subutai-cassandra"
+      ],
+      "faisUsingThisTemplate": [
+        "py657587777",
+        "py821796529"
+      ],
+      "remote": false
+    }
+  ],
+  "products": [],
+  "faisUsingThisTemplate": [
+    "py657587777",
+    "py821796529"
+  ],
+  "remote": false
+}
