@@ -5,8 +5,7 @@
 
 angular
     .module('subutai.registry.controller', [])
-    .controller('RegistryCtrl', RegistryCtrl)
-    .controller('nestableCtrl', nestableCtrl);
+    .controller('RegistryCtrl', RegistryCtrl);
 
 RegistryCtrl.$inject = ['registryService'];
 function RegistryCtrl(registryService) {
@@ -19,6 +18,8 @@ function RegistryCtrl(registryService) {
     self.newText1 = 'Ting dummy text of the printing and has been the industry\'s typesetting. Lorem Ipsum has been the industry\'s';
 
     self.templates = [];
+    self.templateNames = [];
+    self.templatesInfo = {};
 
     getTemplates();
 
@@ -29,78 +30,24 @@ function RegistryCtrl(registryService) {
             self.status = "Couldn't get templates";
         });
     }
-}
 
-function nestableCtrl($scope) {
-    $scope.remove = function(scope) {
-        scope.remove();
+    //Side tree items
+    self.templateSelected = function (value) {
+        self.selectedItem = value;
     };
-    $scope.toggle = function(scope) {
+
+    self.toggle = function (scope) {
         scope.toggle();
     };
-    $scope.moveLastToTheBeginning = function () {
-        var a = $scope.data.pop();
-        $scope.data.splice(0,0, a);
+
+    self.collapseAll = function () {
+        self.$broadcast('collapseAll');
     };
-    $scope.newSubItem = function(scope) {
-        var nodeData = scope.$modelValue;
-        nodeData.nodes.push({
-            id: nodeData.id * 10 + nodeData.nodes.length,
-            title: nodeData.title + '.' + (nodeData.nodes.length + 1),
-            nodes: []
-        });
+    self.expandAll = function () {
+        self.$broadcast('expandAll');
     };
-    $scope.collapseAll = function() {
-        $scope.$broadcast('collapseAll');
-    };
-    $scope.expandAll = function() {
-        $scope.$broadcast('expandAll');
-    };
-    $scope.data = [{
-        "id": 1,
-        "title": "node1",
-        "nodes": [
-            {
-                "id": 11,
-                "title": "node1.1",
-                "nodes": [
-                    {
-                        "id": 111,
-                        "title": "node1.1.1",
-                        "nodes": []
-                    }
-                ]
-            },
-            {
-                "id": 12,
-                "title": "node1.2",
-                "nodes": []
-            }
-        ]
-    }, {
-        "id": 2,
-        "title": "node2",
-        "nodes": [
-            {
-                "id": 21,
-                "title": "node2.1",
-                "nodes": []
-            },
-            {
-                "id": 22,
-                "title": "node2.2",
-                "nodes": []
-            }
-        ]
-    }, {
-        "id": 3,
-        "title": "node3",
-        "nodes": [
-            {
-                "id": 31,
-                "title": "node3.1",
-                "nodes": []
-            }
-        ]
-    }];
+
+    self.fileSelected = function (pathToFile){
+
+    }
 }

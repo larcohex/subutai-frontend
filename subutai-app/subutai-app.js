@@ -129,6 +129,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             files: ['assets-angular/js/plugins/angular-diff-match-patch/angular-diff-match-patch.js']
                         },
                         {
+                            name: 'ui.nested.combobox',
+                            files: ['assets-angular/js/plugins/angular-nested-combobox/ng-nested-combobox.js']
+                        },
+                        {
                             name: 'subutai.registry',
                             files: [
                                 'subutai-app/registry/registry.js',
