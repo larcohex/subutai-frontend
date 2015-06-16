@@ -1,9 +1,0 @@
-[
-  {
-    "resource host 1": {
-      "id": "lxc 1",
-      "parent": "resource host 1"
-    }
-  }
-]
-
