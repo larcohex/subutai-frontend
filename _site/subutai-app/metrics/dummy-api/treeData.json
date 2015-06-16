@@ -1,66 +1,9 @@
 [
   {
-    "resource host 1": [
-      {
-        "id": "lxc 1",
-        "parent": "resource host 1",
-
-        "chart": [
-          {
-            "time": 9.30,
-            "cpu": 100,
-            "ram": 0,
-            "dataset": 0
-          }
-        ]
-
-      },
-      {
-        "id": "lxc 2",
-        "parent": "resource host 1",
-
-        "chart": [
-          {
-            "time": 9.30,
-            "cpu": 100,
-            "ram": 0,
-            "dataset": 0
-          }
-        ]
-
-      }
-    ]
-  },
-  {
-    "resource host 2": [
-      {
-        "id": "lxc 1",
-        "parent": "resource host 2",
-
-        "chart": [
-          {
-            "time": 9.30,
-            "cpu": 100,
-            "ram": 0,
-            "dataset": 0
-          }
-        ]
-
-      },
-      {
-        "id": "lxc 2",
-        "parent": "resource host 2",
-
-        "chart": [
-          {
-            "time": 9.30,
-            "cpu": 100,
-            "ram": 0,
-            "dataset": 0
-          }
-        ]
-
-      }
-    ]
+    "resource host 1": {
+      "id": "lxc 1",
+      "parent": "resource host 1"
+    }
   }
 ]
+
