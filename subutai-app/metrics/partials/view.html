@@ -1,135 +1,78 @@
-<div id="sidebar">
+<div ng-controller="MetricsCtrl as metricsCtrl">
+    <div id="sidebar">
 
-    <div id="nodesTree"></div>
-    <!--<script type="text/ng-template" id="nodes_renderer.html">-->
-        <!--<div ui-tree-handle class="tree-node tree-node-content">-->
-            <!--<a class="pull-right btn btn-white btn-xs" data-nodrag ng-click="remove(this)"><span class="fa fa-trash"></span></a>-->
-            <!--<a class="pull-right btn btn-white btn-xs" data-nodrag ng-click="newSubItem(this)"><span class="fa fa-plus"></span></a>-->
-            <!--<a class="btn btn-primary btn-xs" data-nodrag ng-click="toggle(this)"><span class="fa" ng-class="{'fa-angle-down': !collapsed, 'fa-angle-right': collapsed}"></span></a>-->
-            <!--{{node.title}}-->
-
-        <!--</div>-->
-        <!--<ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">-->
-            <!--<li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">-->
-            <!--</li>-->
-        <!--</ol>-->
-<!--//    </script>-->
-<!--//    <div ui-tree id="tree-root" data-drag-enabled="false">-->
-<!--//        <ol ui-tree-nodes ng-model="nodes">-->
-<!--//            <li ng-repeat="node in metricsCtrl.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>-->
-<!--//        </ol>-->
-<!--//    </div>-->
-
-    <select data-placeholder="Choose an environment" multiple class="chosen-select">
-        <option value="env1">Environment 1</option>
-        <option value="env2">Environment 2</option>
-    </select>
-    <button class="btn btn-primary btn-md" onclick="getMetrics()">Get metrics</button>
-</div>
-<div id="content" class="metricsWrapper">
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-9">
-            <h2>Monitoring</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="active">
-                    <strong>Monitoring</strong>
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <ul class="nav nav-tabs" id="metricsTab">
-                <li class="active"><a href="#cpu" data-toggle="tab">CPU</a></li>
-                <li><a href="#ram" data-toggle="tab">RAM</a></li>
-                <li><a href="#dataset" data-toggle="tab">DATASET</a></li>
+        <div class="scrollableDiv">
+            <!--<div id="nodesTree" ng-model="nodes">-->
+                <!-- -->
+            <!--</div>-->
+            <ul ng-repeat="node in metricsCtrl.nodes">
+                <li ng-repeat="n in node">{{n.id}}</li>
             </ul>
+        </div>
+        <select data-placeholder="Choose an environment" multiple class="chosen-select">
+            <option value="env1">Environment 1</option>
+            <option value="env2">Environment 2</option>
+        </select>
+        <button class="btn btn-primary btn-md" onclick="getMetrics()">Get metrics</button>
+    </div>
+    <div id="content" class="metricsWrapper">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-9">
+                <h2>Monitoring</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="active">
+                        <strong>Monitoring</strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <ul class="nav nav-tabs" id="metricsTab">
+                    <li class="active"><a href="#cpu" data-toggle="tab">CPU</a></li>
+                    <li><a href="#ram" data-toggle="tab">RAM</a></li>
+                    <li><a href="#dataset" data-toggle="tab">DATASET</a></li>
+                </ul>
 
-            <div class="tab-content">
-                <div class="tab-pane active" id="cpu">
-                    <!--<div id="cpu-chart"></div>-->
-                </div>
-                <div class="tab-pane" id="ram">
-                    <!--<div id="ram-chart"></div>-->
-                </div>
-                <div class="tab-pane" id="dataset">
-                    <!--<div id="dataset-chart"></div>-->
+                <div class="tab-content"  ng-controller="chartJsCtrl as chart">
+                    <div class="tab-pane active" id="cpu">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Line Chart Example
+                                    <small>With custom colors.</small>
+                                </h5>
+                                <div ibox-tools></div>
+                            </div>
+                            <div class="ibox-content">
+                                <div>
+                                    <canvas linechart options="chart.lineOptions" data="chart.lineData" height="140" responsive=true ></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="ram"></div>
+                    <div class="tab-pane" id="dataset"></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="sidebar-resizer"
-     resizer="vertical"
-     resizer-width="6"
-     resizer-left="#sidebar"
-     resizer-right="#content"
-     resizer-max="400">
+    <div id="sidebar-resizer"
+         resizer="vertical"
+         resizer-width="6"
+         resizer-left="#sidebar"
+         resizer-right="#content"
+         resizer-max="400">
+    </div>
+
 </div>
 
 
 <script>
-
-
-//    (function($){
-//        $(window).load(function(){
-//            $("#sidebar").mCustomScrollbar({
-//                axis: 'y',
-//                theme: 'dark'
-//            });
-//        });
-//    })(jQuery);
-//    var usage_graph_cpu = Morris.Line({
-//        element: 'cpu-chart',
-//        data: [
-//            { time: '01:00:00.000', usage: 5 },
-//            { time: '02:00:00.000', usage: 18 },
-//            { time: '03:00:00.000', usage: 20 },
-//            { time: '04:00:00.000', usage: 10 },
-//            { time: '05:00:00.000', usage: 5 },
-//            { time: '06:00:00.000', usage: 7 }
-//        ],
-//        xkey: 'time',
-//        ykeys: ['usage'],
-//        labels: ['Usage']
-//    });
-//    var usage_graph_ram = Morris.Line({
-//        element: 'ram-chart',
-//        data: [
-//            { time: '01:00:00.000', usage: 12 },
-//            { time: '02:00:00.000', usage: 15 },
-//            { time: '03:00:00.000', usage: 19 },
-//            { time: '04:00:00.000', usage: 52 },
-//            { time: '05:00:00.000', usage: 30 },
-//            { time: '06:00:00.000', usage: 44 }
-//        ],
-//        xkey: 'time',
-//        ykeys: ['usage'],
-//        labels: ['Usage']
-//    });
-//    var usage_graph_dataset = Morris.Area({
-//        element: 'dataset-chart',
-//        data: [
-//            {x: '2011 Q1', y: 3, z: 3},
-//            {x: '2011 Q2', y: 2, z: 0},
-//            {x: '2011 Q3', y: 2, z: 5},
-//            {x: '2011 Q4', y: 4, z: 4}
-//        ],
-//        xkey: 'x',
-//        ykeys: ['y', 'z'],
-//        labels: ['Y', 'Z']
-//    }).on('click', function(i, row){
-//        console.log(i, row);
-//    });
-//    $('ul.nav a').on('shown.bs.tab', function (e) {
-//        usage_graph_cpu.redraw();
-//        usage_graph_ram.redraw();
-//        usage_graph_dataset.redraw();
-//    });
 
     $(document).ready(function(){
         $('.chosen-select').chosen();
@@ -139,13 +82,14 @@
             $(this).tab('show');
         });
 
-        $('#nodesTree').jstree({ 'core' : {
-            'data' : [
-                { "id" : "ajson2", "parent" : "#", "text" : "Resource host" },
-                { "id" : "ajson3", "parent" : "ajson2", "text" : "Container 1" },
-                { "id" : "ajson4", "parent" : "ajson2", "text" : "Container 2" }
-            ]
-        } });
+
+//        $('#nodesTree').jstree({ 'core' : {
+//            'data' : [
+//                { "id" : "ajson2", "parent" : "#", "text" : "Resource host" },
+//                { "id" : "ajson3", "parent" : "ajson2", "text" : "Container 1" },
+//                { "id" : "ajson4", "parent" : "ajson2", "text" : "Container 2" }
+//            ]
+//        } });
     });
 
 </script>
