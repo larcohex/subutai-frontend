@@ -4,12 +4,18 @@
 'use strict';
 
 angular.module('subutai.metrics.controller', ['jsTree.directive'])
-    .controller('MetricsCtrl', MetricsCtrl);
+    .controller('MetricsCtrl', MetricsCtrl)
+    .filter('chartID', function () {
+        return function() {
+            //filter function goes here
+        }
+
+    });
 
 MetricsCtrl.$inject = ['metricsSrv'];
 function MetricsCtrl(metricsSrv) {
     var vm = this;
-    //metricsSrv.getMetricsTree().success(function (data) {
-    //    vm.nodes = data;
-    //})
+    metricsSrv.getChartData().success(function(data) {
+        vm.charts = data;
+    });
 }

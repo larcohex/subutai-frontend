@@ -3,25 +3,12 @@
 
         <div class="scrollableDiv">
             <js-tree tree-data="json" tree-src="subutai-app/metrics/dummy-api/treedata.json"></js-tree>
-            <!--<div id="nodesTree" ></div>-->
-            <!--<ul ng-repeat="node in nodes">-->
-                <!--<li>{{node.id}}</li>-->
-
-            <!--</ul>-->
-            <!--<form>-->
-                <!--<ul>-->
-                    <!--<li><input type="checkbox" name="rh1" id="lxc1"><label for="lxc1">lxc 1</label></li>-->
-                    <!--<li><input type="checkbox" name="rh1" id="lxc2"><label for="lxc2">lxc 2</label></li>-->
-                <!--</ul>-->
-                <!--<button onclick="validate()" class="btn btn-primary btn-md" type="submit">Get metrics</button>-->
-            <!--</form>-->
-
         </div>
-        <!--<select data-placeholder="Choose an environment" multiple class="chosen-select">-->
-            <!--<option value="env1">Environment 1</option>-->
-            <!--<option value="env2">Environment 2</option>-->
-        <!--</select>-->
-        <!--<button class="btn btn-primary btn-md" onclick="getMetrics()">Get metrics</button>-->
+        <button class="btn btn-primary btn-md" ng-model="checked" ng-init="checked = false">Get metrics</button>
+        <p>
+            <input type="checkbox" ng-model="checked" ng-init="checked=false" id="environment">
+            <label for="environment">chart on checked</label>
+        </p>
     </div>
     <div id="content" class="metricsWrapper">
         <div class="row wrapper border-bottom white-bg page-heading">
@@ -47,7 +34,13 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="cpu">
-
+                        <ul ng-repeat="chart in metricsCtrl.charts" ng-if="checked" class="animate-if">
+                            <li>{{chart.id}}</li>
+                            <li>{{chart.time}}</li>
+                            <li>{{chart.cpu}}</li>
+                            <li>{{chart.ram}}</li>
+                            <li>{{chart.dataset}}</li>
+                        </ul>
                     </div>
 
                     <div class="tab-pane" id="ram"></div>
@@ -78,53 +71,5 @@
             $(this).tab('show');
         });
     });
-
-//    ******************************************************************************************************************
-//    function validate() {
-//        if (document.getElementById('lxc1').checked) {
-//            $(function () {
-//                $('#cpu').highcharts({
-//                    title: {
-//                        text: 'Monthly Average Temperature',
-//                        x: -20 //center
-//                    },
-//                    subtitle: {
-//                        text: 'Source: WorldClimate.com',
-//                        x: -20
-//                    },
-//                    xAxis: {
-//                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-//                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-//                    },
-//                    yAxis: {
-//                        title: {
-//                            text: 'Temperature (°C)'
-//                        },
-//                        plotLines: [{
-//                            value: 0,
-//                            width: 1,
-//                            color: '#808080'
-//                        }]
-//                    },
-//                    tooltip: {
-//                        valueSuffix: '°C'
-//                    },
-//                    legend: {
-//                        layout: 'vertical',
-//                        align: 'right',
-//                        verticalAlign: 'middle',
-//                        borderWidth: 0
-//                    },
-//                    series: [{
-//                        name: 'Tokyo',
-//                        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-//                    }]
-//                });
-//            });
-//        } else if (document.getElementById('lxc2').checked) {
-//            alert("no chart data for lxc 2 yet");
-//        }
-//    }
-//    ******************************************************************************************************************
 
 </script>

@@ -1,8 +1,4 @@
 [{
-  "id": "ajson1",
-  "parent": "#",
-  "text": "Simple root node"
-}, {
   "id": "ajson2",
   "parent": "#",
   "text": "Root node 2"
