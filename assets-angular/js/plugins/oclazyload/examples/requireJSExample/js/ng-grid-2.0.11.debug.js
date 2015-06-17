@@ -1533,7 +1533,7 @@
 
 			var promises = [];
 			angular.forEach(templates, function(template) {
-				promises.push( self.getTemplate(template) );
+				promises.push( self.getTemplateByName(template) );
 			});
 
 			return $q.all(promises);
@@ -1541,7 +1541,7 @@
 
 		//Templates
 		// test templates for urls and get the tempaltes via synchronous ajax calls
-		self.getTemplate = function (key) {
+		self.getTemplateByName = function (key) {
 			var t = self.config[key];
 			var uKey = self.gridId + key + ".html";
 			var p = $q.defer();

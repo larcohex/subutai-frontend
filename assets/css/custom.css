@@ -1,3 +1,18 @@
+/** start **/
+/**
+ * This style is used in template registry module view
+ * to prettify file view
+ */
+pre {
+  height: auto;
+  max-height: 400px;
+  /*background-color: #eeeeee;*/
+  word-break: normal !important;
+  word-wrap: normal !important;
+  white-space: pre !important;
+}
+/** end **/
+
 .container {
   width: 90%; }
 .nav-tabs>li>a {

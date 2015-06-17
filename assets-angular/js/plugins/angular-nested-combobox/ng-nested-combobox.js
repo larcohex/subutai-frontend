@@ -10,6 +10,10 @@ angular.module('ui.nested.combobox', [])
             that.controlDisabled = value;
         });
 
+        $scope.$watch('currentMember', function (newValue) {
+            that.selectValue(null, newValue);
+        });
+
         this.toggleOpen = function () {
 
             if (that.controlDisabled === 'true') {
@@ -20,6 +24,10 @@ angular.module('ui.nested.combobox', [])
         };
 
         this.selectValue = function (event, member) {
+
+            if (member === undefined) {
+                return true;
+            }
 
             if (oldMemberId === member.pk.md5sum) {
                 return true;
@@ -43,7 +51,7 @@ angular.module('ui.nested.combobox', [])
             controller: 'NestedComboboxController',
             controllerAs: 'gs',
             replace: true,
-            templateUrl: 'template/select-group.html',
+            templateUrl: 'subutai-app/registry/partials/select-group.html',
             scope: {
                 collection: '=',
                 currentMember: '=',
