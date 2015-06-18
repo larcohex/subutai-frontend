@@ -2,12 +2,20 @@
     <div id="sidebar">
 
         <div class="scrollableDiv">
-            <js-tree tree-data="json" tree-src="subutai-app/metrics/dummy-api/treedata.json"></js-tree>
+            <js-tree tree-data="json"
+                     tree-src="subutai-app/metrics/dummy-api/treedata.json"
+                     tree-ajax="/tree"
+                     tree-plugins="checkbox, search"
+                     tree-events="select_node:selectNode"></js-tree>
+
+            <div id="event_result"></div>
         </div>
-        <button class="btn btn-primary btn-md" ng-model="checked" ng-init="checked = false">Get metrics</button>
+        <button class="btn btn-primary btn-md" ng-click="metricsCtrl.showChart()">Get metrics</button>
+        <hr/>
         <p>
-            <input type="checkbox" ng-model="checked" ng-init="checked=false" id="environment">
-            <label for="environment">chart on checked</label>
+            <h3>Show chart data on check</h3>
+            <input type="checkbox" ng-model="checked" ng-init="checked=false" id="lxc"/>
+            <label for="lxc">Some lxc</label>
         </p>
     </div>
     <div id="content" class="metricsWrapper">
