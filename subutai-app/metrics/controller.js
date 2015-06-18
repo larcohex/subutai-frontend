@@ -12,18 +12,17 @@ angular.module('subutai.metrics.controller', ['jsTree.directive'])
 
     });
 
-MetricsCtrl.$inject = ['metricsSrv'];
-function MetricsCtrl(metricsSrv) {
+MetricsCtrl.$inject = ['metricsSrv', '$scope'];
+function MetricsCtrl(metricsSrv, $scope) {
     var vm = this;
-    var node;
     metricsSrv.getChartData().success(function(data) {
         vm.charts = data;
     });
 
     vm.showChart = function() {
-        alert('hello');
+
     };
-    vm.selectNode = function() {
-        console.log('firing function'); // tree event should have fire up here but it's not working
+    $scope.selectedNode = function (e, data) {
+        console.log(data.node.id);
     }
 }

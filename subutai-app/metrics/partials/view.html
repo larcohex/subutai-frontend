@@ -4,11 +4,8 @@
         <div class="scrollableDiv">
             <js-tree tree-data="json"
                      tree-src="subutai-app/metrics/dummy-api/treedata.json"
-                     tree-ajax="/tree"
-                     tree-plugins="checkbox, search"
-                     tree-events="select_node:selectNode"></js-tree>
-
-            <div id="event_result"></div>
+                     tree-plugins="checkbox"
+                     tree-events="activate_node:selectedNode"></js-tree>
         </div>
         <button class="btn btn-primary btn-md" ng-click="metricsCtrl.showChart()">Get metrics</button>
         <hr/>
@@ -42,13 +39,15 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="cpu">
-                        <ul ng-repeat="chart in metricsCtrl.charts" ng-if="checked" class="animate-if">
+                        <ul ng-repeat="chart in metricsCtrl.charts" ng-if="checked">
                             <li>{{chart.id}}</li>
                             <li>{{chart.time}}</li>
                             <li>{{chart.cpu}}</li>
                             <li>{{chart.ram}}</li>
                             <li>{{chart.dataset}}</li>
+                            <li><hr/></li>
                         </ul>
+
                     </div>
 
                     <div class="tab-pane" id="ram"></div>
