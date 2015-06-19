@@ -4,12 +4,8 @@
         <div class="scrollableDiv">
             <js-tree tree-data="json"
                      tree-src="subutai-app/metrics/dummy-api/treedata.json"
-                     tree-plugins="checkbox"
-                     tree-events="activate_node:selectedNode"
-                     ng-model="checked"
-                     ng-init="checked=false"></js-tree>
+                     tree-events="activate_node:selectedNode"></js-tree>
         </div>
-        <button class="btn btn-primary btn-md" ng-click="metricsCtrl.showChart()">Get metrics</button>
         <hr/>
         <p>
             <h3>Show chart data on check</h3>
