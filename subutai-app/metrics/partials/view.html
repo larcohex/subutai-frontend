@@ -42,6 +42,11 @@
                             <li>lxc time: {{chart.time}}</li>
                             <li>lxc cpu: {{chart.cpu}}</li>
                         </ul>
+                        <hr/>
+                        <canvas linechart options="metricsCtrl.lineOptions"
+                                          data="metricsCtrl.lineData"
+                                          id="cpuCanvas"></canvas>
+                        <hr/>
                     </div>
 
                     <div class="tab-pane" id="ram">
@@ -50,6 +55,11 @@
                             <li>lxc time: {{chart.time}}</li>
                             <li>lxc ram: {{chart.ram}}</li>
                         </ul>
+                        <hr/>
+                        <canvas linechart options="metricsCtrl.lineOptions"
+                                data="metricsCtrl.lineData"
+                                id="ramCanvas"></canvas>
+                        <hr/>
                     </div>
                     <div class="tab-pane" id="dataset">
                         <ul ng-repeat="chart in metricsCtrl.charts" ng-if="checked">
@@ -57,6 +67,11 @@
                             <li>lxc time: {{chart.time}}</li>
                             <li>lxc dataset: {{chart.dataset}}</li>
                         </ul>
+                        <hr/>
+                        <canvas linechart options="metricsCtrl.lineOptions"
+                                data="metricsCtrl.lineData"
+                                id="datasetCanvas"></canvas>
+                        <hr/>
                     </div>
                 </div>
             </div>
