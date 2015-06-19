@@ -1,11 +1,11 @@
 [{
-  "id": "ajson3",
+  "id": "lxc1",
   "time": "9.30",
   "cpu": "100",
   "ram": "50",
   "dataset": "10"
 }, {
-  "id": "ajson4",
+  "id": "lxc2",
   "time": "10.00",
   "cpu": "90",
   "ram": "80",
