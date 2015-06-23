@@ -25,18 +25,16 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         debug: false
     });
 
-    $stateProvider.state(
-        "home", {
+    $stateProvider
+        .state("home", {
             url: "",
             templateUrl: "subutai-app/home/partials/view.html"
-        }
-    ).state(
-        "console", {
+        })
+        .state("console", {
             url: "/console",
             templateUrl: "subutai-app/console/partials/view.html"
-        }
-    ).state(
-        "identity", {
+        })
+        .state("identity", {
             url: "/identity",
             templateUrl: "subutai-app/identity/partials/view.html",
             resolve: {
@@ -57,9 +55,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                     ]);
                 }]
             }
-        }
-    ).state(
-        "metrics", {
+        })
+        .state('channel-manager', {
+            url: '/channel-manager',
+            templateUrl: 'subutai-app/channelManager/partials/view.html',
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.channel-manager',
+                            files: [
+                                'subutai-app/channelManager/channelManager.js',
+                                'subutai-app/channelManager/controller.js',
+                                'subutai-app/channelManager/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("metrics", {
             url: "/metrics",
             templateUrl: "subutai-app/metrics/partials/view.html",
             resolve: {
@@ -76,9 +91,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                     ]);
                 }]
             }
-        }
-    ).state(
-        "tracker", {
+        })
+        .state("tracker", {
             url: "/tracker",
             templateUrl: "subutai-app/tracker/partials/view.html",
             resolve: {
@@ -95,9 +109,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                     ]);
                 }]
             }
-        }
-    ).state(
-        "environment", {
+        })
+        .state("environment", {
             url: "/environment",
             templateUrl: "subutai-app/environment/partials/view.html",
             resolve: {
@@ -114,13 +127,13 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                     ]);
                 }]
             }
-        }
-    ).state("registry", {
+        })
+        .state("registry", {
             url: "/registry",
             templateUrl: "subutai-app/registry/partials/view.html",
             data: {pageTitle: 'Template Registry'},
             resolve: {
-                loadPlugin: function ($ocLazyLoad) {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load([
                         {
                             files: ['assets-angular/js/plugins/diff_match_patch/javascript/diff_match_patch.js']
@@ -142,10 +155,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             ]
                         }
                     ]);
-                }
+                }]
             }
-        }).state(
-        "peers", {
+        })
+        .state("peers", {
             url: "/peers",
             templateUrl: "subutai-app/peer/partials/view.html",
             resolve: {
@@ -162,9 +175,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                     ]);
                 }]
             }
-        }
-    ).state(
-        "404", {
+        })
+        .state("404", {
             url: "/404",
             template: "Not found"
         }

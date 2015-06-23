@@ -6,4 +6,4 @@
 angular.module('subutai.registry', [
     'subutai.registry.controller',
     'subutai.registry.service'
-])
+]);
