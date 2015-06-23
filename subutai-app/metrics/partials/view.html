@@ -37,41 +37,26 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="cpu">
-                        <ul ng-repeat="chart in metricsCtrl.charts" ng-if="checked">
-                            <li>lxc id: {{chart.id}}</li>
-                            <li>lxc time: {{chart.time}}</li>
-                            <li>lxc cpu: {{chart.cpu}}</li>
-                        </ul>
-                        <hr/>
-                        <canvas linechart options="metricsCtrl.lineOptions"
-                                          data="metricsCtrl.lineData"
-                                          id="cpuCanvas"></canvas>
-                        <hr/>
+                        <canvas linechart options="metricsCtrl.chartOptions"
+                                          data="metricsCtrl.cpuData"
+                                          id="cpuCanvas"
+                                          ng-if="checked"
+                                          ng-init="metricsCtrl.parseJsonData(metricsCtrl.charts)"></canvas>
                     </div>
 
                     <div class="tab-pane" id="ram">
-                        <ul ng-repeat="chart in metricsCtrl.charts" ng-if="checked">
-                            <li>lxc id: {{chart.id}}</li>
-                            <li>lxc time: {{chart.time}}</li>
-                            <li>lxc ram: {{chart.ram}}</li>
-                        </ul>
-                        <hr/>
-                        <canvas linechart options="metricsCtrl.lineOptions"
-                                data="metricsCtrl.lineData"
-                                id="ramCanvas"></canvas>
-                        <hr/>
+                        <canvas linechart options="metricsCtrl.chartOptions"
+                                          data="metricsCtrl.ramData"
+                                          id="ramCanvas"
+                                          ng-if="checked"
+                                          ng-init="metricsCtrl.parseJsonData(metricsCtrl.charts)"></canvas>
                     </div>
                     <div class="tab-pane" id="dataset">
-                        <ul ng-repeat="chart in metricsCtrl.charts" ng-if="checked">
-                            <li>lxc id: {{chart.id}}</li>
-                            <li>lxc time: {{chart.time}}</li>
-                            <li>lxc dataset: {{chart.dataset}}</li>
-                        </ul>
-                        <hr/>
-                        <canvas linechart options="metricsCtrl.lineOptions"
-                                data="metricsCtrl.lineData"
-                                id="datasetCanvas"></canvas>
-                        <hr/>
+                        <canvas linechart options="metricsCtrl.chartOptions"
+                                          data="metricsCtrl.datasetData"
+                                          id="datasetCanvas"
+                                          ng-if="checked"
+                                          ng-init="metricsCtrl.parseJsonData(metricsCtrl.charts)"></canvas>
                     </div>
                 </div>
             </div>
