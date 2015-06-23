@@ -40,23 +40,20 @@
                         <canvas linechart options="metricsCtrl.chartOptions"
                                           data="metricsCtrl.cpuData"
                                           id="cpuCanvas"
-                                          ng-if="checked"
-                                          ng-init="metricsCtrl.parseJsonData(metricsCtrl.charts)"></canvas>
+                                          ng-if="checked"></canvas>
                     </div>
 
                     <div class="tab-pane" id="ram">
                         <canvas linechart options="metricsCtrl.chartOptions"
                                           data="metricsCtrl.ramData"
                                           id="ramCanvas"
-                                          ng-if="checked"
-                                          ng-init="metricsCtrl.parseJsonData(metricsCtrl.charts)"></canvas>
+                                          ng-if="checked"></canvas>
                     </div>
                     <div class="tab-pane" id="dataset">
                         <canvas linechart options="metricsCtrl.chartOptions"
                                           data="metricsCtrl.datasetData"
                                           id="datasetCanvas"
-                                          ng-if="checked"
-                                          ng-init="metricsCtrl.parseJsonData(metricsCtrl.charts)"></canvas>
+                                          ng-if="checked"></canvas>
                     </div>
                 </div>
             </div>
