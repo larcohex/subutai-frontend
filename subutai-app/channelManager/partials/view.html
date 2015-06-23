@@ -1,143 +1,201 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-  <div class="col-lg-10">
-    <h2>Clients</h2>
-    <ol class="breadcrumb">
-      <li>
-        <a href="index.html">Home</a>
-      </li>
-      <li>
-        <a>App views</a>
-      </li>
-      <li class="active">
-        <strong>Clients</strong>
-      </li>
-    </ol>
+<div ng-controller="ChannelManagerCtrl as channelManagerCtrl">
+  <div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+      <h2>Environment Manager</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li class="active">
+          <strong>Channel Manager</strong>
+        </li>
+      </ol>
+    </div>
   </div>
-  <div class="col-lg-2">
+  <div class="animated fadeIn wrapper-content">
+    <div class="row">
+      <div id="resizable-pane" class="col-lg-7 fullWidthPane">
+        <div class="white-bg ibox float-e-margins">
+          <div class="panel-body">
+            <div class="ibox-title">
+              <div class="ibox-tools">
+                <button type="button" class="btn btn-primary" ng-click="channelManagerCtrl.addPanel('createBlueprint')">Create token
+                </button>
+              </div>
+            </div>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Token owner</th>
+                <th>Name</th>
+                <th>IP range start</th>
+                <th>IP range end</th>
+                <th>Validity</th>
+                <th>Valid Period</th>
+                <th>Date Created</th>
+                <th>Token</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="token in channelManagerCtrl.tokens">
 
-  </div>
-</div>
-<div class="wrapper wrapper-content  animated fadeInRight">
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="ibox ">
+                <td class="project-title">
+                  <a href="">{{token.username}}</a>
+                </td>
 
-        <div class="ibox-content">
-          <div class="tab-content">
-            <div id="contact-2" class="tab-pane active">
-              <div class="client-detail">
-                <div class="full-height-scroll" full-scroll>
-                  <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                      <tbody>
-                      <tr>
-                        <td class="client-avatar"><img alt="image" src="img/a2.jpg"> </td>
-                        <td><a ng-click="client = 1" class="client-link">Anthony Jackson</a></td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><img alt="image" src="img/a3.jpg"> </td>
-                        <td><a ng-click="client = 2" class="client-link">Rooney Lindsay</a></td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><img alt="image" src="img/a4.jpg"> </td>
-                        <td><a ng-click="client = 3" class="client-link">Lionel Mcmillan</a></td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a5.jpg"></a> </td>
-                        <td><a ng-click="client = 4" class="client-link">Edan Randall</a></td>
-                        <td class="client-status"><span class="label label-warning">Waiting</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a6.jpg"></a> </td>
-                        <td><a ng-click="client = 2" class="client-link">Jasper Carson</a></td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a7.jpg"></a> </td>
-                        <td><a ng-click="client = 3" class="client-link">Reuben Pacheco</a></td>
-                        <td class="client-status"><span class="label label-info">Phoned</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a1.jpg"></a> </td>
-                        <td><a ng-click="client = 1" class="client-link">Simon Carson</a></td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a3.jpg"></a> </td>
-                        <td><a ng-click="client = 2" class="client-link">Rooney Lindsay</a></td>
-                        <td class="client-status"><span class="label label-warning">Waiting</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a4.jpg"></a> </td>
-                        <td><a ng-click="client = 3" class="client-link">Lionel Mcmillan</a></td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a5.jpg"></a> </td>
-                        <td><a ng-click="client = 4" class="client-link">Edan Randall</a></td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a2.jpg"></a> </td>
-                        <td><a ng-click="client = 1" class="client-link">Anthony Jackson</a></td>
-                        <td class="client-status"><span class="label label-danger">Deleted</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a7.jpg"></a> </td>
-                        <td><a ng-click="client = 2" class="client-link">Reuben Pacheco</a></td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a5.jpg"></a> </td>
-                        <td><a ng-click="client = 3" class="client-link">Edan Randall</a></td>
-                        <td class="client-status"><span class="label label-info">Phoned</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a6.jpg"></a> </td>
-                        <td><a ng-click="client = 4" class="client-link">Jasper Carson</a></td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a7.jpg"></a> </td>
-                        <td><a ng-click="client = 2" class="client-link">Reuben Pacheco</a></td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a1.jpg"></a> </td>
-                        <td><a ng-click="client = 1" class="client-link">Simon Carson</a></td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a3.jpg"></a> </td>
-                        <td><a ng-click="client = 3" class="client-link">Rooney Lindsay</a></td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a4.jpg"></a> </td>
-                        <td><a ng-click="client = 4" class="client-link">Lionel Mcmillan</a></td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a5.jpg"></a> </td>
-                        <td><a ng-click="client = 1" class="client-link">Edan Randall</a></td>
-                        <td class="client-status"><span class="label label-info">Phoned</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a2.jpg"></a> </td>
-                        <td><a ng-click="client = 2" class="client-link">Anthony Jackson</a></td>
-                        <td class="client-status"><span class="label label-warning">Waiting</span></td>
-                      </tr>
-                      <tr>
-                        <td class="client-avatar"><a href=""><img alt="image" src="img/a7.jpg"></a> </td>
-                        <td><a ng-click="client = 4" class="client-link">Reuben Pacheco</a></td>
-                        <td class="client-status"></td>
-                      </tr>
-                      </tbody>
-                    </table>
+                <td class="project-completion">{{token.tokenName}}</td>
+
+                <td class="project-people">{{token.ipRangeStart}}</td>
+
+                <td class="project-people">{{token.ipRangeEnd}}</td>
+
+                <td class="project-people">{{token.status}}</td>
+
+                <td class="project-people">{{token.validPeriod}} hours</td>
+
+                <td class="project-people">{{token.date}}</td>
+
+                <td class="project-people">{{token.token}}</td>
+
+                <td class="project-actions">
+                  <a class="btn btn-white btn-sm" data-toggle="modal" data-target="#deleteBlueprint">
+                    <i class="fa fa-folder"></i> Delete </a>
+                  <a class="btn btn-white btn-sm" type="button" ng-click="channelManagerCtrl.addPanel('buildBlueprint')">
+                    <i class="fa fa-pencil"></i> Edit </a>
+                </td>
+
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div id="create-blueprint-form" class="white-bg ibox float-e-margins"
+             style="visibility: hidden;  display: none;">
+          <div class="ibox-title">
+            <h5>Create blueprint</h5>
+
+            <div class="ibox-tools dropdown">
+              <a ng-click="channelManagerCtrl.closePanel('createBlueprint')"><i class="fa fa-times"></i></a>
+            </div>
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group"><input type="text" placeholder="Enter blueprint name" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Node list</label>
+
+                  <div class="row ibox-content">
+                    <ul class="tag-list" style="padding: 0">
+                      <li><a href=""><i class="fa fa-cube"></i> Cassandra</a></li>
+                      <li><a href=""><i class="fa fa-cube"></i> Hadooop #3</a></li>
+                      <li><a href=""><i class="fa fa-cube"></i> Spark</a></li>
+                      <li><a href=""><i class="fa fa-cube"></i> Node #8</a></li>
+                    </ul>
                   </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <select class="form-control">
+                    <option value="cassandra">Cassandra</option>
+                    <option value="hadoop">Hadoop</option>
+                    <option value="spark">Spark</option>
+                    <option value="mysql">MySQL</option>
+                  </select>
+                </div>
+                <div class="form-group form-inline">
+                  <input type="number" placeholder="Enter number of containers" class="form-control"
+                         style="width: 49.4%">
+                  <input type="text" placeholder="Enter SSH group ID" class="form-control" style="width: 49.4%">
+                </div>
+                <div class="form-group form-inline">
+                  <input type="text" placeholder="Enter host group ID" class="form-control" style="width: 49.4%">
+                  <select class="form-control" style="width: 49.4%">
+                    <option value="hostgroupid1">hostGroupID1</option>
+                    <option value="hostgroupid2">hostGroupID2</option>
+                    <option value="hostgroupid3">hostGroupID3</option>
+                    <option value="hostgroupid4">hostGroupID4</option>
+
+                  </select>
+                </div>
+                <div class="form-group"><input type="text" placeholder="Enter criteria here" class="form-control"></div>
+                <button type="button" class="btn btn-outline btn-primary"><i class="fa fa-arrow-left"></i> Add to node
+                  list
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-white" ng-click="channelManagerCtrl.closePanel('createBlueprint')">Close</button>
+          </div>
+        </div>
+
+        <div id="build-blueprint-form" class="white-bg ibox float-e-margins" style="visibility: hidden; display: none;">
+          <div class="ibox-title">
+            <h5>Build blueprint</h5>
+
+            <div class="ibox-tools dropdown">
+              <a ng-click="channelManagerCtrl.closePanel('buildBlueprint')"><i class="fa fa-times"></i></a>
+            </div>
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                  <table class="table table-bordered ibox-content">
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Peer</th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <td>Cassandra node group</td>
+                      <td>
+                        <input type="range" id="myRange" value="90">
+                      </td>
+                      <td>
+                        <select class="form-control">
+                          <option value="peer1">Peer on 172.16.131.204</option>
+                          <option value="peer1">Peer on 172.16.131.203</option>
+                          <option value="peer1">Peer on 172.16.131.202</option>
+                          <option value="peer1">Peer on 172.16.131.200</option>
+                        </select>
+                      </td>
+                      <td>
+                        <a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> Place </a>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table class="table table-bordered ibox-content">
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Peer</th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <td>Cassandra node group</td>
+                      <td>3</td>
+                      <td>Peer on 172.16.131.204</td>
+                      <td>
+                        <a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> Remove</a>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <div>
+                    <label>Subnet CIDR</label>
+                    <input placeholder="Enter Subnet CIDR" class="form-control">
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -145,158 +203,28 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-8 ">
-      <div class="ibox">
-        <div class="ibox-content">
-          <span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span>
+  </div>
+</div>
 
-          <h2>Clients</h2>
+<!--Modal Panles-->
 
-          <p>
-            All clients need to be verified before you can send email and set a project.
-          </p>
-          <div class="clients-list">
-            <div class="tab-content">
-              <div id="tab-2" class="tab-pane active">
-                <div class="full-height-scroll" full-scroll>
-                  <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                      <tbody>
-                      <tr>
-                        <td><a ng-click="client = 5" class="client-link">Tellus Institute</a></td>
-                        <td>Rexton</td>
-                        <td><i class="fa fa-flag"></i> Angola</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Velit Industries</a></td>
-                        <td>Maglie</td>
-                        <td><i class="fa fa-flag"></i> Luxembourg</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 7" class="client-link">Art Limited</a></td>
-                        <td>Sooke</td>
-                        <td><i class="fa fa-flag"></i> Philippines</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 5" class="client-link">Tempor Arcu Corp.</a></td>
-                        <td>Eisden</td>
-                        <td><i class="fa fa-flag"></i> Korea, North</td>
-                        <td class="client-status"><span class="label label-warning">Waiting</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Penatibus Consulting</a></td>
-                        <td>Tribogna</td>
-                        <td><i class="fa fa-flag"></i> Montserrat</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 7" class="client-link"> Ultrices Incorporated</a></td>
-                        <td>Basingstoke</td>
-                        <td><i class="fa fa-flag"></i> Tunisia</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Et Arcu Inc.</a></td>
-                        <td>Sioux City</td>
-                        <td><i class="fa fa-flag"></i> Burundi</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 5" class="client-link">Tellus Institute</a></td>
-                        <td>Rexton</td>
-                        <td><i class="fa fa-flag"></i> Angola</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Velit Industries</a></td>
-                        <td>Maglie</td>
-                        <td><i class="fa fa-flag"></i> Luxembourg</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 7" class="client-link">Art Limited</a></td>
-                        <td>Sooke</td>
-                        <td><i class="fa fa-flag"></i> Philippines</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 5" class="client-link">Tempor Arcu Corp.</a></td>
-                        <td>Eisden</td>
-                        <td><i class="fa fa-flag"></i> Korea, North</td>
-                        <td class="client-status"><span class="label label-warning">Waiting</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Penatibus Consulting</a></td>
-                        <td>Tribogna</td>
-                        <td><i class="fa fa-flag"></i> Montserrat</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 7" class="client-link"> Ultrices Incorporated</a></td>
-                        <td>Basingstoke</td>
-                        <td><i class="fa fa-flag"></i> Tunisia</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Et Arcu Inc.</a></td>
-                        <td>Sioux City</td>
-                        <td><i class="fa fa-flag"></i> Burundi</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 5" class="client-link">Tellus Institute</a></td>
-                        <td>Rexton</td>
-                        <td><i class="fa fa-flag"></i> Angola</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Velit Industries</a></td>
-                        <td>Maglie</td>
-                        <td><i class="fa fa-flag"></i> Luxembourg</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 7" class="client-link">Art Limited</a></td>
-                        <td>Sooke</td>
-                        <td><i class="fa fa-flag"></i> Philippines</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 5" class="client-link">Tempor Arcu Corp.</a></td>
-                        <td>Eisden</td>
-                        <td><i class="fa fa-flag"></i> Korea, North</td>
-                        <td class="client-status"><span class="label label-warning">Waiting</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Penatibus Consulting</a></td>
-                        <td>Tribogna</td>
-                        <td><i class="fa fa-flag"></i> Montserrat</td>
-                        <td class="client-status"></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 7" class="client-link"> Ultrices Incorporated</a></td>
-                        <td>Basingstoke</td>
-                        <td><i class="fa fa-flag"></i> Tunisia</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      <tr>
-                        <td><a ng-click="client = 6" class="client-link">Et Arcu Inc.</a></td>
-                        <td>Sioux City</td>
-                        <td><i class="fa fa-flag"></i> Burundi</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
+<!--Delete Blueprint modal-->
+<div class="modal inmodal" id="deleteBlueprint" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+        <h5>Delete blueprint</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row text-center">
+          Are you sure to delete this blueprint?
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Confirm</button>
       </div>
     </div>
   </div>
