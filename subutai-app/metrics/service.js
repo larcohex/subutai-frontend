@@ -10,12 +10,18 @@ metricsSrv.$inject = ['$http'];
 
 function metricsSrv($http) {
     var getChartDataUrl = 'subutai-app/metrics/dummy-api/chartdata.json';
+    var getChartOptionsUrl = 'subutai-app/metrics/dummy-api/chartOptions.json';
     var metricsSrv = {
-        getChartData: getChartData
+        getChartData: getChartData,
+        getChartOptions: getChartOptions
     };
     return metricsSrv;
 
     function getChartData() {
         return $http.get(getChartDataUrl);
     }
+    function getChartOptions() {
+        return $http.get(getChartOptionsUrl);
+    }
+
 }

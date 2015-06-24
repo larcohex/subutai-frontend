@@ -1,13 +1,9 @@
 [{
-  "id": "ajson2",
+  "id": "rh1",
   "parent": "#",
-  "text": "Root node 2"
+  "text": "Resource host 1"
 }, {
-  "id": "ajson3",
-  "parent": "ajson2",
-  "text": "Child 1"
-}, {
-  "id": "ajson4",
-  "parent": "ajson2",
-  "text": "Child 2"
+  "id": "lxc1",
+  "parent": "rh1",
+  "text": "Lxc 1"
 }]
