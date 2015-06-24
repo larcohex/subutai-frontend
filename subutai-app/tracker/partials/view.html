@@ -14,89 +14,65 @@
 <div class="panel-body trackerWrapper" ng-controller="TrackerCtrl as trackerCtrl">
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="font-noraml">Source</label>
 
-                    <div class="input-group">
-                        <select chosen id="states" class="chosen-select" tabindex="4">
-                        </select>
-                    </div>
+            <form action="" method="" name="">
+                <div class="col-md-3">
+                    Source
+                    <select ng-change="trackerCtrl.loadOperations()"
+                            ng-model="trackerCtrl.modulesDropdown"
+                            ng-model-options="{getterSetter: true}"
+                            ng-options="module.name for module in trackerCtrl.modules">
+                    </select>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group" id="data_1">
-                    <label class="font-noraml">From</label>
-
-                    <div class="input-group date">
-                        <input type="datetime" class="form-control" date-time view="date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
+                <div class="col-md-3 input-daterange">
+                    From
+                    <input type="datetime" id="fromDate">
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group" id="data_2">
-                    <label class="font-noraml">To</label>
-
-                    <div class="input-group date">
-                        <input type="datetime" class="form-control" date-time view="date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
+                <div class="col-md-3">
+                    To
+                    <input type="datetime" id="toDate">
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="font-noraml">Show last</label>
-
-                    <div class="input-group">
-                        <select chosen id="" class="chosen-select" tabindex="4">
-                        </select>
-                    </div>
+                <div class="col-md-3">
+                    Show last
+                    <select>
+                        <option>10</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>All</option>
+                    </select>
                 </div>
-            </div>
+            </form>
         </div>
-        <div class="col-md-6">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Operations</h5>
-                    <div class="ibox-tools">
-                        <a class="close-link">
-                            <i class="fa fa-refresh"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content">
 
-                    <table datatable="" class="table table-striped table-bordered table-hover dataTables-example">
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Operations</th>
-                            <th>Status</th>
-                            <th>Check</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="l in trackerCtrl.logs">
-                            <td>{{l.date}}</td>
-                            <td>{{l.operation}}</td>
-                            <td><button class="btn logStatus ">{{l.status}}</button></td>
-                            <td><button class="btn">View log</button></td>
-                        </tr>
-                        </tbody>
-                    </table>
+        <div class="col-md-12">
+            <table id="operationsTable" datatable="" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Operation</th>
+                        <th>Status</th>
+                        <th>Logs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="operation in trackerCtrl.operations">
+                        <td>{{operation.date}}</td>
+                        <td ng-model="specificOperation">{{operation.name}}</td>
+                        <td>{{operation.status}}</td>
+                        <td><button ng-click="trackerCtrl.viewLogs()">View logs</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div id="logsContainer">
-                <ul ng-repeat="sl in trackerCtrl.specificLogs">
-                    <li>{{sl.date}}</li>
-                    <li>{{sl.logs}}</li>
-                </ul>
-            </div>
-        </div>
+        <div class="col-md-12" id="logsContainer"></div>
     </div>
-
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#fromDate').datepicker({});
+        $('#toDate').datepicker({});
+        $('#operationsTable').DataTable();
+    });
+</script>

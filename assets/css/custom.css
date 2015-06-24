@@ -120,9 +120,9 @@ pre {
 }
 
 #logsContainer {
-  background: #000;
+  background: #29293D;
   padding: 10px 5px;
-  min-height: 390px;
+  margin: 10px 0;
   color: lightgrey;
 }
 

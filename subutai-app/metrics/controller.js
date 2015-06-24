@@ -7,7 +7,7 @@ angular.module('subutai.metrics.controller', ['jsTree.directive'])
     .controller('MetricsCtrl', MetricsCtrl)
     .filter('chartID', function () {
         return function() {
-            // filter function; probably will need it later
+            // filter function; probably we'll need it later
         }
 
     });
@@ -33,7 +33,7 @@ function MetricsCtrl(metricsSrv, $scope) {
 
     metricsSrv.getChartData().success(function(data) {
         vm.charts = data;
-        buildChart(parseJsonData(vm.charts), chartOptions);
+        //buildChart(parseJsonData(vm.charts), chartOptions);
     });
 
     metricsSrv.getChartOptions().success(function (data) {
