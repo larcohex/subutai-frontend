@@ -10,23 +10,15 @@ angular.module('subutai.tracker.service', [])
 trackerSrv.$inject = ['$http'];
 
 function trackerSrv($http) {
-    var getLogsURL = 'subutai-app/tracker/dummy-api/logs.json';
-    var viewLogsURL = 'subutai-app/tracker/dummy-api/specificLogs.json';
-
+    var modulesURL = 'subutai-app/tracker/dummy-api/modules.json';
     var trackerSrv = {
-        getLogs: getLogs,
-        getSpecificLogs: getSpecificLogs
+        getModules: getModules
     };
 
     return trackerSrv;
 
-    //// Implementation
-
-    function getLogs() {
-        return $http.get(getLogsURL);
-    }
-    function getSpecificLogs() {
-        return $http.get(viewLogsURL);
+    function getModules() {
+        return $http.get(modulesURL);
     }
 
 }

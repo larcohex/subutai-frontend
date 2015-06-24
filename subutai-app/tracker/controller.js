@@ -7,19 +7,22 @@ angular.module('subutai.tracker.controller', [])
     .controller('TrackerCtrl', TrackerCtrl);
 
 TrackerCtrl.$inject = ['trackerSrv'];
-//var elem = jQuery('logStatus');
 function TrackerCtrl(trackerSrv) {
     var vm = this;
+    vm.loadOperations = loadOperations;
+    vm.viewLogs = viewLogs;
 
-    trackerSrv.getLogs().success(function (data) {
-        vm.logs = data;
-        //switch (vm.logs.status){
-        //    case 'successful':
-        //        elem.addClass('btn-success');
-        //}
+    trackerSrv.getModules().success(function (data) {
+        vm.modules = data;
     });
-    trackerSrv.getSpecificLogs().success(function (data) {
-            vm.specificLogs = data;
-
-    });
+    function loadOperations() {
+        vm.operations = vm.modulesDropdown.operations;
+    }
+    function viewLogs() {
+        for(var i = 0; i < vm.operations.length; i++) {
+            for(var j = 0; j < vm.operations[i].logs.length; j++) {
+                $('#logsContainer').append('<p>' + vm.operations[i].logs[j].date + ' ---> ' + vm.operations[i].logs[j].log + '</p>');
+            }
+        }
+    }
 }
