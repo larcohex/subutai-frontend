@@ -42,18 +42,13 @@ function peerViewCtrl($scope, peerService) {
 
     function getResourceHosts() {
         peerService.getResourceHosts().success(function (data) {
-            for (var i=0; i<data.length; i++)
-            {
-                document.getElementById("resourceHosts").innerHTML = "<option value='" + data[i].name + "'>" + data[i].name + "</option>";
-            }
         }).error(function () {
             $scope.status = "Could not get Resource hosts";
         });
     }
 
     function getContainer() {
-        console.log($scope.rHost);
-        peerService.getContainer($scope.rHost[0]).success(function (data) {
+        peerService.getContainer($scope.rHost[0].name).success(function (data) {
             $scope.containers = data;
         });
     }
