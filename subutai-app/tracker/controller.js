@@ -19,7 +19,10 @@ function TrackerCtrl(trackerSrv) {
         vm.operations = vm.modulesDropdown.operations;
     }
     function viewLogs() {
-        //$('#logsContainer').innerHTML = vm.specificOperation.logs;
-        console.log(vm.specificOperation.name);
+        for(var i = 0; i < vm.operations.length; i++) {
+            for(var j = 0; j < vm.operations[i].logs.length; j++) {
+                $('#logsContainer').append('<p>' + vm.operations[i].logs[j].date + ' ---> ' + vm.operations[i].logs[j].log + '</p>');
+            }
+        }
     }
 }

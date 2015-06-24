@@ -13,33 +13,23 @@
 </div>
 <div class="panel-body trackerWrapper" ng-controller="TrackerCtrl as trackerCtrl">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 moduleFilters">
 
             <form action="" method="" name="">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     Source
                     <select ng-change="trackerCtrl.loadOperations()"
                             ng-model="trackerCtrl.modulesDropdown"
-                            ng-model-options="{getterSetter: true}"
                             ng-options="module.name for module in trackerCtrl.modules">
                     </select>
                 </div>
-                <div class="col-md-3 input-daterange">
+                <div class="col-md-4">
                     From
                     <input type="datetime" id="fromDate">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     To
                     <input type="datetime" id="toDate">
-                </div>
-                <div class="col-md-3">
-                    Show last
-                    <select>
-                        <option>10</option>
-                        <option>50</option>
-                        <option>100</option>
-                        <option>All</option>
-                    </select>
                 </div>
             </form>
         </div>
@@ -57,7 +47,7 @@
                 <tbody>
                     <tr ng-repeat="operation in trackerCtrl.operations">
                         <td>{{operation.date}}</td>
-                        <td ng-model="specificOperation">{{operation.name}}</td>
+                        <td ng-model="trackerCtrl.specificOperation">{{operation.name}}</td>
                         <td>{{operation.status}}</td>
                         <td><button ng-click="trackerCtrl.viewLogs()">View logs</button></td>
                     </tr>
