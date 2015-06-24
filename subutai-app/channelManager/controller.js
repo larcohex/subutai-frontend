@@ -15,6 +15,19 @@ function ChannelManagerCtrl(channelManagerService) {
     self.addPanel = addPanel;
     self.closePanel = closePanel;
 
+    self.newToken = {
+        token: "8f846079-b31f-41da-b3c3-2fdbe81fc49d",
+        date: "2015-06-23 15:39:37.823",
+        ipRangeStart: "*",
+        ipRangeEnd: "*",
+        status: true,
+        tokenName: "some token",
+        username: "Karaf",
+        validPeriod: 10
+    };
+
+    self.selectedToken = {};
+
     self.tokens = [
         {
             token: "8f846079-b31f-41da-b3c3-2fdbe81fc49d",
@@ -48,9 +61,9 @@ function ChannelManagerCtrl(channelManagerService) {
         }
     ];
 
-    function addPanel(action) {
+    function addPanel(action, token) {
         jQuery('#resizable-pane').removeClass('fullWidthPane');
-        if( action == 'createBlueprint' ) {
+        if (action == 'createBlueprint') {
             jQuery('#build-blueprint-form').css('display', 'none');
             jQuery('#build-blueprint-form').removeClass('animated bounceOutRight bounceInRight');
             jQuery('#environment-containers-form').css('display', 'none');
@@ -61,13 +74,10 @@ function ChannelManagerCtrl(channelManagerService) {
             jQuery('#create-blueprint-form').removeClass('bounceOutRight');
             jQuery('#create-blueprint-form').addClass('animated bounceInRight');
         }
-        else if( action == 'buildBlueprint' ) {
-            jQuery('#environment-containers-form').css('display', 'none');
-            jQuery('#environment-containers-form').removeClass('animated bounceOutRight bounceInRight');
+        else if (action == 'buildBlueprint') {
+            self.selectedToken = token;
             jQuery('#create-blueprint-form').css('display', 'none');
             jQuery('#create-blueprint-form').removeClass('animated bounceOutRight bounceInRight');
-            jQuery('#environment-sshkey-form').css('display', 'none');
-            jQuery('#environment-sshkey-form').removeClass('animated bounceOutRight bounceInRight');
             jQuery('#build-blueprint-form').css('display', 'block');
             jQuery('#build-blueprint-form').removeClass('bounceOutRight');
             jQuery('#build-blueprint-form').addClass('animated bounceInRight');
@@ -76,12 +86,12 @@ function ChannelManagerCtrl(channelManagerService) {
 
     function closePanel(action) {
         jQuery('#resizable-pane').addClass('fullWidthPane');
-        if( action == 'createBlueprint' ) {
+        if (action == 'createBlueprint') {
             jQuery('#create-blueprint-form').addClass('bounceOutRight');
             jQuery('#create-blueprint-form').removeClass('animated bounceOutRight bounceInRight');
             jQuery('#create-blueprint-form').css('display', 'none');
         }
-        else if( action == 'buildBlueprint' ) {
+        else if (action == 'buildBlueprint') {
             jQuery('#build-blueprint-form').addClass('bounceOutRight');
             jQuery('#build-blueprint-form').removeClass('animated bounceOutRight bounceInRight');
             jQuery('#build-blueprint-form').css('display', 'none');
