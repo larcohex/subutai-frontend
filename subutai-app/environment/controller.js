@@ -8,6 +8,17 @@ EnvironmentViewCtrl.$inject = ['$scope', 'environmentService'];
 function EnvironmentViewCtrl($scope, environmentService) {
     $scope.getBlueprints = getBlueprints;
     $scope.getEnvironments = getEnvironments;
+    $scope.removeEnvironments = removeEnvironments;
+    $scope.destroyEnvironment = destroyEnvironment;
+    $scope.deleteBlueprint = deleteBlueprint;
+    $scope.buildBlueprint = buildBlueprint;
+    $scope.createBlueprint = createBlueprint;
+    $scope.addBlueprintNode = addBlueprintNode;
+    $scope.growBlueprint = growBlueprint;
+    $scope.addSshKey = addSshKey;
+    $scope.removeSshKey = removeSshKey;
+
+
     $scope.addPanel = addPanel;
     $scope.closePanel = closePanel;
 
@@ -33,6 +44,77 @@ function EnvironmentViewCtrl($scope, environmentService) {
         });
     }
 
+    function destroyEnvironment() {
+        environmentService.destroyEnvironment().success(function (data) {
+
+        }).error(function () {
+
+        });
+    }
+
+    function addBlueprintNode() {
+        environmentService.addBlueprintNode().success(function (data) {
+
+        }).error(function () {
+
+        });
+    }
+
+    function removeEnvironments(){
+        environmentService.removeEnvironments().success(function () {
+
+        }).error(function () {
+
+        })
+    }
+
+    function deleteBlueprint(){
+        environmentService.deleteBlueprint().success(function () {
+
+        }).error(function () {
+
+        })
+    }
+
+    function buildBlueprint(){
+        environmentService.buildBlueprint().success(function () {
+
+        }).error(function () {
+
+        })
+    }
+
+    function createBlueprint(){
+        environmentService.createBlueprint().success(function () {
+
+        }).error(function () {
+
+        })
+    }
+
+    function growBlueprint(){
+        environmentService.growBlueprint().success(function () {
+
+        }).error(function () {
+
+        })
+    }
+
+    function addSshKey(){
+        environmentService.addSshKey().success(function () {
+
+        }).error(function () {
+
+        })
+    }
+
+    function removeSshKey(){
+        environmentService.removeSshKey().success(function () {
+
+        }).error(function () {
+
+        })
+    }
     //// Implementation
 
     function addPanel(action) {

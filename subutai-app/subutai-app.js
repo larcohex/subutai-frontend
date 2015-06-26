@@ -158,6 +158,13 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                                 'subutai-app/peer/controller.js',
                                 'subutai-app/peer/service.js'
                             ]
+                        },
+                        {
+                            name: 'localytics.directives',
+                            files: [
+                                'assets-angular/js/plugins/chosen/chosen.js',
+                                'assets-angular/js/plugins/chosen/chosen.jquery.js'
+                            ]
                         }
                     ]);
                 }]

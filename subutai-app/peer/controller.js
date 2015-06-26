@@ -13,15 +13,25 @@ function peerViewCtrl($scope, peerService) {
     $scope.startContainer = startContainer;
     $scope.checkContainer = checkContainer;
     $scope.destroyContainer = destroyContainer;
-
-    $scope.resourceHosts = [];
+    $scope.resourceHosts = [
+        {
+            "id": "01",
+            "name": "Resource Host Hadoop1",
+            "color": "{'color':'#6666FF'}"
+        },
+        {
+            "id": "02",
+            "name": "Resource Host Cassandra2",
+            "color": "{'color':'#FF9966'}"
+        },
+        {
+            "id": "03",
+            "name": "Resource Host Spark3",
+            "color": "{'color':'#00CC99'}"
+        }
+    ];
     $scope.containers = [];
-
-    $scope.test = ". TEST_TEST_TEST .";
-
     getAllContainers();
-    getResourceHosts();
-
     function getAllContainers() {
         peerService.getAllContainers().success(function (data) {
             $scope.containers = data;
@@ -32,32 +42,13 @@ function peerViewCtrl($scope, peerService) {
 
     function getResourceHosts() {
         peerService.getResourceHosts().success(function (data) {
-            $scope.resourceHosts = data;
-
-            //var selectOpt = document.getElementById('selectResourceHost'),
-            //    df = document.createDocumentFragment();
-            //for (var i = 0; i < data.length; i++) {
-            //    var option = document.createElement('option');
-            //    option.value = data[i].id;
-            //    option.appendChild(document.createTextNode(data[i].name));
-            //    df.appendChild(option);
-            //}
-            //selectOpt.appendChild(df);
-            //
-            //$(document).ready(function () {
-            //    $("select").selectr({
-            //        title: 'Select Resource host',
-            //        placeholder: 'Search Resource hosts'
-            //    });
-            //});
-
         }).error(function () {
             $scope.status = "Could not get Resource hosts";
         });
     }
 
     function getContainer() {
-        peerService.getContainer(this.rHost).success(function (data) {
+        peerService.getContainer($scope.rHost[0].name).success(function (data) {
             $scope.containers = data;
         });
     }
