@@ -6,6 +6,7 @@
 angular.module('subutai.tracker.controller', [])
     .controller('TrackerCtrl', TrackerCtrl);
 
+
 TrackerCtrl.$inject = ['trackerSrv'];
 function TrackerCtrl(trackerSrv) {
     var vm = this;

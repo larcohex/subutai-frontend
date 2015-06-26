@@ -25,11 +25,11 @@
                 </div>
                 <div class="col-md-4">
                     From
-                    <input type="datetime" id="fromDate">
+                    <input type="datetime" ng-model="startDate" id="fromDate">
                 </div>
                 <div class="col-md-4">
                     To
-                    <input type="datetime" id="toDate">
+                    <input type="datetime" ng-model="endDate" id="toDate">
                 </div>
             </form>
         </div>
@@ -45,9 +45,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="operation in trackerCtrl.operations">
+                    <tr ng-repeat="operation in trackerCtrl.operations | dateRange: startDate : endDate">
                         <td>{{operation.date}}</td>
-                        <td ng-model="trackerCtrl.specificOperation">{{operation.name}}</td>
+                        <td>{{operation.name}}</td>
                         <td>{{operation.status}}</td>
                         <td><button ng-click="trackerCtrl.viewLogs()">View logs</button></td>
                     </tr>
