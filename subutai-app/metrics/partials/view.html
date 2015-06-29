@@ -9,7 +9,7 @@
         <hr/>
         <p>
             <h3>Show chart data on check</h3>
-            <input type="checkbox" ng-model="checked" ng-init="checked=false" id="environment"/>
+            <input type="checkbox" ng-model="checked" id="environment"/>
             <label for="environment">Some environment</label>
         </p>
     </div>
@@ -81,6 +81,14 @@
             $(this).tab('show');
         });
 
+        function contextGetter() {
+            var contexts = [];
+            var ctx1 = $("#cpuCanvas").get(0).getContext("2d");
+            var ctx2 = $("#ramCanvas").get(0).getContext("2d");
+            var ctx3 = $("#datasetCanvas").get(0).getContext("2d");
+
+            return contexts[ctx1, ctx2, ctx3];
+        }
     });
 
 </script>

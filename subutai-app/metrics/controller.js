@@ -28,12 +28,13 @@ function MetricsCtrl(metricsSrv, $scope) {
         ramData = {},
         datasetData = {};
 
+    var ctx1, ctx2, ctx3;
+
     vm.parseJsonData = parseJsonData;
     vm.buildChart = buildChart;
 
     metricsSrv.getChartData().success(function(data) {
         vm.charts = data;
-        //buildChart(parseJsonData(vm.charts), chartOptions);
     });
 
     metricsSrv.getChartOptions().success(function (data) {
@@ -111,9 +112,9 @@ function MetricsCtrl(metricsSrv, $scope) {
     }
 
     function buildChart(parsedValuesArray, options) {
-        var ctx1 = $("#cpuCanvas").get(0).getContext("2d");
-        var ctx2 = $("#ramCanvas").get(0).getContext("2d");
-        var ctx3 = $("#datasetCanvas").get(0).getContext("2d");
+        ctx1 = $("#cpuCanvas").get(0).getContext("2d");
+        ctx2 = $("#ramCanvas").get(0).getContext("2d");
+        ctx3 = $("#datasetCanvas").get(0).getContext("2d");
         new Chart(ctx1).Line(parsedValuesArray[1], options);
         new Chart(ctx2).Line(parsedValuesArray[2], options);
         new Chart(ctx3).Line(parsedValuesArray[3], options);
