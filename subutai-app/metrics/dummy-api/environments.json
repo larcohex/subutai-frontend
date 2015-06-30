@@ -1,0 +1,36 @@
+[
+  {
+    "name": "environment 1",
+    "lxcs": [
+      {
+        "id": "lxc1",
+        "time": "9.00",
+        "cpu": "0",
+        "ram": "0",
+        "dataset": "0"
+      },
+      {
+        "id": "lxc1",
+        "time": "9.30",
+        "cpu": "1",
+        "ram": "1",
+        "dataset": "1"
+      },
+
+      {
+        "id": "lxc2",
+        "time": "9.30",
+        "cpu": "1",
+        "ram": "1",
+        "dataset": "1"
+      },
+      {
+        "id": "lxc2",
+        "time": "9.30",
+        "cpu": "1",
+        "ram": "1",
+        "dataset": "1"
+      }
+    ]
+  }
+]

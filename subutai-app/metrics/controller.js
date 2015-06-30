@@ -19,9 +19,9 @@ function MetricsCtrl(metricsSrv, $scope) {
 
     var timeArray = [],
         uniqueTime = [],
-        cpuArray = [],
-        ramArray = [],
-        datasetArray = [],
+        cpuArray = [[]],
+        ramArray = [[]],
+        datasetArray = [[]],
         parsedValues = [];
 
     var cpuData = {},
@@ -50,15 +50,15 @@ function MetricsCtrl(metricsSrv, $scope) {
                 if($.inArray(el, uniqueTime) === -1) uniqueTime.push(el);
             });
 
-            for(var elem = 0; elem < uniqueTime.length; elem++) {
-                cpuArray.push(parseInt(chart[i].cpu, 10));
-                ramArray.push(parseInt(chart[i].ram, 10));
-                datasetArray.push(parseInt(chart[i].dataset, 10));
-            }
+
+            cpuArray.push(parseInt(chart[i].cpu, 10));
+            ramArray.push(parseInt(chart[i].ram, 10));
+            datasetArray.push(parseInt(chart[i].dataset, 10));
 
 
         }
 
+        console.log(cpuArray.length);
 
         cpuData = {
             labels: uniqueTime,
@@ -121,7 +121,7 @@ function MetricsCtrl(metricsSrv, $scope) {
     }
 
     $scope.selectedNode = function(e,data) {
-        if(data.node.id === "rh1") {
+        if(data.node.parent === "#") {
             for(var i = 0; i < vm.charts.length; i++) {
                 buildChart(parseJsonData(vm.charts), chartOptions);
             }
@@ -133,6 +133,5 @@ function MetricsCtrl(metricsSrv, $scope) {
                 }
             }
         }
-        vm.charts = '';
     }
 }
