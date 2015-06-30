@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="operation in trackerCtrl.operations | dateRange: startDate : endDate">
+                    <tr ng-repeat="operation in trackerCtrl.operations">
                         <td>{{operation.date}}</td>
                         <td>{{operation.name}}</td>
                         <td>{{operation.status}}</td>
