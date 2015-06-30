@@ -41,14 +41,17 @@ function peerService($http) {
     }
 
     function stopContainer(id) {
+        console.log("stop");
         return $http.get(updateContainerURL+id);
     }
 
     function startContainer(id) {
+        console.log("start");
         return $http.get(updateContainerURL+id);
     }
 
     function checkContainer(id) {
+        console.log("check");
         return $http.get(updateContainerURL+id);
     }
 

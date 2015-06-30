@@ -6,4 +6,8 @@
   "id": "lxc1",
   "parent": "rh1",
   "text": "Lxc 1"
+}, {
+  "id": "lxc2",
+  "parent": "rh1",
+  "text": "Lxc 2"
 }]

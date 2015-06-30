@@ -4,29 +4,31 @@
 'use strict';
 
 angular.module('subutai.tracker.service', [])
-    .factory('trackerSrv', trackerSrv);
+    .factory('trackerSrv', trackerSrv)
+    .filter('dateRange', function(){
+        return function(input, startDate, endDate) {
+            angular.forEach(input, function(obj){
+                console.log(startDate);
+                if(obj.received.getTime() >= startDate.getTime() && obj.received.getTime() <= endDate.getTime())   {
+                    return obj;
+                }
+            });
+        };
+    });
 
 
 trackerSrv.$inject = ['$http'];
 
 function trackerSrv($http) {
-    var getLogsURL = 'subutai-app/tracker/dummy-api/logs.json';
-    var viewLogsURL = 'subutai-app/tracker/dummy-api/specificLogs.json';
-
+    var modulesURL = 'subutai-app/tracker/dummy-api/modules.json';
     var trackerSrv = {
-        getLogs: getLogs,
-        getSpecificLogs: getSpecificLogs
+        getModules: getModules
     };
 
     return trackerSrv;
 
-    //// Implementation
-
-    function getLogs() {
-        return $http.get(getLogsURL);
-    }
-    function getSpecificLogs() {
-        return $http.get(viewLogsURL);
+    function getModules() {
+        return $http.get(modulesURL);
     }
 
 }

@@ -25,8 +25,8 @@
 
             <div class="col-md-6">
               <div class="col-md-6">
-                <select class="chosen form-control" ng-model="rHost">
-                  <option multiple ng-repeat = "resourceHost in resourceHosts" ng-style="{{resourceHost.color}}">{{resourceHost.name}}</option>
+                <select multiple chosen class="chosen-select" id="resourceHosts"
+                    ng-options="r.name for r in resourceHosts" ng-model="rHost">
                 </select>
               </div>
 
@@ -75,7 +75,7 @@
                   <button ng-if="container.status == 'loading'" class="btn btn-warning" ng-click="checkContainer(container.id)">Check</button>
                   <button ng-if="container.status == 'stopped'" class="btn btn-success" ng-click="startContainer(container.id)">Start</button>
                 </td>
-                <td><button class="btn btn-danger" ng-click="destroyContainer(container.id)">Destroy</button></td>
+                <td><button class="btn btn-danger" data-toggle="modal" data-target="#containerDestroy">Destroy</button></td>
                 <td>
                   <button class="btn btn-success" data-toggle="modal" data-target="#containerTag">Tag</button>
                 </td>
@@ -110,4 +110,24 @@
     </div>
   </div>
 
+  <div class="modal inmodal" id="containerDestroy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content animated bounceInRight">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h5 class="modal-title">Container Delete</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            Are you sure for deleting container
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-white" ng-click="destroyContainer(container.id)">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
