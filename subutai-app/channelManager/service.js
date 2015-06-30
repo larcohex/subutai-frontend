@@ -10,28 +10,23 @@ angular.module('subutai.channel-manager.service', [])
 channelManagerService.$inject = ['$http'];
 
 function channelManagerService($http) {
-    var getTemplatesURL = 'subutai-app/registry/dummy-api/templates.json';
-
-    var getFileContentForTemplatesURL = ['subutai-app/registry/dummy-api/fileContent.json', 'subutai-app/registry/dummy-api/fileContent1.json'];
-    var inx = 1;
-
-    var getTemplatesDiffFilesURL = 'subutai-app/registry/dummy-api/templatesDiffFiles.json';
+    var getTokensURL = 'subutai-app/channelManager/dummy-api/tokens.json';
 
     return {
-        getTemplates: getTemplates,
-        getFileContents: getFileContents,
-        getTemplatesDiffFiles: getTemplatesDiffFiles
+        getTokens: getTokens,
+        addToken: addToken,
+        removeToken: removeToken
     };
 
-    function getTemplates() {
-        return $http.get(getTemplatesURL);
+    function getTokens() {
+        return $http.get(getTokensURL);
     }
 
-    function getFileContents(templateA, templateB, filePath) {
-        return $http.get(getFileContentForTemplatesURL[inx++ % getFileContentForTemplatesURL.length]);
+    function addToken(token) {
+        return $http.post('saveNewToken', token);
     }
 
-    function getTemplatesDiffFiles(templateA, templateB) {
-        return $http.get(getTemplatesDiffFilesURL);
+    function removeToken(token) {
+        return $http.delete('removeToken', token);
     }
 }
