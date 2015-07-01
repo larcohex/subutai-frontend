@@ -11,7 +11,10 @@
         <ul ng-repeat="env in metricsCtrl.environments">
             <li ng-repeat="lxc in env.lxcs">{{lxc.id}}</li>
         </ul>
-        <select ng-change="metricsCtrl.testFn()" ng-model="metricsCtrl.test" ng-options="env.name for env in metricsCtrl.environments"></select>
+        <select
+                ng-change="metricsCtrl.buildEnvChart()"
+                ng-model="metricsCtrl.test"
+                ng-options="env.name for env in metricsCtrl.environments"></select>
     </div>
     <div id="content" class="metricsWrapper">
         <div class="row wrapper border-bottom white-bg page-heading">
