@@ -1,0 +1,26 @@
+<div class="ibox-title">
+</div>
+<table class="table table-bordered ibox-content">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Date</th>
+    <th>Status</th>
+    <th>Container</th>
+    <th>SSH Key</th>
+    <th>Destroy</th>
+    <th>Refresh Info</th>
+    <th>Remove</th>
+  </tr>
+  <tr ng-repeat = "environment in environments">
+    <td>{{environment.id}}</td>
+    <td>{{environment.name}}</td>
+    <td>{{environment.date}}</td>
+    <td>{{environment.status}}</td>
+    <td><a class="btn btn-outline btn-default btn-sm" ng-click="addPanel('envContainers')">Containers</a></td>
+    <td><a class="btn btn-outline btn-default btn-sm" ng-click="addPanel('envSshKey')">SSH Key</a></td>
+    <td><a class="btn btn-outline btn-danger btn-sm"  ng-click="destroyEnvironment()">Destroy</a></td>
+    <td><a class="btn btn-outline btn-default btn-sm" ng-click="getEnvironments()">Refresh Info</a></td>
+    <td><a class="btn btn-outline btn-danger btn-sm" ng-click="removeEnvironment()">Remove</a></td>
+  </tr>
+</table>

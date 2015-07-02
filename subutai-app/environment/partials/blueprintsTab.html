@@ -1,0 +1,27 @@
+<div class="ibox-title">
+  <div class="ibox-tools">
+    <button type="button" class="btn btn-primary" ng-click="addPanel('createBlueprint')">Create new blueprint</button>
+  </div>
+</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Resource hosts</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat = "blueprint in blueprints">
+    <td class="project-title">
+      <a href="">{{blueprint.name}}</a>
+    </td>
+    <td class="project-completion">{{blueprint.nodes}}</td>
+    <td class="project-actions">
+      <a class="btn btn-white btn-sm" type="button" ng-click="deleteBlueprint()"><i class="fa fa-folder"></i> Delete </a>
+      <a class="btn btn-white btn-sm" type="button" ng-click="addPanel('buildBlueprint')"><i class="fa fa-pencil"></i> Build </a>
+      <a class="btn btn-white btn-sm" type="button" ng-click="growBLueprint()"><i class="fa fa-pencil"></i> Grow </a>
+    </td>
+  </tr>
+  </tbody>
+</table>

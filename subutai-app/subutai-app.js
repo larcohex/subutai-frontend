@@ -8,7 +8,8 @@ var app = angular.module("subutai-app", [
     'ui.tree',
     'localytics.directives',
     'datatables',
-    'jsTree.directive'
+    'jsTree.directive',
+    'oitozero.ngSweetAlert'
     //'app.notifyGrowl'
 ])
     .config(routesConf)
