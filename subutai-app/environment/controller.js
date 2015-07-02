@@ -18,7 +18,10 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
     $scope.addSshKey = addSshKey;
     $scope.removeSshKey = removeSshKey;
     $scope.envChanged = envChanged;
+    $scope.contChanged = contChanged;
     $scope.getContainers = getContainers;
+    $scope.getEnvQuota = getEnvQuota;
+    $scope.updateQuota = updateQuota;
 
     $scope.addPanel = addPanel;
     $scope.closePanel = closePanel;
@@ -26,18 +29,56 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
     $scope.blueprints = [];
     $scope.environments = [];
     $scope.containers = [];
+    $scope.envQuota = {};
 
     getBlueprints();
     getEnvironments();
+
+    function contChanged(cont) {
+        console.log(cont);
+        getEnvQuota(cont);
+    }
 
     function envChanged() {
         console.log(this.env.name);
         getContainers(this.env.name);
     }
 
+    function updateQuota() {
+        console.log("update quota");
+        environmentService.updateQuota().success(function (data) {
+
+        }).error(function () {
+
+        })
+    }
+
+    function getEnvQuota(envName) {
+        console.log(envName);
+        environmentService.getEnvQuota(envName).success(function (data) {
+            if (envName == 'Hadoop 1') {
+                $scope.envQuota = data[0];
+            }
+            else if (envName == 'Hadoop 2') {
+                $scope.envQuota = data[1];
+            }
+            else if (envName == 'Cassandra 3') {
+                $scope.envQuota = data[2];
+            }
+            else if (envName == 'Spark 3') {
+                $scope.envQuota = data[3];
+            }
+            else if (envName == 'Spark 2') {
+                $scope.envQuota = data[4];
+            }
+        }).error(function () {
+
+        });
+    }
+
     function getContainers(envName) {
         environmentService.getContainers(envName).success(function (data) {
-           $scope.containers = data;
+            $scope.containers=data;
         }).error(function () {
 
         });

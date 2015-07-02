@@ -6,11 +6,6 @@
   },
   {
     "name": "Hadoop 2",
-    "status": "running",
-    "color": "{'color':'#6666FF'}"
-  },
-  {
-    "name": "Hadoop 2",
     "status": "loading",
     "color": "{'color':'#6666FF'}"
   }

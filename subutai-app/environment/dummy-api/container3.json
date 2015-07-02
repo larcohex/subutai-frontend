@@ -8,10 +8,5 @@
     "name": "Spark 2",
     "status": "running",
     "color": "{'color':'#00CC99'}"
-  },
-  {
-    "name": "Spark 1",
-    "status": "loading",
-    "color": "{'color':'#00CC99'}"
   }
 ]
