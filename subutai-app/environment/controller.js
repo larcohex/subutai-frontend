@@ -3,12 +3,12 @@
 angular.module('subutai.environment.controller', [])
     .controller('EnvironmentViewCtrl', EnvironmentViewCtrl);
 
-EnvironmentViewCtrl.$inject = ['$scope', 'environmentService'];
+EnvironmentViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert'];
 
-function EnvironmentViewCtrl($scope, environmentService) {
+function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
     $scope.getBlueprints = getBlueprints;
     $scope.getEnvironments = getEnvironments;
-    $scope.removeEnvironments = removeEnvironments;
+    $scope.removeEnvironment = removeEnvironment;
     $scope.destroyEnvironment = destroyEnvironment;
     $scope.deleteBlueprint = deleteBlueprint;
     $scope.buildBlueprint = buildBlueprint;
@@ -17,16 +17,31 @@ function EnvironmentViewCtrl($scope, environmentService) {
     $scope.growBlueprint = growBlueprint;
     $scope.addSshKey = addSshKey;
     $scope.removeSshKey = removeSshKey;
-
+    $scope.envChanged = envChanged;
+    $scope.getContainers = getContainers;
 
     $scope.addPanel = addPanel;
     $scope.closePanel = closePanel;
 
     $scope.blueprints = [];
     $scope.environments = [];
+    $scope.containers = [];
 
     getBlueprints();
     getEnvironments();
+
+    function envChanged() {
+        console.log(this.env.name);
+        getContainers(this.env.name);
+    }
+
+    function getContainers(envName) {
+        environmentService.getContainers(envName).success(function (data) {
+           $scope.containers = data;
+        }).error(function () {
+
+        });
+    }
 
     function getBlueprints() {
         environmentService.getBlueprints().success(function (data) {
@@ -45,11 +60,28 @@ function EnvironmentViewCtrl($scope, environmentService) {
     }
 
     function destroyEnvironment() {
-        environmentService.destroyEnvironment().success(function (data) {
+        SweetAlert.swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this Environment!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, destroy it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false },
+            function (isConfirm) {
+                if (isConfirm) {
+                    SweetAlert.swal("Destroyed!", "Your environment has been destroyed.", "success");
+                    environmentService.destroyEnvironment().success(function (data) {
 
-        }).error(function () {
+                    }).error(function () {
 
-        });
+                    });
+                } else {
+                    SweetAlert.swal("Cancelled", "Your environment is safe :)", "error");
+                }
+            });
     }
 
     function addBlueprintNode() {
@@ -60,20 +92,54 @@ function EnvironmentViewCtrl($scope, environmentService) {
         });
     }
 
-    function removeEnvironments(){
-        environmentService.removeEnvironments().success(function () {
+    function removeEnvironment(){
+        SweetAlert.swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this Environment!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, remove it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false },
+            function (isConfirm) {
+                if (isConfirm) {
+                    SweetAlert.swal("Removed!", "Your environment has been removed.", "success");
+                    environmentService.removeEnvironments().success(function () {
 
-        }).error(function () {
+                    }).error(function () {
 
-        })
+                    })
+                } else {
+                    SweetAlert.swal("Cancelled", "Your environment is safe :)", "error");
+                }
+            });
     }
 
     function deleteBlueprint(){
-        environmentService.deleteBlueprint().success(function () {
+        SweetAlert.swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this blueprint!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false },
+            function (isConfirm) {
+                if (isConfirm) {
+                    SweetAlert.swal("Deleted!", "Your blueprint has been deleted.", "success");
+                    environmentService.deleteBlueprint().success(function () {
 
-        }).error(function () {
+                    }).error(function () {
 
-        })
+                    })
+                } else {
+                    SweetAlert.swal("Cancelled", "Your blueprint is safe :)", "error");
+                }
+            });
     }
 
     function buildBlueprint(){

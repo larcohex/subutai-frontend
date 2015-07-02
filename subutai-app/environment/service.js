@@ -9,6 +9,7 @@ environmentService.$inject = ['$http'];
 function environmentService($http) {
     var getBlueprintURL = 'subutai-app/environment/dummy-api/blueprints.json';
     var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
+    var getContainersURL = 'subutai-app/environment/dummy-api/';
 
     var environmentService = {
         getBlueprints: getBlueprints,
@@ -21,12 +22,19 @@ function environmentService($http) {
         createBlueprint : createBlueprint,
         growBlueprint : growBlueprint,
         addSshKey : addSshKey,
-        removeSshKey : removeSshKey
+        removeSshKey : removeSshKey,
+        getContainers: getContainers
     };
 
     return environmentService;
 
     //// Implementation
+
+    function getContainers(envName){
+        if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
+        else if (envName == 'Environment2') return $http.get(getContainersURL+'container2.json');
+        else if (envName == 'Environment3') return $http.get(getContainersURL+'container3.json');
+    }
 
     function getEnvironments() {
         return $http.get(getEnvURL);

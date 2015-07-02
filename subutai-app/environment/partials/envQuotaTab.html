@@ -1,0 +1,16 @@
+<div class="ibox-title">
+  <div class="col-md-4">
+    <select class="form-control m-b" id="resourceHosts"
+            ng-options="e.name for e in environments" ng-model="env" ng-change="envChanged(env)">
+    </select>
+    <div ng-if="env" class="col-md-12">
+      <br>
+      <div ng-repeat="container in containers">
+        {{container.name}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+
+  </div>
+</div>
