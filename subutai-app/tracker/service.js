@@ -4,7 +4,17 @@
 'use strict';
 
 angular.module('subutai.tracker.service', [])
-    .factory('trackerSrv', trackerSrv);
+    .factory('trackerSrv', trackerSrv)
+    .filter('dateRange', function(){
+        return function(input, startDate, endDate) {
+            angular.forEach(input, function(obj){
+                console.log(startDate);
+                if(obj.received.getTime() >= startDate.getTime() && obj.received.getTime() <= endDate.getTime())   {
+                    return obj;
+                }
+            });
+        };
+    });
 
 
 trackerSrv.$inject = ['$http'];

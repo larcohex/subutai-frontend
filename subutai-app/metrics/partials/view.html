@@ -7,11 +7,14 @@
                      tree-events="activate_node:selectedNode"></js-tree>
         </div>
         <hr/>
-        <p>
-            <h3>Show chart data on check</h3>
-            <input type="checkbox" ng-model="checked" ng-init="checked=false" id="environment"/>
-            <label for="environment">Some environment</label>
-        </p>
+        <h3>Show the whole environment chart</h3>
+        <ul ng-repeat="env in metricsCtrl.environments">
+            <li ng-repeat="lxc in env.lxcs">{{lxc.id}}</li>
+        </ul>
+        <select
+                ng-change="metricsCtrl.buildEnvChart()"
+                ng-model="metricsCtrl.test"
+                ng-options="env.name for env in metricsCtrl.environments"></select>
     </div>
     <div id="content" class="metricsWrapper">
         <div class="row wrapper border-bottom white-bg page-heading">
@@ -39,21 +42,18 @@
                     <div class="tab-pane active" id="cpu">
                         <canvas linechart options="metricsCtrl.chartOptions"
                                           data="metricsCtrl.cpuData"
-                                          id="cpuCanvas"
-                                          ng-if="checked"></canvas>
+                                          id="cpuCanvas"></canvas>
                     </div>
 
                     <div class="tab-pane" id="ram">
                         <canvas linechart options="metricsCtrl.chartOptions"
                                           data="metricsCtrl.ramData"
-                                          id="ramCanvas"
-                                          ng-if="checked"></canvas>
+                                          id="ramCanvas"></canvas>
                     </div>
                     <div class="tab-pane" id="dataset">
                         <canvas linechart options="metricsCtrl.chartOptions"
                                           data="metricsCtrl.datasetData"
-                                          id="datasetCanvas"
-                                          ng-if="checked"></canvas>
+                                          id="datasetCanvas"></canvas>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,6 @@
             e.preventDefault();
             $(this).tab('show');
         });
-
     });
 
 </script>
