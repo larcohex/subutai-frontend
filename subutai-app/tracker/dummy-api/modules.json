@@ -2,15 +2,15 @@
   {
     "name": "module 1",
     "operations": [{
-      "date": "02/06/2015",
+      "date": 1437004800000,
       "name": "operation 1 (module 1)",
       "status": "success",
       "logs": [{
-          "date": "2015-02-02 12.30",
+          "date": "2015-07-16 12.30",
           "log": "module1 operation 1 log"
         },
         {
-          "date": "2015-02-02 12.31",
+          "date": "2015-07-16 12.31",
           "log": "module1 operation 1 log"
         }]
     }]
@@ -19,15 +19,15 @@
   {
     "name": "module 2",
     "operations": [{
-      "date": "02/06/2015",
+      "date": 1437004800000,
       "name": "operation 1 (module 2)",
       "status": "success",
       "logs": [{
-        "date": "2015-02-02 12.30",
+        "date": "2015-07-16 12.30",
         "log": "module2 operation 1 log"
       },
         {
-          "date": "2015-02-02 12.31",
+          "date": "2015-07-16 12.31",
           "log": "module2 operation 1 log"
         }]
     }]

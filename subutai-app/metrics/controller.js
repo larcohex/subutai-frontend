@@ -35,6 +35,7 @@ function MetricsCtrl(metricsSrv, $scope) {
     vm.checkNode = checkNode;
     vm.buildChart = buildChart;
     vm.buildEnvChart = buildEnvChart;
+    vm.reset = reset;
 
     metricsSrv.getChartData().success(function(data) {
         vm.charts = data;
@@ -256,9 +257,14 @@ function MetricsCtrl(metricsSrv, $scope) {
     }
     function buildEnvChart() {
         buildChart(parseEnvJson(vm.environments), chartOptions);
+        return 0;
     }
-
+    function reset() {
+        $scope.envDropdown = '';
+        $scope.form.$setPristine(true); //setPristine not working, but not showing errors as well
+    }
     $scope.selectedNode = function(e,data) {
+        reset();
         if(data.node.parent === "#") {
             for(var i = 0; i < vm.charts.length; i++) {
                 buildChart(parseJsonData(vm.charts), chartOptions);

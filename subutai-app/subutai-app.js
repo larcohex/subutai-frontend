@@ -103,7 +103,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                             files: [
                                 'subutai-app/tracker/tracker.js',
                                 'subutai-app/tracker/controller.js',
-                                'subutai-app/tracker/service.js'
+                                'subutai-app/tracker/service.js',
+                                'subutai-app/tracker/filter.js'
                             ]
                         }
                     ]);

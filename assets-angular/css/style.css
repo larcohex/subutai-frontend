@@ -1522,12 +1522,12 @@ table.dataTable thead .sorting_asc:after {
     font-family: fontawesome;
 }
 table.dataTable thead .sorting_desc:after {
-    content: "\f0dd";
+    content: "";
     float: right;
     font-family: fontawesome;
 }
 table.dataTable thead .sorting:after {
-    content: "\f0dc";
+    content: "";
     float: right;
     font-family: fontawesome;
     color: rgba(50, 50, 50, 0.5);
@@ -2288,7 +2288,7 @@ label.error {
     width: 500px;
     height: 300px;
 }
-.ngH eaderCell {
+.ngHeaderCell {
     border-right: none;
     border-bottom: 1px solid #e7eaec;
 }
@@ -5470,8 +5470,8 @@ del {
 }
 @-webkit-keyframes sk-innerCircle {
     0% {
-        -webkit-transform: rotate(0);
-        transform: rotate(0);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
         -webkit-transform: rotate(360deg);
@@ -5480,8 +5480,8 @@ del {
 }
 @keyframes sk-innerCircle {
     0% {
-        -webkit-transform: rotate(0);
-        transform: rotate(0);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
         -webkit-transform: rotate(360deg);
