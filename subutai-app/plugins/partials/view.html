@@ -1,6 +1,16 @@
 <div id="pluginsContainer" ng-controller="PluginsCtrl as pluginsCtrl">
-    Gotta be a table here (will do it tomorrow)
-    <ul ng-repeat="plugin in pluginsCtrl.plugins">
-        <li>{{plugin.name}}</li>
-    </ul>
+    <table>
+        <thead>
+        <tr>
+            <th>Plugin</th>
+            <th>Available operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="plugin in pluginsCtrl.plugins">
+            <td>{{plugin.name}}</td>
+            <td><button ng-click="plugin.action=='Install'?plugin.action='Remove':plugin.action='Install'">{{plugin.action}}</button></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
