@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('subutai.tracker.filter', [])
-    .filter('dateRange', dateRange);
+    .filter('dateRange', dateRange)
+    .filter('toStringFilter', toStringFilter);
 
 function dateRange() {
     return function(input, startDate, endDate) {
@@ -13,6 +14,12 @@ function dateRange() {
                 return obj;
             }
         });
-        return input;
     };
+}
+
+function toStringFilter() {
+    return function(input) {
+        var date = new Date(input);
+        return date.toDateString();
+    }
 }

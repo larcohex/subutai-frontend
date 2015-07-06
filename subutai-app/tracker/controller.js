@@ -10,8 +10,8 @@ angular.module('subutai.tracker.controller', [])
 TrackerCtrl.$inject = ['trackerSrv', '$scope'];
 function TrackerCtrl(trackerSrv, $scope) {
 
-    $scope.startDate = new Date("2014-01-01");
-    $scope.endDate = new Date("2016-01-01");
+    $scope.startDate = new Date("2015-01-01");
+    $scope.endDate = new Date("2015-12-31");
 
     var vm = this;
     vm.loadOperations = loadOperations;
