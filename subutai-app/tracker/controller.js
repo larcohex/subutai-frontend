@@ -16,6 +16,7 @@ function TrackerCtrl(trackerSrv, $scope) {
     var vm = this;
     vm.loadOperations = loadOperations;
     vm.viewLogs = viewLogs;
+    vm.initDataTable = initDataTable;
 
     trackerSrv.getModules().success(function (data) {
         vm.modules = data;
@@ -29,5 +30,8 @@ function TrackerCtrl(trackerSrv, $scope) {
                 $('#logsContainer').append('<p>' + vm.operations[i].logs[j].date + ' ---> ' + vm.operations[i].logs[j].log + '</p>');
             }
         }
+    }
+    function initDataTable() {
+        $('#operationsTable').DataTable();
     }
 }

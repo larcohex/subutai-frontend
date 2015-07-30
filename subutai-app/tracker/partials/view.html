@@ -92,7 +92,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="operation in trackerCtrl.operations | dateRange: startDate : endDate">
+                        <tr ng-repeat="operation in trackerCtrl.operations | dateRange: startDate : endDate" repeat-done="initDataTable">
                             <td>{{operation.date | toStringFilter}}</td>
                             <td>{{operation.name}}</td>
                             <td>{{operation.status}}</td>
@@ -103,35 +103,38 @@
                         </tr>
                         </tbody>
                     </table>
-
-                    <div class="modal fade" id="logsModal">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Logs will be listed here</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="logsContainer"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
                 </div>
             </div>
 
         </div>
-
-        <!--<div class="col-md-12" id="logsContainer"></div>-->
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('#operationsTable').DataTable();
-    });
+<div class="modal fade" id="logsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Chosen module logs</h4>
+            </div>
+            <div class="modal-body">
+                <div id="logsContainer" class="mCustomScrollbar" data-mcs-theme="dark"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    (function($){
+        $(window).load(function(){
+            $("#logsContainer").mCustomScrollbar({
+                axis:"y",
+                theme:"dark",
+                advanced:{autoExpandHorizontalScroll:true}
+            });
+        });
+    })(jQuery);
 </script>

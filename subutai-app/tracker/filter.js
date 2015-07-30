@@ -9,11 +9,14 @@ angular.module('subutai.tracker.filter', [])
 
 function dateRange() {
     return function(input, startDate, endDate) {
+        var output = [];
         angular.forEach(input, function(obj){
             if(obj.date >= startDate.getTime() && obj.date <= endDate.getTime())   {
-                return obj;
+                output.push(obj);
+                //return obj;
             }
         });
+        return output;
     };
 }
 

@@ -124,6 +124,13 @@ pre {
   padding: 10px 5px;
   margin: 10px 0;
   color: lightgrey;
+  min-height: 200px;
+  overflow: auto;
+  overflow-y: scroll;
+  max-height: 200px;
+  height: auto;
+  display: block;
+  overflow-x: hidden;
 }
 
 #resizable-pane {
@@ -649,4 +656,15 @@ input[type='date'] {
 
 .modal-footer .btn+.btn {
   margin-bottom: 5px;
+}
+#sidebar .jstree-node, .jstree-children, .jstree-container-ul {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+}
+.scrollableDiv {
+  width: 100%;
+  min-height: 300px;
+  overflow-y: auto;
+  padding: 20px 0;
 }
