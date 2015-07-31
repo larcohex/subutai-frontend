@@ -13,7 +13,6 @@ function dateRange() {
         angular.forEach(input, function(obj){
             if(obj.date >= startDate.getTime() && obj.date <= endDate.getTime())   {
                 output.push(obj);
-                //return obj;
             }
         });
         return output;

@@ -37,17 +37,28 @@
             <table datatable="" class="table table-striped table-bordered table-hover" id="pluginsTable">
                 <thead>
                 <tr>
-                    <th>Plugin</th>
-                    <th>Available operations</th>
+                    <th>Name</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr ng-repeat="plugin in pluginsCtrl.plugins">
-                    <td>{{plugin.name}}</td>
-                    <td><button class="btn btn-primary"
-                            ng-click="plugin.action=='Install'?plugin.action='Remove':plugin.action='Install'">{{plugin.action}}</button></td>
-                </tr>
-                </tbody>
+
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<th>Plugin</th>-->
+                    <!--<th>Available operations</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--&lt;!&ndash;<tr ng-repeat="plugin in pluginsCtrl.plugins" repeat-done="initDataTable">&ndash;&gt;-->
+
+                <!--<tr>-->
+                    <!--<td></td>-->
+                    <!--<td></td>-->
+                    <!--&lt;!&ndash;<td>{{plugin.name}}</td>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<td><button class="btn btn-primary"&ndash;&gt;-->
+                            <!--ng-click="plugin.action=='Install'?plugin.action='Remove':plugin.action='Install'">{{plugin.action}}</button></td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
             </table>
 
         </div>
@@ -56,6 +67,28 @@
 
 <script>
     $(document).ready(function () {
-        $('#pluginsTable').DataTable();
-    });
+        $('#pluginsTable').DataTable({
+            "ajax": "subutai-app/plugins/dummy-api/plugins.json",
+            "columns": [
+                { "data": "name" },
+                {
+                    "className":      'plugin-action btn btn-primary',
+                    "orderable":      false,
+                    "data":           null,
+                    "defaultContent": 'Remove'
+                }
+            ]
+        });
+        var toggleTarget = $('#pluginsTable tbody td.plugin-action');
+        toggleTarget.on('click', function () {
+//            console.log();
+//            $(this).innerHTML = 'lol';
+            if($(this).context.innerHTML = 'Remove') {
+                $(this).context.innerHTML = 'Install';
+            } else {
+                $(this).context.innerHTML = 'Remove'
+            }
+//            $(this).context.innerHTML = 'Remove' ? $(this).context.innerHTML = 'Install' : $(this).context.innerHTML = 'Remove';
+        });
+    })
 </script>
