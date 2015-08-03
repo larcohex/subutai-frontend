@@ -42,23 +42,6 @@
                 </tr>
                 </thead>
 
-                <!--<thead>-->
-                <!--<tr>-->
-                    <!--<th>Plugin</th>-->
-                    <!--<th>Available operations</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tbody>-->
-                <!--&lt;!&ndash;<tr ng-repeat="plugin in pluginsCtrl.plugins" repeat-done="initDataTable">&ndash;&gt;-->
-
-                <!--<tr>-->
-                    <!--<td></td>-->
-                    <!--<td></td>-->
-                    <!--&lt;!&ndash;<td>{{plugin.name}}</td>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<td><button class="btn btn-primary"&ndash;&gt;-->
-                            <!--ng-click="plugin.action=='Install'?plugin.action='Remove':plugin.action='Install'">{{plugin.action}}</button></td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
             </table>
 
         </div>
@@ -68,27 +51,26 @@
 <script>
     $(document).ready(function () {
         $('#pluginsTable').DataTable({
-            "ajax": "subutai-app/plugins/dummy-api/plugins.json",
-            "columns": [
-                { "data": "name" },
+//            responsive: true,
+            ajax: "subutai-app/plugins/dummy-api/plugins.json",
+            columns: [
+                { data: "name" },
                 {
-                    "className":      'plugin-action btn btn-primary',
-                    "orderable":      false,
-                    "data":           null,
-                    "defaultContent": 'Remove'
+                    className: '',
+                    orderable:      false,
+                    data:           null,
+                    defaultContent: '<button class="plugin-action btn btn-primary">Remove</button>'
                 }
             ]
         });
-        var toggleTarget = $('#pluginsTable tbody td.plugin-action');
-        toggleTarget.on('click', function () {
-//            console.log();
-//            $(this).innerHTML = 'lol';
-            if($(this).context.innerHTML = 'Remove') {
-                $(this).context.innerHTML = 'Install';
-            } else {
-                $(this).context.innerHTML = 'Remove'
+        $('th').removeClass('plugin-action btn btn-primary');
+        $('#pluginsTable tbody').on('click', 'button.plugin-action', function () {
+            if($(this)[0].innerHTML == 'Remove') {
+                $(this)[0].innerHTML = $(this)[0].innerText = $(this).context.innerHTML = $(this).context.innerText = 'Install';
+            } else
+            if($(this)[0].innerHTML == 'Install') {
+                $(this)[0].innerHTML = $(this)[0].innerText = $(this).context.innerHTML = $(this).context.innerText = 'Remove';
             }
-//            $(this).context.innerHTML = 'Remove' ? $(this).context.innerHTML = 'Install' : $(this).context.innerHTML = 'Remove';
         });
     })
 </script>
