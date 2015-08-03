@@ -25,62 +25,10 @@
       "logs": [{
         "date": "2015-07-16 12.30",
         "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
+      }, {
+        "date": "2015-07-16 12.31",
         "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },{
-        "date": "2015-07-16 12.30",
-        "log": "module2 operation 1 log"
-      },
-        {
-          "date": "2015-07-16 12.31",
-          "log": "module2 operation 1 log"
-        }]
+      }]
     }]
   }
 ]

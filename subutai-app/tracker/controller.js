@@ -32,6 +32,8 @@ function TrackerCtrl(trackerSrv, $scope) {
         }
     }
     function initDataTable() {
-        $('#operationsTable').DataTable();
+        $('#operationsTable').DataTable({
+            responsive: true
+        });
     }
 }
