@@ -33,7 +33,27 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         })
         .state("console", {
             url: "/console",
-            templateUrl: "subutai-app/console/partials/view.html"
+            templateUrl: "subutai-app/console/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.console',
+                            files: [
+                                'subutai-app/console/console.js',
+                                'subutai-app/console/controller.js',
+                                'subutai-app/console/service.js'
+                            ]
+                        },
+                        {
+                            name: 'vtortola.ng-terminal',
+                            files: [
+                                'assets-angular/js/plugins/vtortola.ng-terminal.js',
+                            ]
+                        }
+                    ]);
+                }]
+            }
         })
         .state("identity", {
             url: "/identity",
