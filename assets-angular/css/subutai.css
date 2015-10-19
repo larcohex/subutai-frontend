@@ -45,3 +45,7 @@
 }
 
 .animated { visibility: visible !important; }
+
+.nav-tabs {
+	margin-bottom: 20px;
+}

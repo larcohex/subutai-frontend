@@ -5,28 +5,17 @@ angular.module('subutai.identity.controller', [])
     .controller('DataReloadWithPromiseCtrl', DataReloadWithPromiseCtrl);;
 
 IdentityCtrl.$inject = ['identitySrv'];
-DataReloadWithPromiseCtrl.$inject = ['DTOptionsBuilder', 'DTColumnBuilder', '$resource'];
+DataReloadWithPromiseCtrl.$inject = [
+	'identitySrv',
+	'$scope',
+	'$compile',
+	'$resource',
+	'DTOptionsBuilder',
+	'DTColumnBuilder'
+];
 
 function IdentityCtrl(identitySrv) {
     var vm = this;
-
-    vm.users = [{
-        "id": 860,
-        "firstName": "Superman",
-        "lastName": "Yoda"
-    }, {
-        "id": 870,
-        "firstName": "Foo",
-        "lastName": "Whateveryournameis"
-    }, {
-        "id": 590,
-        "firstName": "Toto",
-        "lastName": "Titi"
-    }, {
-        "id": 803,
-        "firstName": "Luke",
-        "lastName": "Kyle"
-    }];
 
     vm.addPane = addPane;
     vm.closePane = closePane;
@@ -35,10 +24,6 @@ function IdentityCtrl(identitySrv) {
     vm.isRole = false;
     vm.isToken = false;
 
-    identitySrv.getUsers().success(function (data) {
-        vm.users = data;
-    });
-
     identitySrv.getRoles().success(function (data) {
         vm.roles = data;
     });
@@ -46,7 +31,6 @@ function IdentityCtrl(identitySrv) {
     identitySrv.getTokens().success(function (data) {
         vm.tokens = data;
     });
-
 
     //// Implementation
 
@@ -102,23 +86,96 @@ function IdentityCtrl(identitySrv) {
 }
 
 
-function DataReloadWithPromiseCtrl(DTOptionsBuilder, DTColumnBuilder, $resource) {
-    var vm = this;
-    vm.dtInstances = [];
-    vm.dtOptions = DTOptionsBuilder.fromSource('subutai-app/identity/dummy-api/data1.json')
-        .withDisplayLength(2)
-        .withPaginationType('full_numbers');
+/*function DataReloadWithPromiseCtrl(identitySrv, $scope, $compile, $resource, DTOptionsBuilder, DTColumnBuilder) {
+
+	var vm = this;
+    vm.message = '';
+    vm.edit = edit;
+    vm.delete = deleteRow;
+    vm.dtInstance = {};
+    vm.users = {};
+
+    vm.dtOptions = DTOptionsBuilder
+		.fromSource('subutai-app/identity/dummy-api/data1.json')
+        .withPaginationType('full_numbers')
+        .withOption('createdRow', createdRow);
+
     vm.dtColumns = [
         DTColumnBuilder.newColumn('id').withTitle('ID'),
         DTColumnBuilder.newColumn('firstName').withTitle('First name'),
-        DTColumnBuilder.newColumn('lastName').withTitle('Last name')
+        DTColumnBuilder.newColumn('lastName').withTitle('Last name'),
+        DTColumnBuilder.newColumn(null).withTitle('Actions').notSortable()
+            .renderWith(actionsHtml)
     ];
-    vm.dtInstance = {};
 
-
-    vm.dtInstanceCallback = dtInstanceCallback;
-
-    function dtInstanceCallback(dtInstance) {
-        vm.dtInstance = dtInstance;
+    function edit(users) {
+        vm.message = 'You are trying to edit the row: ' + JSON.stringify(users);
+        // Edit some data and call server to make changes...
+        // Then reload the data so that DT is refreshed
+        vm.dtInstance.reloadData();
     }
+
+    function deleteRow(users) {
+        vm.message = 'You are trying to remove the row: ' + JSON.stringify(users);
+        // Delete some data and call server to make changes...
+        // Then reload the data so that DT is refreshed
+        vm.dtInstance.reloadData();
+    }
+
+    function createdRow(row, data, dataIndex) {
+        // Recompiling so we can bind Angular directive to the DT
+        $compile(angular.element(row).contents())($scope);
+    }
+
+    function actionsHtml(data, type, full, meta) {
+        vm.users[data.id] = data;
+        return '<button class="btn btn-warning" ng-click="showCase.edit(showCase.users[' + data.id + '])">' +
+            '   <i class="fa fa-edit"></i>' +
+            '</button>&nbsp;' +
+            '<button class="btn btn-danger" ng-click="showCase.delete(showCase.users[' + data.id + '])" )"="">' +
+            '   <i class="fa fa-trash-o"></i>' +
+            '</button>';
+    }
+
+	vm.newPromise = newPromise;
+    vm.reloadData = reloadData;
+
+    function newPromise() {
+        return $resource('subutai-app/identity/dummy-api/data1.json').query().$promise;
+    }
+
+    function reloadData() {
+        var resetPaging = true;
+        vm.dtInstance.reloadData(dataTableCallback, resetPaging);
+    }
+
+    function dataTableCallback(json) {
+        console.log(json);
+    }
+
+}*/
+
+DataReloadWithPromiseCtrl.$inject = ['identitySrv', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$resource'];
+
+function DataReloadWithPromiseCtrl(identitySrv, DTOptionsBuilder, DTColumnDefBuilder, $resource) {
+	var vm = this;
+	vm.person2Add = {};
+
+	identitySrv.getUsers().success(function (data) {
+		vm.users = data;
+	});	
+
+	vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
+    vm.dtInstance = {};	
+	vm.dtColumnDefs = [
+		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(1),
+		DTColumnDefBuilder.newColumnDef(2),
+	];
+	vm.addPerson = addPerson;
+
+	function addPerson() {
+		vm.users.push(angular.copy(vm.person2Add));
+		//console.log(vm.users);
+	}
 }

@@ -3,13 +3,15 @@ var app = angular.module("subutai-app", [
     'ngResource',
     'oc.lazyLoad',
     'ui.bootstrap',
+	'ngAnimate',
     'mc.resizer',
     'pascalprecht.translate',
     'ui.tree',
     'localytics.directives',
     'datatables',
     'jsTree.directive',
-    'oitozero.ngSweetAlert'
+    'oitozero.ngSweetAlert',
+	'subutai.wol'
     //'app.notifyGrowl'
 ])
     .config(routesConf)

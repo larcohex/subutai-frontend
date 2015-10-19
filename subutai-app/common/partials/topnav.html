@@ -32,7 +32,7 @@
                     <ul role="menu" class="dropdown-menu">
                         <li><a ui-sref="identity">Identity Manager</a></li>
                         <li><a ui-sref="channel-manager">ChannelManager</a></li>
-                        <li><a href="">WOL</a></li>
+                        <li ng-controller="wolViewCtrl"><a ng-click="openWolModal()">WOL</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

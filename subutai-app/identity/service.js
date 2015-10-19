@@ -7,7 +7,7 @@ angular.module('subutai.identity.service', [])
 identitySrv.$inject = ['$http'];
 
 function identitySrv($http) {
-    var getUsersURL = 'subutai-app/identity/dummy-api/users.json';
+    var getUsersURL = 'subutai-app/identity/dummy-api/data1.json';
     var getRolesURL = 'subutai-app/identity/dummy-api/roles.json';
     var getTokensURL = 'subutai-app/identity/dummy-api/tokens.json';
 
