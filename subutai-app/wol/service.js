@@ -7,18 +7,18 @@ angular.module('subutai.wol.service', [])
 wolService.$inject = ['$http'];
 
 function wolService($http) {
-    //var getAllContainersURL = 'subutai-app/console/dummy-api/console.json';
+    var getAllContainersURL = 'subutai-app/plugins/dummy-api/plugins.json';
 
-    var consoleService = {
-        getTestComand: getTestComand,
+    var wolService = {
+        getTestComand: getTestComand
     };
 
-    return consoleService;
+    return wolService;
 
     // Implementation
 
     function getTestComand() {
-		console.log('done');
-        return 'done';
+		console.log('doneThere');
+        return 'doneHere';
     }
 }
