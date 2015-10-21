@@ -6,12 +6,10 @@
 angular.module('subutai.tracker.service', [])
     .factory('trackerSrv', trackerSrv);
 
-
-
 trackerSrv.$inject = ['$http'];
 
 function trackerSrv($http) {
-    var modulesURL = 'subutai-app/tracker/dummy-api/modules.json';
+    var modulesURL = 'http://172.16.131.205:8181/cxf/tracker/operations/sources';
     var trackerSrv = {
         getModules: getModules
     };
@@ -19,7 +17,7 @@ function trackerSrv($http) {
     return trackerSrv;
 
     function getModules() {
-        return $http.get(modulesURL);
+        return $http.get(modulesURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
     }
 
 }

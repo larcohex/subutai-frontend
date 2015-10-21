@@ -21,6 +21,7 @@ function TrackerCtrl(trackerSrv, $scope) {
     trackerSrv.getModules().success(function (data) {
         vm.modules = data;
     });
+
     function loadOperations() {
         vm.operations = vm.modulesDropdown.operations;
     }
