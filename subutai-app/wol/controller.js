@@ -1,13 +1,15 @@
 'use strict';
 
-angular.module('subutai.wol', [])
+angular.module('subutai.wol', ['subutai.wol.service'])
 	.controller('wolViewCtrl', wolViewCtrl)
 	.controller('wolModalCtrl', wolModalCtrl);
 
-wolViewCtrl.$inject = ['$scope', '$modal', '$log'];
+wolViewCtrl.$inject = ['wolService', '$scope', '$modal', '$log'];
 wolModalCtrl.$inject = ['$scope', '$modalInstance', 'items'];
 
-function wolViewCtrl($scope, $modal, $log) {
+function wolViewCtrl(wolService, $scope, $modal, $log) {
+
+	console.log(wolService.getTestComand());
 
 	$scope.items = ['item1', 'item2', 'item3'];
 
