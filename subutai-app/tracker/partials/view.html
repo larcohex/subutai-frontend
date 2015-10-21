@@ -41,7 +41,7 @@
 							Source
 							<select class="form-control m-b"
 								ng-change="trackerCtrl.loadOperations()"
-								ng-model="trackerCtrl.modulesDropdown">
+								ng-model="trackerCtrl.selectedModule">
 								<option ng-repeat="module in trackerCtrl.modules" value="{{ module }}">
 									{{ module }}
 								</option>
@@ -49,11 +49,11 @@
 						</div>
 						<div class="col-md-4">
 							From
-							<input type="date" ng-model="startDate" id="start" class="form-control m-b">
+							<input type="date" ng-model="trackerCtrl.startDate" ng-change="trackerCtrl.loadOperations()" id="start" class="form-control m-b">
 						</div>
 						<div class="col-md-4">
 							To
-							<input type="date" ng-model="endDate" id="end" class="form-control m-b">
+							<input type="date" ng-model="trackerCtrl.endDate" ng-change="trackerCtrl.loadOperations()" id="end" class="form-control m-b">
 						</div>
 					</form>
 				</div>
@@ -73,9 +73,11 @@
 							<i class="fa fa-wrench"></i>
 						</a>
 						<ul class="dropdown-menu dropdown-user">
-							<li><a href="#">Config option 1</a>
+							<li>
+								<a href="#">Config option 1</a>
 							</li>
-							<li><a href="#">Config option 2</a>
+							<li>
+								<a href="#">Config option 2</a>
 							</li>
 						</ul>
 						<a class="close-link">
@@ -94,14 +96,19 @@
 							</tr>
 						</thead>
 						<tbody>
-						<tr ng-repeat="operation in trackerCtrl.operations | dateRange: startDate : endDate" repeat-done="initDataTable">
-							<td>{{operation.date | toStringFilter}}</td>
-							<td>{{operation.name}}</td>
-							<td>{{operation.status}}</td>
-							<td><button class="btn btn-primary"
-									ng-click="trackerCtrl.viewLogs()"
+						<!--<tr ng-repeat="operation in trackerCtrl.operations | dateRange: trackerCtrl.startDate : trackerCtrl.endDate" repeat-done="initDataTable">-->
+						<tr ng-repeat="operation in trackerCtrl.operations" repeat-done="initDataTable">
+							<td>{{operation.createDate | toStringFilter}}</td>
+							<td>{{operation.description}}</td>
+							<td>{{operation.state}}</td>
+							<td>
+								<button class="btn btn-primary"
+									ng-click="trackerCtrl.viewLogs(operation.id)"
 									data-toggle="modal"
-									data-target="#logsModal">View logs</button></td>
+									data-target="#logsModal">
+									View logs
+								</button>
+							</td>
 						</tr>
 						</tbody>
 					</table>
@@ -110,26 +117,26 @@
 
 		</div>
 	</div>
+
+	<div class="modal fade" id="logsModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Chosen module logs</h4>
+				</div>
+				<div class="modal-body">
+					<div id="logsContainer" class="mCustomScrollbar" data-mcs-theme="dark">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->	
+
 </div>
-
-<div class="modal fade" id="logsModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Chosen module logs</h4>
-			</div>
-			<div class="modal-body">
-				<div id="logsContainer" class="mCustomScrollbar" data-mcs-theme="dark"></div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
 
 <!--Filter function template-->
 
