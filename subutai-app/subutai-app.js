@@ -152,6 +152,24 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                 }]
             }
         })
+        .state("core", {
+            url: "/core",
+            templateUrl: "subutai-app/core/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.core',
+                            files: [
+                                'subutai-app/core/core.js',
+                                'subutai-app/core/controller.js',
+                                'subutai-app/core/service.js'
+                            ]
+                        }
+                    ])
+                }]
+            }
+        })
         .state("environment", {
             url: "/environment",
             templateUrl: "subutai-app/environment/partials/view.html",

@@ -9,8 +9,6 @@ wolModalCtrl.$inject = ['$scope', '$modalInstance', 'items'];
 
 function wolViewCtrl(wolService, $scope, $modal, $log) {
 
-	console.log(wolService.getTestComand());
-
 	$scope.items = ['item1', 'item2', 'item3'];
 
 	$scope.animationsEnabled = true;

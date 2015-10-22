@@ -18,7 +18,6 @@ function wolService($http) {
     // Implementation
 
     function getTestComand() {
-		console.log('doneThere');
-        return 'doneHere';
+        return '';
     }
 }
