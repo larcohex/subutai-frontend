@@ -1,94 +1,106 @@
 'use strict';
 
 angular.module('subutai.environment.service', [])
-    .factory('environmentService', environmentService);
+	.factory('environmentService', environmentService);
 
 
 environmentService.$inject = ['$http'];
 
 function environmentService($http) {
-    var getBlueprintURL = 'subutai-app/environment/dummy-api/blueprints.json';
-    var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
-    var getContainersURL = 'subutai-app/environment/dummy-api/';
-    var getEnvQuotaURL = 'subutai-app/environment/dummy-api/envQuota.json';
+	var blueprintURL = 'http://172.16.131.205:8181/cxf/environments_ui/blueprint/';
+	var templatesURL = 'http://172.16.131.205:8181/cxf/registry_ui/templates/';
+	var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
+	var getContainersURL = 'subutai-app/environment/dummy-api/';
+	var getEnvQuotaURL = 'subutai-app/environment/dummy-api/envQuota.json';
 
-    var environmentService = {
-        getBlueprints: getBlueprints,
-        getEnvironments : getEnvironments,
-        removeEnvironments: removeEnvironments,
-        destroyEnvironment: destroyEnvironment,
-        deleteBlueprint : deleteBlueprint,
-        buildBlueprint : buildBlueprint,
-        addBlueprintNode: addBlueprintNode,
-        createBlueprint : createBlueprint,
-        growBlueprint : growBlueprint,
-        addSshKey : addSshKey,
-        removeSshKey : removeSshKey,
-        getContainers: getContainers,
-        getEnvQuota: getEnvQuota,
-        updateQuota: updateQuota
-    };
+	var environmentService = {
+		getBlueprints: getBlueprints,
+		getTemplates: getTemplates,
+		deleteBlueprint : deleteBlueprint,
+		
+		getEnvironments : getEnvironments,
+		removeEnvironments: removeEnvironments,
+		destroyEnvironment: destroyEnvironment,
+		buildBlueprint : buildBlueprint,
+		addBlueprintNode: addBlueprintNode,
+		createBlueprint : createBlueprint,
+		growBlueprint : growBlueprint,
+		addSshKey : addSshKey,
+		removeSshKey : removeSshKey,
+		getContainers: getContainers,
+		getEnvQuota: getEnvQuota,
+		updateQuota: updateQuota
+	};
 
-    return environmentService;
+	return environmentService;
 
-    //// Implementation
+	//// Implementation
 
-    function getContainers(envName){
-        if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
-        else if (envName == 'Environment2') return $http.get(getContainersURL+'container2.json');
-        else if (envName == 'Environment3') return $http.get(getContainersURL+'container3.json');
-    }
+	function getBlueprints() {
+		return $http.get(blueprintURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
 
-    function updateQuota() {
-        return $http.get();
-    }
+	function getTemplates() {
+		return $http.get(templatesURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
 
-    function getEnvironments() {
-        return $http.get(getEnvURL);
-    }
+	function createBlueprint(blueprint_json) {
+		var data = 'blueprint_json=' + blueprint_json;
+		return $http.post(
+			blueprintURL, 
+			data, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
 
-    function addBlueprintNode() {
-        return $http.get();
-    }
+	function deleteBlueprint(blueprintId) {
+		return $http.delete(blueprintURL + blueprintId);
+	}
 
-    function destroyEnvironment() {
-        return $http.post();
-    }
+	function getContainers(envName){
+		if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
+		else if (envName == 'Environment2') return $http.get(getContainersURL+'container2.json');
+		else if (envName == 'Environment3') return $http.get(getContainersURL+'container3.json');
+	}
 
-    function removeEnvironments() {
-        return $http.get();
-    }
+	function updateQuota() {
+		return $http.get();
+	}
 
-    function getBlueprints() {
-        return $http.get(getBlueprintURL );
-    }
+	function getEnvironments() {
+		return $http.get(getEnvURL);
+	}
 
-    function deleteBlueprint() {
-        return $http.delete();
-    }
+	function addBlueprintNode() {
+		return $http.get();
+	}
 
-    function buildBlueprint() {
-        return $http.post();
-    }
+	function destroyEnvironment() {
+		return $http.post();
+	}
 
-    function createBlueprint() {
-        return $http.post();
-    }
+	function removeEnvironments() {
+		return $http.get();
+	}
 
-    function growBlueprint() {
-        return $http.get();
-    }
+	function buildBlueprint() {
+		return $http.post();
+	}
 
-    function addSshKey() {
-        return $http.post();
-    }
+	function growBlueprint() {
+		return $http.get();
+	}
 
-    function removeSshKey() {
-        return $http.post();
-    }
+	function addSshKey() {
+		return $http.post();
+	}
 
-    function getEnvQuota() {
-        return $http.get(getEnvQuotaURL);
-    }
+	function removeSshKey() {
+		return $http.post();
+	}
+
+	function getEnvQuota() {
+		return $http.get(getEnvQuotaURL);
+	}
 
 }

@@ -4,26 +4,26 @@
 'use strict';
 
 angular.module('subutai.tracker.controller', [])
-    .controller('TrackerCtrl', TrackerCtrl);
+	.controller('TrackerCtrl', TrackerCtrl);
 
 
 TrackerCtrl.$inject = ['trackerSrv', '$scope'];
 function TrackerCtrl(trackerSrv, $scope) {
 
-    var vm = this;
-    vm.loadOperations = loadOperations;
-    vm.viewLogs = viewLogs;
-    vm.initDataTable = initDataTable;
+	var vm = this;
+	vm.loadOperations = loadOperations;
+	vm.viewLogs = viewLogs;
+	vm.initDataTable = initDataTable;
 
-    vm.startDate = new Date("2015-01-01");
-    vm.endDate = new Date("2015-12-31");
-    vm.logText;
+	vm.startDate = new Date("2015-01-01");
+	vm.endDate = new Date("2015-12-31");
+	vm.logText;
 
-    trackerSrv.getModules().success(function (data) {
-        vm.modules = data;
-    });
+	trackerSrv.getModules().success(function (data) {
+		vm.modules = data;
+	});
 
-    function loadOperations() {
+	function loadOperations() {
 
 		var startDateString = vm.startDate.getFullYear() + '-' 
 			+ vm.startDate.getMonthFormatted() + '-' 
@@ -36,7 +36,7 @@ function TrackerCtrl(trackerSrv, $scope) {
 			vm.operations = data;
 			console.log(vm.operations);
 		});
-    }
+	}
 
 	function viewLogs(id) {
 		$('#logsContainer').html('');
@@ -46,19 +46,19 @@ function TrackerCtrl(trackerSrv, $scope) {
 		});		
 	}
 
-    function initDataTable() {
-        $('#operationsTable').DataTable({
-            responsive: true
-        });
-    }
+	function initDataTable() {
+		$('#operationsTable').DataTable({
+			responsive: true
+		});
+	}
 }
 
 Date.prototype.getMonthFormatted = function() {
-    var month = this.getMonth() + 1;
-    return month < 10 ? '0' + month : '' + month;
+	var month = this.getMonth() + 1;
+	return month < 10 ? '0' + month : '' + month;
 }
 
 Date.prototype.getDateFormatted = function() {
-    var day = this.getDate();
-    return day < 10 ? '0' + day : '' + day;
+	var day = this.getDate();
+	return day < 10 ? '0' + day : '' + day;
 }

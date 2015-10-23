@@ -12,13 +12,17 @@
 		</tr>
 	</thead>
 	<tbody>
-	<tr ng-repeat = "blueprint in blueprints">
+	<tr ng-repeat = "(key, blueprint) in environmentViewCtrl.blueprints">
 		<td class="project-title">
 			<a href="">{{blueprint.name}}</a>
 		</td>
-		<td class="project-completion">{{blueprint.nodes}}</td>
+		<td class="project-completion">
+			{{blueprint.nodes}}
+		</td>
 		<td class="project-actions">
-			<a class="btn btn-white btn-sm" type="button" ng-click="deleteBlueprint()"><i class="fa fa-folder"></i> Delete </a>
+			<a class="btn btn-white btn-sm" type="button" ng-click="environmentViewCtrl.deleteBlueprint(blueprint.id, key)">
+				<i class="fa fa-folder"></i> Delete 
+			</a>
 			<a class="btn btn-white btn-sm" type="button" ng-click="addPanel('buildBlueprint')"><i class="fa fa-pencil"></i> Build </a>
 			<a class="btn btn-white btn-sm" type="button" ng-click="growBLueprint()"><i class="fa fa-pencil"></i> Grow </a>
 		</td>
