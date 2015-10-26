@@ -9,10 +9,16 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 
 	var vm = this;
 	vm.blueprints = {};
+	vm.peers = [];
+	vm.templates = [];
+
 	vm.blueprintFrom = {};
 	vm.blueprintFrom.currentNode = {};
-	vm.templates = [];
 	vm.nodeList = [];
+	vm.createEnviromentInfo = [];
+	vm.nodesToCreate = [];
+	vm.transportNodes = [];
+	vm.subnetCIDR;
 
 	vm.nodeStatus = 'Add to';
 
@@ -21,6 +27,11 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.addNewNode = addNewNode;
 	vm.setNodeData = setNodeData;
 	vm.deleteBlueprint = deleteBlueprint;
+	vm.addPanel = addPanel;
+	vm.showBlueprintCreateBlock = showBlueprintCreateBlock;
+	vm.placeNode = placeNode;
+	vm.removeNode = removeNode;
+	vm.buildBlueprint = buildBlueprint;
 
 	environmentService.getBlueprints().success(function (data) {
 		vm.blueprints = data;
@@ -30,12 +41,12 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		vm.templates = data;
 	});
 
-	$scope.getBlueprints = getBlueprints;
-	$scope.getEnvironments = getEnvironments;
+	environmentService.getPeers().success(function (data) {
+		vm.peers = data;
+	});	
+
 	$scope.removeEnvironment = removeEnvironment;
 	$scope.destroyEnvironment = destroyEnvironment;
-	$scope.buildBlueprint = buildBlueprint;
-	$scope.createBlueprint = createBlueprint;
 	$scope.addBlueprintNode = addBlueprintNode;
 	$scope.growBlueprint = growBlueprint;
 	$scope.addSshKey = addSshKey;
@@ -46,7 +57,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	$scope.getEnvQuota = getEnvQuota;
 	$scope.updateQuota = updateQuota;
 
-	$scope.addPanel = addPanel;
 	$scope.closePanel = closePanel;
 
 	function deleteBlueprint(blueprintId, key){
@@ -76,6 +86,55 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		);
 	}
 
+	function showBlueprintCreateBlock(key) {
+		vm.createEnviromentInfo = angular.copy(vm.blueprints[key].nodeGroups);
+		for(var i = 0; i < vm.blueprints[key].nodeGroups.length; i++) {
+			vm.transportNodes[i] = {};
+			vm.transportNodes[i].name = vm.blueprints[key].nodeGroups[i].name;
+			vm.transportNodes[i].numberOfContainers = vm.blueprints[key].nodeGroups[i].numberOfContainers;
+		}
+		vm.nodesToCreate = [];
+		delete vm.subnetCIDR;
+		addPanel('buildBlueprint');
+	}
+
+	function placeNode(node, nodeGroup, key) {
+		if(node.peer === undefined) return;
+		var foundedInArray = false;
+		for(var i = 0; i < vm.nodesToCreate.length; i++) {
+			if(vm.nodesToCreate[i].peer == node.peer && vm.nodesToCreate[i].name == node.name) {
+				vm.nodesToCreate[i].peer = node.peer;
+				vm.nodesToCreate[i].numberOfContainers = parseInt(vm.nodesToCreate[i].numberOfContainers) + parseInt(node.numberOfContainers);
+				foundedInArray = true;
+				break;
+			}
+		}
+
+		if(!foundedInArray) {
+			var copyNode = angular.copy(node);
+			copyNode.parentNode = key;
+			vm.nodesToCreate.push(copyNode);
+		}
+
+		nodeGroup.numberOfContainers = nodeGroup.numberOfContainers - node.numberOfContainers;
+		if(nodeGroup.numberOfContainers > 0) {
+			node.numberOfContainers = nodeGroup.numberOfContainers;
+		} else {
+			node.numberOfContainers = 0;
+			nodeGroup.numberOfContainers = 0;
+		}
+	}
+
+	function removeNode(key) {
+		var parentKey = vm.nodesToCreate[key].parentNode;
+		var numberOfContainers = parseInt(vm.createEnviromentInfo[parentKey].numberOfContainers) + parseInt(vm.nodesToCreate[key].numberOfContainers);
+		console.log(vm.nodesToCreate[key]);
+		console.log(vm.createEnviromentInfo[parentKey]);
+		console.log(numberOfContainers);
+		vm.createEnviromentInfo[parentKey].numberOfContainers = numberOfContainers;
+		vm.nodesToCreate.splice(key, 1);
+	}
+
 	function addBlueprint() {
 		var finalBlueprint = vm.blueprintFrom;
 		finalBlueprint.nodeGroups = vm.nodeList;
@@ -91,6 +150,16 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		vm.nodeList = [];
 		vm.blueprintFrom = {};
 	}
+
+	function buildBlueprint(){
+		console.log(vm.nodesToCreate);
+		console.log(vm.subnetCIDR);
+		/*environmentService.buildBlueprint().success(function () {
+
+		}).error(function () {
+
+		})*/
+	}	
 
 	function addNewNode() {
 		if(vm.nodeStatus == 'Add to') {
@@ -159,22 +228,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		});
 	}
 
-	function getBlueprints() {
-		environmentService.getBlueprints().success(function (data) {
-			$scope.blueprints = data;
-		}).error(function () {
-			$scope.status = "Could not get Blueprints";
-		});
-	}
-
-	function getEnvironments() {
-		environmentService.getEnvironments().success(function (data) {
-			$scope.environments = data;
-		}).error(function () {
-			$scope.status = "Could not get Environments";
-		});
-	}
-
 	function destroyEnvironment() {
 		SweetAlert.swal({
 			title: "Are you sure?",
@@ -231,22 +284,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 					SweetAlert.swal("Cancelled", "Your environment is safe :)", "error");
 				}
 			});
-	}
-
-	function buildBlueprint(){
-		environmentService.buildBlueprint().success(function () {
-
-		}).error(function () {
-
-		})
-	}
-
-	function createBlueprint(){
-		environmentService.createBlueprint().success(function () {
-
-		}).error(function () {
-
-		})
 	}
 
 	function growBlueprint(){

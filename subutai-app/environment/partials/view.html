@@ -156,21 +156,36 @@
 												<th>Peer</th>
 												<th></th>
 											</tr>
-											<tr>
-												<td>Cassandra node group</td>
+											<tr ng-repeat="(key, nodeGroups) in environmentViewCtrl.createEnviromentInfo">
+												<td>{{ nodeGroups.name }}</td>
 												<td>
-													<input type="range" id="myRange" value="90">
+													<input type="range" 
+													ng-show="nodeGroups.numberOfContainers > 0" 
+													min="1" 
+													max="{{ nodeGroups.numberOfContainers }}" 
+													ng-model="environmentViewCtrl.transportNodes[key].numberOfContainers">
+
+													<input type="range" 
+													ng-show="nodeGroups.numberOfContainers <= 0" 
+													min="0" max="0">
+
+													{{ environmentViewCtrl.transportNodes[key].numberOfContainers }}
 												</td>
 												<td>
-													<select class="form-control">
-														<option value="peer1">Peer on 172.16.131.204</option>
-														<option value="peer1">Peer on 172.16.131.203</option>
-														<option value="peer1">Peer on 172.16.131.202</option>
-														<option value="peer1">Peer on 172.16.131.200</option>
+													<select class="form-control" 
+													ng-model="environmentViewCtrl.transportNodes[key].peer">
+														<option 
+														ng-repeat="peer in environmentViewCtrl.peers" 
+														value="{{ peer }}">
+															{{ peer }}
+														</option>
 													</select>
 												</td>
 												<td>
-													<a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> Place </a>
+													<a href class="btn btn-white btn-sm" 
+													ng-click="environmentViewCtrl.placeNode(environmentViewCtrl.transportNodes[key], nodeGroups, key)">
+														<i class="fa fa-arrow-down"></i> Place
+													</a>
 												</td>
 											</tr>
 										</table>
@@ -182,19 +197,23 @@
 												<th>Peer</th>
 												<th></th>
 											</tr>
-											<tr>
-												<td>Cassandra node group</td>
-												<td>3</td>
-												<td>Peer on 172.16.131.204</td>
+											<tr ng-repeat="(key, nodeToCreate) in environmentViewCtrl.nodesToCreate">
+												<td>{{ nodeToCreate.name }}</td>
+												<td>{{ nodeToCreate.numberOfContainers }}</td>
+												<td>{{ nodeToCreate.peer }}</td>
 												<td>
-													<a href="" class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> Remove</a>
+													<a href class="btn btn-white btn-sm" ng-click="environmentViewCtrl.removeNode(key)">
+														<i class="fa fa-arrow-up"></i> Remove
+													</a>
 												</td>
 											</tr>
 										</table>
 
 										<div>
 											<label>Subnet CIDR</label>
-											<input placeholder="Enter Subnet CIDR" class="form-control">
+											<input placeholder="Enter Subnet CIDR" 
+											class="form-control" 
+											ng-model="environmentViewCtrl.subnetCIDR">
 										</div>
 
 									</div>
@@ -203,7 +222,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-white" ng-click="closePanel('buildBlueprint')">Close</button>
-							<button type="button" class="btn btn-primary" ng-click="buildBlueprint()">Build</button>
+							<button type="button" class="btn btn-primary" ng-click="environmentViewCtrl.buildBlueprint()">Build</button>
 						</div>
 					</div>
 

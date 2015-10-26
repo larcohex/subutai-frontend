@@ -7,8 +7,11 @@ angular.module('subutai.environment.service', [])
 environmentService.$inject = ['$http'];
 
 function environmentService($http) {
-	var blueprintURL = 'http://172.16.131.205:8181/cxf/environments_ui/blueprint/';
-	var templatesURL = 'http://172.16.131.205:8181/cxf/registry_ui/templates/';
+	var BASE_URL = 'http://172.16.131.205:8181/cxf/';
+	var blueprintURL = BASE_URL + 'environments_ui/blueprint/';
+	var templatesURL = BASE_URL + 'registry_ui/templates/';
+	var peersURL = BASE_URL + 'environments_ui/peers';
+
 	var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
 	var getContainersURL = 'subutai-app/environment/dummy-api/';
 	var getEnvQuotaURL = 'subutai-app/environment/dummy-api/envQuota.json';
@@ -17,6 +20,7 @@ function environmentService($http) {
 		getBlueprints: getBlueprints,
 		getTemplates: getTemplates,
 		deleteBlueprint : deleteBlueprint,
+		getPeers : getPeers,
 		
 		getEnvironments : getEnvironments,
 		removeEnvironments: removeEnvironments,
@@ -56,6 +60,10 @@ function environmentService($http) {
 	function deleteBlueprint(blueprintId) {
 		return $http.delete(blueprintURL + blueprintId);
 	}
+
+	function getPeers() {
+		return $http.get(peersURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}	
 
 	function getContainers(envName){
 		if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
