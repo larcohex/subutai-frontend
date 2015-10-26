@@ -19,6 +19,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.nodesToCreate = [];
 	vm.transportNodes = [];
 	vm.subnetCIDR;
+	vm.currentBlueprint;
 
 	vm.nodeStatus = 'Add to';
 
@@ -88,6 +89,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 
 	function showBlueprintCreateBlock(key) {
 		vm.createEnviromentInfo = angular.copy(vm.blueprints[key].nodeGroups);
+		vm.currentBlueprint = angular.copy(vm.blueprints[key]);
 		for(var i = 0; i < vm.blueprints[key].nodeGroups.length; i++) {
 			vm.transportNodes[i] = {};
 			vm.transportNodes[i].name = vm.blueprints[key].nodeGroups[i].name;
@@ -128,9 +130,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	function removeNode(key) {
 		var parentKey = vm.nodesToCreate[key].parentNode;
 		var numberOfContainers = parseInt(vm.createEnviromentInfo[parentKey].numberOfContainers) + parseInt(vm.nodesToCreate[key].numberOfContainers);
-		console.log(vm.nodesToCreate[key]);
-		console.log(vm.createEnviromentInfo[parentKey]);
-		console.log(numberOfContainers);
 		vm.createEnviromentInfo[parentKey].numberOfContainers = numberOfContainers;
 		vm.nodesToCreate.splice(key, 1);
 	}
@@ -154,6 +153,13 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	function buildBlueprint(){
 		console.log(vm.nodesToCreate);
 		console.log(vm.subnetCIDR);
+		var nodeGroups = [];
+		for(var i = 0; i < vm.nodesToCreate.length; i++) {
+			vm.currentBlueprint.nodeGroups[vm.nodesToCreate[i].parentNode].numberOfContainers = vm.nodesToCreate[i].numberOfContainers;
+			nodeGroups.push(vm.currentBlueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
+		}
+		console.log(nodeGroups);
+		console.log(vm.currentBlueprint);
 		/*environmentService.buildBlueprint().success(function () {
 
 		}).error(function () {
