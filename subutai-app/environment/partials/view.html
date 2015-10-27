@@ -266,9 +266,9 @@
 						<div class="ibox-content">
 							<div class="row">
 								<label>SSH Key</label>
-								<textarea class="form-control"></textarea><br>
-								<a href="" class="btn btn-outline btn-default btn-sm" ng-click="addSshKey()">Add key</a>
-								<a href="" class="btn btn-outline btn-danger btn-sm" ng-click="removeSshKey()">Remove key</a>
+								<textarea class="form-control" ng-model="environmentViewCtrl.enviromentSSHKey.key"></textarea><br>
+								<a href="" class="btn btn-outline btn-default btn-sm" ng-click="environmentViewCtrl.addSshKey()">Add key</a>
+								<a href="" class="btn btn-outline btn-danger btn-sm" ng-click="environmentViewCtrl.removeSshKey()">Remove key</a>
 							</div>
 						</div>
 					</div>

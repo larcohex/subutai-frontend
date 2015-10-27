@@ -12,6 +12,7 @@ function environmentService($http) {
 	var templatesURL = BASE_URL + 'registry_ui/templates/';
 	var peersURL = BASE_URL + 'environments_ui/peers';
 	var environmentsURL = BASE_URL + 'environments_ui/';
+	var sshKeysURL = environmentsURL + 'key/';
 
 	var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
 	var getContainersURL = 'subutai-app/environment/dummy-api/';
@@ -23,8 +24,8 @@ function environmentService($http) {
 		deleteBlueprint : deleteBlueprint,
 		getPeers : getPeers,
 		buildBlueprint : buildBlueprint,
-		
 		getEnvironments : getEnvironments,
+		
 		removeEnvironments: removeEnvironments,
 		destroyEnvironment: destroyEnvironment,
 		addBlueprintNode: addBlueprintNode,
@@ -72,6 +73,28 @@ function environmentService($http) {
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
+	}
+
+	function getEnvironments() {
+		return $http.get(environmentsURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function destroyEnvironment(environmentId) {
+		return $http.delete(environmentsURL + environmentId);		
+	}	
+
+	function addSshKey(sshKey, environmentId) {
+		var postData = 'environmentId=' + environmentId + '&key=' + sshKey;
+		console.log(postData);
+		return $http.post(
+			sshKeysURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);		
+	}
+
+	function removeSshKey() {
+		return $http.post();
 	}	
 
 	function getContainers(envName){
@@ -84,16 +107,8 @@ function environmentService($http) {
 		return $http.get();
 	}
 
-	function getEnvironments() {
-		return $http.get(getEnvURL);
-	}
-
 	function addBlueprintNode() {
 		return $http.get();
-	}
-
-	function destroyEnvironment() {
-		return $http.post();
 	}
 
 	function removeEnvironments() {
@@ -102,14 +117,6 @@ function environmentService($http) {
 
 	function growBlueprint() {
 		return $http.get();
-	}
-
-	function addSshKey() {
-		return $http.post();
-	}
-
-	function removeSshKey() {
-		return $http.post();
 	}
 
 	function getEnvQuota() {
