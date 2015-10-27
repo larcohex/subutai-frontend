@@ -11,6 +11,7 @@ function environmentService($http) {
 	var blueprintURL = BASE_URL + 'environments_ui/blueprint/';
 	var templatesURL = BASE_URL + 'registry_ui/templates/';
 	var peersURL = BASE_URL + 'environments_ui/peers';
+	var environmentsURL = BASE_URL + 'environments_ui/';
 
 	var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
 	var getContainersURL = 'subutai-app/environment/dummy-api/';
@@ -21,11 +22,11 @@ function environmentService($http) {
 		getTemplates: getTemplates,
 		deleteBlueprint : deleteBlueprint,
 		getPeers : getPeers,
+		buildBlueprint : buildBlueprint,
 		
 		getEnvironments : getEnvironments,
 		removeEnvironments: removeEnvironments,
 		destroyEnvironment: destroyEnvironment,
-		buildBlueprint : buildBlueprint,
 		addBlueprintNode: addBlueprintNode,
 		createBlueprint : createBlueprint,
 		growBlueprint : growBlueprint,
@@ -65,6 +66,14 @@ function environmentService($http) {
 		return $http.get(peersURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}	
 
+	function buildBlueprint(postData) {
+		return $http.post(
+			environmentsURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}	
+
 	function getContainers(envName){
 		if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
 		else if (envName == 'Environment2') return $http.get(getContainersURL+'container2.json');
@@ -89,10 +98,6 @@ function environmentService($http) {
 
 	function removeEnvironments() {
 		return $http.get();
-	}
-
-	function buildBlueprint() {
-		return $http.post();
 	}
 
 	function growBlueprint() {

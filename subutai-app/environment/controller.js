@@ -18,7 +18,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.createEnviromentInfo = [];
 	vm.nodesToCreate = [];
 	vm.transportNodes = [];
-	vm.subnetCIDR;
+	vm.subnetCIDR = '192.168.10.1/24';
 	vm.currentBlueprint;
 
 	vm.nodeStatus = 'Add to';
@@ -96,7 +96,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 			vm.transportNodes[i].numberOfContainers = vm.blueprints[key].nodeGroups[i].numberOfContainers;
 		}
 		vm.nodesToCreate = [];
-		delete vm.subnetCIDR;
+		vm.subnetCIDR = '192.168.10.1/24';
 		addPanel('buildBlueprint');
 	}
 
@@ -151,21 +151,28 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	}
 
 	function buildBlueprint(){
-		console.log(vm.nodesToCreate);
-		console.log(vm.subnetCIDR);
-		var nodeGroups = [];
+		var topology = {};
 		for(var i = 0; i < vm.nodesToCreate.length; i++) {
 			vm.currentBlueprint.nodeGroups[vm.nodesToCreate[i].parentNode].numberOfContainers = vm.nodesToCreate[i].numberOfContainers;
-			nodeGroups.push(vm.currentBlueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
+			if(topology[vm.nodesToCreate[i].peer] === undefined) {
+				topology[vm.nodesToCreate[i].peer] = [];
+			}
+			topology[vm.nodesToCreate[i].peer].push(vm.currentBlueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
 		}
-		console.log(nodeGroups);
-		console.log(vm.currentBlueprint);
-		/*environmentService.buildBlueprint().success(function () {
 
-		}).error(function () {
-
-		})*/
-	}	
+		var postData = 'name=' + vm.currentBlueprint.name;
+		postData += '&topology=' + JSON.stringify(topology);
+		postData += '&subnet=' + vm.subnetCIDR;
+		postData += '&key=null';
+		console.log(encodeURI(postData));
+		environmentService.buildBlueprint(encodeURI(postData)).success(function (data) {
+			console.log(data);
+			SweetAlert.swal("Deleted!", "Your environment has been created.", "success");
+		}).error(function (error) {
+			console.log(error);
+			SweetAlert.swal("Cancelled", error.ERROR, "error");
+		});
+	}
 
 	function addNewNode() {
 		if(vm.nodeStatus == 'Add to') {

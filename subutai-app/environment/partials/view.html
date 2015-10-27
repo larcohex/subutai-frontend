@@ -175,8 +175,8 @@
 													<select class="form-control" 
 													ng-model="environmentViewCtrl.transportNodes[key].peer">
 														<option 
-														ng-repeat="peer in environmentViewCtrl.peers" 
-														value="{{ peer }}">
+														ng-repeat="(peerId, peer) in environmentViewCtrl.peers" 
+														value="{{ peerId }}">
 															{{ peer }}
 														</option>
 													</select>
