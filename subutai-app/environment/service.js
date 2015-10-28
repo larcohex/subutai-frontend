@@ -9,8 +9,12 @@ environmentService.$inject = ['$http'];
 function environmentService($http) {
 	var BASE_URL = 'http://172.16.131.205:8181/cxf/';
 	var blueprintURL = BASE_URL + 'environments_ui/blueprint/';
+	var growBlueprintURL = BASE_URL + 'environments_ui/grow/';
 	var templatesURL = BASE_URL + 'registry_ui/templates/';
 	var peersURL = BASE_URL + 'environments_ui/peers';
+	var environmentsURL = BASE_URL + 'environments_ui/';
+	var sshKeysURL = environmentsURL + 'key/';
+	var containersURL = environmentsURL + 'container/';
 
 	var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
 	var getContainersURL = 'subutai-app/environment/dummy-api/';
@@ -21,17 +25,19 @@ function environmentService($http) {
 		getTemplates: getTemplates,
 		deleteBlueprint : deleteBlueprint,
 		getPeers : getPeers,
-		
-		getEnvironments : getEnvironments,
-		removeEnvironments: removeEnvironments,
-		destroyEnvironment: destroyEnvironment,
 		buildBlueprint : buildBlueprint,
-		addBlueprintNode: addBlueprintNode,
+		getEnvironments : getEnvironments,
+		destroyEnvironment: destroyEnvironment,
 		createBlueprint : createBlueprint,
 		growBlueprint : growBlueprint,
+		getContainerStatus : getContainerStatus,
+		switchContainer : switchContainer,
+		destroyContainer : destroyContainer,
 		addSshKey : addSshKey,
 		removeSshKey : removeSshKey,
-		getContainers: getContainers,
+		
+		removeEnvironments: removeEnvironments,
+		addBlueprintNode: addBlueprintNode,
 		getEnvQuota: getEnvQuota,
 		updateQuota: updateQuota
 	};
@@ -65,6 +71,63 @@ function environmentService($http) {
 		return $http.get(peersURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}	
 
+	function buildBlueprint(postData) {
+		return $http.post(
+			environmentsURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function growBlueprint(postData) {
+		return $http.post(
+			growBlueprintURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function getEnvironments() {
+		return $http.get(environmentsURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function destroyEnvironment(environmentId) {
+		return $http.delete(environmentsURL + environmentId);		
+	}
+
+	function getContainerStatus(containerId) {
+		return $http.get(
+			containersURL + containerId + '/state', 
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
+	}
+
+	function switchContainer(containerId, type) {
+		return $http.post(
+			containersURL + containerId + '/' + type, 
+			'', 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function addSshKey(sshKey, environmentId) {
+		var postData = 'environmentId=' + environmentId + '&key=' + sshKey;
+		console.log(postData);
+		return $http.post(
+			sshKeysURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);		
+	}
+
+	function destroyContainer(containerId) {
+		return $http.delete(containersURL + containerId);		
+	}
+
+	function removeSshKey() {
+		return $http.post();
+	}	
+
 	function getContainers(envName){
 		if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
 		else if (envName == 'Environment2') return $http.get(getContainersURL+'container2.json');
@@ -75,36 +138,12 @@ function environmentService($http) {
 		return $http.get();
 	}
 
-	function getEnvironments() {
-		return $http.get(getEnvURL);
-	}
-
 	function addBlueprintNode() {
 		return $http.get();
 	}
 
-	function destroyEnvironment() {
-		return $http.post();
-	}
-
 	function removeEnvironments() {
 		return $http.get();
-	}
-
-	function buildBlueprint() {
-		return $http.post();
-	}
-
-	function growBlueprint() {
-		return $http.get();
-	}
-
-	function addSshKey() {
-		return $http.post();
-	}
-
-	function removeSshKey() {
-		return $http.post();
 	}
 
 	function getEnvQuota() {

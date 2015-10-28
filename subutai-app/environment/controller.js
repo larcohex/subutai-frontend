@@ -11,6 +11,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.blueprints = {};
 	vm.peers = [];
 	vm.templates = [];
+	vm.environments = [];
 
 	vm.blueprintFrom = {};
 	vm.blueprintFrom.currentNode = {};
@@ -18,9 +19,14 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.createEnviromentInfo = [];
 	vm.nodesToCreate = [];
 	vm.transportNodes = [];
-	vm.subnetCIDR;
+	vm.subnetCIDR = '192.168.10.1/24';
+	vm.currentBlueprint;
+	vm.enviromentSSHKey = {};
+	vm.environmentToGrow;
+	vm.containers = [];
 
 	vm.nodeStatus = 'Add to';
+	vm.addBlueprintType = 'build';
 
 	// functions
 	vm.addBlueprint = addBlueprint;
@@ -32,6 +38,15 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.placeNode = placeNode;
 	vm.removeNode = removeNode;
 	vm.buildBlueprint = buildBlueprint;
+	vm.growBlueprint = growBlueprint;
+	vm.destroyEnvironment = destroyEnvironment;
+	vm.sshKey = sshKey;
+	vm.addSshKey = addSshKey;
+	vm.removeSshKey = removeSshKey;
+	vm.getEnvironments = getEnvironments;
+	vm.showContainersList = showContainersList;
+	vm.containerAction = containerAction;
+	vm.destroyContainer = destroyContainer;
 
 	environmentService.getBlueprints().success(function (data) {
 		vm.blueprints = data;
@@ -43,14 +58,9 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 
 	environmentService.getPeers().success(function (data) {
 		vm.peers = data;
-	});	
+	});
 
-	$scope.removeEnvironment = removeEnvironment;
-	$scope.destroyEnvironment = destroyEnvironment;
 	$scope.addBlueprintNode = addBlueprintNode;
-	$scope.growBlueprint = growBlueprint;
-	$scope.addSshKey = addSshKey;
-	$scope.removeSshKey = removeSshKey;
 	$scope.envChanged = envChanged;
 	$scope.contChanged = contChanged;
 	$scope.getContainers = getContainers;
@@ -58,6 +68,14 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	$scope.updateQuota = updateQuota;
 
 	$scope.closePanel = closePanel;
+
+	function getEnvironments() {
+		environmentService.getEnvironments().success(function (data) {
+			vm.environments = data;
+		});		
+	}
+
+	getEnvironments();
 
 	function deleteBlueprint(blueprintId, key){
 		SweetAlert.swal(
@@ -70,12 +88,12 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 				confirmButtonText: "Yes, delete it!",
 				cancelButtonText: "No, cancel plx!",
 				closeOnConfirm: false,
-				closeOnCancel: false
+				closeOnCancel: false,
+				showLoaderOnConfirm: true
 			},
 			function (isConfirm) {
 				if (isConfirm) {
 					SweetAlert.swal("Deleted!", "Your blueprint has been deleted.", "success");
-					console.log(blueprintId);
 					environmentService.deleteBlueprint(blueprintId).success(function (data) {
 						vm.blueprints.splice(key, 1);
 					});
@@ -86,15 +104,17 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		);
 	}
 
-	function showBlueprintCreateBlock(key) {
+	function showBlueprintCreateBlock(key, type) {
+		vm.addBlueprintType = type;
 		vm.createEnviromentInfo = angular.copy(vm.blueprints[key].nodeGroups);
+		vm.currentBlueprint = angular.copy(vm.blueprints[key]);
 		for(var i = 0; i < vm.blueprints[key].nodeGroups.length; i++) {
 			vm.transportNodes[i] = {};
 			vm.transportNodes[i].name = vm.blueprints[key].nodeGroups[i].name;
 			vm.transportNodes[i].numberOfContainers = vm.blueprints[key].nodeGroups[i].numberOfContainers;
 		}
 		vm.nodesToCreate = [];
-		delete vm.subnetCIDR;
+		vm.subnetCIDR = '192.168.10.1/24';
 		addPanel('buildBlueprint');
 	}
 
@@ -128,9 +148,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	function removeNode(key) {
 		var parentKey = vm.nodesToCreate[key].parentNode;
 		var numberOfContainers = parseInt(vm.createEnviromentInfo[parentKey].numberOfContainers) + parseInt(vm.nodesToCreate[key].numberOfContainers);
-		console.log(vm.nodesToCreate[key]);
-		console.log(vm.createEnviromentInfo[parentKey]);
-		console.log(numberOfContainers);
 		vm.createEnviromentInfo[parentKey].numberOfContainers = numberOfContainers;
 		vm.nodesToCreate.splice(key, 1);
 	}
@@ -151,15 +168,118 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		vm.blueprintFrom = {};
 	}
 
+	function getTopology() {
+		var topology = {};
+		for(var i = 0; i < vm.nodesToCreate.length; i++) {
+			vm.currentBlueprint.nodeGroups[vm.nodesToCreate[i].parentNode].numberOfContainers = vm.nodesToCreate[i].numberOfContainers;
+			if(topology[vm.nodesToCreate[i].peer] === undefined) {
+				topology[vm.nodesToCreate[i].peer] = [];
+			}
+			topology[vm.nodesToCreate[i].peer].push(vm.currentBlueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
+		}
+		return JSON.stringify(topology);
+	}
+
 	function buildBlueprint(){
-		console.log(vm.nodesToCreate);
-		console.log(vm.subnetCIDR);
-		/*environmentService.buildBlueprint().success(function () {
+		var topology = getTopology();
+		var postData = 'name=' + vm.currentBlueprint.name;
+		postData += '&topology=' + topology;
+		postData += '&subnet=' + vm.subnetCIDR;
+		postData += '&key=null';
+		environmentService.buildBlueprint(encodeURI(postData)).success(function (data) {
+			getEnvironments();
+			SweetAlert.swal("Success!", "Your environment has been created.", "success");
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", error.ERROR, "error");
+		});
+	}
 
-		}).error(function () {
+	function growBlueprint() {
+		var topology = getTopology();
+		var postData = 'environmentId=' + vm.environmentToGrow.id + '&topology=' + topology;
+		environmentService.growBlueprint(encodeURI(postData)).success(function (data) {
+			console.log(data);
+			SweetAlert.swal("Success!", "You successfully grow environment.", "success");
+		}).error(function (error) {
+			console.log(error);
+			SweetAlert.swal("ERROR!", error.ERROR, "error");
+		});
+	}
 
-		})*/
-	}	
+	function destroyEnvironment(environmentId, key) {
+		SweetAlert.swal({
+				title: "Are you sure?",
+				text: "Your will not be able to recover this Environment!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes, destroy it!",
+				cancelButtonText: "No, cancel plx!",
+				closeOnConfirm: false,
+				closeOnCancel: false,
+				showLoaderOnConfirm: true
+			},
+			function (isConfirm) {
+				if (isConfirm) {
+					environmentService.destroyEnvironment(environmentId).success(function (data) {
+						SweetAlert.swal("Destroyed!", "Your environment has been destroyed.", "success");
+						vm.environments.splice(key, 1);
+					}).error(function (data) {
+						SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
+					});
+				} else {
+					SweetAlert.swal("Cancelled", "Your environment is safe :)", "error");
+				}
+			});
+	}
+
+	function showContainersList(key) {
+		vm.containers = vm.environments[key].containers;
+		addPanel('envContainers');
+	}
+
+	function containerAction(key) {
+		if(vm.containers[key].status === undefined) {
+			environmentService.getContainerStatus(vm.containers[key].id).success(function (data) {
+				vm.containers[key].status = data;
+			});
+		} else if(vm.containers[key].status == 'started') {
+			environmentService.switchContainer(vm.containers[key].id, 'stop').success(function (data) {
+				vm.containers[key].status = 'stoped';
+			});
+		} else {
+			environmentService.switchContainer(vm.containers[key].id, 'start').success(function (data) {
+				vm.containers[key].status = 'started';
+			});
+		}
+	}
+
+	function destroyContainer(containerId) {
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Your will not be able to recover this Container!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, destroy it!",
+			cancelButtonText: "No, cancel plx!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				environmentService.destroyContainer(containerId).success(function (data) {
+					SweetAlert.swal("Destroyed!", "Your container has been destroyed.", "success");
+					vm.containers.splice(key, 1);
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "Your container is safe :)", "error");
+			}
+		});		
+	}
 
 	function addNewNode() {
 		if(vm.nodeStatus == 'Add to') {
@@ -176,7 +296,34 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	function setNodeData(key) {
 		vm.nodeStatus = 'Update in';
 		vm.blueprintFrom.currentNode = vm.nodeList[key];
+	}
+
+	function sshKey(key) {
+		delete vm.enviromentSSHKey.key;
+		vm.enviromentSSHKey.environmentKey = key;
+		addPanel('envSshKey');
+	}
+
+	function addSshKey(key){
+		var enviroment = vm.environments[vm.enviromentSSHKey.environmentKey];
+		environmentService.addSshKey(vm.enviromentSSHKey.key, enviroment.id).success(function (data) {
+			SweetAlert.swal("Success!", "You successfully add SSH key for " + enviroment.id + " environment!", "success");
+			console.log(data);
+		}).error(function (data) {
+			SweetAlert.swal("Cancelled", "Error: " + data.ERROR, "error");
+			console.log(data);
+		});
+	}
+
+	function removeSshKey(){
+		environmentService.removeSshKey().success(function () {
+
+		}).error(function () {
+
+		})
 	}	
+
+	//------------------------
 
 	function contChanged(cont) {
 		console.log(cont);
@@ -228,31 +375,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		});
 	}
 
-	function destroyEnvironment() {
-		SweetAlert.swal({
-			title: "Are you sure?",
-			text: "Your will not be able to recover this Environment!",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, destroy it!",
-			cancelButtonText: "No, cancel plx!",
-			closeOnConfirm: false,
-			closeOnCancel: false },
-			function (isConfirm) {
-				if (isConfirm) {
-					SweetAlert.swal("Destroyed!", "Your environment has been destroyed.", "success");
-					environmentService.destroyEnvironment().success(function (data) {
-
-					}).error(function () {
-
-					});
-				} else {
-					SweetAlert.swal("Cancelled", "Your environment is safe :)", "error");
-				}
-			});
-	}
-
 	function addBlueprintNode() {
 		environmentService.addBlueprintNode().success(function (data) {
 
@@ -261,54 +383,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		});
 	}
 
-	function removeEnvironment(){
-		SweetAlert.swal({
-			title: "Are you sure?",
-			text: "Your will not be able to recover this Environment!",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, remove it!",
-			cancelButtonText: "No, cancel plx!",
-			closeOnConfirm: false,
-			closeOnCancel: false },
-			function (isConfirm) {
-				if (isConfirm) {
-					SweetAlert.swal("Removed!", "Your environment has been removed.", "success");
-					environmentService.removeEnvironments().success(function () {
-
-					}).error(function () {
-
-					})
-				} else {
-					SweetAlert.swal("Cancelled", "Your environment is safe :)", "error");
-				}
-			});
-	}
-
-	function growBlueprint(){
-		environmentService.growBlueprint().success(function () {
-
-		}).error(function () {
-
-		})
-	}
-
-	function addSshKey(){
-		environmentService.addSshKey().success(function () {
-
-		}).error(function () {
-
-		})
-	}
-
-	function removeSshKey(){
-		environmentService.removeSshKey().success(function () {
-
-		}).error(function () {
-
-		})
-	}
 	//// Implementation
 
 	function addPanel(action) {

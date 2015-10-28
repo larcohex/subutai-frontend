@@ -175,8 +175,8 @@
 													<select class="form-control" 
 													ng-model="environmentViewCtrl.transportNodes[key].peer">
 														<option 
-														ng-repeat="peer in environmentViewCtrl.peers" 
-														value="{{ peer }}">
+														ng-repeat="(peerId, peer) in environmentViewCtrl.peers" 
+														value="{{ peerId }}">
 															{{ peer }}
 														</option>
 													</select>
@@ -209,12 +209,24 @@
 											</tr>
 										</table>
 
-										<div>
+										<div ng-show="environmentViewCtrl.addBlueprintType == 'build'">
 											<label>Subnet CIDR</label>
 											<input placeholder="Enter Subnet CIDR" 
 											class="form-control" 
 											ng-model="environmentViewCtrl.subnetCIDR">
 										</div>
+
+										<div ng-show="environmentViewCtrl.addBlueprintType == 'grow'">
+											<label>Environment</label>
+											<select class="form-control" 
+											ng-model="environmentViewCtrl.environmentToGrow">
+												<option 
+												ng-repeat="(key, environment) in environmentViewCtrl.environments" 
+												value="{{ environment.id }}">
+													{{ environment.name }}
+												</option>
+											</select>											
+										</div>										
 
 									</div>
 								</div>
@@ -222,7 +234,12 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-white" ng-click="closePanel('buildBlueprint')">Close</button>
-							<button type="button" class="btn btn-primary" ng-click="environmentViewCtrl.buildBlueprint()">Build</button>
+							<button type="button" class="btn btn-primary" ng-click="environmentViewCtrl.buildBlueprint()" ng-show="environmentViewCtrl.addBlueprintType == 'build'">
+								Build
+							</button>
+							<button type="button" class="btn btn-primary" ng-click="environmentViewCtrl.growBlueprint()" ng-show="environmentViewCtrl.addBlueprintType == 'grow'">
+								Grow
+							</button>
 						</div>
 					</div>
 
@@ -244,12 +261,24 @@
 										<th>IP</th>
 										<th></th>
 									</tr>
-									<tr>
-										<td>351bb6bf-bf59-4e65-90be-794cb5e72402</td>
-										<td>Hadoop</td>
-										<td>Hadoop-84061789-a078-48ca-bd7a-39fe997f814e</td>
-										<td>192.168.34.3</td>
-										<td><a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentTag">Tags</a></td>
+									<tr ng-repeat="(key, container) in environmentViewCtrl.containers">
+										<td>{{ container.id }}</td>
+										<td>{{ container.tamplate }}</td>
+										<td>{{ container.id }}</td>
+										<td>{{ container.peer }}</td>
+										<td>
+											<a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentTag">
+												Tags
+											</a><br/>
+											<a class="btn btn-outline btn-default btn-sm" ng-click="environmentViewCtrl.containerAction(key)">
+												<span ng-show="container.status == 'undefined'"></span>
+												<span ng-show="container.status == 'started'">Stop</span>
+												<span ng-show="container.status == 'stoped'">Start</span>
+											</a><br/>
+											<a class="btn btn-outline btn-danger btn-sm" ng-click="environmentViewCtrl.destroyContainer(container.id)">
+												Destroy
+											</a>
+										</td>
 									</tr>
 								</table>
 							</div>
@@ -266,9 +295,9 @@
 						<div class="ibox-content">
 							<div class="row">
 								<label>SSH Key</label>
-								<textarea class="form-control"></textarea><br>
-								<a href="" class="btn btn-outline btn-default btn-sm" ng-click="addSshKey()">Add key</a>
-								<a href="" class="btn btn-outline btn-danger btn-sm" ng-click="removeSshKey()">Remove key</a>
+								<textarea class="form-control" ng-model="environmentViewCtrl.enviromentSSHKey.key"></textarea><br>
+								<a href="" class="btn btn-outline btn-default btn-sm" ng-click="environmentViewCtrl.addSshKey()">Add key</a>
+								<a href="" class="btn btn-outline btn-danger btn-sm" ng-click="environmentViewCtrl.removeSshKey()">Remove key</a>
 							</div>
 						</div>
 					</div>
