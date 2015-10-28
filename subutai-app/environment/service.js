@@ -14,6 +14,7 @@ function environmentService($http) {
 	var peersURL = BASE_URL + 'environments_ui/peers';
 	var environmentsURL = BASE_URL + 'environments_ui/';
 	var sshKeysURL = environmentsURL + 'key/';
+	var containersURL = environmentsURL + 'container/';
 
 	var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
 	var getContainersURL = 'subutai-app/environment/dummy-api/';
@@ -26,15 +27,17 @@ function environmentService($http) {
 		getPeers : getPeers,
 		buildBlueprint : buildBlueprint,
 		getEnvironments : getEnvironments,
-		
-		removeEnvironments: removeEnvironments,
 		destroyEnvironment: destroyEnvironment,
-		addBlueprintNode: addBlueprintNode,
 		createBlueprint : createBlueprint,
 		growBlueprint : growBlueprint,
+		getContainerStatus : getContainerStatus,
+		switchContainer : switchContainer,
+		destroyContainer : destroyContainer,
 		addSshKey : addSshKey,
 		removeSshKey : removeSshKey,
-		getContainers: getContainers,
+		
+		removeEnvironments: removeEnvironments,
+		addBlueprintNode: addBlueprintNode,
 		getEnvQuota: getEnvQuota,
 		updateQuota: updateQuota
 	};
@@ -90,7 +93,22 @@ function environmentService($http) {
 
 	function destroyEnvironment(environmentId) {
 		return $http.delete(environmentsURL + environmentId);		
-	}	
+	}
+
+	function getContainerStatus(containerId) {
+		return $http.get(
+			containersURL + containerId + '/state', 
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
+	}
+
+	function switchContainer(containerId, type) {
+		return $http.post(
+			containersURL + containerId + '/' + type, 
+			'', 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
 
 	function addSshKey(sshKey, environmentId) {
 		var postData = 'environmentId=' + environmentId + '&key=' + sshKey;
@@ -100,6 +118,10 @@ function environmentService($http) {
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);		
+	}
+
+	function destroyContainer(containerId) {
+		return $http.delete(containersURL + containerId);		
 	}
 
 	function removeSshKey() {

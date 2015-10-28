@@ -261,12 +261,24 @@
 										<th>IP</th>
 										<th></th>
 									</tr>
-									<tr>
-										<td>351bb6bf-bf59-4e65-90be-794cb5e72402</td>
-										<td>Hadoop</td>
-										<td>Hadoop-84061789-a078-48ca-bd7a-39fe997f814e</td>
-										<td>192.168.34.3</td>
-										<td><a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentTag">Tags</a></td>
+									<tr ng-repeat="(key, container) in environmentViewCtrl.containers">
+										<td>{{ container.id }}</td>
+										<td>{{ container.tamplate }}</td>
+										<td>{{ container.id }}</td>
+										<td>{{ container.peer }}</td>
+										<td>
+											<a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentTag">
+												Tags
+											</a><br/>
+											<a class="btn btn-outline btn-default btn-sm" ng-click="environmentViewCtrl.containerAction(key)">
+												<span ng-show="container.status == 'undefined'"></span>
+												<span ng-show="container.status == 'started'">Stop</span>
+												<span ng-show="container.status == 'stoped'">Start</span>
+											</a><br/>
+											<a class="btn btn-outline btn-danger btn-sm" ng-click="environmentViewCtrl.destroyContainer(container.id)">
+												Destroy
+											</a>
+										</td>
 									</tr>
 								</table>
 							</div>

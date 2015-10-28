@@ -23,6 +23,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.currentBlueprint;
 	vm.enviromentSSHKey = {};
 	vm.environmentToGrow;
+	vm.containers = [];
 
 	vm.nodeStatus = 'Add to';
 	vm.addBlueprintType = 'build';
@@ -43,6 +44,9 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.addSshKey = addSshKey;
 	vm.removeSshKey = removeSshKey;
 	vm.getEnvironments = getEnvironments;
+	vm.showContainersList = showContainersList;
+	vm.containerAction = containerAction;
+	vm.destroyContainer = destroyContainer;
 
 	environmentService.getBlueprints().success(function (data) {
 		vm.blueprints = data;
@@ -227,6 +231,54 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 					SweetAlert.swal("Cancelled", "Your environment is safe :)", "error");
 				}
 			});
+	}
+
+	function showContainersList(key) {
+		vm.containers = vm.environments[key].containers;
+		addPanel('envContainers');
+	}
+
+	function containerAction(key) {
+		if(vm.containers[key].status === undefined) {
+			environmentService.getContainerStatus(vm.containers[key].id).success(function (data) {
+				vm.containers[key].status = data;
+			});
+		} else if(vm.containers[key].status == 'started') {
+			environmentService.switchContainer(vm.containers[key].id, 'stop').success(function (data) {
+				vm.containers[key].status = 'stoped';
+			});
+		} else {
+			environmentService.switchContainer(vm.containers[key].id, 'start').success(function (data) {
+				vm.containers[key].status = 'started';
+			});
+		}
+	}
+
+	function destroyContainer(containerId) {
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Your will not be able to recover this Container!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, destroy it!",
+			cancelButtonText: "No, cancel plx!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				environmentService.destroyContainer(containerId).success(function (data) {
+					SweetAlert.swal("Destroyed!", "Your container has been destroyed.", "success");
+					vm.containers.splice(key, 1);
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "Your container is safe :)", "error");
+			}
+		});		
 	}
 
 	function addNewNode() {
