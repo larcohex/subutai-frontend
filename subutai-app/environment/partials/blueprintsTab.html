@@ -23,10 +23,12 @@
 			<a class="btn btn-white btn-sm" type="button" ng-click="environmentViewCtrl.deleteBlueprint(blueprint.id, key)">
 				<i class="fa fa-folder"></i> Delete 
 			</a>
-			<a class="btn btn-white btn-sm" type="button" ng-click="environmentViewCtrl.showBlueprintCreateBlock(key)">
+			<a class="btn btn-white btn-sm" type="button" ng-click="environmentViewCtrl.showBlueprintCreateBlock(key, 'build')">
 				<i class="fa fa-pencil"></i> Build 
 			</a>
-			<a class="btn btn-white btn-sm" type="button" ng-click="growBLueprint()"><i class="fa fa-pencil"></i> Grow </a>
+			<a class="btn btn-white btn-sm" type="button" ng-click="environmentViewCtrl.showBlueprintCreateBlock(key, 'grow')">
+				<i class="fa fa-pencil"></i> Grow
+			</a>
 		</td>
 	</tr>
 	</tbody>

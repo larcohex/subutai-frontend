@@ -209,12 +209,24 @@
 											</tr>
 										</table>
 
-										<div>
+										<div ng-show="environmentViewCtrl.addBlueprintType == 'build'">
 											<label>Subnet CIDR</label>
 											<input placeholder="Enter Subnet CIDR" 
 											class="form-control" 
 											ng-model="environmentViewCtrl.subnetCIDR">
 										</div>
+
+										<div ng-show="environmentViewCtrl.addBlueprintType == 'grow'">
+											<label>Environment</label>
+											<select class="form-control" 
+											ng-model="environmentViewCtrl.environmentToGrow">
+												<option 
+												ng-repeat="(key, environment) in environmentViewCtrl.environments" 
+												value="{{ environment.id }}">
+													{{ environment.name }}
+												</option>
+											</select>											
+										</div>										
 
 									</div>
 								</div>
@@ -222,7 +234,12 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-white" ng-click="closePanel('buildBlueprint')">Close</button>
-							<button type="button" class="btn btn-primary" ng-click="environmentViewCtrl.buildBlueprint()">Build</button>
+							<button type="button" class="btn btn-primary" ng-click="environmentViewCtrl.buildBlueprint()" ng-show="environmentViewCtrl.addBlueprintType == 'build'">
+								Build
+							</button>
+							<button type="button" class="btn btn-primary" ng-click="environmentViewCtrl.growBlueprint()" ng-show="environmentViewCtrl.addBlueprintType == 'grow'">
+								Grow
+							</button>
 						</div>
 					</div>
 

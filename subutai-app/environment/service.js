@@ -9,6 +9,7 @@ environmentService.$inject = ['$http'];
 function environmentService($http) {
 	var BASE_URL = 'http://172.16.131.205:8181/cxf/';
 	var blueprintURL = BASE_URL + 'environments_ui/blueprint/';
+	var growBlueprintURL = BASE_URL + 'environments_ui/grow/';
 	var templatesURL = BASE_URL + 'registry_ui/templates/';
 	var peersURL = BASE_URL + 'environments_ui/peers';
 	var environmentsURL = BASE_URL + 'environments_ui/';
@@ -75,6 +76,14 @@ function environmentService($http) {
 		);
 	}
 
+	function growBlueprint(postData) {
+		return $http.post(
+			growBlueprintURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
 	function getEnvironments() {
 		return $http.get(environmentsURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
@@ -112,10 +121,6 @@ function environmentService($http) {
 	}
 
 	function removeEnvironments() {
-		return $http.get();
-	}
-
-	function growBlueprint() {
 		return $http.get();
 	}
 
