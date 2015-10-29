@@ -239,22 +239,18 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	}
 
 	function containerAction(key) {
-		if(vm.containers[key].status === undefined) {
-			environmentService.getContainerStatus(vm.containers[key].id).success(function (data) {
-				vm.containers[key].status = data;
-			});
-		} else if(vm.containers[key].status == 'started') {
-			environmentService.switchContainer(vm.containers[key].id, 'stop').success(function (data) {
-				vm.containers[key].status = 'stoped';
-			});
-		} else {
-			environmentService.switchContainer(vm.containers[key].id, 'start').success(function (data) {
-				vm.containers[key].status = 'started';
-			});
+		var action = 'start';
+		if(vm.containers[key].state == 'RUNNING') {
+			action = 'stop';
 		}
+		environmentService.switchContainer(vm.containers[key].id, action).success(function (data) {
+			environmentService.getContainerStatus(vm.containers[key].id).success(function (data) {
+				vm.containers[key].state = data.STATE;
+			});				
+		});		
 	}
 
-	function destroyContainer(containerId) {
+	function destroyContainer(containerId, key) {
 		SweetAlert.swal({
 			title: "Are you sure?",
 			text: "Your will not be able to recover this Container!",
@@ -278,7 +274,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 			} else {
 				SweetAlert.swal("Cancelled", "Your container is safe :)", "error");
 			}
-		});		
+		});
 	}
 
 	function addNewNode() {
@@ -316,11 +312,29 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	}
 
 	function removeSshKey(){
-		environmentService.removeSshKey().success(function () {
-
-		}).error(function () {
-
-		})
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Delete environment SSH keys!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, delete it!",
+			cancelButtonText: "No, cancel plx!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				environmentService.removeSshKey(vm.environments[vm.enviromentSSHKey.environmentKey].id).success(function () {
+					SweetAlert.swal("Destroyed!", "Your enviroment SSH keys has been deleted.", "success");
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "Your SSH keys is safe :). Error: " + data.ERROR, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "Your SSH keys is safe :)", "error");
+			}
+		});
 	}	
 
 	//------------------------

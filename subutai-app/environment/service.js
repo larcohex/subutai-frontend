@@ -124,9 +124,9 @@ function environmentService($http) {
 		return $http.delete(containersURL + containerId);		
 	}
 
-	function removeSshKey() {
-		return $http.post();
-	}	
+	function removeSshKey(environmentId) {
+		return $http.delete(environmentsURL + environmentId + '/keys');		
+	}
 
 	function getContainers(envName){
 		if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
