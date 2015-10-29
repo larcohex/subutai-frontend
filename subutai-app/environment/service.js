@@ -128,12 +128,6 @@ function environmentService($http) {
 		return $http.delete(environmentsURL + environmentId + '/keys');		
 	}
 
-	function getContainers(envName){
-		if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
-		else if (envName == 'Environment2') return $http.get(getContainersURL+'container2.json');
-		else if (envName == 'Environment3') return $http.get(getContainersURL+'container3.json');
-	}
-
 	function updateQuota() {
 		return $http.get();
 	}

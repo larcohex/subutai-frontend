@@ -1,40 +1,44 @@
 <div class="ibox-title">
-  <div class="col-md-4">
-    <select class="form-control m-b" id="resourceHosts"
-            ng-options="e.name for e in environments" ng-model="env" ng-change="envChanged()">
-    </select>
-    <div ng-if="env" class="col-md-12">
-      <br>
-      List of containers:
-      <div ng-repeat="container in containers">
-        <a class="btn btn-white btn-bitbucket" ng-click="contChanged(container.name)"><i class="fa fa-cube"></i> {{container.name}}</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-8">
-    <form method="get" class="form-horizontal">
-      <div class="form-group"><label class="col-sm-6 control-label">RAM quota</label>
-        <div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.ram"></div>
-      </div>
-      <div class="form-group"><label class="col-sm-6 control-label">CPU quota</label>
-        <div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.cpu"></div>
-      </div>
-      <div class="form-group"><label class="col-sm-6 control-label">Home directory quota</label>
-        <div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.home"></div>
-      </div>
-      <div class="form-group"><label class="col-sm-6 control-label">Var directory quota</label>
-        <div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.var"></div>
-      </div>
-      <div class="form-group"><label class="col-sm-6 control-label">Rootfs directory quota</label>
-        <div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.root"></div>
-      </div>
-      <div class="form-group"><label class="col-sm-6 control-label">Opt directory quota</label>
-        <div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.opt"></div>
-      </div>
-      <div class="form-group text-right">
-        <div class="col-sm-8"><button class="btn btn-default" ng-click="updateQuota()">Update Changes</button></div>
+	<div class="col-md-4">
+		<select class="form-control m-b" ng-model="environmentViewCtrl.environmentQuota" ng-change="environmentViewCtrl.getContainers()">
+			<option ng-repeat="(key, environment) in environmentViewCtrl.environments" value="{{ key }}">
+				{{ environment.name }} {{ environment.id }}
+			</option>
+		</select>
+		<div ng-if="environmentViewCtrl.containersForQuota.length > 0" class="col-md-12">
+			<br>
+			List of containers:
+			<div ng-repeat="container in environmentViewCtrl.containersForQuota">
+				<a class="btn btn-white btn-bitbucket" ng-click="environmentViewCtrl.contChanged(container.id)">
+					<i class="fa fa-cube"></i> {{container.templateName}}
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<form method="get" class="form-horizontal">
+			<div class="form-group"><label class="col-sm-6 control-label">RAM quota</label>
+				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.ram"></div>
+			</div>
+			<div class="form-group"><label class="col-sm-6 control-label">CPU quota</label>
+				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.cpu"></div>
+			</div>
+			<div class="form-group"><label class="col-sm-6 control-label">Home directory quota</label>
+				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.home"></div>
+			</div>
+			<div class="form-group"><label class="col-sm-6 control-label">Var directory quota</label>
+				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.var"></div>
+			</div>
+			<div class="form-group"><label class="col-sm-6 control-label">Rootfs directory quota</label>
+				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.root"></div>
+			</div>
+			<div class="form-group"><label class="col-sm-6 control-label">Opt directory quota</label>
+				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.opt"></div>
+			</div>
+			<div class="form-group text-right">
+				<div class="col-sm-8"><button class="btn btn-default" ng-click="updateQuota()">Update Changes</button></div>
 
-      </div>
-    </form>
-  </div>
+			</div>
+		</form>
+	</div>
 </div>

@@ -24,6 +24,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.enviromentSSHKey = {};
 	vm.environmentToGrow;
 	vm.containers = [];
+	vm.containersForQuota = [];
 
 	vm.nodeStatus = 'Add to';
 	vm.addBlueprintType = 'build';
@@ -47,6 +48,8 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.showContainersList = showContainersList;
 	vm.containerAction = containerAction;
 	vm.destroyContainer = destroyContainer;
+	vm.getContainers = getContainers;
+	vm.contChanged = contChanged;
 
 	environmentService.getBlueprints().success(function (data) {
 		vm.blueprints = data;
@@ -61,9 +64,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	});
 
 	$scope.addBlueprintNode = addBlueprintNode;
-	$scope.envChanged = envChanged;
-	$scope.contChanged = contChanged;
-	$scope.getContainers = getContainers;
 	$scope.getEnvQuota = getEnvQuota;
 	$scope.updateQuota = updateQuota;
 
@@ -337,17 +337,17 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 		});
 	}	
 
+	function getContainers() {
+		var environment = vm.environments[vm.environmentQuota];
+		vm.containersForQuota = environment.containers;
+		console.log(vm.containersForQuota);
+	}
+
+	function contChanged(containerId) {
+		console.log(containerId);
+	}
+
 	//------------------------
-
-	function contChanged(cont) {
-		console.log(cont);
-		getEnvQuota(cont);
-	}
-
-	function envChanged() {
-		console.log(this.env.name);
-		getContainers(this.env.name);
-	}
 
 	function updateQuota() {
 		console.log("update quota");
@@ -376,14 +376,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 			else if (envName == 'Spark 2') {
 				$scope.envQuota = data[4];
 			}
-		}).error(function () {
-
-		});
-	}
-
-	function getContainers(envName) {
-		environmentService.getContainers(envName).success(function (data) {
-			$scope.containers=data;
 		}).error(function () {
 
 		});
