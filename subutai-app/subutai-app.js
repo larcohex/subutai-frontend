@@ -247,7 +247,299 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             url: "/404",
             template: "Not found"
         }
-    )
+        )
+        .state("pluginsPage", {
+            url: "/pluginsPage",
+            templateUrl: "subutai-app/plugins/partials/sky.html",
+        })
+        .state("cassandra", {
+            url: "/pluginsPage/cassandra",
+            templateUrl: "subutai-app/plugins/cassandra/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.cassandra',
+                            files: [
+                                'subutai-app/plugins/cassandra/cassandra.js',
+                                'subutai-app/plugins/cassandra/controller.js',
+                                'subutai-app/plugins/cassandra/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("elastic-search", {
+            url: "/pluginsPage/elastic-search",
+            templateUrl: "subutai-app/plugins/elastic-search/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.elastic-search',
+                            files: [
+                                'subutai-app/plugins/elastic-search/elastic-search.js',
+                                'subutai-app/plugins/elastic-search/controller.js',
+                                'subutai-app/plugins/elastic-search/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("flume", {
+            url: "/pluginsPage/flume",
+            templateUrl: "subutai-app/plugins/flume/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.flume',
+                            files: [
+                                'subutai-app/plugins/flume/flume.js',
+                                'subutai-app/plugins/flume/controller.js',
+                                'subutai-app/plugins/flume/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("hadoop", {
+            url: "/pluginsPage/hadoop",
+            templateUrl: "subutai-app/plugins/hadoop/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.hadoop',
+                            files: [
+                                'subutai-app/plugins/hadoop/hadoop.js',
+                                'subutai-app/plugins/hadoop/controller.js',
+                                'subutai-app/plugins/hadoop/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("hive", {
+            url: "/pluginsPage/hive",
+            templateUrl: "subutai-app/plugins/hive/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.hive',
+                            files: [
+                                'subutai-app/plugins/hive/hive.js',
+                                'subutai-app/plugins/hive/controller.js',
+                                'subutai-app/plugins/hive/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("hipi", {
+            url: "/pluginsPage/hipi",
+            templateUrl: "subutai-app/plugins/hipi/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.hipi',
+                            files: [
+                                'subutai-app/plugins/hipi/hipi.js',
+                                'subutai-app/plugins/hipi/controller.js',
+                                'subutai-app/plugins/hipi/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("mahout", {
+            url: "/pluginsPage/mahout",
+            templateUrl: "subutai-app/plugins/mahout/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.mahout',
+                            files: [
+                                'subutai-app/plugins/mahout/mahout.js',
+                                'subutai-app/plugins/mahout/controller.js',
+                                'subutai-app/plugins/mahout/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("mongo", {
+            url: "/pluginsPage/mongo",
+            templateUrl: "subutai-app/plugins/mongo/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.mongo',
+                            files: [
+                                'subutai-app/plugins/mongo/mongo.js',
+                                'subutai-app/plugins/mongo/controller.js',
+                                'subutai-app/plugins/mongo/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("nutch", {
+            url: "/pluginsPage/nutch",
+            templateUrl: "subutai-app/plugins/nutch/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.nutch',
+                            files: [
+                                'subutai-app/plugins/nutch/nutch.js',
+                                'subutai-app/plugins/nutch/controller.js',
+                                'subutai-app/plugins/nutch/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("oozie", {
+            url: "/pluginsPage/oozie",
+            templateUrl: "subutai-app/plugins/oozie/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.oozie',
+                            files: [
+                                'subutai-app/plugins/oozie/oozie.js',
+                                'subutai-app/plugins/oozie/controller.js',
+                                'subutai-app/plugins/oozie/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("pig", {
+            url: "/pluginsPage/pig",
+            templateUrl: "subutai-app/plugins/pig/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.pig',
+                            files: [
+                                'subutai-app/plugins/pig/pig.js',
+                                'subutai-app/plugins/pig/controller.js',
+                                'subutai-app/plugins/pig/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("presto", {
+            url: "/pluginsPage/presto",
+            templateUrl: "subutai-app/plugins/presto/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.presto',
+                            files: [
+                                'subutai-app/plugins/presto/presto.js',
+                                'subutai-app/plugins/presto/controller.js',
+                                'subutai-app/plugins/presto/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("shark", {
+            url: "/pluginsPage/shark",
+            templateUrl: "subutai-app/plugins/shark/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.shark',
+                            files: [
+                                'subutai-app/plugins/shark/shark.js',
+                                'subutai-app/plugins/shark/controller.js',
+                                'subutai-app/plugins/shark/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("solr", {
+            url: "/pluginsPage/solr",
+            templateUrl: "subutai-app/plugins/solr/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.solr',
+                            files: [
+                                'subutai-app/plugins/solr/solr.js',
+                                'subutai-app/plugins/solr/controller.js',
+                                'subutai-app/plugins/solr/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("spark", {
+            url: "/pluginsPage/spark",
+            templateUrl: "subutai-app/plugins/spark/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.spark',
+                            files: [
+                                'subutai-app/plugins/spark/spark.js',
+                                'subutai-app/plugins/spark/controller.js',
+                                'subutai-app/plugins/spark/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
+        .state("zookeeper", {
+            url: "/pluginsPage/zookeeper",
+            templateUrl: "subutai-app/plugins/zookeeper/partials/view.html",
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.plugins.zookeeper',
+                            files: [
+                                'subutai-app/plugins/zookeeper/zookeeper.js',
+                                'subutai-app/plugins/zookeeper/controller.js',
+                                'subutai-app/plugins/zookeeper/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })
 }
 
 function startup($rootScope, $state) {
