@@ -18,26 +18,65 @@
 	<div class="col-md-8">
 		<form method="get" class="form-horizontal">
 			<div class="form-group"><label class="col-sm-6 control-label">RAM quota</label>
-				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.ram"></div>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="environmentViewCtrl.envQuota.ram">
+				</div>
 			</div>
 			<div class="form-group"><label class="col-sm-6 control-label">CPU quota</label>
-				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.cpu"></div>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="environmentViewCtrl.envQuota.cpu">
+				</div>
 			</div>
-			<div class="form-group"><label class="col-sm-6 control-label">Home directory quota</label>
-				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.home"></div>
+			<div class="form-group">
+				<label class="col-sm-6 control-label">
+					Home directory quota 
+					<span ng-show="environmentViewCtrl.envQuota.disk.HOME.diskQuotaUnit != 'UNLIMITED'">
+						({{ environmentViewCtrl.envQuota.disk.HOME.diskQuotaUnit }})
+					</span>
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="environmentViewCtrl.envQuota.disk.HOME.diskQuotaValue">
+				</div>
 			</div>
-			<div class="form-group"><label class="col-sm-6 control-label">Var directory quota</label>
-				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.var"></div>
+			<div class="form-group">
+				<label class="col-sm-6 control-label">
+					Var directory quota
+					<span ng-show="environmentViewCtrl.envQuota.disk.VAR.diskQuotaUnit != 'UNLIMITED'">
+						({{ environmentViewCtrl.envQuota.disk.VAR.diskQuotaUnit }})
+					</span>
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="environmentViewCtrl.envQuota.disk.VAR.diskQuotaValue">
+				</div>
 			</div>
-			<div class="form-group"><label class="col-sm-6 control-label">Rootfs directory quota</label>
-				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.root"></div>
+			<div class="form-group">
+				<label class="col-sm-6 control-label">
+					Rootfs directory quota
+					<span ng-show="environmentViewCtrl.envQuota.disk.ROOT_FS.diskQuotaUnit != 'UNLIMITED'">
+						({{ environmentViewCtrl.envQuota.disk.ROOT_FS.diskQuotaUnit }})
+					</span>
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="environmentViewCtrl.envQuota.disk.ROOT_FS.diskQuotaValue">
+				</div>
 			</div>
-			<div class="form-group"><label class="col-sm-6 control-label">Opt directory quota</label>
-				<div class="col-sm-6"><input type="text" class="form-control" ng-model="envQuota.opt"></div>
+			<div class="form-group">
+				<label class="col-sm-6 control-label">
+					Opt directory quota
+					<span ng-show="environmentViewCtrl.envQuota.disk.OPT.diskQuotaUnit != 'UNLIMITED'">
+						({{ environmentViewCtrl.envQuota.disk.OPT.diskQuotaUnit }})
+					</span>
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="environmentViewCtrl.envQuota.disk.OPT.diskQuotaValue">
+				</div>
 			</div>
 			<div class="form-group text-right">
-				<div class="col-sm-8"><button class="btn btn-default" ng-click="updateQuota()">Update Changes</button></div>
-
+				<div class="col-sm-8">
+					<button class="btn btn-default" ng-click="environmentViewCtrl.updateQuota()">
+						Update Changes
+					</button>
+				</div>
 			</div>
 		</form>
 	</div>

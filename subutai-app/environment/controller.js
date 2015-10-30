@@ -25,6 +25,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.environmentToGrow;
 	vm.containers = [];
 	vm.containersForQuota = [];
+	vm.envQuota = {};
 
 	vm.nodeStatus = 'Add to';
 	vm.addBlueprintType = 'build';
@@ -50,6 +51,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.destroyContainer = destroyContainer;
 	vm.getContainers = getContainers;
 	vm.contChanged = contChanged;
+	vm.updateQuota = updateQuota;	
 
 	environmentService.getBlueprints().success(function (data) {
 		vm.blueprints = data;
@@ -62,10 +64,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	environmentService.getPeers().success(function (data) {
 		vm.peers = data;
 	});
-
-	$scope.addBlueprintNode = addBlueprintNode;
-	$scope.getEnvQuota = getEnvQuota;
-	$scope.updateQuota = updateQuota;
 
 	$scope.closePanel = closePanel;
 
@@ -340,54 +338,55 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	function getContainers() {
 		var environment = vm.environments[vm.environmentQuota];
 		vm.containersForQuota = environment.containers;
-		console.log(vm.containersForQuota);
 	}
 
 	function contChanged(containerId) {
-		console.log(containerId);
+		vm.envQuota = {};
+		environmentService.getEnvQuota(containerId).success(function (data) {
+			vm.envQuota = data;
+			vm.envQuota.containerId = containerId;
+			/*for(var disk in vm.envQuota.disk) {
+				console.log(vm.envQuota.disk[disk]);
+			}*/
+		});
 	}
-
-	//------------------------
 
 	function updateQuota() {
 		console.log("update quota");
-		environmentService.updateQuota().success(function (data) {
+		var quotaPostData = 'cpu=' + vm.envQuota.cpu;
+		quotaPostData += '&ram=' + vm.envQuota.ram;
 
-		}).error(function () {
+		if(vm.envQuota.disk.HOME.diskQuotaValue > 0){
+			quotaPostData += '&disk_home=' + vm.envQuota.disk.HOME.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_home=0';
+		}
 
-		})
-	}
+		if(vm.envQuota.disk.VAR.diskQuotaValue > 0){
+			quotaPostData += '&disk_var=' + vm.envQuota.disk.VAR.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_var=0';
+		}
 
-	function getEnvQuota(envName) {
-		console.log(envName);
-		environmentService.getEnvQuota(envName).success(function (data) {
-			if (envName == 'Hadoop 1') {
-				$scope.envQuota = data[0];
-			}
-			else if (envName == 'Hadoop 2') {
-				$scope.envQuota = data[1];
-			}
-			else if (envName == 'Cassandra 3') {
-				$scope.envQuota = data[2];
-			}
-			else if (envName == 'Spark 3') {
-				$scope.envQuota = data[3];
-			}
-			else if (envName == 'Spark 2') {
-				$scope.envQuota = data[4];
-			}
-		}).error(function () {
+		if(vm.envQuota.disk.ROOT_FS.diskQuotaValue > 0){
+			quotaPostData += '&disk_root=' + vm.envQuota.disk.ROOT_FS.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_root=0';
+		}
 
+		if(vm.envQuota.disk.OPT.diskQuotaValue > 0){
+			quotaPostData += '&disk_opt=' + vm.envQuota.disk.OPT.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_opt=0';
+		}
+		console.log(quotaPostData);
+
+		environmentService.updateQuota(vm.envQuota.containerId, quotaPostData).success(function (data) {
+			console.log(data);
+		}).error(function (data) {
+			console.log(data);
 		});
-	}
-
-	function addBlueprintNode() {
-		environmentService.addBlueprintNode().success(function (data) {
-
-		}).error(function () {
-
-		});
-	}
+	}	
 
 	//// Implementation
 
