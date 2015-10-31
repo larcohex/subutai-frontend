@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.nutch', [
-    'nutchCtrl',
-    'nutchSrv'
+    'subutai.plugins.nutch.controller',
+    'subutai.plugins.nutch.service'
 ])

@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.spark', [
-    'sparkCtrl',
-    'sparkSrv'
+    'subutai.plugins.spark.controller',
+    'subutai.plugins.spark.service'
 ])

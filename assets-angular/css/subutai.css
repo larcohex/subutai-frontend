@@ -49,3 +49,18 @@
 .nav-tabs {
 	margin-bottom: 20px;
 }
+
+.myColumns{
+    min-height: 200px;
+}
+
+    .myColumns .subCol{
+    width: 360px;
+    min-height: 70px;
+    float: left;
+    margin-right: 50px;
+}
+.myColumns .subCol div{
+    width: 300px;
+    float: left;
+}

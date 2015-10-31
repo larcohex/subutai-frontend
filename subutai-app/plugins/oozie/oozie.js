@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.oozie', [
-    'oozieCtrl',
-    'oozieSrv'
+    'subutai.plugins.oozie.controller',
+    'subutai.plugins.oozie.service'
 ])

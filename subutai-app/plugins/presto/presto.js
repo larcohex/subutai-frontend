@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.presto', [
-    'prestoCtrl',
-    'prestoSrv'
+    'subutai.plugins.presto.controller',
+    'subutai.plugins.presto.service'
 ])

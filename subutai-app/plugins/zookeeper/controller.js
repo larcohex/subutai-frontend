@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('subutai.plugins.zookeeper', [])
+angular.module('subutai.plugins.zookeeper.controller', [])
     .controller('zookeeperCtrl', zookeeperCtrl)
 
 zookeeperCtrl.$inject = ['zookeeperSrv'];
@@ -8,8 +8,4 @@ zookeeperCtrl.$inject = ['zookeeperSrv'];
 function zookeeperCtrl(zookeeperSrv)
 {
     var vm = this;
-
-    zookeeperSrv.getzookeeper()(function (data) {
-        vm.zookeeper= data;
-    });
 }

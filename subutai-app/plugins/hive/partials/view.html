@@ -1,33 +1,103 @@
-<div ng-controller="cassandraCtrl as cassandraCtrl"  class="ibox float-e-margins animated fadeInLeft">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-9">
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li class="active">
+                <strong>Plugins</strong>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" class="dropdown-toggle"
+                   data-toggle="dropdown"> List <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li>
+                        <a ui-sref="cassandra">Cassandra</a>
+                    </li>
+                    <li>
+                        <a ui-sref="elastic-search ">ElasticSearch </a>
+                    </li>
+                    <li>
+                        <a ui-sref="flume">Flume</a>
+                    </li>
+                    <li>
+                        <a ui-sref="hadoop">Hadoop </a>
+                    </li>
+                    <li>
+                        <a ui-sref="hipi">Hipi </a>
+                    </li>
+                    <li>
+                        <a ui-sref="hive">Hive </a>
+                    </li>
+                    <li>
+                        <a ui-sref="mahout">Mahout </a>
+                    </li>
+                    <li>
+                        <a ui-sref="mongo">Mongo </a>
+                    </li>
+                    <li>
+                        <a ui-sref="nutch">Nutch </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oozie">Oozie </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="pig">Pig </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="presto">Presto </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="shark">Shark </a>
+                    </li>
+                    <li>
+                        <a ui-sref="solr">Solr</a>
+                    </li>
+                    <li>
+                        <a ui-sref="spark">Spark</a>
+                    </li>
+                    <li>
+                        <a ui-sref="zookeeper">Zookeeper </a>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+</div>
+<div ng-controller="hiveCtrl as hiveCtrl"  class="ibox float-e-margins animated fadeInLeft">
     <label>
         Enter cluster name
         </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.cluster.name" required>
+        <input type="text" name="userName" ng-model="hiveCtrl.cluster.name" required>
     </label>
     <label>
         Enter domain name
         </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.domain.name" required>
+        <input type="text" name="userName" ng-model="hiveCtrl.domain.name" required>
     </label>
     <label>
         Data directory
         </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.data.directory" required>
+        <input type="text" name="userName" ng-model="hiveCtrl.data.directory" required>
     </label>
     <label>
         Commit log directory
         </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.commit.directory" required>
+        <input type="text" name="userName" ng-model="hiveCtrl.commit.directory" required>
     </label>
     <label>
         Saved caches directory
         </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.saved.cash.directory" required>
+        <input type="text" name="userName" ng-model="hiveCtrl.saved.cash.directory" required>
     </label>
     <label>
         Choose environment
         </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.environment" required>
+        <input type="text" name="userName" ng-model="hiveCtrl.environment" required>
     </label>
     <div>
         <select class="v-select-twincol-options" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
@@ -40,18 +110,18 @@
         <select class="v-select-twincol-selections" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
     </div>
     <div>
-        <button  ng-click="cassandraCtrl.do()" class="btn btn-primary" >
+        <button  ng-click="hiveCtrl.do()" class="btn btn-primary" >
             next
         </button>
-        <button  ng-click="cassandraCtrl.do()" class="btn btn-primary" >
+        <button  ng-click="hiveCtrl.do()" class="btn btn-primary" >
         back
     </button>
         <div>
-            <div ng-repeat="row in cassandraCtrl.rows">
+            <div ng-repeat="row in hiveCtrl.rows">
 
                 <input type="text" placeholder="{{row.fnPlaceholder}}" ng-model="row.question">
                 <input ng-class="{'blockInput': !row.pick}" placeholder="{{row.lnPlaceholder}}" type="text" ng-model="  row.text">
-                <button class="btn btn-primary" ng-click="cassandraCtrl.removeRow($index)">Remove</button>
+                <button class="btn btn-primary" ng-click="hiveCtrl.removeRow($index)">Remove</button>
 
             </div>
         </div>

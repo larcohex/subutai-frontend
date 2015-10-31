@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('subutai.plugins.oozie', [])
+angular.module('subutai.plugins.oozie.controller', [])
     .controller('oozieCtrl', oozieCtrl)
 
 oozieCtrl.$inject = ['oozieSrv'];
@@ -8,8 +8,4 @@ oozieCtrl.$inject = ['oozieSrv'];
 function oozieCtrl(oozieSrv)
 {
     var vm = this;
-
-    oozieSrv.getoozie()(function (data) {
-        vm.oozie= data;
-    });
 }

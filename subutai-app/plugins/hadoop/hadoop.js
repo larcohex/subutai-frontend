@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.hadoop', [
-    'hadoopCtrl',
-    'hadoopSrv'
+    'subutai.plugins.hadoop.controller',
+    'subutai.plugins.hadoop.service'
 ])

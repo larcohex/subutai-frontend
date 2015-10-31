@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.mongo', [
-    'mongoCtrl',
-    'mongoSrv'
+    'subutai.plugins.mongo.controller',
+    'subutai.plugins.mongo.service'
 ])

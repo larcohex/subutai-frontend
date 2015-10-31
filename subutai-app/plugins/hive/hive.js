@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.hive', [
-    'hiveCtrl',
-    'hiveSrv'
+    'subutai.plugins.hive.controller',
+    'subutai.plugins.hive.service'
 ])

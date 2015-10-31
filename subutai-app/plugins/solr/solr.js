@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.solr', [
-    'solrCtrl',
-    'solrSrv'
+    'subutai.plugins.solr.controller',
+    'subutai.plugins.solr.service'
 ])

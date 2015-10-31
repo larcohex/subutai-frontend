@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.pig', [
-    'pigCtrl',
-    'pigSrv'
+    'subutai.plugins.pig.controller',
+    'subutai.plugins.pig.service'
 ])

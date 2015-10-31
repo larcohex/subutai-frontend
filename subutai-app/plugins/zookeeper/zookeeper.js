@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.zookeeper', [
-    'zookeeperCtrl',
-    'zookeeperSrv'
+    'subutai.plugins.zookeeper.controller',
+    'subutai.plugins.zookeeper.service'
 ])

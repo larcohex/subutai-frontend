@@ -1,59 +1,158 @@
-<div ng-controller="cassandraCtrl as cassandraCtrl"  class="ibox float-e-margins animated fadeInLeft">
-    <label>
-        Enter cluster name
-        </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.cluster.name" required>
-    </label>
-    <label>
-        Enter domain name
-        </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.domain.name" required>
-    </label>
-    <label>
-        Data directory
-        </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.data.directory" required>
-    </label>
-    <label>
-        Commit log directory
-        </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.commit.directory" required>
-    </label>
-    <label>
-        Saved caches directory
-        </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.saved.cash.directory" required>
-    </label>
-    <label>
-        Choose environment
-        </br>
-        <input type="text" name="userName" ng-model="cassandraCtrl.environment" required>
-    </label>
-    <div>
-        <select class="v-select-twincol-options" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
-        <button tabindex="0" role="button" class="btn btn-primary"><span class="v-button-wrap"><span class="v-button-caption">&lt;&lt;</span></span></button>
-        <button class="btn btn-primary">&gt;&gt;</button>
-        <select class="v-select-twincol-selections" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
-        <select class="v-select-twincol-options" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
-        <button tabindex="0" role="button" class="btn btn-primary"><span class="v-button-wrap"><span class="v-button-caption">&lt;&lt;</span></span></button>
-        <button class="btn btn-primary">&gt;&gt;</button>
-        <select class="v-select-twincol-selections" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-9">
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li class="active">
+                <strong>Plugins</strong>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" class="dropdown-toggle"
+                   data-toggle="dropdown"> List <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li>
+                        <a ui-sref="cassandra">Cassandra</a>
+                    </li>
+                    <li>
+                        <a ui-sref="elastic-search ">ElasticSearch </a>
+                    </li>
+                    <li>
+                        <a ui-sref="flume">Flume</a>
+                    </li>
+                    <li>
+                        <a ui-sref="hadoop">Hadoop </a>
+                    </li>
+                    <li>
+                        <a ui-sref="hipi">Hipi </a>
+                    </li>
+                    <li>
+                        <a ui-sref="hive">Hive </a>
+                    </li>
+                    <li>
+                        <a ui-sref="mahout">Mahout </a>
+                    </li>
+                    <li>
+                        <a ui-sref="mongo">Mongo </a>
+                    </li>
+                    <li>
+                        <a ui-sref="nutch">Nutch </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="oozie">Oozie </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="pig">Pig </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="presto">Presto </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="shark">Shark </a>
+                    </li>
+                    <li>
+                        <a ui-sref="solr">Solr</a>
+                    </li>
+                    <li>
+                        <a ui-sref="spark">Spark</a>
+                    </li>
+                    <li>
+                        <a ui-sref="zookeeper">Zookeeper </a>
+                    </li>
+                </ul>
+            </li>
+        </ol>
     </div>
-    <div>
-        <button  ng-click="cassandraCtrl.do()" class="btn btn-primary" >
-            next
-        </button>
-        <button  ng-click="cassandraCtrl.do()" class="btn btn-primary" >
-        back
-    </button>
-        <div>
-            <div ng-repeat="row in cassandraCtrl.rows">
+</div>
+<div ng-controller="mongoCtrl as MongoCtrl"  class="ibox float-e-margins animated fadeInLeft">
+    <strong>Please, specify installation settings</strong>
+    </br>
 
-                <input type="text" placeholder="{{row.fnPlaceholder}}" ng-model="row.question">
-                <input ng-class="{'blockInput': !row.pick}" placeholder="{{row.lnPlaceholder}}" type="text" ng-model="  row.text">
-                <button class="btn btn-primary" ng-click="cassandraCtrl.removeRow($index)">Remove</button>
+    <div class="myColumns">
+        <div class="subCol">
+            <div class="col-md-2">
+                Select environment
+                <select class="form-control m-b"
+                        ng-change="trackerCtrl.loadOperations()"
+                        ng-model="trackerCtrl.selectedModule">
+                    <option ng-repeat="module in trackerCtrl.modules" value="{{ module }}">
+                        {{ module }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                Enter domain name
+                <input type="text" placeholder="intra.lan"  name="userName" ng-model="MongoCtrl.domain.name" class="form-control input-sm" required>
+            </div>
+            <div class="col-md-2">
+                Enter port for data nodes
+                <input type="text" name="userName" placeholder="27017" ng-model="MongoCtrl.data.directory" class="form-control input-sm" required>
+            </div>
+        </div>
 
+        <div class="subCol">
+            <div class="col-md-2">
+                Enter cluster name
+                <input type="text" name="userName" placeholder="cluster name" ng-model="MongoCtrl.cluster.name"  class="form-control input-sm" required>
+            </div>
+            <div class="col-md-2">
+                Enter port for configuration servers
+                <input type="text" name="userName" placeholder="27019" ng-model="MongoCtrl.config.servers" class="form-control input-sm" required>
+            </div>
+            <div class="col-md-2">
+                Enter replica set name
+                <input type="text" name="userName" placeholder="repl" ng-model="MongoCtrl.replica.set.name" class="form-control input-sm" required>
+            </div>
+        </div>
+
+        <div class="subCol">
+            <div class="col-md-2">
+                Enter port for routers
+                </br>
+                <input type="text" name="userName" placeholder="27018" ng-model="MongoCtrl.port" class="form-control input-sm" required>
             </div>
         </div>
     </div>
+
+    <div class="myColumns" style="clear: both" >
+        <div class="myColumns">
+            <div class="subCol" style="float: left;">
+                <div >
+                    <select class="v-select-twincol-options" size="10" multiple="" tabindex="0" style="width: 145px;"></select>
+                    <div class="subCol">
+                        <button tabindex="0" role="button" class="btn btn-primary"><span class="v-button-wrap"><span class="v-button-caption">&lt;&lt;</span></span></button>
+                        <button class="btn btn-primary">&gt;&gt;</button>
+                    </div>
+                    <select class="v-select-twincol-options" size="10" multiple="" tabindex="0" style="width: 145px;"></select>
+
+                </div>
+            </div>
+            <div class="subCol">
+                <div class="myColunms">
+                    <select class="v-select-twincol-options" size="10" multiple="" tabindex="0" style="width: 145px;"></select>
+                    <div class="subCol">
+                        <button tabindex="0" role="button" class="btn btn-primary"><span class="v-button-wrap"><span class="v-button-caption">&lt;&lt;</span></span></button>
+                        <button class="btn btn-primary">&gt;&gt;</button>
+                    </div>
+                    <select class="v-select-twincol-options" size="10" multiple="" tabindex="0" style="width: 145px;"></select>
+
+                </div>
+            </div>
+            <div class="subCol">
+                <div style="float: left;">
+                    <select class="v-select-twincol-options" size="10" multiple="" tabindex="0" style="width: 145px;"></select>
+                    <div class="subCol">
+                        <button tabindex="0" role="button" class="btn btn-primary"><span class="v-button-wrap"><span class="v-button-caption">&lt;&lt;</span></span></button>
+                        <button class="btn btn-primary">&gt;&gt;</button>
+                    </div>
+                    <select class="v-select-twincol-options" size="10" multiple="" tabindex="0" style="width: 145px;"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

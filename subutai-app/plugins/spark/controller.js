@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('subutai.plugins.spark', [])
+angular.module('subutai.plugins.spark.controller', [])
     .controller('sparkCtrl', sparkCtrl)
 
 sparkCtrl.$inject = ['sparkSrv'];
@@ -8,8 +8,4 @@ sparkCtrl.$inject = ['sparkSrv'];
 function sparkCtrl(sparkSrv)
 {
     var vm = this;
-
-    sparkSrv.getspark()(function (data) {
-        vm.spark= data;
-    });
 }

@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.hipi', [
-    'hipiCtrl',
-    'hipiSrv'
+    'subutai.plugins.hipi.controller',
+    'subutai.plugins.hipi.service'
 ])

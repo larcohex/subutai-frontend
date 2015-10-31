@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('subutai.plugins.mahout', [])
+angular.module('subutai.plugins.mahout.controller', [])
     .controller('mahoutCtrl', mahoutCtrl)
 
 mahoutCtrl.$inject = ['mahoutSrv'];
@@ -8,8 +8,4 @@ mahoutCtrl.$inject = ['mahoutSrv'];
 function mahoutCtrl(mahoutSrv)
 {
     var vm = this;
-
-    mahoutSrv.getmahout()(function (data) {
-        vm.mahout= data;
-    });
 }

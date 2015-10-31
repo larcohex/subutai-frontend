@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('subutai.plugins.shark', [])
+angular.module('subutai.plugins.shark.controller', [])
     .controller('sharkCtrl', sharkCtrl)
 
 sharkCtrl.$inject = ['sharkSrv'];
@@ -8,8 +8,4 @@ sharkCtrl.$inject = ['sharkSrv'];
 function sharkCtrl(sharkSrv)
 {
     var vm = this;
-
-    sharkSrv.getshark()(function (data) {
-        vm.shark= data;
-    });
 }

@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.elastic-search', [
-    'elasticSearchCtrl',
-    'elasticSearchSrv'
+    'subutai.plugins.elastic-search.controller',
+    'subutai.plugins.elastic-search.service'
 ])

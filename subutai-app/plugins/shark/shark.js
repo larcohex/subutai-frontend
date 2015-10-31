@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.shark', [
-    'sharkCtrl',
-    'sharkSrv'
+    'subutai.plugins.shark.controller',
+    'subutai.plugins.shark.service'
 ])

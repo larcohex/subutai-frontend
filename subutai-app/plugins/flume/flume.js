@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('subutai.plugins.flume', [
-    'flumeCtrl',
-    'flumeSrv'
+    'subutai.plugins.flume.controller',
+    'subutai.plugins.flume.service'
 ])
