@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('subutai.plugins.flume.cotroller', [])
+angular.module('subutai.plugins.flume.controller', [])
     .controller('flumeCtrl', flumeCtrl)
 
 flumeCtrl.$inject = ['flumeSrv'];

@@ -263,19 +263,19 @@
 									</tr>
 									<tr ng-repeat="(key, container) in environmentViewCtrl.containers">
 										<td>{{ container.id }}</td>
-										<td>{{ container.tamplate }}</td>
-										<td>{{ container.id }}</td>
-										<td>{{ container.peer }}</td>
+										<td>{{ container.templateName }}</td>
+										<td>{{ container.hostname }}</td>
+										<td>{{ container.ip }}</td>
 										<td>
 											<a class="btn btn-outline btn-default btn-sm" data-toggle="modal" data-target="#environmentTag">
 												Tags
 											</a><br/>
 											<a class="btn btn-outline btn-default btn-sm" ng-click="environmentViewCtrl.containerAction(key)">
-												<span ng-show="container.status == 'undefined'"></span>
-												<span ng-show="container.status == 'started'">Stop</span>
-												<span ng-show="container.status == 'stoped'">Start</span>
+												<span ng-show="container.state === undefined"></span>
+												<span ng-show="container.state == 'RUNNING'">Stop</span>
+												<span ng-show="container.state == 'STOPPED'">Start</span>
 											</a><br/>
-											<a class="btn btn-outline btn-danger btn-sm" ng-click="environmentViewCtrl.destroyContainer(container.id)">
+											<a class="btn btn-outline btn-danger btn-sm" ng-click="environmentViewCtrl.destroyContainer(container.id, key)">
 												Destroy
 											</a>
 										</td>

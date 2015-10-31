@@ -24,6 +24,8 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.enviromentSSHKey = {};
 	vm.environmentToGrow;
 	vm.containers = [];
+	vm.containersForQuota = [];
+	vm.envQuota = {};
 
 	vm.nodeStatus = 'Add to';
 	vm.addBlueprintType = 'build';
@@ -47,6 +49,9 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	vm.showContainersList = showContainersList;
 	vm.containerAction = containerAction;
 	vm.destroyContainer = destroyContainer;
+	vm.getContainers = getContainers;
+	vm.contChanged = contChanged;
+	vm.updateQuota = updateQuota;	
 
 	environmentService.getBlueprints().success(function (data) {
 		vm.blueprints = data;
@@ -59,13 +64,6 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	environmentService.getPeers().success(function (data) {
 		vm.peers = data;
 	});
-
-	$scope.addBlueprintNode = addBlueprintNode;
-	$scope.envChanged = envChanged;
-	$scope.contChanged = contChanged;
-	$scope.getContainers = getContainers;
-	$scope.getEnvQuota = getEnvQuota;
-	$scope.updateQuota = updateQuota;
 
 	$scope.closePanel = closePanel;
 
@@ -239,22 +237,18 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	}
 
 	function containerAction(key) {
-		if(vm.containers[key].status === undefined) {
-			environmentService.getContainerStatus(vm.containers[key].id).success(function (data) {
-				vm.containers[key].status = data;
-			});
-		} else if(vm.containers[key].status == 'started') {
-			environmentService.switchContainer(vm.containers[key].id, 'stop').success(function (data) {
-				vm.containers[key].status = 'stoped';
-			});
-		} else {
-			environmentService.switchContainer(vm.containers[key].id, 'start').success(function (data) {
-				vm.containers[key].status = 'started';
-			});
+		var action = 'start';
+		if(vm.containers[key].state == 'RUNNING') {
+			action = 'stop';
 		}
+		environmentService.switchContainer(vm.containers[key].id, action).success(function (data) {
+			environmentService.getContainerStatus(vm.containers[key].id).success(function (data) {
+				vm.containers[key].state = data.STATE;
+			});				
+		});		
 	}
 
-	function destroyContainer(containerId) {
+	function destroyContainer(containerId, key) {
 		SweetAlert.swal({
 			title: "Are you sure?",
 			text: "Your will not be able to recover this Container!",
@@ -278,7 +272,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 			} else {
 				SweetAlert.swal("Cancelled", "Your container is safe :)", "error");
 			}
-		});		
+		});
 	}
 
 	function addNewNode() {
@@ -316,72 +310,83 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 	}
 
 	function removeSshKey(){
-		environmentService.removeSshKey().success(function () {
-
-		}).error(function () {
-
-		})
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Delete environment SSH keys!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, delete it!",
+			cancelButtonText: "No, cancel plx!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				environmentService.removeSshKey(vm.environments[vm.enviromentSSHKey.environmentKey].id).success(function () {
+					SweetAlert.swal("Destroyed!", "Your enviroment SSH keys has been deleted.", "success");
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "Your SSH keys is safe :). Error: " + data.ERROR, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "Your SSH keys is safe :)", "error");
+			}
+		});
 	}	
 
-	//------------------------
-
-	function contChanged(cont) {
-		console.log(cont);
-		getEnvQuota(cont);
+	function getContainers() {
+		var environment = vm.environments[vm.environmentQuota];
+		vm.containersForQuota = environment.containers;
 	}
 
-	function envChanged() {
-		console.log(this.env.name);
-		getContainers(this.env.name);
+	function contChanged(containerId) {
+		vm.envQuota = {};
+		environmentService.getEnvQuota(containerId).success(function (data) {
+			vm.envQuota = data;
+			vm.envQuota.containerId = containerId;
+			/*for(var disk in vm.envQuota.disk) {
+				console.log(vm.envQuota.disk[disk]);
+			}*/
+		});
 	}
 
 	function updateQuota() {
 		console.log("update quota");
-		environmentService.updateQuota().success(function (data) {
+		var quotaPostData = 'cpu=' + vm.envQuota.cpu;
+		quotaPostData += '&ram=' + vm.envQuota.ram;
 
-		}).error(function () {
+		if(vm.envQuota.disk.HOME.diskQuotaValue > 0){
+			quotaPostData += '&disk_home=' + vm.envQuota.disk.HOME.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_home=0';
+		}
 
-		})
-	}
+		if(vm.envQuota.disk.VAR.diskQuotaValue > 0){
+			quotaPostData += '&disk_var=' + vm.envQuota.disk.VAR.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_var=0';
+		}
 
-	function getEnvQuota(envName) {
-		console.log(envName);
-		environmentService.getEnvQuota(envName).success(function (data) {
-			if (envName == 'Hadoop 1') {
-				$scope.envQuota = data[0];
-			}
-			else if (envName == 'Hadoop 2') {
-				$scope.envQuota = data[1];
-			}
-			else if (envName == 'Cassandra 3') {
-				$scope.envQuota = data[2];
-			}
-			else if (envName == 'Spark 3') {
-				$scope.envQuota = data[3];
-			}
-			else if (envName == 'Spark 2') {
-				$scope.envQuota = data[4];
-			}
-		}).error(function () {
+		if(vm.envQuota.disk.ROOT_FS.diskQuotaValue > 0){
+			quotaPostData += '&disk_root=' + vm.envQuota.disk.ROOT_FS.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_root=0';
+		}
 
+		if(vm.envQuota.disk.OPT.diskQuotaValue > 0){
+			quotaPostData += '&disk_opt=' + vm.envQuota.disk.OPT.diskQuotaValue;
+		} else {
+			quotaPostData += '&disk_opt=0';
+		}
+		console.log(quotaPostData);
+
+		environmentService.updateQuota(vm.envQuota.containerId, quotaPostData).success(function (data) {
+			console.log(data);
+		}).error(function (data) {
+			console.log(data);
 		});
-	}
-
-	function getContainers(envName) {
-		environmentService.getContainers(envName).success(function (data) {
-			$scope.containers=data;
-		}).error(function () {
-
-		});
-	}
-
-	function addBlueprintNode() {
-		environmentService.addBlueprintNode().success(function (data) {
-
-		}).error(function () {
-
-		});
-	}
+	}	
 
 	//// Implementation
 

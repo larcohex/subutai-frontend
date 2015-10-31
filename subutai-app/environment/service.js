@@ -16,10 +16,6 @@ function environmentService($http) {
 	var sshKeysURL = environmentsURL + 'key/';
 	var containersURL = environmentsURL + 'container/';
 
-	var getEnvURL = 'subutai-app/environment/dummy-api/environments.json';
-	var getContainersURL = 'subutai-app/environment/dummy-api/';
-	var getEnvQuotaURL = 'subutai-app/environment/dummy-api/envQuota.json';
-
 	var environmentService = {
 		getBlueprints: getBlueprints,
 		getTemplates: getTemplates,
@@ -35,10 +31,8 @@ function environmentService($http) {
 		destroyContainer : destroyContainer,
 		addSshKey : addSshKey,
 		removeSshKey : removeSshKey,
-		
-		removeEnvironments: removeEnvironments,
-		addBlueprintNode: addBlueprintNode,
 		getEnvQuota: getEnvQuota,
+		
 		updateQuota: updateQuota
 	};
 
@@ -117,37 +111,30 @@ function environmentService($http) {
 			sshKeysURL, 
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-		);		
+		);
 	}
 
 	function destroyContainer(containerId) {
 		return $http.delete(containersURL + containerId);		
 	}
 
-	function removeSshKey() {
-		return $http.post();
+	function removeSshKey(environmentId) {
+		return $http.delete(environmentsURL + environmentId + '/keys');		
+	}
+
+	function getEnvQuota(containerId) {
+		return $http.get(
+			containersURL + containerId + '/quota', 
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
 	}	
 
-	function getContainers(envName){
-		if (envName == 'Environment1') return $http.get(getContainersURL+'container1.json');
-		else if (envName == 'Environment2') return $http.get(getContainersURL+'container2.json');
-		else if (envName == 'Environment3') return $http.get(getContainersURL+'container3.json');
-	}
-
-	function updateQuota() {
-		return $http.get();
-	}
-
-	function addBlueprintNode() {
-		return $http.get();
-	}
-
-	function removeEnvironments() {
-		return $http.get();
-	}
-
-	function getEnvQuota() {
-		return $http.get(getEnvQuotaURL);
+	function updateQuota(containerId, postData) {
+		return $http.post(
+			containersURL + containerId + '/quota', 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
 	}
 
 }
