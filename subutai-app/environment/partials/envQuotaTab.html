@@ -8,8 +8,8 @@
 		<div ng-if="environmentViewCtrl.containersForQuota.length > 0" class="col-md-12">
 			<br>
 			List of containers:
-			<div ng-repeat="container in environmentViewCtrl.containersForQuota">
-				<a class="btn btn-white btn-bitbucket" ng-click="environmentViewCtrl.contChanged(container.id)">
+			<div class="b-containers-for-qouta">
+				<a ng-repeat="container in environmentViewCtrl.containersForQuota" class="btn btn-white btn-bitbucket" ng-click="environmentViewCtrl.contChanged(container.id)">
 					<i class="fa fa-cube"></i> {{container.templateName}}
 				</a>
 			</div>

@@ -243,6 +243,24 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                 }]
             }
         })
+        .state('peer-registration', {
+            url: '/peer-registration',
+            templateUrl: 'subutai-app/peerRegistration/partials/view.html',
+            resolve: {
+                loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'subutai.peer-registration',
+                            files: [
+                                'subutai-app/peerRegistration/peerRegistration.js',
+                                'subutai-app/peerRegistration/controller.js',
+                                'subutai-app/peerRegistration/service.js'
+                            ]
+                        }
+                    ]);
+                }]
+            }
+        })		
         .state("404", {
             url: "/404",
             template: "Not found"

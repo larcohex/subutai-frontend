@@ -6420,3 +6420,8 @@ body.skin-3 {
         display: none;
     }
 }
+
+.b-containers-for-qouta .btn {
+	margin-right: 5px;
+}
+

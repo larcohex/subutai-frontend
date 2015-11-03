@@ -194,7 +194,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 
 	function growBlueprint() {
 		var topology = getTopology();
-		var postData = 'environmentId=' + vm.environmentToGrow.id + '&topology=' + topology;
+		var postData = 'environmentId=' + vm.environmentToGrow + '&topology=' + topology;
 		environmentService.growBlueprint(encodeURI(postData)).success(function (data) {
 			console.log(data);
 			SweetAlert.swal("Success!", "You successfully grow environment.", "success");
