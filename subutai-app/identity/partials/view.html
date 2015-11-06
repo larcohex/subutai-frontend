@@ -76,7 +76,7 @@
 
 					<div class="ibox-content">
 
-						<form class="form-horizontal" ng-submit="identityCtrl.addPerson()">
+						<form class="form-horizontal" ng-submit="identityCtrl.addUser()" name="addUserForm">
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label required-label">Username</label>
@@ -102,7 +102,30 @@
 								<label class="col-sm-3 control-label required-label">Password</label>
 
 								<div class="col-sm-9">
-									<input type="password" placeholder="***********" class="form-control" ng-model="identityCtrl.user2Add.password" required>
+									<input type="password" 
+										placeholder="***********" 
+										class="form-control" 
+										ng-model="identityCtrl.user2Add.password" 
+										id="js-password" 
+										required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label required-label">Confirm Password</label>
+
+								<div class="col-sm-9">
+									<input type="password" 
+									placeholder="***********" 
+									class="form-control" 
+									ng-model="confirm_password" 
+									pw-check="js-password" 
+									name="confirm_password" 
+									required>
+								</div>
+								<div class="msg-block" ng-show="addUserForm.$error">
+									<span class="msg-error" ng-show="addUserForm.confirm_password.$error.pwmatch">
+										Passwords don't match.
+									</span>
 								</div>
 							</div>
 
