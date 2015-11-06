@@ -1,41 +1,44 @@
 'use strict';
 
 angular.module('subutai.identity.service', [])
-    .factory('identitySrv', identitySrv);
+	.factory('identitySrv', identitySrv);
 
 
 identitySrv.$inject = ['$http'];
 
 function identitySrv($http) {
-    var getUsersURL = 'subutai-app/identity/dummy-api/data1.json';
-    var getRolesURL = 'subutai-app/identity/dummy-api/roles.json';
-    var getTokensURL = 'subutai-app/identity/dummy-api/tokens.json';
+	var BASE_URL = 'http://172.16.131.205:8181/cxf/';
+	var usersURL = BASE_URL + 'identity_ui/';
+	var rolesURL = BASE_URL + 'identity_ui/roles/';
 
-    var identitySrv = {
-        getUsers: getUsers,
-        addUser : addUser,
-        getRoles: getRoles,
-        getTokens: getTokens
-    };
+	var identitySrv = {
+		getUsers: getUsers,
+		addUser : addUser,
+		deleteUser: deleteUser,
+		getRoles: getRoles,
+	};
 
-    return identitySrv;
+	return identitySrv;
 
-    //// Implementation
+	//// Implementation
 
-    function getUsers() {
-        return $http.get(getUsersURL);
-    }
+	function getUsers() {
+		return $http.get(usersURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
 
-    function addUser() {
+	function addUser(postData) {
+		return $http.post(
+			usersURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}	
 
-    }
+	function deleteUser(userId) {
+		return $http.delete(usersURL + userId);
+	}
 
-    function getRoles() {
-        return $http.get(getRolesURL);
-    }
-
-
-    function getTokens() {
-        return $http.get(getTokensURL);
-    }
+	function getRoles() {
+		return $http.get(rolesURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
 }

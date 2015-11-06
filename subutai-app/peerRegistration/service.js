@@ -7,7 +7,7 @@ angular.module('subutai.peer-registration.service', [])
 peerRegistrationService.$inject = ['$http'];
 
 function peerRegistrationService($http) {
-	var BASE_URL = 'http://172.16.131.205:8181/cxf/';
+	var BASE_URL = 'http://172.16.131.205:8181/rest/';
 	var peersURL = BASE_URL + 'peer_ui/';
 
 	var peerRegistrationService = {
@@ -26,7 +26,6 @@ function peerRegistrationService($http) {
 	}
 
 	function registerRequest(postData) {
-		console.log(postData);
 		return $http.post(
 			peersURL, 
 			postData, 

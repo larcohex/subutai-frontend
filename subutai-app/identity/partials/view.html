@@ -12,7 +12,7 @@
 			</ol>
 		</div>
 	</div>
-	<div class="animated fadeIn wrapper-content" ng-controller="DataReloadWithPromiseCtrl as showCase">
+	<div class="animated fadeIn wrapper-content">
 
 		<div class="row">
 			<div id="resizable-pane" class="col-lg-7 fullWidthPane">
@@ -26,98 +26,40 @@
 
 					<div class="panel-body">
 						<tabset>
-						<tab heading="User management" active="identityCtrl.isUser">
-						<div>
-							<p class="text-danger"><strong>{{ showCase.message }}</strong></p>
-							<!--<table 
-								datatable 
-								dt-options="showCase.dtOptions" 
-								dt-columns="showCase.dtColumns" 
-								dt-instance="showCase.dtInstance" 
-								class="row-border hover"
-							></table>-->
+							<tab heading="User management" active="identityCtrl.isUser">
+								<div>
+									<p class="text-danger"><strong>{{ identityCtrl.message }}</strong></p>
 
-							<table 
-								datatable="ng" 
-								dt-options="showCase.dtOptions" 
-								dt-column-defs="showCase.dtColumnDefs" 
-								dt-instance="showCase.dtInstance" 
-								class="table table-striped table-hover">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>First name</th>
-										<th>Last name</th>
+									<table datatable="" 
+										dt-options="identityCtrl.dtOptions" 
+										dt-columns="identityCtrl.dtColumns" 
+										dt-instance="identityCtrl.dtInstance" 
+										class="table table-striped table-hover">
+									</table>
+								</div>
+							</tab>
+
+							<tab heading="Roles management" active="identityCtrl.isRole">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>name</th>
+											<th>edit</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr ng-repeat="role in identityCtrl.roles">
+										<td>{{role.id}}</td>
+										<td>{{role.name}}</td>
+										<td>
+											<button class="btn btn-primary btn-md editRoleBtn">edit</button>
+										</td>
 									</tr>
-								</thead>
-								<tr ng-repeat="user in showCase.users">
-									<td>{{ user.id }}</td>
-									<td>{{ user.firstName }}</td>
-									<td>{{ user.lastName }}</td>
-								</tr>
-							</table>
-						</div>
-						</tab>
 
-						<tab heading="Roles management" active="identityCtrl.isRole">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>username</th>
-									<th>ID</th>
-									<th>name</th>
-									<th>edit</th>
-								</tr>
-							</thead>
-							<tbody>
-							<tr ng-repeat="role in identityCtrl.roles">
-								<td>{{role.username}}</td>
-								<td>{{role.ID}}</td>
-								<td>{{role.name}}</td>
-								<td>
-									<button class="btn btn-primary btn-md editRoleBtn">edit</button>
-								</td>
-							</tr>
-
-							</tbody>
-						</table>
-						</tab>
-
-						<!-- tokens tab-->
-						<tab heading="Token management" active="identityCtrl.isToken">
-						<table class="table table-responsive">
-							<thead>
-								<tr>
-									<th>username</th>
-									<th>tokenname</th>
-									<th>ip range</th>
-									<th>ttl</th>
-									<th>create date</th>
-									<th>status</th>
-									<th>token</th>
-									<th>edit</th>
-									<th>delete</th>
-								</tr>
-							</thead>
-							<tbody>
-							<tr ng-repeat="token in identityCtrl.tokens">
-								<td>{{token.username}}</td>
-								<td>{{token.tokenname}}</td>
-								<td>{{token.iprange}}</td>
-								<td>{{token.ttl}}</td>
-								<td>{{token.createdate}}</td>
-								<td>{{token.status}}</td>
-								<td>{{token.token}}</td>
-								<td>
-									<button class="btn btn-primary btn-md editTokenBtn">edit</button>
-								</td>
-								<td>
-									<button class="btn btn-primary btn-md deleteTokenBtn">delete</button>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-						</tab>
+									</tbody>
+								</table>
+							</tab>
 						</tabset>
 					</div>
 				</div>
@@ -134,49 +76,33 @@
 
 					<div class="ibox-content">
 
-						<form class="form-horizontal" ng-submit="showCase.addPerson()">
+						<form class="form-horizontal" ng-submit="identityCtrl.addPerson()">
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">ID</label>
-
+								<label class="col-sm-3 control-label required-label">Username</label>
 								<div class="col-sm-9">
-									<input type="number" placeholder="ID" class="form-control" ng-model="showCase.person2Add.id" required>
-								</div>
-							</div>							
-
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">First Name</label>
-
-								<div class="col-sm-9">
-									<input type="text" placeholder="First Name" class="form-control" ng-model="showCase.person2Add.firstName" required>
+									<input type="text" placeholder="Username" class="form-control" ng-model="identityCtrl.user2Add.username" required>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Last Name</label>
+								<label class="col-sm-3 control-label">Full name</label>
 
 								<div class="col-sm-9">
-									<input type="text" placeholder="Last Name" class="form-control" ng-model="showCase.person2Add.lastName" required>
+									<input type="text" placeholder="Full name" class="form-control" ng-model="identityCtrl.user2Add.fullName" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label required-label">Email</label>
 
 								<div class="col-sm-9">
-									<input type="email" placeholder="email@mail.com" class="form-control" ng-model="showCase.person2Add.email" required>
+									<input type="email" placeholder="email@mail.com" class="form-control" ng-model="identityCtrl.user2Add.email" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label required-label">Password</label>
 
 								<div class="col-sm-9">
-									<input type="password" placeholder="***********" class="form-control" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Confirm password</label>
-
-								<div class="col-sm-9">
-									<input type="password" placeholder="***********" class="form-control" required>
+									<input type="password" placeholder="***********" class="form-control" ng-model="identityCtrl.user2Add.password" required>
 								</div>
 							</div>
 
@@ -254,79 +180,6 @@
 					</div>
 				</div>
 
-				<div id="token-form" class="white-bg ibox float-e-margins" style="visibility: hidden;  display: none;">
-					<div class="ibox-title">
-						<h5>Token registration</h5>
-						<div class="ibox-tools dropdown">
-							<a ng-click="identityCtrl.closePane()"><i class="fa fa-times"></i></a>
-						</div>
-					</div>
-
-					<div class="ibox-content">
-
-						<form class="form-horizontal">
-
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Username</label>
-
-								<div class="col-sm-9">
-									<input type="text" placeholder="Username" class="form-control" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Token name</label>
-
-								<div class="col-sm-9">
-									<input type="text" placeholder="Token name" class="form-control" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">IP range</label>
-
-								<div class="col-sm-9">
-									<input type="password" placeholder="IP range" class="form-control" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">TTL</label>
-
-								<div class="col-sm-9">
-									<input type="password" placeholder="TTL" class="form-control" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Create date</label>
-
-								<div class="col-sm-9">
-									<input type="password" placeholder="2015-05-15 15:15" class="form-control" required>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Status</label>
-
-								<div class="col-sm-9">
-									<input type="password" placeholder="valid" class="form-control" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Token</label>
-
-								<div class="col-sm-9">
-									<input type="password" placeholder="1515615616" class="form-control" required>
-								</div>
-							</div>
-							<div class="hr-line-dashed"></div>
-							<div class="form-group">
-								<div class="col-sm-9 col-sm-offset-3">
-									<button class="btn btn-primary btn-md" type="submit">Save token</button>
-									<button class="btn btn-primary btn-md" ng-click="identityCtrl.closePane()">Cancel</button>
-								</div>
-							</div>
-
-						</form>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>

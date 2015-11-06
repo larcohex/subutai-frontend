@@ -7,7 +7,7 @@ angular.module('subutai.environment.service', [])
 environmentService.$inject = ['$http'];
 
 function environmentService($http) {
-	var BASE_URL = 'http://172.16.131.205:8181/cxf/';
+	var BASE_URL = 'http://172.16.131.205:8181/rest/';
 	var blueprintURL = BASE_URL + 'environments_ui/blueprint/';
 	var growBlueprintURL = BASE_URL + 'environments_ui/grow/';
 	var templatesURL = BASE_URL + 'registry_ui/templates/';
