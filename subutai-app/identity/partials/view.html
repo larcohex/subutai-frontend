@@ -20,7 +20,7 @@
 					<div class="ibox-title ibox-tools-right">
 
 						<div class="ibox-tools dropdown">
-							<a ng-click="identityCtrl.addPane()"><i class="fa fa-plus-square"></i></a>
+							<a ng-click="identityCtrl.addNewUser()"><i class="fa fa-plus-square"></i></a>
 						</div>
 					</div>
 
@@ -28,8 +28,6 @@
 						<tabset>
 							<tab heading="User management" active="identityCtrl.isUser">
 								<div>
-									<p class="text-danger"><strong>{{ identityCtrl.message }}</strong></p>
-
 									<table datatable="" 
 										dt-options="identityCtrl.dtOptions" 
 										dt-columns="identityCtrl.dtColumns" 
@@ -81,7 +79,12 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label required-label">Username</label>
 								<div class="col-sm-9">
-									<input type="text" placeholder="Username" class="form-control" ng-model="identityCtrl.user2Add.username" required>
+									<input type="text" 
+										placeholder="Username" 
+										class="form-control" 
+										ng-model="identityCtrl.user2Add.userName" 
+										required 
+										ng-readonly="!identityCtrl.editUserName">
 								</div>
 							</div>
 							<div class="form-group">
@@ -117,10 +120,10 @@
 									<input type="password" 
 									placeholder="***********" 
 									class="form-control" 
-									ng-model="confirm_password" 
+									ng-model="identityCtrl.user2Add.confirm_password" 
 									pw-check="js-password" 
 									name="confirm_password" 
-									required>
+									ng-attr-required="identityCtrl.user2Add.password.length > 0">
 									<span class="help-inline text-danger" ng-show="addUserForm.confirm_password.$error.pwmatch">Passwords don't match.</span>
 								</div>
 							</div>

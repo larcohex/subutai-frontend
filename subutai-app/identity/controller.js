@@ -2,19 +2,23 @@
 
 angular.module('subutai.identity.controller', [])
 	.controller('IdentityCtrl', IdentityCtrl)
-	.directive('pwCheck', pwCheck);
+	.directive('pwCheck', pwCheck)
+	.directive('colSelect', colSelect);	
 
 IdentityCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert'];
 
 function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert) {
 	var vm = this;
-	vm.person2Add = {};
+	vm.user2Add = {};
+	vm.editUserName = true;
 
 	vm.addPane = addPane;
 	vm.closePane = closePane;
 	vm.addUser = addUser;
 	vm.editUser = editUser;
 	vm.deleteUser = deleteUser;
+	vm.colSelectUserRole = colSelectUserRole;
+	vm.addNewUser = addNewUser;
 
 	vm.isUser = true;
 	vm.isRole = false;
@@ -54,8 +58,8 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 		//vm.users.push(angular.copy(vm.person2Add));
 		if ($scope.addUserForm.$valid) {
 			var currentUserRoles = JSON.stringify(vm.user2Add.roles);
-			var postData = 'username=' + vm.user2Add.username + 
-				'&full_name=' + vm.user2Add.username +
+			var postData = 'username=' + vm.user2Add.userName + 
+				'&full_name=' + vm.user2Add.fullName +
 				'&password=' + vm.user2Add.password +
 				'&email=' + vm.user2Add.email;
 
@@ -63,28 +67,53 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 				postData += '&roles=' + currentUserRoles;
 			}
 
-			if(vm.person2Add.id !== undefined && vm.person2Add.id > 0) {
-				postData += '&user_id=' + vm.person2Add.id;
+			if(vm.user2Add.id !== undefined && vm.user2Add.id > 0) {
+				postData += '&user_id=' + vm.user2Add.id;
 			}
 
 			console.log(postData);
-			/*identitySrv.addUser(postData).success(function (data) {
+			identitySrv.addUser(postData).success(function (data) {
 				vm.dtInstance.reloadData();
-			});*/
+			});
 			$scope.addUserForm.$setPristine();
 			$scope.addUserForm.$setUntouched();
 		}		
 	}
 
+	function colSelectUserRole(id) {
+
+		if(vm.user2Add.roles === undefined) {
+			vm.user2Add.roles = [];
+		}
+
+		if(vm.user2Add.roles.indexOf(id) >= 0) {
+			vm.user2Add.roles.splice(vm.user2Add.roles.indexOf(id), 1);
+		} else {
+			vm.user2Add.roles.push(id);
+		}
+		console.log(vm.user2Add.roles);
+	}
+
+	function addNewUser() {
+		vm.user2Add = {};
+		vm.editUserName = true;
+		addPane();
+	}
+
 	function editUser(user) {
-		vm.message = 'You are trying to edit the row: ' + JSON.stringify(user);
-		vm.person2Add = user;
+		//vm.message = 'You are trying to edit the row: ' + JSON.stringify(user);
+		vm.editUserName = false;
+		vm.user2Add = angular.copy(user);
+		vm.user2Add.confirm_password = angular.copy(vm.user2Add.password);
+		vm.user2Add.roles = [];
+		for(var i = 0; i < user.roles.length; i++) {
+			vm.user2Add.roles.push(user.roles[i].id);
+		}
 		addPane();
 	}
 
 	function deleteUser(user) {
-		vm.message = 'You are trying to remove the row: ' + JSON.stringify(user);
-		//vm.dtInstance.reloadData();
+		//vm.message = 'You are trying to remove the row: ' + JSON.stringify(user);
 		SweetAlert.swal(
 				{
 					title: "Are you sure?",
@@ -147,7 +176,6 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 };
 
 function pwCheck() {
-	console.log('loloo');
 	return {
 		require: 'ngModel',
 		link: function (scope, elem, attrs, ctrl) {
@@ -158,6 +186,13 @@ function pwCheck() {
 				});
 			});
 		}
+	}
+};
+
+function colSelect() {
+	return {
+		restrict: 'E',
+		templateUrl: 'subutai-app/identity/directives/col-select/col-select-roles.html'
 	}
 };
 
