@@ -52,24 +52,28 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 
 	function addUser() {
 		//vm.users.push(angular.copy(vm.person2Add));
-		var currentUserRoles = JSON.stringify(vm.user2Add.roles);
-		var postData = 'username=' + vm.user2Add.username + 
-			'&full_name=' + vm.user2Add.username +
-			'&password=' + vm.user2Add.password +
-			'&email=' + vm.user2Add.email;
+		if ($scope.addUserForm.$valid) {
+			var currentUserRoles = JSON.stringify(vm.user2Add.roles);
+			var postData = 'username=' + vm.user2Add.username + 
+				'&full_name=' + vm.user2Add.username +
+				'&password=' + vm.user2Add.password +
+				'&email=' + vm.user2Add.email;
 
-		if(currentUserRoles !== undefined) {
-			postData += '&roles=' + currentUserRoles;
-		}
+			if(currentUserRoles !== undefined) {
+				postData += '&roles=' + currentUserRoles;
+			}
 
-		if(vm.person2Add.id !== undefined && vm.person2Add.id > 0) {
-			postData += '&user_id=' + vm.person2Add.id;
-		}
+			if(vm.person2Add.id !== undefined && vm.person2Add.id > 0) {
+				postData += '&user_id=' + vm.person2Add.id;
+			}
 
-		console.log(postData);
-		/*identitySrv.addUser(postData).success(function (data) {
-		  vm.dtInstance.reloadData();
-		  });*/
+			console.log(postData);
+			/*identitySrv.addUser(postData).success(function (data) {
+				vm.dtInstance.reloadData();
+			});*/
+			$scope.addUserForm.$setPristine();
+			$scope.addUserForm.$setUntouched();
+		}		
 	}
 
 	function editUser(user) {

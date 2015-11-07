@@ -121,11 +121,7 @@
 									pw-check="js-password" 
 									name="confirm_password" 
 									required>
-								</div>
-								<div class="msg-block" ng-show="addUserForm.$error">
-									<span class="msg-error" ng-show="addUserForm.confirm_password.$error.pwmatch">
-										Passwords don't match.
-									</span>
+									<span class="help-inline text-danger" ng-show="addUserForm.confirm_password.$error.pwmatch">Passwords don't match.</span>
 								</div>
 							</div>
 
