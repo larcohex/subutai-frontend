@@ -8,7 +8,7 @@
 	</div>
 	<div class="ms-selection">
 		<ul tabindex="-1" class="ms-list">
-			<li class="ms-elem-selectable" ng-repeat="role in identityCtrl.roles" ng-if="(identityCtrl.user2Add.roles !== undefined && identityCtrl.user2Add.roles.indexOf(role.id) >= 0)" ng-click="identityCtrl.colSelectUserRole(role.id)">
+			<li class="ms-elem-selection" ng-repeat="role in identityCtrl.roles" ng-if="(identityCtrl.user2Add.roles !== undefined && identityCtrl.user2Add.roles.indexOf(role.id) >= 0)" ng-click="identityCtrl.colSelectUserRole(role.id)">
 				<span>{{ role.name }}</span>
 			</li>
 		</ul>

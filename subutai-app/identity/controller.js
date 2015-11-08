@@ -12,13 +12,93 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 	vm.user2Add = {};
 	vm.editUserName = true;
 
+	vm.permissionsDefault = [
+		{
+			"object": 1,
+			"name": "Identity-Management",
+			"scope": 1,
+			"read": true,
+			"write": true,
+			"update": true,
+			"delete": true,
+			"selected": false
+		},
+		{
+			"object": 2,
+			"name": "Peer-Management",
+			"scope": 1,
+			"read": true,
+			"write": true,
+			"update": true,
+			"delete": true,
+			"selected": false
+		},
+		{
+			"object": 3,
+			"name": "Environment-Management",
+			"scope": 1,
+			"read": true,
+			"write": true,
+			"update": true,
+			"delete": true,
+			"selected": false
+		},
+		{
+			"object": 4,
+			"name": "Resource-Management",
+			"scope": 1,
+			"read": true,
+			"write": true,
+			"update": true,
+			"delete": true,
+			"selected": false
+		},
+		{
+			"object": 5,
+			"name": "Template-Management",
+			"scope": 1,
+			"read": true,
+			"write": true,
+			"update": true,
+			"delete": true,
+			"selected": false
+		},
+		{
+			"object": 6,
+			"name": "Karaf-Server-Administration",
+			"scope": 1,
+			"read": true,
+			"write": true,
+			"update": true,
+			"delete": true,
+			"selected": false
+		},
+		{
+			"object": 7,
+			"name": "Karaf-Server-Management",
+			"scope": 1,
+			"read": true,
+			"write": true,
+			"update": true,
+			"delete": true,
+			"selected": false
+		}
+	];
+
+	vm.permissions2Add = angular.copy(vm.permissionsDefault);
+	vm.role2Add = {}
+
+	//functions
 	vm.addPane = addPane;
 	vm.closePane = closePane;
 	vm.addUser = addUser;
 	vm.editUser = editUser;
 	vm.deleteUser = deleteUser;
 	vm.colSelectUserRole = colSelectUserRole;
-	vm.addNewUser = addNewUser;
+	vm.addNewPanel = addNewPanel;
+	vm.addPermission2Stack = addPermission2Stack;
+	vm.editRole = editRole;
+	vm.deleteRole = deleteRole;
 
 	vm.isUser = true;
 	vm.isRole = false;
@@ -52,7 +132,35 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 			'<button class="btn btn-danger" ng-click="identityCtrl.deleteUser(identityCtrl.users[' + data.id + '])">' +
 			'   <i class="fa fa-trash-o"></i>' +
 			'</button>';
-	}	
+	}
+
+	function addPermission2Stack(permission) {
+		permission.selected = !permission.selected;
+	}
+
+	function editRole(role) {
+		vm.permissions2Add = angular.copy(vm.permissionsDefault);
+		console.log(role);
+		for(var i = 0; i < role.permissions.length; i++) {
+			for(var j = 0; j < vm.permissions2Add.length; j++) {
+				if(vm.permissions2Add[j].object == role.permissions[i].object) {
+					vm.permissions2Add[j].selected = true;
+					vm.permissions2Add[j].read = role.permissions[i].read;
+					vm.permissions2Add[j].write = role.permissions[i].write;
+					vm.permissions2Add[j].update = role.permissions[i].update;
+					vm.permissions2Add[j].delete = role.permissions[i].delete;
+					break;
+				}
+			}
+		}
+		vm.role2Add = angular.copy(role);
+		//vm.role2Add = role;
+		addPane();
+	}
+
+	function deleteRole(role) {
+		console.log(role);
+	}
 
 	function addUser() {
 		//vm.users.push(angular.copy(vm.person2Add));
@@ -94,9 +202,14 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 		console.log(vm.user2Add.roles);
 	}
 
-	function addNewUser() {
-		vm.user2Add = {};
-		vm.editUserName = true;
+	function addNewPanel() {
+		if( vm.isUser ) {
+			vm.user2Add = {};
+			vm.editUserName = true;
+		} else if( vm.isRole ) {
+			vm.role2Add = {};
+			vm.permissions2Add = angular.copy(vm.permissionsDefault);
+		}
 		addPane();
 	}
 

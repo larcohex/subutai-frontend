@@ -20,7 +20,7 @@
 					<div class="ibox-title ibox-tools-right">
 
 						<div class="ibox-tools dropdown">
-							<a ng-click="identityCtrl.addNewUser()"><i class="fa fa-plus-square"></i></a>
+							<a ng-click="identityCtrl.addNewPanel()"><i class="fa fa-plus-square"></i></a>
 						</div>
 					</div>
 
@@ -51,7 +51,13 @@
 										<td>{{role.id}}</td>
 										<td>{{role.name}}</td>
 										<td>
-											<button class="btn btn-primary btn-md editRoleBtn">edit</button>
+											<button class="btn btn-warning" ng-click="identityCtrl.editRole(role)">
+												<i class="fa fa-edit"></i>
+											</button>
+											&nbsp;
+											<button class="btn btn-danger" ng-click="identityCtrl.deleteRole(role)">
+												<i class="fa fa-trash-o"></i>
+											</button>
 										</td>
 									</tr>
 
@@ -161,40 +167,84 @@
 					<div class="ibox-content">
 
 						<form class="form-horizontal">
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Roles</label>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2"></div>
-								<div class="col-sm-10">
-									<col-select></col-select>
-								</div>
-							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Roles</label>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2"></div>
-								<div class="col-sm-10">
-									<col-select></col-select>
+								<label class="col-sm-3 control-label">Role name</label>
+								<div class="col-sm-9">
+									<input type="text" 
+										placeholder="Role name" 
+										class="form-control" 
+										ng-model="identityCtrl.role2Add.name" 
+										required>
 								</div>
-							</div>
+							</div>							
 
-							<div class="form-group">
-								<label class="col-sm-3 control-label required-label">Roles</label>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2"></div>
-								<div class="col-sm-10">
-									<col-select></col-select>
-								</div>
-							</div>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="permission in identityCtrl.permissions2Add" ng-if="!permission.selected">
+										<td>{{permission.name}}</td>
+										<td>
+											<button 
+												class="btn btn-primary btn-md editRoleBtn" 
+												ng-click="identityCtrl.addPermission2Stack(permission)">
+												Add
+											</button>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+
+							<div class="hr-line-dashed"></div>							
+
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Read</th>
+										<th>Write</th>
+										<th>Update</th>
+										<th>Delete</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="permission in identityCtrl.permissions2Add" ng-if="permission.selected">
+										<td>{{permission.name}}</td>
+										<td>
+											<input type="checkbox" ng-model="permission.read">
+										</td>
+										<td>
+											<input type="checkbox" ng-model="permission.write">
+										</td>
+										<td>
+											<input type="checkbox" ng-model="permission.update">
+										</td>
+										<td>
+											<input type="checkbox" ng-model="permission.delete">
+										</td>
+										<td>
+											<button 
+												class="btn btn-danger btn-md editRoleBtn" 
+												ng-click="identityCtrl.addPermission2Stack(permission)">
+												<i class="fa fa-times"></i>
+											</button>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>							
 
 							<div class="hr-line-dashed"></div>
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3">
-									<button class="btn btn-primary btn-md" type="submit">Save user</button>
+									<button class="btn btn-primary btn-md" type="submit">Save role</button>
 									<button class="btn btn-primary btn-md" ng-click="identityCtrl.closePane()">Cancel</button>
 								</div>
 							</div>
