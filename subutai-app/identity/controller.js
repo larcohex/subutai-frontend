@@ -98,14 +98,11 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 	vm.addNewPanel = addNewPanel;
 	vm.addPermission2Stack = addPermission2Stack;
 	vm.editRole = editRole;
+	vm.addRole = addRole;
 	vm.deleteRole = deleteRole;
 
 	vm.isUser = true;
 	vm.isRole = false;
-
-	identitySrv.getRoles().success(function (data) {
-		vm.roles = data;
-	});
 
 	vm.dtInstance = {};
 	vm.users = {};
@@ -119,6 +116,13 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 			DTColumnBuilder.newColumn(null).withTitle('Actions').notSortable()
 				.renderWith(actionsHtml)
 	];
+
+	function getRolesFromAPI() {
+		identitySrv.getRoles().success(function (data) {
+			vm.roles = data;
+		});
+	}
+	getRolesFromAPI();
 
 	function createdRow(row, data, dataIndex) {
 		$compile(angular.element(row).contents())($scope);
@@ -158,8 +162,31 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 		addPane();
 	}
 
-	function deleteRole(role) {
-		console.log(role);
+	function deleteRole(roleId, key) {
+		SweetAlert.swal(
+				{
+					title: "Are you sure?",
+					text: "Your will not be able to recover this role!",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Yes, delete it!",
+					cancelButtonText: "No, cancel plx!",
+					closeOnConfirm: false,
+					closeOnCancel: false,
+					showLoaderOnConfirm: true
+				},
+				function (isConfirm) {
+					if (isConfirm) {
+						identitySrv.deleteRole(roleId).success(function (data) {
+							vm.roles.splice(key, 1);
+							SweetAlert.swal("Deleted!", "Role has been deleted.", "success");
+						});
+					} else {
+						SweetAlert.swal("Cancelled", "Role is safe :)", "error");
+					}
+				}
+		);		
 	}
 
 	function addUser() {
@@ -187,6 +214,30 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 			$scope.addUserForm.$setUntouched();
 		}		
 	}
+
+	function addRole() {
+		if(vm.role2Add.name === undefined || vm.role2Add.name.length < 1) return;
+		var postData = 'rolename=' + vm.role2Add.name;
+		if(vm.role2Add.id !== undefined && vm.role2Add.id > 0) {
+			postData += '&role_id=' + vm.role2Add.id;
+		}
+
+		var permissionsArray = [];
+		for(var i = 0; i < vm.permissions2Add.length; i++) {
+			if(vm.permissions2Add[i].selected === true) {
+				permissionsArray.push(vm.permissions2Add[i]);
+			}
+		}
+
+		if(permissionsArray.length > 0) {
+			postData += '&permission=' + JSON.stringify(permissionsArray);
+		}
+		console.log(postData);
+
+		identitySrv.addRole(postData).success(function (data) {
+			getRolesFromAPI();
+		});
+	}	
 
 	function colSelectUserRole(id) {
 

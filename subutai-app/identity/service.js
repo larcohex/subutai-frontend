@@ -16,6 +16,8 @@ function identitySrv($http) {
 		addUser : addUser,
 		deleteUser: deleteUser,
 		getRoles: getRoles,
+		addRole: addRole,
+		deleteRole: deleteRole
 	};
 
 	return identitySrv;
@@ -32,7 +34,7 @@ function identitySrv($http) {
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
-	}	
+	}
 
 	function deleteUser(userId) {
 		return $http.delete(usersURL + userId);
@@ -41,4 +43,16 @@ function identitySrv($http) {
 	function getRoles() {
 		return $http.get(rolesURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
+
+	function addRole(postData) {
+		return $http.post(
+			rolesURL, 
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function deleteRole(roleId) {
+		return $http.delete(rolesURL + roleId);
+	}	
 }

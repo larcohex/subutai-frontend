@@ -47,7 +47,7 @@
 										</tr>
 									</thead>
 									<tbody>
-									<tr ng-repeat="role in identityCtrl.roles">
+									<tr ng-repeat="(key, role) in identityCtrl.roles">
 										<td>{{role.id}}</td>
 										<td>{{role.name}}</td>
 										<td>
@@ -55,7 +55,7 @@
 												<i class="fa fa-edit"></i>
 											</button>
 											&nbsp;
-											<button class="btn btn-danger" ng-click="identityCtrl.deleteRole(role)">
+											<button class="btn btn-danger" ng-click="identityCtrl.deleteRole(role.id, key)">
 												<i class="fa fa-trash-o"></i>
 											</button>
 										</td>
@@ -166,7 +166,7 @@
 
 					<div class="ibox-content">
 
-						<form class="form-horizontal">
+						<form class="form-horizontal" ng-submit="identityCtrl.addRole()">
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Role name</label>
@@ -201,7 +201,7 @@
 								</tbody>
 							</table>
 
-							<div class="hr-line-dashed"></div>							
+							<div class="hr-line-dashed"></div>
 
 							<table class="table">
 								<thead>
