@@ -1,22 +1,21 @@
 'use strict';
 
-angular.module('subutai.console.controller', ['vtortola.ng-terminal'])
-.controller('consoleViewCtrl', consoleViewCtrl)
-.config(['terminalConfigurationProvider', function (terminalConfigurationProvider) {
+angular.module('subutai.console.controller', ['vtortola.ng-terminal', 'jsTree.directive'])
+	.controller('ConsoleViewCtrl', ConsoleViewCtrl)
+	.config(['terminalConfigurationProvider', function (terminalConfigurationProvider) {
 
-	terminalConfigurationProvider.config('modern').outputDelay = 80;
-	terminalConfigurationProvider.config('modern').allowTypingWriteDisplaying = false;
-	//terminalConfigurationProvider.config('vintage').typeSoundUrl ='example/content/type.wav';
-	//terminalConfigurationProvider.config('vintage').startSoundUrl ='example/content/start.wav';
-}]);
+		terminalConfigurationProvider.config('modern').outputDelay = 80;
+		terminalConfigurationProvider.config('modern').allowTypingWriteDisplaying = false;
+		//terminalConfigurationProvider.config('vintage').typeSoundUrl ='example/content/type.wav';
+		//terminalConfigurationProvider.config('vintage').startSoundUrl ='example/content/start.wav';
+	}]);
 
-consoleViewCtrl.$inject = ['$scope', 'consoleService'];
+ConsoleViewCtrl.$inject = ['$scope', 'consoleService'];
 
-function consoleViewCtrl($scope, consoleService) {
-	$scope.test = getTestComand;
+function ConsoleViewCtrl($scope, consoleService) {
 
+	//Console UI
 	$scope.theme = 'modern';
-
 	setTimeout(function () {
 		$scope.$broadcast('terminal-output', {
 			output: true,
@@ -62,12 +61,74 @@ function consoleViewCtrl($scope, consoleService) {
 			$scope.session.output.push({ output: true, breakLine: true, text: [err.message] });
 		}
 	});
+	//END Console UI
 
-	function getTestComand() {
-		consoleService.getTestComand().success(function (data) {
-		}).error(function () {
-			$scope.status = "Could not get Resource hosts";
+
+	var vm = this;	
+	vm.currentType = 'resourceHosts';
+	vm.activeConsole = [];
+
+	vm.resourceHosts = [];
+
+	//functions
+	vm.getSubMenuTree = getSubMenuTree;
+	vm.setConsole = setConsole;
+
+	function setConsole(node) {
+		vm.activeConsole.push(node);
+	}
+
+	function getResourceHosts() {
+		consoleService.getResourceHosts().success(function (data) {
+			for(var i = 0; i < data.length; i++) {
+				var currebtNode = createJsTreeNode(data[i]);
+				vm.resourceHosts.push(currebtNode);
+			}
+			return;
 		});
+	}
+
+	function getEnvironments() {
+		consoleService.getEnvironments().success(function (data) {
+			for(var i = 0; i < data.length; i++) {
+				var currebtNode = createJsTreeNode(data[i]);
+				vm.resourceHosts.push(currebtNode);
+			}
+			return;
+		});
+	}
+
+	function getSubMenuTree() {
+		vm.resourceHosts = [];
+		if(vm.currentType == 'resourceHosts') {
+			getResourceHosts();
+		} else {
+			getEnvironments();
+		}
+	}
+
+	getSubMenuTree();
+
+	function createJsTreeNode(json) {
+		var jsTreeNode = {};
+		if(json.hostname !== undefined) {
+			jsTreeNode.title = json.hostname;
+		}
+		if(json.name !== undefined) {
+			jsTreeNode.title = json.name;
+		}		
+		if(json.id !== undefined) {
+			jsTreeNode.id = json.id;
+		}
+
+		if(vm.currentType != 'resourceHosts' && json.containers !== undefined && json.containers.length > 0) {
+			jsTreeNode.nodes = [];
+			for(var i = 0; i < json.containers.length; i++) {
+				var childNode = createJsTreeNode(json.containers[i]);
+				jsTreeNode.nodes.push(childNode);
+			}
+		}
+		return jsTreeNode;
 	}
 
 }

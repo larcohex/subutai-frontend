@@ -54,5 +54,5 @@ function identitySrv($http) {
 
 	function deleteRole(roleId) {
 		return $http.delete(rolesURL + roleId);
-	}	
+	}
 }

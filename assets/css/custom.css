@@ -675,3 +675,11 @@ table.dataTable {
 	clear: both;
 }
 
+.b-nodes-tree {
+	padding: 0 0 0 0;
+}
+
+.b-nodes-tree ol {
+	padding-left: 20px;
+}
+
