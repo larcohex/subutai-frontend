@@ -11,6 +11,7 @@ html, body {
 body {
     font-family: 'Ubuntu', sans-serif;
     background-color: #f0f0f0;
+	position: relative;
 }
 
 /*Header*/
@@ -70,6 +71,8 @@ body {
 #nprogress .bar {
     background: #0b55ff;
     height: 3px;
+	position: absolute;
+	left: 0;
     top: 57px;
 }
 
@@ -80,6 +83,7 @@ body {
 #nprogress .spinner {
     top: 21px;
     left: 230px;
+	position: absolute;
 }
 
 #nprogress .spinner-icon {
@@ -108,9 +112,8 @@ body {
 }
 
 .b-nav-menu {
-    min-height: 50px;
     box-sizing: border-box;
-    padding-top: 15px;
+    padding: 15px 0;
 }
 
 .b-nav-menu:target {
@@ -217,7 +220,3 @@ body {
     text-decoration: none;
 }
 
-.b-nav-menu-sub a:active {
-    font-weight: 700;
-    text-decoration: none;
-}

@@ -1,3 +1,6 @@
 NProgress.start();
-setTimeout(function() { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
+setTimeout(function() {
+	NProgress.done();
+	$('.fade').removeClass('out');
+}, 1000);
   
