@@ -17,5 +17,14 @@ $(document).ready(function() {
 			return false;
 		}
 	});
+
+	function colEqualHeight() {
+		if( $('.b-nav').height() > $('.b-workspace').height() ) {
+			$('.b-workspace').height( $('.b-nav').height() );
+		}else if( $('.b-nav').height() < $('.b-workspace').height() ) {
+			$('.b-nav').height( $('.b-workspace').height() );
+		}
+	}
+	colEqualHeight();
 });
   
