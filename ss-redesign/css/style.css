@@ -417,17 +417,10 @@ display: inline-block;
     background-color: #19286e;
 }
 .b-btn_green {
-    background-color: #22b573;
+    background-color: #39b54a;
 }
 .b-btn_green:hover {
-    background-color: #19286e;
-}
-
-.b-btn_light-green {
-	background-color: #39b54a;
-}
-.b-btn_light-green:hover {
-	background-color: #009245;
+    background-color: #009245;
 }
 
 /*Popup*/
@@ -445,7 +438,7 @@ display: inline-block;
 .b-popup__header {
     box-sizing: border-box;
     width: 100%;
-    padding: 15px 30px;
+    padding: 20px 30px;
     font-size: 16px;
     line-height: 12px;
     color: #19286e;
@@ -507,5 +500,5 @@ display: inline-block;
     color: #000;
 }
 .b-popup__footer {
-    padding: 15px 30px 30px 15px;
+    padding: 0 30px 15px 30px;
 }
