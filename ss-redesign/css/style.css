@@ -11,7 +11,7 @@ html, body {
 body {
     font-family: 'Ubuntu', sans-serif;
     background-color: #f0f0f0;
-	position: relative;
+    position: relative;
 }
 
 /*Header*/
@@ -71,8 +71,8 @@ body {
 #nprogress .bar {
     background: #0b55ff;
     height: 3px;
-	position: absolute;
-	left: 0;
+    position: absolute;
+    left: 0;
     top: 57px;
 }
 
@@ -83,7 +83,7 @@ body {
 #nprogress .spinner {
     top: 21px;
     left: 230px;
-	position: absolute;
+    position: absolute;
 }
 
 #nprogress .spinner-icon {
@@ -142,7 +142,7 @@ body {
 
 .b-nav-menu-link__item {
     display: inline-block;
-	vertical-align: top;
+    vertical-align: top;
 }
 
 .b-nav-menu__icon {
@@ -151,7 +151,7 @@ body {
 
 .b-nav-menu__title {
     margin-left: 15px;
-	font-size: 14px;
+    font-size: 14px;
 }
 
 .b-nav-menu-icon {
@@ -220,3 +220,115 @@ body {
     text-decoration: none;
 }
 
+/*Icons*/
+
+.b-icon {
+    height: 10px;
+}
+
+.g-right {
+    float: right;
+}
+/*Buttons*/
+.b-btn {
+    display: block;
+    padding: 5px 15px;
+    background-color: #7f8ea4;
+    border-radius: 5px;
+    color: #fff;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+}
+.b-btn:hover {
+    text-decoration: none;
+    background-color: #ccc;
+}
+.b-btn_blue {
+    background-color: #255fb5;
+}
+.b-btn_blue:hover {
+    background-color: #19286e;
+}
+.b-btn_green {
+    background-color: #22b573;
+}
+.b-btn_green:hover {
+    background-color: #19286e;
+}
+
+/*Popup*/
+.b-popup {
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 610px;
+    background-color: #fff;
+    border: 1px solid #f2f2f2;
+
+}
+
+.b-popup__header {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 16px;
+    line-height: 12px;
+    color: #19286e;
+    border-bottom: 1px solid #e6eaf5;
+}
+
+.b-popup__body {
+    padding: 15px 30px;
+    font-size: 13px;
+    color: #19286e;
+}
+
+.b-popup-body__name {
+    width: 330px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    line-height: 29px;
+}
+
+.b-popup-body-input {
+    box-sizing: border-box;
+    height: 29px;
+    border: 1px solid #e6eaf5;
+    border-radius: 5px;
+    padding: 0 5px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+}
+
+.b-popup-body-input_name {
+    width: 170px;
+    float: right;
+}
+
+.b-popup-body__box {
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #e6eaf5;
+    border-radius: 5px;
+}
+
+.b-popup-body__box_conf {
+    width: 320px;
+}
+
+.popup-body-box {
+    line-height: 29px;
+    margin-bottom: 10px;
+}
+
+.b-popup-body-input_box {
+    float: right;
+    width: 160px;
+    color: #cccccc;
+}
+
+.b-popup-body-input_box:focus {
+    color: #000;
+}

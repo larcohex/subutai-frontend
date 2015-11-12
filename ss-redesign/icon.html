@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--CSS Libs-->
+    <link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/libs/nprogress.css"/>
+    <!--CSS-->
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<a href="#"><img src="assets/elements/buttons/b-icon-build.svg" class="b-icon"/></a>
+<a href="#"><img src="assets/elements/buttons/b-icon-grow.svg" class="b-icon"/></a>
+<a href="#"><img src="assets/elements/buttons/b-icon-remove.svg" class="b-icon"/></a>
+
+
+<div class="b-popup">
+    <div class="b-popup__header">
+        Create blueprint
+        <a href="#"><img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/></a>
+    </div>
+    <div class="b-popup__body">
+        <div class="b-popup-body">
+            <div class="b-popup-body__name">
+                Enter blueprint name <input class="b-popup-body-input b-popup-body-input_name" type="text">
+            </div>
+            <div class="b-popup-body__box b-popup-body__box_conf">
+                <div class="popup-body-box">
+                    Select template
+                    <select class="b-popup-body-input b-popup-body-input_box">
+                        <option value="master">Master</option>
+                    </select>
+                </div>
+                <div class="popup-body-box">
+                    Number of containers <input class="b-popup-body-input b-popup-body-input_box" type="text">
+                </div>
+                <div class="popup-body-box">
+                    Enter SSH Group ID <input class="b-popup-body-input b-popup-body-input_box" type="text" value="0">
+                </div>
+                <div class="popup-body-box">
+                    Enter host Group ID <input class="b-popup-body-input b-popup-body-input_box" type="text" value="0">
+                </div>
+                <div class="popup-body-box">
+                    <a href="#" class="b-btn b-btn_blue g-right">Add to node list <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="b-popup-body__box">
+                <div class="popup-body-box">
+
+                </div>
+            </div>
+            <a href="#" class="b-btn b-btn_green g-right">Add to node list</i></a>
+        </div>
+    </div>
+</div>
+<!--JS Libs-->
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="scripts/libs/nprogress.js"></script>
+
+<!--JS-->
+<script src="scripts/scripts.js"></script>
+</body>
+</html>
