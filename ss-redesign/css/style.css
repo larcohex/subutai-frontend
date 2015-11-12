@@ -358,6 +358,30 @@ body {
 
 .b-icon {
     height: 10px;
+	width: 10px;
+	background-size: 10px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-block;
+	margin: 0 10px 0 0;
+}
+
+.b-icon:last-child {
+	margin-right: 0;
+	margin-bottom: 0;
+}
+
+.b-icon_remove {
+	background-image: url('../assets/elements/buttons/b-icon-remove.svg');
+}
+
+.b-icon_build {
+	background-image: url('../assets/elements/buttons/b-icon-build.svg');
+}
+
+.b-icon_grow {
+	background-image: url('../assets/elements/buttons/b-icon-grow.svg');
 }
 
 .g-right {
@@ -365,14 +389,22 @@ body {
 }
 /*Buttons*/
 .b-btn {
-    display: block;
-    padding: 5px 15px;
+display: inline-block;
+	padding: 0 15px;
+	height: 26px;
+	line-height: 26px;	
     background-color: #7f8ea4;
     border-radius: 5px;
     color: #fff;
     font-family: 'Ubuntu', sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     text-decoration: none;
+	-webkit-transition: all .4s ease-in-out;
+	-moz-transition: all .4s ease-in-out;
+	-o-transition: all .4s ease-in-out;
+	-ms-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;	
+	transition: all .4s ease-in-out;
 }
 .b-btn:hover {
     text-decoration: none;
@@ -389,6 +421,13 @@ body {
 }
 .b-btn_green:hover {
     background-color: #19286e;
+}
+
+.b-btn_light-green {
+	background-color: #39b54a;
+}
+.b-btn_light-green:hover {
+	background-color: #009245;
 }
 
 /*Popup*/
