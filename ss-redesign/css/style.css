@@ -437,17 +437,10 @@ display: inline-block;
     background-color: #19286e;
 }
 .b-btn_green {
-    background-color: #22b573;
+    background-color: #39b54a;
 }
 .b-btn_green:hover {
-    background-color: #19286e;
-}
-
-.b-btn_light-green {
-	background-color: #39b54a;
-}
-.b-btn_light-green:hover {
-	background-color: #009245;
+    background-color: #009245;
 }
 
 /*Popup*/
@@ -465,7 +458,7 @@ display: inline-block;
 .b-popup__header {
     box-sizing: border-box;
     width: 100%;
-    padding: 15px 30px;
+    padding: 20px 30px;
     font-size: 16px;
     line-height: 12px;
     color: #19286e;
@@ -474,8 +467,6 @@ display: inline-block;
 
 .b-popup__body {
     padding: 15px 30px;
-    font-size: 13px;
-    color: #19286e;
 }
 
 .b-popup-body__name {
@@ -484,7 +475,11 @@ display: inline-block;
     margin-bottom: 10px;
     line-height: 29px;
 }
-
+.b-popup-body-label {
+    font-size: 13px;
+    line-height: 29px;
+    color: #19286e;
+}
 .b-popup-body-input {
     box-sizing: border-box;
     height: 29px;
@@ -512,7 +507,6 @@ display: inline-block;
 }
 
 .popup-body-box {
-    line-height: 29px;
     margin-bottom: 10px;
 }
 
@@ -524,4 +518,7 @@ display: inline-block;
 
 .b-popup-body-input_box:focus {
     color: #000;
+}
+.b-popup__footer {
+    padding: 0 30px 15px 30px;
 }
