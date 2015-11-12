@@ -224,27 +224,34 @@ body {
 .b-tags {
 	display: inline-block;
 	padding: 0 8px;
-	height: 16px;
-	line-height: 16px;
+	height: 18px;
+	line-height: 18px;
 	color: #333333;
 	background-color: #efc94c;
-	border: 1px solid #f2d678;
 	text-decoration: none;
 	font-size: 9px;
 	border-radius: 5px;
-	margin: 0 2px 0 0;
+	margin: 0 2px 5px 0;
 	transition: all .4s ease-in-out;	
 }
 
 .b-tags_orange {
 	background-color: #e27a3f;
-	border: 1px solid #f3d3c1;
 	color: #fff;
 }
 
 .b-tags_red {
 	background-color: #df3c3f;
-	border: 1px solid #e66c6e;
+	color: #fff;
+}
+
+.b-tags_green {
+	background-color: #45b29d;
+	color: #fff;
+}
+
+.b-tags_blue {
+	background-color: #334d5c;
 	color: #fff;
 }
 
