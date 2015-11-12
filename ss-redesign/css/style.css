@@ -177,6 +177,10 @@ body {
 	width: 100%;
 }
 
+.b-main-table__controls {
+	width: 70px;
+}
+
 .b-main-table th {
 	padding: 18px 0 17px 18px;
 	background-color: #f1f4f8;
@@ -365,6 +369,11 @@ body {
 	text-decoration: none;
 	display: inline-block;
 	margin: 0 10px 0 0;
+	-webkit-transition: all .4s ease-in-out;
+	-moz-transition: all .4s ease-in-out;
+	-o-transition: all .4s ease-in-out;
+	-ms-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;	
 }
 
 .b-icon:last-child {
@@ -376,12 +385,24 @@ body {
 	background-image: url('../assets/elements/buttons/b-icon-remove.svg');
 }
 
+.b-icon_remove:hover {
+	transform: rotateY(360deg);
+}
+
 .b-icon_build {
 	background-image: url('../assets/elements/buttons/b-icon-build.svg');
 }
 
+.b-icon_build:hover {
+	transform: rotate(30deg)
+}
+
 .b-icon_grow {
 	background-image: url('../assets/elements/buttons/b-icon-grow.svg');
+}
+
+.b-icon_grow:hover {
+	height: 15px;
 }
 
 .g-right {
@@ -404,7 +425,6 @@ display: inline-block;
 	-o-transition: all .4s ease-in-out;
 	-ms-transition: all .4s ease-in-out;
 	transition: all .4s ease-in-out;	
-	transition: all .4s ease-in-out;
 }
 .b-btn:hover {
     text-decoration: none;
