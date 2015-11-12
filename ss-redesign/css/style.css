@@ -123,39 +123,32 @@ body {
     border-left: 3px solid #0b55ff;
 }
 
-.b-nav-menu-a {
+.b-nav-menu-link {
     text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    color: #19286e;
 }
 
-.b-nav-menu-a:hover .b-nav-menu-icon path,
-.b-nav-menu-a:hover .b-nav-menu-icon polygon,
-.b-nav-menu-a:hover .b-nav-menu-icon rect {
+.b-nav-menu-link:hover .b-nav-menu-icon path,
+.b-nav-menu-link:hover .b-nav-menu-icon polygon,
+.b-nav-menu-link:hover .b-nav-menu-icon rect {
     fill: #0b55ff;
 }
 
-.b-nav-menu-a:hover .b-nav-menu-name {
+.b-nav-menu-link:hover {
     color: #0b55ff;
 }
 
 .b-nav-menu__icon {
     display: inline-block;
     margin-left: 30px;
+    margin-right: 15px;
 }
 
 .b-nav-menu-icon {
     height: 15px;
     width: 15px;
-}
-
-.b-nav-menu__name {
-    display: inline-block;
-    margin-left: 10px;
-}
-
-.b-nav-menu-name {
-    font-weight: 600;
-    font-size: 13px;
-    color: #19286e;
 }
 
 .b-nav-menu__add {
@@ -167,14 +160,13 @@ body {
 
 .b-bav-menu-add_notification {
     box-sizing: border-box;
-    width: 25px;
-    height: 15px;
     background-color: #19286e;
     border-radius: 7px;
     font-size: 10px;
     color: #fff;
     text-align: center;
-    padding: 2px;
+    padding: 3px 10px;
+
 }
 
 .b-nav-menu > .b-nav-menu__sub {
@@ -212,7 +204,7 @@ body {
 
 .b-nav-menu-sub a {
     color: #19286e;
-    font-size: 14px;
+    font-size: 13px;
     text-decoration: underline;
 }
 
