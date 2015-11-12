@@ -415,8 +415,6 @@ body {
 
 .b-popup__body {
     padding: 15px 30px;
-    font-size: 13px;
-    color: #19286e;
 }
 
 .b-popup-body__name {
@@ -425,7 +423,11 @@ body {
     margin-bottom: 10px;
     line-height: 29px;
 }
-
+.b-popup-body-label {
+    font-size: 13px;
+    line-height: 29px;
+    color: #19286e;
+}
 .b-popup-body-input {
     box-sizing: border-box;
     height: 29px;
@@ -453,7 +455,6 @@ body {
 }
 
 .popup-body-box {
-    line-height: 29px;
     margin-bottom: 10px;
 }
 
@@ -465,4 +466,7 @@ body {
 
 .b-popup-body-input_box:focus {
     color: #000;
+}
+.b-popup__footer {
+    padding: 15px 30px 30px 15px;
 }
