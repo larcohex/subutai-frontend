@@ -3,4 +3,19 @@ setTimeout(function() {
 	NProgress.done();
 	$('.fade').removeClass('out');
 }, 1000);
+
+$(document).ready(function() {
+	$('.b-nav-menu-link').on('click', function(){
+		if($(this).next('.b-nav-menu__sub').length > 0) {
+			if($(this).parent().hasClass('b-nav-menu_active')) {
+				$(this).parent().removeClass('b-nav-menu_active');
+				$(this).next('.b-nav-menu__sub').slideUp(300);
+			} else {
+				$(this).parent().addClass('b-nav-menu_active');
+				$(this).next('.b-nav-menu__sub').slideDown(300);
+			}
+			return false;
+		}
+	});
+});
   
