@@ -21,7 +21,9 @@
 				</tr>
 				<tr ng-repeat = "(key, blueprint) in blueprintsViewCtrl.blueprints">
 					<td class="b-main-table__edit-icon">
-						<a href="#" class="b-icon b-icon_edit"></a>
+						<a href class="b-icon b-icon_edit" 
+							ng-click="blueprintsViewCtrl.createBlueprintFrom(key)">
+						</a>
 					</td>
 					<td>{{ blueprint.name }}</td>
 					<td>
@@ -30,8 +32,12 @@
 						</a>
 					</td>
 					<td class="b-main-table__controls">
-						<a href="#" class="b-icon b-icon_build"></a>
-						<a href="#" class="b-icon b-icon_grow"></a>
+						<a href class="b-icon b-icon_build" 
+							ng-click="blueprintsViewCtrl.showBlueprintCreateBlock(key, 'build')">
+						</a>
+						<a href class="b-icon b-icon_grow"
+							ng-click="blueprintsViewCtrl.showBlueprintCreateBlock(key, 'grow')">
+						</a>
 						<a href class="b-icon b-icon_remove" 
 							ng-click="blueprintsViewCtrl.deleteBlueprint(blueprint.id, key)">
 						</a>

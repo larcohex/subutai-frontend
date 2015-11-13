@@ -23,6 +23,12 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 	vm.currentBlueprint;
 	vm.environmentToGrow;
 
+	if($scope.ngDialogData !== undefined) {
+		vm.blueprintFrom = $scope.ngDialogData;
+		vm.nodeList = angular.copy(vm.blueprintFrom.nodeGroups);
+		vm.blueprintFrom.nodeGroups = [];
+	}
+
 	vm.nodeStatus = 'Add to';
 	vm.addBlueprintType = 'build';
 
@@ -53,14 +59,6 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 	environmentService.getContainersType().success(function (data) {
 		vm.containersType = data;
 	});
-
-	function createBlueprintFrom() {
-		ngDialog.open({
-			template: 'subutai-app/blueprints/partials/blueprintForm.html',
-			controller: 'BlueprintsViewCtrl',
-			controllerAs: 'blueprintsViewCtrl',
-		});
-	}
 
 	function deleteBlueprint(blueprintId, key){
 		SweetAlert.swal(
@@ -137,9 +135,28 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 		vm.nodesToCreate.splice(key, 1);
 	}
 
+	function createBlueprintFrom(key) {
+		if(key === undefined || key === null) key = false;
+
+		var dataToForm;
+		if(key !== false) {
+			dataToForm = angular.copy(vm.blueprints[key]);
+		}
+
+		ngDialog.open({
+			template: 'subutai-app/blueprints/partials/blueprintForm.html',
+			controller: 'BlueprintsViewCtrl',
+			controllerAs: 'blueprintsViewCtrl',
+			data: dataToForm,
+			preCloseCallback: function(value) {
+				getBlueprints();
+			}
+		});
+	}
+
 	function addBlueprint() {
 		if(vm.blueprintFrom.name === undefined) return;
-		if(vm.blueprintFrom.nodeGroups === undefined || vm.blueprintFrom.nodeGroups.length == 0) return;
+		if(vm.nodeList === undefined || vm.nodeList.length == 0) return;
 
 		var finalBlueprint = vm.blueprintFrom;
 		finalBlueprint.nodeGroups = vm.nodeList;
@@ -150,12 +167,11 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 
 		environmentService.createBlueprint(JSON.stringify(finalBlueprint)).success(function (data) {
 			vm.blueprints.push(data);
-			getBlueprints();
+			ngDialog.closeAll();
 		});
 
 		vm.nodeList = [];
 		vm.blueprintFrom = {};
-		ngDialog.closeAll();
 	}
 
 	function getTopology() {
