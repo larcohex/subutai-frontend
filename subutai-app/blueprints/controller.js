@@ -1,21 +1,19 @@
 'use strict';
 
 angular.module('subutai.blueprints.controller', [])
-	.controller('BlueprintsViewCtrl', BlueprintsViewCtrl);
+	.controller('BlueprintsViewCtrl', BlueprintsViewCtrl)
+	.controller('CreateBlueprintCtrl', CreateBlueprintCtrl);
 
 BlueprintsViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog'];
+CreateBlueprintCtrl.$inject = ['$scope', 'environmentService', 'ngDialog'];
 
 function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 
 	var vm = this;
 	vm.blueprints = {};
 	vm.peers = [];
-	vm.templates = [];
 	vm.containersType = [];
 
-	vm.blueprintFrom = {};
-	vm.blueprintFrom.currentNode = {};
-	vm.nodeList = [];
 	vm.createEnviromentInfo = [];
 	vm.nodesToCreate = [];
 	vm.transportNodes = [];
@@ -23,20 +21,8 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 	vm.currentBlueprint;
 	vm.environmentToGrow;
 
-	if($scope.ngDialogData !== undefined) {
-		vm.blueprintFrom = $scope.ngDialogData;
-		vm.nodeList = angular.copy(vm.blueprintFrom.nodeGroups);
-		vm.blueprintFrom.nodeGroups = [];
-	}
-
-	vm.nodeStatus = 'Add to';
-	vm.addBlueprintType = 'build';
-
 	// functions
 	vm.createBlueprintFrom = createBlueprintFrom;
-	vm.addBlueprint = addBlueprint;
-	vm.addNewNode = addNewNode;
-	vm.setNodeData = setNodeData;
 	vm.deleteBlueprint = deleteBlueprint;
 	vm.showBlueprintCreateBlock = showBlueprintCreateBlock;
 	vm.placeNode = placeNode;
@@ -51,10 +37,6 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 		});
 	}
 	getBlueprints();
-
-	environmentService.getTemplates().success(function (data) {
-		vm.templates = data;
-	});
 
 	environmentService.getContainersType().success(function (data) {
 		vm.containersType = data;
@@ -145,33 +127,13 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 
 		ngDialog.open({
 			template: 'subutai-app/blueprints/partials/blueprintForm.html',
-			controller: 'BlueprintsViewCtrl',
-			controllerAs: 'blueprintsViewCtrl',
+			controller: 'CreateBlueprintCtrl',
+			controllerAs: 'createBlueprintCtrl',
 			data: dataToForm,
 			preCloseCallback: function(value) {
 				getBlueprints();
 			}
 		});
-	}
-
-	function addBlueprint() {
-		if(vm.blueprintFrom.name === undefined) return;
-		if(vm.nodeList === undefined || vm.nodeList.length == 0) return;
-
-		var finalBlueprint = vm.blueprintFrom;
-		finalBlueprint.nodeGroups = vm.nodeList;
-		if(finalBlueprint.currentNod !== undefined) {
-			finalBlueprint.nodeGroups.push(finalBlueprint.currentNode);
-		}
-		delete finalBlueprint.currentNode;
-
-		environmentService.createBlueprint(JSON.stringify(finalBlueprint)).success(function (data) {
-			vm.blueprints.push(data);
-			ngDialog.closeAll();
-		});
-
-		vm.nodeList = [];
-		vm.blueprintFrom = {};
 	}
 
 	function getTopology() {
@@ -212,6 +174,35 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 		});
 	}
 
+}
+
+function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
+	
+	var vm = this;
+
+	vm.blueprintFrom = {};
+	vm.blueprintFrom.currentNode = {};
+	vm.nodeList = [];	
+	vm.templates = [];
+
+	environmentService.getTemplates().success(function (data) {
+		vm.templates = data;
+	});
+
+	if($scope.ngDialogData !== undefined) {
+		vm.blueprintFrom = $scope.ngDialogData;
+		vm.nodeList = angular.copy(vm.blueprintFrom.nodeGroups);
+		vm.blueprintFrom.nodeGroups = [];
+	}
+
+	vm.nodeStatus = 'Add to';
+	vm.addBlueprintType = 'build';	
+
+	//functions
+	vm.addBlueprint = addBlueprint;
+	vm.addNewNode = addNewNode;
+	vm.setNodeData = setNodeData;
+
 	function addNewNode() {
 		if(vm.nodeStatus == 'Add to') {
 			var tempNode = vm.blueprintFrom.currentNode;
@@ -226,6 +217,25 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 	function setNodeData(key) {
 		vm.nodeStatus = 'Update in';
 		vm.blueprintFrom.currentNode = vm.nodeList[key];
-	}
+	}	
 
+	function addBlueprint() {
+		if(vm.blueprintFrom.name === undefined) return;
+		if(vm.nodeList === undefined || vm.nodeList.length == 0) return;
+
+		var finalBlueprint = vm.blueprintFrom;
+		finalBlueprint.nodeGroups = vm.nodeList;
+		if(finalBlueprint.currentNod !== undefined) {
+			finalBlueprint.nodeGroups.push(finalBlueprint.currentNode);
+		}
+		delete finalBlueprint.currentNode;
+
+		environmentService.createBlueprint(JSON.stringify(finalBlueprint)).success(function (data) {
+			ngDialog.closeAll();
+		});
+
+		vm.nodeList = [];
+		vm.blueprintFrom = {};
+	}	
+	
 }
