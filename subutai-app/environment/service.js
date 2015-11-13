@@ -8,31 +8,34 @@ environmentService.$inject = ['$http'];
 
 function environmentService($http) {
 	var BASE_URL = 'http://172.16.131.205:8181/rest/environments_ui/';
-	var blueprintURL = BASE_URL + 'blueprint/';
+	var blueprintURL = BASE_URL + 'blueprints/';
 	var growBlueprintURL = BASE_URL + 'grow/';
 	var templatesURL = BASE_URL + 'templates/';
 	var peersURL = BASE_URL + 'peers';
 	var environmentsURL = BASE_URL;
 	var sshKeysURL = environmentsURL + 'key/';
-	var containersURL = environmentsURL + 'container/';
+	var containersURL = environmentsURL + 'containers/';
+	var containersTypeURL = containersURL + 'types/';
 
 	var environmentService = {
 		getBlueprints: getBlueprints,
+		createBlueprint : createBlueprint,
 		getTemplates: getTemplates,
 		deleteBlueprint : deleteBlueprint,
 		getPeers : getPeers,
 		buildBlueprint : buildBlueprint,
+		growBlueprint : growBlueprint,
+		getContainersType : getContainersType,
+
 		getEnvironments : getEnvironments,
 		destroyEnvironment: destroyEnvironment,
-		createBlueprint : createBlueprint,
-		growBlueprint : growBlueprint,
 		getContainerStatus : getContainerStatus,
 		switchContainer : switchContainer,
 		destroyContainer : destroyContainer,
 		addSshKey : addSshKey,
 		removeSshKey : removeSshKey,
+
 		getEnvQuota: getEnvQuota,
-		
 		updateQuota: updateQuota
 	};
 
@@ -46,6 +49,10 @@ function environmentService($http) {
 
 	function getTemplates() {
 		return $http.get(templatesURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function getContainersType() {
+		return $http.get(containersTypeURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function createBlueprint(blueprint_json) {

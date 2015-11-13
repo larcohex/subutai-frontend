@@ -55,22 +55,23 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert) {
 
 	environmentService.getBlueprints().success(function (data) {
 		vm.blueprints = data;
+		console.log(vm.blueprints);
 	});
 
 	environmentService.getTemplates().success(function (data) {
 		vm.templates = data;
 	});
 
-	environmentService.getPeers().success(function (data) {
+	/*environmentService.getPeers().success(function (data) {
 		vm.peers = data;
-	});
+	});*/
 
 	$scope.closePanel = closePanel;
 
 	function getEnvironments() {
-		environmentService.getEnvironments().success(function (data) {
+		/*environmentService.getEnvironments().success(function (data) {
 			vm.environments = data;
-		});		
+		});*/
 	}
 
 	getEnvironments();
