@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
     <link rel="stylesheet" href="css/libs/nprogress.css"/>
     <link rel="stylesheet" href="css/libs/normalize.css"/>
-
-    <link href="css/libs/angular.rangeSlider.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/libs/nouislider.min.css">
 
     <!--CSS-->
     <link rel="stylesheet" href="css/style.css"/>
@@ -189,9 +188,8 @@
                                 Master: 5
                             </a>
                         </td>
-                        <td ng-controller="DemoController">
-                            <div range-slider min="0" max="10" model-max="demo7.valueA" pin-handle="min"
-                                 show-values="false"></div>
+                        <td>
+                            <div id="slider-connect"></div>
                         </td>
                         <td>
                             <select class="b-popup-body-input b-popup-body-input_table">
@@ -223,28 +221,11 @@
 <!--JS Libs-->
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="scripts/libs/nprogress.js"></script>
+<script src="scripts/libs/nouislider.min.js"></script>
 
 <!--JS-->
 <script src="scripts/scripts.js"></script>
 
 
-<!--@todo This is for slider. Manas you may configure how you think-->
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
-<script src="scripts/libs/angular.rangeSlider.js"></script>
-<script>
-    // basic angular app setup
-    var app = angular.module('myApp', ['ui-rangeSlider']);
-
-    app.controller('DemoController',
-            function DemoController($scope) {
-
-                // just some values for the sliders
-                $scope.demo7 = {
-                    valueA: 2,
-                    valueB: 3
-                };
-            }
-    );
-</script>
 </body>
 </html>

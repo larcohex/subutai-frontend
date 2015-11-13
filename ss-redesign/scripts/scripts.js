@@ -68,3 +68,20 @@ function applyDataMask(field) {
 	field.addEventListener('click', changed)
 	field.addEventListener('keyup', changed)
 }
+
+var connectSlider = document.getElementById('slider-connect');
+
+noUiSlider.create(connectSlider, {
+	start: 0,
+	connect: 'lower',
+	step: 1,
+	range: {
+		'min': 0,
+		'max': 5
+	},
+	pips: {
+		mode: 'count',
+		values: 6,
+		density: 1
+	}
+});
