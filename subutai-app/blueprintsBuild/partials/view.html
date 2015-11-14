@@ -1,0 +1,66 @@
+<div ng-controller="BlueprintsBuildCtrl as blueprintsBuildCtrl">
+
+	<div class="b-workspace__header">
+		<h1 class="b-title">Blueprint/ <span class="b-title_breadcrumbs">Build environment</span></h1>
+	</div>
+
+	<div class="b-workspace__content">
+		<div class="b-main-form">
+			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
+				<label class="b-popup-body-label">Environment name</label>
+				<input class="b-popup-body-input b-popup-body-input_enviroment-name" type="text">
+
+				<div class="clear"></div>
+			</div>
+			<div class="b-main-form__wrapper ">
+				<label class="b-popup-body-label">Subnet</label>
+				<input class="b-popup-body-input b-popup-body-input_subnet" type="text" value="___.___.___.___/____"
+				data-mask="___.___.___.___/____">
+			</div>
+			<div class="b-main-form__wrapper g-right">
+				<a href="#" class="b-icon b-icon_box b-icon_box_notification"></a>
+
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="b-main-table-border">
+			<table class="b-main-table b-main-table_with-header">
+				<tr>
+					<th>Node group</th>
+					<th>Amount containers</th>
+					<th>Peer</th>
+					<th>Resource host</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td class="b-main-table__node-one">
+						<a class="b-tags b-tags_orange" href="#">
+							Master: 5
+						</a>
+					</td>
+					<td>
+						<div id="slider-connect"></div>
+					</td>
+					<td>
+						<select class="b-popup-body-input b-popup-body-input_table">
+							<option value="peer-1">Peer 1</option>
+							<option value="peer-2">Peer 2</option>
+						</select>
+					</td>
+					<td>
+						<select class="b-popup-body-input b-popup-body-input_table">
+							<option value="rh-1">RH 1</option>
+							<option value="rh-2">RH 2</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="b-main-place">
+			<a class="b-btn b-btn_green g-right" href="#">
+				<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Place
+			</a>
+		</div>
+	</div>
+
+</div>

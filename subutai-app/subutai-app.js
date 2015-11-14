@@ -42,7 +42,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				]);
 			}]
 		}
-	})	
+	})
+	.state("blueprints-build", {
+		url: "/blueprints-build",
+		templateUrl: "subutai-app/blueprintsBuild/partials/view.html",
+		resolve: {
+			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+						{files: ['scripts/scripts.js']},
+						{
+							name: 'subutai.blueprints-build',
+							files: [
+								'subutai-app/blueprintsBuild/blueprintsBuild.js',
+								'subutai-app/blueprintsBuild/controller.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+				]);
+			}]
+		}
+	})
 	.state("environments", {
 		url: "/environments",
 		templateUrl: "subutai-app/environment/partials/view.html",
