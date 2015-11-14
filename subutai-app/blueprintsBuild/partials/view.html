@@ -7,14 +7,14 @@
 	<div class="b-workspace__content">
 		<div class="b-main-form">
 			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
-				<label class="b-popup-body-label">Environment name</label>
+				<label class="b-popup-body-label b-popup-body-label_inline">Environment name</label>
 				<input class="b-popup-body-input b-popup-body-input_enviroment-name" type="text">
 
 				<div class="clear"></div>
 			</div>
 			<div class="b-main-form__wrapper ">
-				<label class="b-popup-body-label">Subnet</label>
-				<input class="b-popup-body-input b-popup-body-input_subnet" type="text" value="___.___.___.___/____"
+				<label class="b-popup-body-label b-popup-body-label_inline">Subnet</label>
+				<input class="b-popup-body-input b-popup-body-input_subnet" type="text" ng-model="vm.subnetCIDR"
 				data-mask="___.___.___.___/____">
 			</div>
 			<div class="b-main-form__wrapper g-right">
@@ -32,14 +32,16 @@
 					<th>Resource host</th>
 					<th></th>
 				</tr>
-				<tr>
+				<tr ng-repeat="(key, nodeGroups) in blueprintsBuildCtrl.blueprint.nodeGroups">
 					<td class="b-main-table__node-one">
 						<a class="b-tags b-tags_orange" href="#">
-							Master: 5
+							{{ nodeGroups.name }}: {{ nodeGroups.numberOfContainers }}
 						</a>
 					</td>
 					<td>
-						<div id="slider-connect"></div>
+						<div 
+							ya-no-ui-slider='{start: nodeGroups.numberOfContainers, range: {min: 1, max: nodeGroups.numberOfContainers}, pips: {mode: "count", values: nodeGroups.numberOfContainers, density: 1}}'>
+						</div>
 					</td>
 					<td>
 						<select class="b-popup-body-input b-popup-body-input_table">

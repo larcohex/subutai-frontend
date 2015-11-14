@@ -555,6 +555,9 @@ display: inline-block;
     font-size: 13px;
     line-height: 29px;
     color: #19286e;
+}
+
+.b-popup-body-label_inline {
     margin-right: 20px;
 }
 

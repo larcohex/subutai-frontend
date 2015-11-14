@@ -19,6 +19,7 @@ function environmentService($http) {
 
 	var environmentService = {
 		getBlueprints: getBlueprints,
+		getBlueprintById: getBlueprintById,
 		createBlueprint : createBlueprint,
 		getTemplates: getTemplates,
 		deleteBlueprint : deleteBlueprint,
@@ -45,6 +46,10 @@ function environmentService($http) {
 
 	function getBlueprints() {
 		return $http.get(blueprintURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function getBlueprintById(blueprintId) {
+		return $http.get(blueprintURL + blueprintId, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function getTemplates() {

@@ -10,7 +10,7 @@ CreateBlueprintCtrl.$inject = ['$scope', 'environmentService', 'ngDialog'];
 function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 
 	var vm = this;
-	vm.blueprints = {};
+	vm.blueprints = [];
 	vm.peers = [];
 
 	vm.colors = [];

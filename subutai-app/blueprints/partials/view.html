@@ -32,11 +32,11 @@
 						</a>
 					</td>
 					<td class="b-main-table__controls">
-						<a href class="b-icon b-icon_build" 
-							ng-click="blueprintsViewCtrl.showBlueprintCreateBlock(key, 'build')">
+						<a ui-sref="blueprintsActions({ blueprintId: blueprint.id, action: 'build' })" 
+							class="b-icon b-icon_build">
 						</a>
-						<a href class="b-icon b-icon_grow"
-							ng-click="blueprintsViewCtrl.showBlueprintCreateBlock(key, 'grow')">
+						<a ui-sref="blueprintsActions({ blueprintId: blueprint.id, action: 'grow' })" 
+							class="b-icon b-icon_grow">
 						</a>
 						<a href class="b-icon b-icon_remove" 
 							ng-click="blueprintsViewCtrl.deleteBlueprint(blueprint.id, key)">

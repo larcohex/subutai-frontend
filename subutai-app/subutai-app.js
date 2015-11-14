@@ -3,7 +3,7 @@ var app = angular.module("subutai-app", [
 	'ngResource',
 	'oc.lazyLoad',
 	'oitozero.ngSweetAlert',
-	'ngDialog'
+	'ngDialog',
 ])
 .config(routesConf)
 	.run(startup);
@@ -43,13 +43,20 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}]
 		}
 	})
-	.state("blueprints-build", {
-		url: "/blueprints-build",
+	.state("blueprintsActions", {
+		url: "/blueprints/{blueprintId}/{action}/",
 		templateUrl: "subutai-app/blueprintsBuild/partials/view.html",
 		resolve: {
 			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 				return $ocLazyLoad.load([
 						{files: ['scripts/scripts.js']},
+						{
+							name: 'ya.nouislider',
+							files: [
+								'scripts/libs/nouislider.min.js',
+								'assets/js/plugins/nouislider.min.js'
+							]
+						},
 						{
 							name: 'subutai.blueprints-build',
 							files: [

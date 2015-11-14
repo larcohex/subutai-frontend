@@ -3,13 +3,19 @@
 angular.module('subutai.blueprints-build.controller', [])
 	.controller('BlueprintsBuildCtrl', BlueprintsBuildCtrl);
 
-BlueprintsBuildCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog'];
+BlueprintsBuildCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog', '$stateParams'];
 
-function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog) {
+function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $stateParams) {
+
+	$scope.options = {
+		start: 1,
+		range: {min: 1, max: 5}
+	};
 
 	var vm = this;
-	vm.blueprints = {};
+	vm.blueprint = {};
 	vm.peers = [];
+	vm.blueprintAction = $stateParams.action;
 
 	vm.createEnviromentInfo = [];
 	vm.nodesToCreate = [];
@@ -19,33 +25,28 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog) {
 	vm.environmentToGrow;
 
 	// functions
-	vm.showBlueprintCreateBlock = showBlueprintCreateBlock;
 	vm.placeNode = placeNode;
 	vm.removeNode = removeNode;
 	vm.buildBlueprint = buildBlueprint;
 	vm.growBlueprint = growBlueprint;
 
 
-	function getBlueprints() {
-		environmentService.getBlueprints().success(function (data) {
-			vm.blueprints = data;
+	function getCurrentBlueprint() {
+		environmentService.getBlueprintById($stateParams.blueprintId).success(function (data) {
+			console.log(data);
+			vm.blueprint = data;
+
+			for(var i = 0; i < vm.blueprint.nodeGroups.length; i++) {
+				vm.transportNodes[i] = {};
+				vm.transportNodes[i].name = vm.blueprint.nodeGroups[i].name;
+				vm.transportNodes[i].numberOfContainers = vm.blueprint.nodeGroups[i].numberOfContainers;
+			}
+			vm.nodesToCreate = [];			
 		});
 	}
-	getBlueprints();
+	getCurrentBlueprint();
 
-	function showBlueprintCreateBlock(key, type) {
-		vm.addBlueprintType = type;
-		vm.createEnviromentInfo = angular.copy(vm.blueprints[key].nodeGroups);
-		vm.currentBlueprint = angular.copy(vm.blueprints[key]);
-		for(var i = 0; i < vm.blueprints[key].nodeGroups.length; i++) {
-			vm.transportNodes[i] = {};
-			vm.transportNodes[i].name = vm.blueprints[key].nodeGroups[i].name;
-			vm.transportNodes[i].numberOfContainers = vm.blueprints[key].nodeGroups[i].numberOfContainers;
-		}
-		vm.nodesToCreate = [];
-		vm.subnetCIDR = '192.168.10.1/24';
-		addPanel('buildBlueprint');
-	}
+	vm.subnetCIDR = '192.168.10.1/24';
 
 	function placeNode(node, nodeGroup, key) {
 		if(node.peer === undefined) return;
