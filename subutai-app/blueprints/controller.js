@@ -13,13 +13,7 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 	vm.blueprints = [];
 	vm.peers = [];
 
-	vm.colors = [];
-	vm.colors['CUSTOM'] = 'blue';
-	vm.colors['HUGE'] = 'bark-red';
-	vm.colors['LARGE'] = 'red';
-	vm.colors['MEDIUME'] = 'orange';
-	vm.colors['SMALL'] = 'yellow';
-	vm.colors['TINY'] = 'green';
+	vm.colors = quotaColors;
 
 	// functions
 	vm.createBlueprintFrom = createBlueprintFrom;

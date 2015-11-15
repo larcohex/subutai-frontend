@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('subutai.identity.controller', [])
-	.controller('IdentityCtrl', IdentityCtrl)
+angular.module('subutai.identity-user.controller', [])
+	.controller('IdentityUserCtrl', IdentityUserCtrl)
 	.directive('pwCheck', pwCheck)
 	.directive('colSelect', colSelect);	
 
-IdentityCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert'];
+IdentityUserCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert'];
 
-function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert) {
+function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert) {
+
 	var vm = this;
 	vm.user2Add = {};
 	vm.editUserName = true;
@@ -107,7 +108,7 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 	vm.dtInstance = {};
 	vm.users = {};
 	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		return $resource('http://172.16.131.205:8181/rest/identity_ui/').query().$promise;
+		return $resource('http://172.16.131.201:8181/rest/identity_ui/').query().$promise;
 	}).withPaginationType('full_numbers').withOption('createdRow', createdRow);
 	vm.dtColumns = [
 		DTColumnBuilder.newColumn('id').withTitle('ID'),
@@ -130,10 +131,10 @@ function IdentityCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $r
 
 	function actionsHtml(data, type, full, meta) {
 		vm.users[data.id] = data;
-		return '<button class="btn btn-warning" ng-click="identityCtrl.editUser(identityCtrl.users[' + data.id + '])">' +
+		return '<button class="btn btn-warning" ng-click="identityUserCtrl.editUser(identityUserCtrl.users[' + data.id + '])">' +
 			'   <i class="fa fa-edit"></i>' +
 			'</button>&nbsp;' +
-			'<button class="btn btn-danger" ng-click="identityCtrl.deleteUser(identityCtrl.users[' + data.id + '])">' +
+			'<button class="btn btn-danger" ng-click="identityUserCtrl.deleteUser(identityUserCtrl.users[' + data.id + '])">' +
 			'   <i class="fa fa-trash-o"></i>' +
 			'</button>';
 	}
@@ -356,7 +357,7 @@ function pwCheck() {
 function colSelect() {
 	return {
 		restrict: 'E',
-		templateUrl: 'subutai-app/identity/directives/col-select/col-select-roles.html'
+		templateUrl: 'subutai-app/identityUser/directives/col-select/col-select-roles.html'
 	}
 };
 

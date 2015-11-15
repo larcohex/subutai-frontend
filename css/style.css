@@ -181,6 +181,20 @@ body {
 	border: 1px solid #e9edf6;	
 	border-radius: 5px;
 	overflow: hidden;
+	position: relative;
+}
+
+.b-data-table {
+	overflow: hidden;
+	padding-top: 20px;
+}
+
+.dt-loading {
+	text-align: center;
+}
+
+.b-main-table-border_dbTable {
+	margin: 0 0 20px 0;
 }
 
 .b-main-table {
@@ -252,6 +266,11 @@ body {
 	color: #fff;
 }
 
+.b-tags_grey {
+	background-color: #f1f4f8;
+	color: #333;
+}
+
 .b-tags_orange {
 	background-color: #e27a3f;
 	color: #fff;
@@ -274,6 +293,26 @@ body {
 
 .b-tags:hover {
 	opacity: 0.7;
+}
+
+.b-status-icon {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50px;
+	overflow: hidden;
+}
+
+.b-status-icon_UNDER_MODIFICATION {
+	background-color: #efc94c;
+}
+
+.b-status-icon_UNHEALTHY {
+	background-color: #c1272d;
+}
+
+.b-status-icon_HEALTHY {
+	background-color: #22b573;
 }
 
 /*Navigation*/
@@ -451,7 +490,7 @@ body {
 .b-icon_box-white {
     background-image: url('../assets/elements/buttons/b-icon-box_white.svg');
 }
-.b-icon_box_notification {
+.b-icon_notification {
     position: relative;
     height: 14px;
     width: 15px;
@@ -459,8 +498,7 @@ body {
     vertical-align: bottom;
 }
 
-.b-icon_box_notification:after {
-    content: "3";
+.b-icon__inner-num {
     position: absolute;
     width: 15px;
     height: 15px;
@@ -719,13 +757,36 @@ display: inline-block;
 .noUi-marker-normal {
     display: none;
 }
+
 .noUi-background {
-    background: #999999;
     box-shadow: none;
+	margin-right: 8px;
 }
+
+.noUi-origin {
+	background: #999999;
+}
+
 .noUi-marker-horizontal.noUi-marker-large {
     height: 4px;
 }
 .noUi-value-large {
     color: transparent;
 }
+
+.noUi-handle-lower .noUi-tooltip {
+	top: 0;
+}
+
+.noUi-tooltip {
+	display: block;
+	position: relative;
+	border: none;
+	border-radius: 3px;
+	background: transparent;
+	padding: 0 0 0 0;
+	left: 0;
+	text-align: center;
+	width: 100%;
+}
+

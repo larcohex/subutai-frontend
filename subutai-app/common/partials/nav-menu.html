@@ -1,4 +1,4 @@
-<nav class="b-nav b-nav_left">
+<nav class="b-nav b-nav_left" dropdown-menu>
 	<ul class="b-nav__menu">
 		<li class="b-nav-menu">
 			<a ui-sref="monitoring" class="b-nav-menu-link">
@@ -90,8 +90,12 @@
 				</span>
 			</a>
 			<ul class="b-nav-menu__sub">
-				<li class="b-nav-menu-sub b-nav-menu-sub_disabled"><a href="#">User management</a></li>
-				<li class="b-nav-menu-sub b-nav-menu-sub_disabled"><a href="#">Roles management</a></li>
+				<li class="b-nav-menu-sub b-nav-menu-sub_disabled">
+					<a ui-sref="identity-user">User management</a>
+				</li>
+				<li class="b-nav-menu-sub b-nav-menu-sub_disabled">
+					<a href="#">Roles management</a>
+				</li>
 			</ul>
 		</li>
 		<li class="b-nav-menu">

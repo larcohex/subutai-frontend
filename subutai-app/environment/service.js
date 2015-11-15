@@ -7,11 +7,12 @@ angular.module('subutai.environment.service', [])
 environmentService.$inject = ['$http'];
 
 function environmentService($http) {
-	var BASE_URL = 'http://172.16.131.205:8181/rest/environments_ui/';
+	var BASE_URL = serverUrl + 'environments_ui/';
 	var blueprintURL = BASE_URL + 'blueprints/';
 	var growBlueprintURL = BASE_URL + 'grow/';
 	var templatesURL = BASE_URL + 'templates/';
-	var peersURL = BASE_URL + 'peers';
+	var peersURL = BASE_URL + 'peers/';
+	var strategiesURL = BASE_URL + 'strategies/';
 	var environmentsURL = BASE_URL;
 	var sshKeysURL = environmentsURL + 'key/';
 	var containersURL = environmentsURL + 'containers/';
@@ -24,6 +25,7 @@ function environmentService($http) {
 		getTemplates: getTemplates,
 		deleteBlueprint : deleteBlueprint,
 		getPeers : getPeers,
+		getStrategies : getStrategies,
 		buildBlueprint : buildBlueprint,
 		growBlueprint : growBlueprint,
 		getContainersType : getContainersType,
@@ -75,7 +77,11 @@ function environmentService($http) {
 
 	function getPeers() {
 		return $http.get(peersURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
-	}	
+	}
+
+	function getStrategies() {
+		return $http.get(strategiesURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
 
 	function buildBlueprint(postData) {
 		return $http.post(

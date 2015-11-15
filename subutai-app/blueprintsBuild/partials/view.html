@@ -1,24 +1,51 @@
 <div ng-controller="BlueprintsBuildCtrl as blueprintsBuildCtrl">
 
 	<div class="b-workspace__header">
-		<h1 class="b-title">Blueprint/ <span class="b-title_breadcrumbs">Build environment</span></h1>
+		<h1 class="b-title">
+			Blueprint/ 
+			<span class="b-title_breadcrumbs">{{ blueprintsBuildCtrl.blueprintAction }} environment</span>
+		</h1>
 	</div>
 
 	<div class="b-workspace__content">
 		<div class="b-main-form">
-			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
-				<label class="b-popup-body-label b-popup-body-label_inline">Environment name</label>
-				<input class="b-popup-body-input b-popup-body-input_enviroment-name" type="text">
-
+			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r" 
+				ng-show="blueprintsBuildCtrl.blueprintAction == 'grow'">
+				<label class="b-popup-body-label b-popup-body-label_inline">Environment</label>
+				<select class="b-popup-body-input b-popup-body-input_enviroment-name" 
+					ng-model="blueprintsBuildCtrl.environmentToGrow">
+					<option 
+						ng-repeat="(key, environment) in blueprintsBuildCtrl.environments" 
+						value="{{ environment.id }}">
+						{{ environment.name }}
+					</option>
+				</select>
 				<div class="clear"></div>
 			</div>
-			<div class="b-main-form__wrapper ">
-				<label class="b-popup-body-label b-popup-body-label_inline">Subnet</label>
-				<input class="b-popup-body-input b-popup-body-input_subnet" type="text" ng-model="vm.subnetCIDR"
-				data-mask="___.___.___.___/____">
+			<div ng-show="blueprintsBuildCtrl.blueprintAction == 'build'">
+
+				<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
+					<label class="b-popup-body-label b-popup-body-label_inline">Environment name</label>
+					<input type="text" 
+					class="b-popup-body-input b-popup-body-input__enviroment-name" 
+					ng-model="blueprintsBuildCtrl.newEnvironmentName">
+				</div>
+
+				<div class="b-main-form__wrapper ">
+					<label class="b-popup-body-label b-popup-body-label_inline">Subnet</label>
+					<input type="text" 
+					class="b-popup-body-input b-popup-body-input_subnet" 
+					ng-model="blueprintsBuildCtrl.subnetCIDR" 
+					data-mask="___.___.___.___/____">
+				</div>
+
 			</div>
 			<div class="b-main-form__wrapper g-right">
-				<a href="#" class="b-icon b-icon_box b-icon_box_notification"></a>
+				<a href="#" class="b-icon b-icon_box b-icon_notification">
+					<span class="b-icon__inner-num">
+						{{ blueprintsBuildCtrl.nodesToCreate.length }}
+					</span>
+				</a>
 
 				<div class="clear"></div>
 			</div>
@@ -32,36 +59,64 @@
 					<th>Resource host</th>
 					<th></th>
 				</tr>
-				<tr ng-repeat="(key, nodeGroups) in blueprintsBuildCtrl.blueprint.nodeGroups">
-					<td class="b-main-table__node-one">
+				<tr ng-repeat="(key, nodeGroup) in blueprintsBuildCtrl.blueprint.nodeGroups">
+					<td>
 						<a class="b-tags b-tags_orange" href="#">
-							{{ nodeGroups.name }}: {{ nodeGroups.numberOfContainers }}
+							{{ nodeGroup.name }}: {{ nodeGroup.numberOfContainers }}
 						</a>
 					</td>
 					<td>
 						<div 
-							ya-no-ui-slider='{start: nodeGroups.numberOfContainers, range: {min: 1, max: nodeGroups.numberOfContainers}, pips: {mode: "count", values: nodeGroups.numberOfContainers, density: 1}}'>
+							ya-no-ui-slider='blueprintsBuildCtrl.transportNodes[key].options' 
+							ya-no-ui-slider-disabled="blueprintsBuildCtrl.transportNodes[key].disabled"
+						>
 						</div>
 					</td>
 					<td>
-						<select class="b-popup-body-input b-popup-body-input_table">
-							<option value="peer-1">Peer 1</option>
-							<option value="peer-2">Peer 2</option>
+						<select class="b-popup-body-input b-popup-body-input_table" 
+						ng-model="blueprintsBuildCtrl.transportNodes[key].peer">
+							<option 
+							ng-repeat="(peerId, peer) in blueprintsBuildCtrl.peers" 
+							value="{{ peerId }}">
+								{{ peer }}
+							</option>
 						</select>
 					</td>
 					<td>
-						<select class="b-popup-body-input b-popup-body-input_table">
-							<option value="rh-1">RH 1</option>
-							<option value="rh-2">RH 2</option>
+						<select class="b-popup-body-input b-popup-body-input_table" 
+						ng-model="blueprintsBuildCtrl.transportNodes[key].strategyId">
+							<option 
+							ng-repeat="strategie in blueprintsBuildCtrl.strategies" 
+							value="{{ strategie }}">
+								{{ strategie }}
+							</option>
 						</select>
+					</td>
+					<td>
+						<a href class="b-btn b-btn_green g-right" 
+						ng-click="blueprintsBuildCtrl.placeNode(blueprintsBuildCtrl.transportNodes[key], nodeGroup, key)">
+							<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Place
+						</a>
 					</td>
 				</tr>
 			</table>
 		</div>
 		<div class="b-main-place">
-			<a class="b-btn b-btn_green g-right" href="#">
-				<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Place
+
+			<a class="b-btn b-btn_green g-right" 
+			href 
+			ng-click="blueprintsBuildCtrl.buildBlueprint()" 
+			ng-show="blueprintsBuildCtrl.blueprintAction == 'build'">
+				<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Build
 			</a>
+
+			<a class="b-btn b-btn_green g-right" 
+			href 
+			ng-click="blueprintsBuildCtrl.growBlueprint()" 
+			ng-show="blueprintsBuildCtrl.blueprintAction == 'grow'">
+				<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Grow
+			</a>
+
 		</div>
 	</div>
 
