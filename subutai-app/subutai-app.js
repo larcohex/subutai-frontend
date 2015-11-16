@@ -115,6 +115,24 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}]
 		}
 	})
+	.state("identity-role", {
+		url: "/identity-role",
+		templateUrl: "subutai-app/identityRole/partials/view.html",
+		resolve: {
+			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+						{
+							name: 'subutai.identity-role',
+							files: [
+								'subutai-app/identityRole/identityRole.js',
+								'subutai-app/identityRole/controller.js',
+								'subutai-app/identity/service.js'
+							]
+						}
+				]);
+			}]
+		}
+	})
 }
 
 function startup($rootScope, $state) {

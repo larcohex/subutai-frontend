@@ -27,30 +27,28 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 	getBlueprints();
 
 	function deleteBlueprint(blueprintId, key){
-		SweetAlert.swal(
-			{
-				title: "Are you sure?",
-				text: "Your will not be able to recover this blueprint!",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Yes, delete it!",
-				cancelButtonText: "No, cancel plx!",
-				closeOnConfirm: false,
-				closeOnCancel: false,
-				showLoaderOnConfirm: true
-			},
-			function (isConfirm) {
-				if (isConfirm) {
-					SweetAlert.swal("Deleted!", "Your blueprint has been deleted.", "success");
-					environmentService.deleteBlueprint(blueprintId).success(function (data) {
-						vm.blueprints.splice(key, 1);
-					});
-				} else {
-					SweetAlert.swal("Cancelled", "Your blueprint is safe :)", "error");
-				}
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Your will not be able to recover this blueprint!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, delete it!",
+			cancelButtonText: "No, cancel plx!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				SweetAlert.swal("Deleted!", "Your blueprint has been deleted.", "success");
+				environmentService.deleteBlueprint(blueprintId).success(function (data) {
+					vm.blueprints.splice(key, 1);
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "Your blueprint is safe :)", "error");
 			}
-		);
+		});
 	}
 
 	function createBlueprintFrom(key) {
