@@ -127,11 +127,13 @@ body {
 }
 
 .b-title_breadcrumbs {
+	text-transform: capitalize;
     color: #7f8ea4;
 }
 
 /*Buttons*/
 .b-btn {
+	text-transform: capitalize;
 	border: none;
     display: inline-block;
 	padding: 0 15px;
@@ -666,6 +668,7 @@ body {
     line-height: 12px;
     color: #19286e;
     border-bottom: 1px solid #e6eaf5;
+	text-transform: capitalize;
 }
 
 .b-popup__body {

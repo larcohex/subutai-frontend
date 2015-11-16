@@ -22,26 +22,17 @@
 				</select>
 				<div class="clear"></div>
 			</div>
-			<div ng-show="blueprintsBuildCtrl.blueprintAction == 'build'" class="b-main-form__wrapper">
 
-				<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
-					<label class="b-popup-body-label b-popup-body-label_inline">Environment name</label>
-					<input type="text" 
-					class="b-popup-body-input b-popup-body-input__enviroment-name" 
-					ng-model="blueprintsBuildCtrl.newEnvironmentName">
-				</div>
-
-				<div class="b-main-form__wrapper ">
-					<label class="b-popup-body-label b-popup-body-label_inline">Subnet</label>
-					<input type="text" 
-					class="b-popup-body-input b-popup-body-input_subnet" 
-					ng-model="blueprintsBuildCtrl.subnetCIDR" 
-					data-mask="___.___.___.___/____">
-				</div>
-
+			<div ng-show="blueprintsBuildCtrl.blueprintAction == 'build'"
+			class="b-main-form__wrapper b-main-form__wrapper_margin-r">
+				<label class="b-popup-body-label b-popup-body-label_inline">Environment name</label>
+				<input type="text" 
+				class="b-popup-body-input b-popup-body-input__enviroment-name" 
+				ng-model="blueprintsBuildCtrl.newEnvironmentName">
 			</div>
+
 			<div class="b-main-form__wrapper g-right">
-				<a href="#" class="b-icon b-icon_box b-icon_notification">
+				<a href ng-click="blueprintsBuildCtrl.buildPopup()" class="b-icon b-icon_box b-icon_notification">
 					<span class="b-icon__inner-num">
 						{{ blueprintsBuildCtrl.nodesToCreate.length }}
 					</span>
@@ -56,7 +47,7 @@
 					<th>Node group</th>
 					<th>Amount containers</th>
 					<th>Peer</th>
-					<th>Resource host</th>
+					<th>Strategie</th>
 					<th></th>
 				</tr>
 				<tr ng-repeat="(key, nodeGroup) in blueprintsBuildCtrl.blueprint.nodeGroups">
@@ -102,20 +93,6 @@
 			</table>
 		</div>
 		<div class="b-main-place">
-
-			<a class="b-btn b-btn_green g-right" 
-			href 
-			ng-click="blueprintsBuildCtrl.buildBlueprint()" 
-			ng-show="blueprintsBuildCtrl.blueprintAction == 'build'">
-				<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Build
-			</a>
-
-			<a class="b-btn b-btn_green g-right" 
-			href 
-			ng-click="blueprintsBuildCtrl.growBlueprint()" 
-			ng-show="blueprintsBuildCtrl.blueprintAction == 'grow'">
-				<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Grow
-			</a>
 
 		</div>
 	</div>
