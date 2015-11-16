@@ -240,6 +240,7 @@ function BlueprintsBuildFormCtrl($scope, environmentService, SweetAlert, ngDialo
 		if(vm.environmentToGrow === undefined) return;
 		var postJson = {};
 		//postJson.environmentId = vm.environmentToGrow;
+		postJson.name = '';
 		postJson.nodeGroups = getNodesGroups();
 		var postData = JSON.stringify(postJson);		
 
