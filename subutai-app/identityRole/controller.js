@@ -103,6 +103,7 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	vm.editRole = editRole;
 	vm.addRole = addRole;
 	vm.deleteRole = deleteRole;
+	vm.removePermissionFromRole = removePermissionFromRole;
 
 	vm.dtInstance = {};
 	vm.roles = {};
@@ -137,7 +138,7 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	}
 
 	function actionDelete(data, type, full, meta) {
-		return '<a href class="b-icon b-icon_remove" ng-click="identityRoleCtrl.deleteRole(identityRoleCtrl.roles[' + data.id + '])"></a>';
+		return '<a href class="b-icon b-icon_remove" ng-click="identityRoleCtrl.deleteRole(' + data.id + ')"></a>';
 	}
 
 	function addPermission2Stack(permission) {
@@ -159,6 +160,43 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			}
 		}
 		vm.role2Add = angular.copy(role);
+	}
+
+	function removePermissionFromRole(role, permissionKey) {
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: 'Remove "' + vm.permissionsDefault[role.permissions[permissionKey].object].name + '" permission from role!',
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, remove it!",
+			cancelButtonText: "No, cancel!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+
+				role.permissions.splice(permissionKey, 1);
+
+				var postData = 'rolename=' + role.name;
+				if(role.id !== undefined && role.id > 0) {
+					postData += '&role_id=' + role.id;
+				}
+				postData += '&permission=' + JSON.stringify(role.permissions);
+				console.log(postData);
+
+				identitySrv.addRole(postData).success(function (data) {
+					SweetAlert.swal("Removed!", "Permission has been removed.", "success");
+					vm.dtInstance.reloadData();
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "Role permission is safe :). Error: " + data, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "Role permission is safe :)", "error");
+			}
+		});
 	}
 
 	function deleteRole(roleId) {

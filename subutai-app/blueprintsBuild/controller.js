@@ -47,7 +47,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 
 	function getCurrentBlueprint() {
 		environmentService.getBlueprintById($stateParams.blueprintId).success(function (data) {
-			console.log(data);
 			vm.blueprint = data;
 
 			for(var i = 0; i < vm.blueprint.nodeGroups.length; i++) {
@@ -117,7 +116,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 			node.disabled = true;
 			nodeGroup.numberOfContainers = 0;
 		}
-		console.log(vm.blueprint.nodeGroups);
 	}
 
 	function removeNode(key) {
@@ -134,30 +132,37 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	}
 
 	function getTopology() {
-		var topology = {};
+		var topology = [];
 		for(var i = 0; i < vm.nodesToCreate.length; i++) {
 
+			var currentNodeGroup = vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode];
 			var containerPlacementStrategy = {"strategyId": vm.nodesToCreate[i].strategyId, "criteria": []};
 
-			vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode].numberOfContainers = vm.nodesToCreate[i].numberOfContainers;
-			vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode].containerPlacementStrategy = containerPlacementStrategy;
-			if(topology[vm.nodesToCreate[i].peer] === undefined) {
+			currentNodeGroup.numberOfContainers = vm.nodesToCreate[i].numberOfContainers;
+			currentNodeGroup.containerPlacementStrategy = containerPlacementStrategy;
+			currentNodeGroup.peerId = vm.nodesToCreate[i].peer;
+			currentNodeGroup.containerDistributionType = 'AUTO';
+
+			/*if(topology[vm.nodesToCreate[i].peer] === undefined) {
 				topology[vm.nodesToCreate[i].peer] = [];
-			}
-			topology[vm.nodesToCreate[i].peer].push(vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
+			}*/
+			//topology[vm.nodesToCreate[i].peer].push(vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
+
+			topology.push(currentNodeGroup);
 		}
-		return JSON.stringify(topology);
+		return topology;
 	}
 
 	function buildBlueprint(){
 		if(vm.newEnvironmentName === undefined || vm.newEnvironmentName.length < 1) return;
 		if(vm.subnetCIDR === undefined || vm.subnetCIDR.length < 1) return;
 
-		var topology = getTopology();
-		var postData = 'name=' + vm.newEnvironmentName;
-		postData += '&topology=' + topology;
-		postData += '&subnet=' + vm.subnetCIDR;
-		postData += '&key=null';
+		var postJson = {};
+		postJson.name = vm.newEnvironmentName;
+		postJson.nodeGroups = getTopology();
+		postJson.cidr = vm.subnetCIDR;
+		postJson.sshKey = null;
+		var postData = JSON.stringify(postJson);
 
 		SweetAlert.swal({
 			title: "Are you sure?",
@@ -186,10 +191,11 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	}
 
 	function growBlueprint() {
-		console.log(vm.environmentToGrow);
 		if(vm.environmentToGrow === undefined) return;
-		var topology = getTopology();
-		var postData = 'environmentId=' + vm.environmentToGrow + '&topology=' + topology;
+		var postJson = {};
+		postJson.environmentId = vm.environmentToGrow;
+		postJson.nodeGroups = getTopology();
+		var postData = JSON.stringify(postJson);		
 
 		SweetAlert.swal(
 			{
@@ -207,10 +213,8 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 			function (isConfirm) {
 				if (isConfirm) {
 					environmentService.growBlueprint(encodeURI(postData)).success(function (data) {
-						console.log(data);
 						SweetAlert.swal("Success!", "You successfully grow environment.", "success");
 					}).error(function (error) {
-						console.log(error);
 						SweetAlert.swal("ERROR!", error.ERROR, "error");
 					});
 				} else {

@@ -104,12 +104,18 @@ body {
     background-color: #fff;
     border: 1px solid #e6eaf5;
     border-radius: 5px;
-	padding: 16px 25px 32px 25px;
+	padding: 16px 0 32px 0;
 	position: relative;
 }
 
 .b-workspace__header {
-	padding: 0 0 21px 0;
+	padding: 0 25px 14px 25px;
+	margin: 0 0 21px 0;
+	border-bottom: 1px solid #e6eaf5;
+}
+
+.b-workspace__content {
+	padding: 0 25px 21px 25px;
 }
 
 .b-title {

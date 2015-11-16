@@ -155,7 +155,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			} else {
 				SweetAlert.swal("Cancelled", "User role is safe :)", "error");
 			}
-		});		
+		});
 	}
 
 	function deleteUser(user) {

@@ -83,7 +83,8 @@ function environmentService($http) {
 		return $http.get(strategiesURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
-	function buildBlueprint(postData) {
+	function buildBlueprint(data) {
+		var postData = 'blueprint_json=' + data;
 		return $http.post(
 			environmentsURL, 
 			postData, 
@@ -91,7 +92,8 @@ function environmentService($http) {
 		);
 	}
 
-	function growBlueprint(postData) {
+	function growBlueprint(data) {
+		var postData = 'blueprint_json=' + data;
 		return $http.post(
 			growBlueprintURL, 
 			postData, 
