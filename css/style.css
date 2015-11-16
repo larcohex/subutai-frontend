@@ -208,6 +208,9 @@ body {
 .b-main-table__node-one {
     width: 108px;
 }
+.b-main-table__node-two {
+    width: 170px;
+}
 .b-main-table__edit-icon {
 	width: 11px;
 }
@@ -218,6 +221,9 @@ body {
 	font-size: 13px;
 	color: #19286e;
 	text-align: left;
+}
+.b-main-table__controls_popup-remove {
+    padding: 18px 18px 17px 18px !important;
 }
 
 .b-main-table__edit-icon .b-icon {
