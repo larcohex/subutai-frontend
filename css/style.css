@@ -716,6 +716,7 @@ body {
     text-decoration: none;
     font-size: 13px;
     color: #19286e;
+	cursor: pointer;
 }
 
 .b-popup-body-list-table__link:hover {
@@ -950,5 +951,13 @@ body {
     left: 0;
     text-align: center;
     width: 100%;
+}
+
+.b-form-hint {
+	font-size: 12px;
+}
+
+.b-form-hint_red {
+	color: #ff0000;
 }
 
