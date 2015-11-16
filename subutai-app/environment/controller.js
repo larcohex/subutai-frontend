@@ -17,6 +17,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	vm.removeSshKey = removeSshKey;
 	vm.getEnvironments = getEnvironments;
 	vm.showContainersList = showContainersList;
+	vm.destroyContainer = destroyContainer;
 
 	function getEnvironments() {
 		environmentService.getEnvironments().success(function (data) {
@@ -59,9 +60,9 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	function containersTags(data, type, full, meta) {
 		var containersHTML = '';
 		for(var i = 0; i < data.containers.length; i++) {
-			rolesHTML += '<span class="b-tags b-tags_' + quotaColors[data.containers.type] + '">' 
-				+ data.containers[i].name 
-				+ ' <a ng-click="environmentViewCtrl.destroyContainer(' + data.containers[i].id + ')"><i class="fa fa-times"></i></a>' 
+			containersHTML += '<span class="b-tags b-tags_' + quotaColors[data.containers[i].type] + '">' 
+				+ data.containers[i].templateName 
+				+ ' <a href ng-click="environmentViewCtrl.destroyContainer(\'' + data.containers[i].id + '\')"><i class="fa fa-times"></i></a>' 
 			+ '</span>';
 		}
 		return containersHTML;

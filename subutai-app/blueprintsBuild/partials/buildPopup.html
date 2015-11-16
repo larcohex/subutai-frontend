@@ -14,18 +14,15 @@
 					<th>Node groups</th>
 					<th></th>
 				</tr>
-				{{ blueprintsBuildFormCtrl.groupList }}
 				<tbody ng-repeat="(peer, nodesInPeer) in blueprintsBuildFormCtrl.groupList">
-					<tr ng-repeat="(strategue, item) in nodesInPeer">
+					<tr ng-repeat="(strategue, nodesInStrategue) in nodesInPeer">
 						<td>{{ peer }}</td>
 						<td>{{ strategue }}</td>
 						<td class="b-main-table__node-two">
-							<a class="b-tags" href="#">
-								Cassandra: 5
-							</a>
-							<a class="b-tags b-tags_orange" href="#">
-								Master: 5
-							</a>
+							<span ng-repeat="item in nodesInStrategue"
+							class="b-tags b-tags_{{ blueprintsBuildFormCtrl.colors[blueprintsBuildFormCtrl.blueprint.nodeGroups[item.parentNode].type] }}">
+								{{ item.name }}: {{ item.numberOfContainers }}
+							</span>
 						</td>
 						<td class="b-main-table__controls b-main-table__controls_popup-remove">
 							<a href="#" class="b-icon b-icon_remove g-right"></a>

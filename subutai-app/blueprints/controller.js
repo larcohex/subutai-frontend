@@ -107,6 +107,7 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 	function addNewNode() {
 		if(vm.nodeStatus == 'Add to') {
 			var tempNode = vm.blueprintFrom.currentNode;
+			//if(tempNode.name === undefined || tempNode.name.length < 1) return;
 			vm.blueprintFrom.currentNode = {};
 			vm.nodeList.push(tempNode);
 		} else {
@@ -121,8 +122,8 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 	}	
 
 	function addBlueprint() {
-		if(vm.blueprintFrom.name === undefined) return;
-		if(vm.nodeList === undefined || vm.nodeList.length == 0) return;
+		//if(vm.blueprintFrom.name === undefined) return;
+		//if(vm.nodeList === undefined || vm.nodeList.length == 0) return;
 
 		var finalBlueprint = vm.blueprintFrom;
 		finalBlueprint.nodeGroups = vm.nodeList;

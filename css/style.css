@@ -295,7 +295,7 @@ body {
 	font-size: 9px;
 	border-radius: 5px;
 	margin: 0 5px 5px 0;
-	transition: all .4s ease-in-out;	
+	/*transition: all .4s ease-in-out;	*/
 }
 
 .b-tags_bark-red {
@@ -602,7 +602,7 @@ body {
 /*Popup*/
 .b-popup {
     box-sizing: border-box;
-    width: 610px;
+    /*width: 610px;*/
     background-color: #fff;
     border: 1px solid #f2f2f2;
 

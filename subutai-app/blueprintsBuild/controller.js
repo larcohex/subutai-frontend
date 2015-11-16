@@ -14,6 +14,7 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	vm.peers = [];
 	vm.strategies = [];
 	vm.blueprintAction = $stateParams.action;
+	vm.colors = quotaColors;
 
 	vm.nodesToCreate = [];
 	vm.transportNodes = [];
@@ -162,13 +163,25 @@ function BlueprintsBuildFormCtrl($scope, environmentService, SweetAlert, ngDialo
 	vm.newEnvironmentName = '';
 	vm.environmentToGrow;	
 
-	vm.groupList = $scope.ngDialogData.nodesToCreate;	
+	vm.groupList = {};
+	vm.colors = quotaColors;
 
 	//functions
 	vm.start = start;	
 
 	if($scope.ngDialogData !== undefined) {
 		vm.nodesToCreate = $scope.ngDialogData.nodesToCreate;
+
+		for(var i = 0; i < vm.nodesToCreate.length; i++) {
+			var currentNode = angular.copy(vm.nodesToCreate[i]);
+			if(vm.groupList[currentNode.peer] === undefined) {
+				vm.groupList[currentNode.peer] = {};
+				if(vm.groupList[currentNode.peer][currentNode.strategyId] === undefined) {
+					vm.groupList[currentNode.peer][currentNode.strategyId] = [];
+				}
+			}
+			vm.groupList[currentNode.peer][currentNode.strategyId].push(currentNode);
+		}
 
 		if(vm.blueprintAction == 'build') {
 			vm.newEnvironmentName = $scope.ngDialogData.newEnvironmentName;
@@ -226,12 +239,12 @@ function BlueprintsBuildFormCtrl($scope, environmentService, SweetAlert, ngDialo
 	function growBlueprint() {
 		if(vm.environmentToGrow === undefined) return;
 		var postJson = {};
-		postJson.environmentId = vm.environmentToGrow;
+		//postJson.environmentId = vm.environmentToGrow;
 		postJson.nodeGroups = getNodesGroups();
 		var postData = JSON.stringify(postJson);		
 
 		SweetAlert.swal("Success!", "Your environment start growing.", "success");
-		environmentService.growBlueprint(encodeURI(postData)).success(function (data) {
+		environmentService.growBlueprint(vm.environmentToGrow, encodeURI(postData)).success(function (data) {
 			SweetAlert.swal("Success!", "You successfully grow environment.", "success");
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Grow environment error: ' + error.ERROR, "error");
