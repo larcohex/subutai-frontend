@@ -18,6 +18,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	vm.editUser = editUser;
 	vm.deleteUser = deleteUser;
 	vm.colSelectUserRole = colSelectUserRole;
+	vm.removeRoleFromUser = removeRoleFromUser;
 
 	vm.dtInstance = {};
 	vm.users = {};
@@ -56,7 +57,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 		for(var i = 0; i < data.roles.length; i++) {
 			rolesHTML += '<span class="b-tags b-tags_grey">' 
 				+ data.roles[i].name 
-				+ ' <a ng-click="identityUserCtrl.removeRoleFromUser(identityUserCtrl.users[' + data.id + '], ' + i + ')"><i class="fa fa-times"></i></a>' 
+				+ ' <a href ng-click="identityUserCtrl.removeRoleFromUser(identityUserCtrl.users[' + data.id + '], ' + i + ')"><i class="fa fa-times"></i></a>' 
 			+ '</span>';
 		}
 		return rolesHTML;
@@ -116,6 +117,11 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 		for(var i = 0; i < user.roles.length; i++) {
 			vm.user2Add.roles.push(user.roles[i].id);
 		}
+	}
+
+	function removeRoleFromUser(user, roleKey) {
+		console.log(user);
+		console.log(roleKey);
 	}
 
 	function deleteUser(user) {

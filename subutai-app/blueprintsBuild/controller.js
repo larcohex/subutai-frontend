@@ -194,7 +194,7 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		SweetAlert.swal(
 			{
 				title: "Are you sure?",
-				text: "Grow blueprint?",
+				text: "Grow blueprint!",
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
