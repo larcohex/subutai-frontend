@@ -48,7 +48,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 
 	function actionEdit(data, type, full, meta) {
 		vm.users[data.id] = data;
-		return '<a href="" class="b-icon b-icon_edit" ng-click="identityUserCtrl.editUser(identityUserCtrl.users[' + data.id + '])"></a>';
+		return '<a href class="b-icon b-icon_edit" ng-click="identityUserCtrl.editUser(identityUserCtrl.users[' + data.id + '])"></a>';
 	}
 
 	function rolesTags(data, type, full, meta) {
@@ -65,27 +65,31 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 
 	function actionDelete(data, type, full, meta) {
 		//vm.users[data.id] = data;
-		return '<a href="" class="b-icon b-icon_remove" ng-click="identityUserCtrl.deleteUser(identityUserCtrl.users[' + data.id + '])"></a>';
+		return '<a href class="b-icon b-icon_remove" ng-click="identityUserCtrl.deleteUser(identityUserCtrl.users[' + data.id + '])"></a>';
+	}
+
+	function userPostData(user) {
+		var currentUserRoles = JSON.stringify(user.roles);
+		var postData = 'username=' + user.userName + 
+			'&full_name=' + user.fullName +
+			'&password=' + user.password +
+			'&email=' + user.email;
+
+		if(currentUserRoles !== undefined) {
+			postData += '&roles=' + currentUserRoles;
+		}
+
+		if(user.id !== undefined && user.id > 0) {
+			postData += '&user_id=' + user.id;
+		}
+
+		return postData;
 	}
 
 	function addUser() {
 		//vm.users.push(angular.copy(vm.person2Add));
 		if ($scope.addUserForm.$valid) {
-			var currentUserRoles = JSON.stringify(vm.user2Add.roles);
-			var postData = 'username=' + vm.user2Add.userName + 
-				'&full_name=' + vm.user2Add.fullName +
-				'&password=' + vm.user2Add.password +
-				'&email=' + vm.user2Add.email;
-
-			if(currentUserRoles !== undefined) {
-				postData += '&roles=' + currentUserRoles;
-			}
-
-			if(vm.user2Add.id !== undefined && vm.user2Add.id > 0) {
-				postData += '&user_id=' + vm.user2Add.id;
-			}
-
-			console.log(postData);
+			var postData = userPostData(vm.user2Add);
 			identitySrv.addUser(postData).success(function (data) {
 				vm.dtInstance.reloadData();
 			});
@@ -120,36 +124,65 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	}
 
 	function removeRoleFromUser(user, roleKey) {
-		console.log(user);
-		console.log(roleKey);
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: 'Remove "' + user.roles[roleKey].name + '" role from user!',
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, remove it!",
+			cancelButtonText: "No, cancel!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				user.roles.splice(roleKey, 1);
+				var userRoles = [];
+				for(var i = 0; i < user.roles.length; i++) {
+					userRoles.push(user.roles[i].id);
+				}
+				user.roles = userRoles;
+				var postData = userPostData(user);
+				console.log(postData);
+				identitySrv.addUser(postData).success(function (data) {
+					SweetAlert.swal("Removed!", "Role has been removed.", "success");
+					vm.dtInstance.reloadData();
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "User role is safe :). Error: " + data, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "User role is safe :)", "error");
+			}
+		});		
 	}
 
 	function deleteUser(user) {
-		//vm.message = 'You are trying to remove the row: ' + JSON.stringify(user);
-		SweetAlert.swal(
-				{
-					title: "Are you sure?",
-					text: "Your will not be able to recover this user!",
-					type: "warning",
-					showCancelButton: true,
-					confirmButtonColor: "#DD6B55",
-					confirmButtonText: "Yes, delete it!",
-					cancelButtonText: "No, cancel plx!",
-					closeOnConfirm: false,
-					closeOnCancel: false,
-					showLoaderOnConfirm: true
-				},
-				function (isConfirm) {
-					if (isConfirm) {
-						SweetAlert.swal("Deleted!", "User has been deleted.", "success");
-						identitySrv.deleteUser(user.id).success(function (data) {
-							vm.dtInstance.reloadData();
-						});
-					} else {
-						SweetAlert.swal("Cancelled", "User is safe :)", "error");
-					}
-				}
-		);
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Your will not be able to recover this user!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, delete it!",
+			cancelButtonText: "No, cancel plx!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				identitySrv.deleteUser(user.id).success(function (data) {
+					SweetAlert.swal("Deleted!", "User has been deleted.", "success");
+					vm.dtInstance.reloadData();
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "User is safe :). Error: " + data, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "User is safe :)", "error");
+			}
+		});
 	}
 };
 

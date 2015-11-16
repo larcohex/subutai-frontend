@@ -152,37 +152,37 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	function buildBlueprint(){
 		if(vm.newEnvironmentName === undefined || vm.newEnvironmentName.length < 1) return;
 		if(vm.subnetCIDR === undefined || vm.subnetCIDR.length < 1) return;
+
 		var topology = getTopology();
 		var postData = 'name=' + vm.newEnvironmentName;
 		postData += '&topology=' + topology;
 		postData += '&subnet=' + vm.subnetCIDR;
 		postData += '&key=null';
-		SweetAlert.swal(
-			{
-				title: "Are you sure?",
-				text: "Build blueprint?",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Yes, build it!",
-				cancelButtonText: "No, cancel plx!",
-				closeOnConfirm: false,
-				closeOnCancel: false,
-				showLoaderOnConfirm: true
-			},
-			function (isConfirm) {
-				if (isConfirm) {
-					environmentService.buildBlueprint(encodeURI(postData)).success(function (data) {
-						getEnvironments();
-						SweetAlert.swal("Success!", "Your environment has been created.", "success");
-					}).error(function (error) {
-						SweetAlert.swal("ERROR!", error.ERROR, "error");
-					});
-				} else {
-					SweetAlert.swal("Cancelled", "Build blueprint canseled!", "error");
-				}
+
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Build blueprint?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, build it!",
+			cancelButtonText: "No, cancel plx!",
+			closeOnConfirm: false,
+			closeOnCancel: false,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				environmentService.buildBlueprint(encodeURI(postData)).success(function (data) {
+					getEnvironments();
+					SweetAlert.swal("Success!", "Your environment has been created.", "success");
+				}).error(function (error) {
+					SweetAlert.swal("ERROR!", error.ERROR, "error");
+				});
+			} else {
+				SweetAlert.swal("Cancelled", "Build blueprint canseled!", "error");
 			}
-		);
+		});
 	}
 
 	function growBlueprint() {
