@@ -22,7 +22,7 @@
 				</select>
 				<div class="clear"></div>
 			</div>
-			<div ng-show="blueprintsBuildCtrl.blueprintAction == 'build'">
+			<div ng-show="blueprintsBuildCtrl.blueprintAction == 'build'" class="b-main-form__wrapper">
 
 				<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
 					<label class="b-popup-body-label b-popup-body-label_inline">Environment name</label>
@@ -93,7 +93,7 @@
 						</select>
 					</td>
 					<td>
-						<a href class="b-btn b-btn_green g-right" 
+						<a href class="b-btn b-btn_green" 
 						ng-click="blueprintsBuildCtrl.placeNode(blueprintsBuildCtrl.transportNodes[key], nodeGroup, key)">
 							<i class="b-icon b-icon_box-white b-icon_box-white_place"></i> Place
 						</a>

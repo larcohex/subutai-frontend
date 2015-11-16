@@ -10,7 +10,7 @@ var app = angular.module("subutai-app", [
 	.run(startup);
 
 //Global
-var serverUrl = 'http://172.16.131.204:8181/rest/';
+var serverUrl = 'http://172.16.131.205:8181/rest/';
 quotaColors = [];
 quotaColors['CUSTOM'] = 'blue';
 quotaColors['HUGE'] = 'bark-red';
