@@ -1,16 +1,13 @@
 'use strict';
 
 angular.module('subutai.blueprints-build.controller', [])
-	.controller('BlueprintsBuildCtrl', BlueprintsBuildCtrl);
+	.controller('BlueprintsBuildCtrl', BlueprintsBuildCtrl)
+	.controller('BlueprintsBuildFormCtrl', BlueprintsBuildFormCtrl);
 
 BlueprintsBuildCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog', '$stateParams'];
+BlueprintsBuildFormCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog', '$stateParams'];
 
 function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $stateParams) {
-
-	$scope.options = {
-		start: 1,
-		range: {min: 1, max: 5}
-	};
 
 	var vm = this;
 	vm.blueprint = {};
@@ -21,15 +18,13 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	vm.nodesToCreate = [];
 	vm.transportNodes = [];
 	vm.environments = [];
-	vm.subnetCIDR = '192.168.10.1/24';
 	vm.newEnvironmentName = '';
 	vm.environmentToGrow;
 
 	// functions
 	vm.placeNode = placeNode;
 	vm.removeNode = removeNode;
-	vm.buildBlueprint = buildBlueprint;
-	vm.growBlueprint = growBlueprint;
+	vm.buildPopup = buildPopup;
 
 	if(vm.blueprintAction == 'grow') {
 		environmentService.getEnvironments().success(function (data) {
@@ -44,6 +39,29 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	environmentService.getStrategies().success(function (data) {
 		vm.strategies = data;
 	});
+
+	function buildPopup() {
+		var dataToBuild = {};
+
+		if(vm.nodesToCreate.length < 1) return;
+
+		dataToBuild.nodesToCreate = vm.nodesToCreate;
+		if(vm.blueprintAction == 'build') {
+			dataToBuild.newEnvironmentName = vm.newEnvironmentName;
+		} else if(vm.blueprintAction == 'grow') {
+			dataToBuild.environmentToGrow = vm.environmentToGrow;
+		}		
+
+		ngDialog.open({
+			template: 'subutai-app/blueprintsBuild/partials/buildPopup.html',
+			controller: 'BlueprintsBuildFormCtrl',
+			controllerAs: 'blueprintsBuildFormCtrl',
+			data: dataToBuild,
+			preCloseCallback: function(value) {
+				//callback
+			}
+		});
+	}
 
 	function getCurrentBlueprint() {
 		environmentService.getBlueprintById($stateParams.blueprintId).success(function (data) {
@@ -131,8 +149,40 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		vm.nodesToCreate.splice(key, 1);
 	}
 
-	function getTopology() {
-		var topology = [];
+}
+
+function BlueprintsBuildFormCtrl($scope, environmentService, SweetAlert, ngDialog, $stateParams) {
+
+	var vm = this;
+	vm.blueprint = {};
+
+	vm.blueprintAction = $stateParams.action;
+	vm.nodesToCreate = [];
+	vm.environments = [];
+	vm.newEnvironmentName = '';
+	vm.environmentToGrow;	
+
+	vm.groupList = $scope.ngDialogData.nodesToCreate;	
+
+	//functions
+	vm.start = start;	
+
+	if($scope.ngDialogData !== undefined) {
+		vm.nodesToCreate = $scope.ngDialogData.nodesToCreate;
+
+		if(vm.blueprintAction == 'build') {
+			vm.newEnvironmentName = $scope.ngDialogData.newEnvironmentName;
+		} else if(vm.blueprintAction == 'grow') {
+			vm.environmentToGrow = $scope.ngDialogData.environmentToGrow;
+		}
+	}
+
+	environmentService.getBlueprintById($stateParams.blueprintId).success(function (data) {
+		vm.blueprint = data;
+	});
+
+	function getNodesGroups() {
+		var nodeGroupsArray = [];
 		for(var i = 0; i < vm.nodesToCreate.length; i++) {
 
 			var currentNodeGroup = vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode];
@@ -143,50 +193,33 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 			currentNodeGroup.peerId = vm.nodesToCreate[i].peer;
 			currentNodeGroup.containerDistributionType = 'AUTO';
 
-			/*if(topology[vm.nodesToCreate[i].peer] === undefined) {
-				topology[vm.nodesToCreate[i].peer] = [];
-			}*/
-			//topology[vm.nodesToCreate[i].peer].push(vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
-
-			topology.push(currentNodeGroup);
+			nodeGroupsArray.push(currentNodeGroup);
 		}
-		return topology;
+		return nodeGroupsArray;
+	}
+
+	function start() {
+		if(vm.blueprintAction == 'build') {
+			buildBlueprint();
+		} else if(vm.blueprintAction == 'grow') {
+			growBlueprint();
+		}
 	}
 
 	function buildBlueprint(){
 		if(vm.newEnvironmentName === undefined || vm.newEnvironmentName.length < 1) return;
-		if(vm.subnetCIDR === undefined || vm.subnetCIDR.length < 1) return;
 
 		var postJson = {};
+		postJson.nodeGroups = getNodesGroups();
 		postJson.name = vm.newEnvironmentName;
-		postJson.nodeGroups = getTopology();
-		postJson.cidr = vm.subnetCIDR;
-		postJson.sshKey = null;
+
 		var postData = JSON.stringify(postJson);
 
-		SweetAlert.swal({
-			title: "Are you sure?",
-			text: "Build blueprint?",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, build it!",
-			cancelButtonText: "No, cancel plx!",
-			closeOnConfirm: false,
-			closeOnCancel: false,
-			showLoaderOnConfirm: true
-		},
-		function (isConfirm) {
-			if (isConfirm) {
-				environmentService.buildBlueprint(encodeURI(postData)).success(function (data) {
-					getEnvironments();
-					SweetAlert.swal("Success!", "Your environment has been created.", "success");
-				}).error(function (error) {
-					SweetAlert.swal("ERROR!", error.ERROR, "error");
-				});
-			} else {
-				SweetAlert.swal("Cancelled", "Build blueprint canseled!", "error");
-			}
+		SweetAlert.swal("Success!", "Your environment start creation.", "success");
+		environmentService.buildBlueprint(encodeURI(postData)).success(function (data) {
+			SweetAlert.swal("Success!", "Your environment has been created.", "success");
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Create environment error: ' + error.ERROR, "error");
 		});
 	}
 
@@ -194,35 +227,16 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		if(vm.environmentToGrow === undefined) return;
 		var postJson = {};
 		postJson.environmentId = vm.environmentToGrow;
-		postJson.nodeGroups = getTopology();
+		postJson.nodeGroups = getNodesGroups();
 		var postData = JSON.stringify(postJson);		
 
-		SweetAlert.swal(
-			{
-				title: "Are you sure?",
-				text: "Grow blueprint!",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Yes, grow it!",
-				cancelButtonText: "No, cancel plx!",
-				closeOnConfirm: false,
-				closeOnCancel: false,
-				showLoaderOnConfirm: true
-			},
-			function (isConfirm) {
-				if (isConfirm) {
-					environmentService.growBlueprint(encodeURI(postData)).success(function (data) {
-						SweetAlert.swal("Success!", "You successfully grow environment.", "success");
-					}).error(function (error) {
-						SweetAlert.swal("ERROR!", error.ERROR, "error");
-					});
-				} else {
-					SweetAlert.swal("Cancelled", "Build blueprint canseled!", "error");
-				}
-			}
-		);
+		SweetAlert.swal("Success!", "Your environment start growing.", "success");
+		environmentService.growBlueprint(encodeURI(postData)).success(function (data) {
+			SweetAlert.swal("Success!", "You successfully grow environment.", "success");
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Grow environment error: ' + error.ERROR, "error");
+		});
 	}
-
+	
 }
 
