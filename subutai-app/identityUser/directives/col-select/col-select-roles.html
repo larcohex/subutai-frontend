@@ -1,16 +1,25 @@
-<div class="ms-container">
-	<div class="ms-selectable">
-		<ul tabindex="-1" class="ms-list">
-			<li class="ms-elem-selectable" ng-repeat="role in identityCtrl.roles" ng-if="(identityCtrl.user2Add.roles === undefined || identityCtrl.user2Add.roles.indexOf(role.id) < 0)" ng-click="identityCtrl.colSelectUserRole(role.id)">
-				<span>{{ role.name }}</span>
-			</li>
-		</ul>
-	</div>
-	<div class="ms-selection">
-		<ul tabindex="-1" class="ms-list">
-			<li class="ms-elem-selection" ng-repeat="role in identityCtrl.roles" ng-if="(identityCtrl.user2Add.roles !== undefined && identityCtrl.user2Add.roles.indexOf(role.id) >= 0)" ng-click="identityCtrl.colSelectUserRole(role.id)">
-				<span>{{ role.name }}</span>
-			</li>
-		</ul>
-	</div>
+<div class="b-popup-body-list-title ">All roles</div>
+<ul class="b-popup-body-list b-popup-body-list_table">
+	<li class="b-popup-body-list-table__link" 
+	ng-repeat="role in identityUserFormCtrl.roles" 
+	ng-if="(identityUserFormCtrl.user2Add.roles === undefined || identityUserFormCtrl.user2Add.roles.indexOf(role.id) < 0)" 
+	ng-click="identityUserFormCtrl.colSelectUserRole(role.id)">
+		{{ role.name }}
+	</li>
+</ul>
+<div class="b-popup-body-list-buttons g-right">
+	<a href="#" class="b-btn-grey"><i class="fa fa-angle-double-down"></i></a>
+	<a href="#" class="b-btn-grey"><i class="fa fa-angle-down"></i></a>
+	<a href="#" class="b-btn-grey"><i class="fa fa-angle-up"></i></a>
+	<a href="#" class="b-btn-grey"><i class="fa fa-angle-double-up"></i></a>
 </div>
+<div class="clear"></div>
+<div class="b-popup-body-list-title ">Assigned roles</div>
+<ul class="b-popup-body-list b-popup-body-list_table">
+	<li class="b-popup-body-list-table__link" 
+	ng-repeat="role in identityUserFormCtrl.roles" 
+	ng-if="(identityUserFormCtrl.user2Add.roles !== undefined && identityUserFormCtrl.user2Add.roles.indexOf(role.id) >= 0)" 
+	ng-click="identityUserFormCtrl.colSelectUserRole(role.id)">
+		{{ role.name }}
+	</li>
+</ul>

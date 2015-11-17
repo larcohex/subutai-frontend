@@ -92,8 +92,8 @@ function environmentService($http) {
 		);
 	}
 
-	function growBlueprint(data) {
-		var postData = 'blueprint_json=' + data;
+	function growBlueprint(environmentId, data) {
+		var postData = 'environmentId=' + environmentId + '&blueprint_json=' + data;
 		return $http.post(
 			growBlueprintURL, 
 			postData, 

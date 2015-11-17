@@ -17,6 +17,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	vm.removeSshKey = removeSshKey;
 	vm.getEnvironments = getEnvironments;
 	vm.showContainersList = showContainersList;
+	vm.destroyContainer = destroyContainer;
 
 	function getEnvironments() {
 		environmentService.getEnvironments().success(function (data) {
@@ -28,12 +29,18 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 
 	vm.dtInstance = {};
 	vm.users = {};
-	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		return $resource(serverUrl + 'environments_ui/').query().$promise;
-	}).withPaginationType('full_numbers').withOption('createdRow', createdRow);
+	vm.dtOptions = DTOptionsBuilder
+		.fromFnPromise(function() {
+			return $resource(serverUrl + 'environments_ui/').query().$promise;
+		}).withPaginationType('full_numbers')
+		.withOption('createdRow', createdRow)
+		.withOption('order', [[ 1, "asc" ]])
+		//.withDisplayLength(2)
+		.withOption('stateSave', true);
+
 	vm.dtColumns = [
 		//DTColumnBuilder.newColumn('id').withTitle('ID'),
-		DTColumnBuilder.newColumn(null).withTitle('').renderWith(statusHTML),
+		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(statusHTML),
 		DTColumnBuilder.newColumn('name').withTitle('Environment name'),
 		DTColumnBuilder.newColumn(null).withTitle('Key SSH').renderWith(sshKeyLinks),
 		DTColumnBuilder.newColumn(null).withTitle('Domains'),
@@ -59,9 +66,9 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	function containersTags(data, type, full, meta) {
 		var containersHTML = '';
 		for(var i = 0; i < data.containers.length; i++) {
-			rolesHTML += '<span class="b-tags b-tags_' + quotaColors[data.containers.type] + '">' 
-				+ data.containers[i].name 
-				+ ' <a ng-click="environmentViewCtrl.destroyContainer(' + data.containers[i].id + ')"><i class="fa fa-times"></i></a>' 
+			containersHTML += '<span class="b-tags b-tags_' + quotaColors[data.containers[i].type] + '">' 
+				+ data.containers[i].templateName 
+				+ ' <a href ng-click="environmentViewCtrl.destroyContainer(\'' + data.containers[i].id + '\')"><i class="fa fa-times"></i></a>' 
 			+ '</span>';
 		}
 		return containersHTML;
@@ -88,7 +95,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 			if (isConfirm) {
 				environmentService.destroyContainer(containerId).success(function (data) {
 					SweetAlert.swal("Destroyed!", "Your container has been destroyed.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
 				});
@@ -115,7 +122,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 				if (isConfirm) {
 					environmentService.destroyEnvironment(environmentId).success(function (data) {
 						SweetAlert.swal("Destroyed!", "Your environment has been destroyed.", "success");
-						vm.dtInstance.reloadData();
+						vm.dtInstance.reloadData(null, false);
 					}).error(function (data) {
 						SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
 					});

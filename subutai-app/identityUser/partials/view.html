@@ -1,7 +1,7 @@
 <div ng-controller="IdentityUserCtrl as identityUserCtrl">
 
 	<div class="b-workspace__header">
-		<a class="b-btn b-btn_blue b-btn_header-button">
+		<a class="b-btn b-btn_blue b-btn_header-button" ng-click="identityUserCtrl.userForm()" href>
 			<i class="fa fa-plus"></i> Add user
 		</a>
 		<h1 class="b-title">User management</h1>
@@ -21,7 +21,7 @@
 			<div class="b-empty-list__text">
 				You don’t have any users
 			</div>
-			<a class="b-btn b-btn_blue" href ng-click="identityUserCtrl.createBlueprintFrom()">
+			<a class="b-btn b-btn_blue" href ng-click="identityUserCtrl.userForm()">
 				<i class="fa fa-plus"></i> Add user
 			</a>	
 		</div>		

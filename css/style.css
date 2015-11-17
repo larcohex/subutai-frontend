@@ -337,7 +337,7 @@ body {
 	font-size: 9px;
 	border-radius: 5px;
 	margin: 0 5px 5px 0;
-	transition: all .4s ease-in-out;	
+	/*transition: all .4s ease-in-out;	*/
 }
 
 .b-tags_bark-red {
@@ -651,7 +651,7 @@ body {
 /*Popup*/
 .b-popup {
     box-sizing: border-box;
-    width: 610px;
+    /*width: 610px;*/
     background-color: #fff;
     border: 1px solid #f2f2f2;
 
@@ -705,6 +705,7 @@ body {
     width: 100%;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
+	min-height: 102px;
     max-height: 129px;
     overflow: auto;
 }
@@ -716,6 +717,7 @@ body {
     text-decoration: none;
     font-size: 13px;
     color: #19286e;
+	cursor: pointer;
 }
 
 .b-popup-body-list-table__link:hover {
@@ -950,5 +952,13 @@ body {
     left: 0;
     text-align: center;
     width: 100%;
+}
+
+.b-form-hint {
+	font-size: 12px;
+}
+
+.b-form-hint_red {
+	color: #ff0000;
 }
 

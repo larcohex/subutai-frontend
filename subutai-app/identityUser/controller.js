@@ -2,29 +2,66 @@
 
 angular.module('subutai.identity-user.controller', [])
 	.controller('IdentityUserCtrl', IdentityUserCtrl)
+	.controller('IdentityUserFormCtrl', IdentityUserFormCtrl)
 	.directive('pwCheck', pwCheck)
 	.directive('colSelect', colSelect);	
 
-IdentityUserCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert'];
+IdentityUserCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'ngDialog'];
+IdentityUserFormCtrl.$inject = ['$scope', 'identitySrv', 'ngDialog'];
 
-function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert) {
+function userPostData(user) {
+	var currentUserRoles = JSON.stringify(user.roles);
+	var postData = 'username=' + user.userName + 
+		'&full_name=' + user.fullName +
+		'&password=' + user.password +
+		'&email=' + user.email;
+
+	if(currentUserRoles !== undefined) {
+		postData += '&roles=' + currentUserRoles;
+	}
+
+	if(user.id !== undefined && user.id > 0) {
+		postData += '&user_id=' + user.id;
+	}
+
+	return postData;
+}
+
+function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, ngDialog) {
 
 	var vm = this;
-	vm.user2Add = {};
-	vm.editUserName = true;
 
 	//functions
-	vm.addUser = addUser;
-	vm.editUser = editUser;
+	vm.userForm = userForm;
 	vm.deleteUser = deleteUser;
-	vm.colSelectUserRole = colSelectUserRole;
 	vm.removeRoleFromUser = removeRoleFromUser;
+
+	function userForm(user) {
+		if(user === undefined || user === null) user = false;
+
+		ngDialog.open({
+			template: 'subutai-app/identityUser/partials/userForm.html',
+			controller: 'IdentityUserFormCtrl',
+			controllerAs: 'identityUserFormCtrl',
+			data: user,
+			preCloseCallback: function(value) {
+				vm.dtInstance.reloadData(null, false);
+			}
+		});
+	}	
 
 	vm.dtInstance = {};
 	vm.users = {};
-	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		return $resource( serverUrl + 'identity_ui/').query().$promise;
-	}).withPaginationType('full_numbers').withOption('createdRow', createdRow);
+	vm.dtOptions = DTOptionsBuilder
+		.fromFnPromise(function() {
+			return $resource( serverUrl + 'identity_ui/').query().$promise;
+		})
+		.withPaginationType('full_numbers')
+		.withOption('createdRow', createdRow)
+		.withOption('order', [[ 1, "asc" ]])
+		//.withDisplayLength(2)
+		.withOption('stateSave', true);
+
 	vm.dtColumns = [
 		//DTColumnBuilder.newColumn('id').withTitle('ID'),
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEdit),
@@ -35,24 +72,16 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionDelete)
 	];
 
-	function getRolesFromAPI() {
-		identitySrv.getRoles().success(function (data) {
-			vm.roles = data;
-		});
-	}
-	getRolesFromAPI();
-
 	function createdRow(row, data, dataIndex) {
 		$compile(angular.element(row).contents())($scope);
 	}
 
 	function actionEdit(data, type, full, meta) {
 		vm.users[data.id] = data;
-		return '<a href class="b-icon b-icon_edit" ng-click="identityUserCtrl.editUser(identityUserCtrl.users[' + data.id + '])"></a>';
+		return '<a href class="b-icon b-icon_edit" ng-click="identityUserCtrl.userForm(identityUserCtrl.users[' + data.id + '])"></a>';
 	}
 
 	function rolesTags(data, type, full, meta) {
-		//vm.users[data.id] = data;
 		var rolesHTML = '';
 		for(var i = 0; i < data.roles.length; i++) {
 			rolesHTML += '<span class="b-tags b-tags_grey">' 
@@ -64,69 +93,13 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	}
 
 	function actionDelete(data, type, full, meta) {
-		//vm.users[data.id] = data;
 		return '<a href class="b-icon b-icon_remove" ng-click="identityUserCtrl.deleteUser(identityUserCtrl.users[' + data.id + '])"></a>';
-	}
-
-	function userPostData(user) {
-		var currentUserRoles = JSON.stringify(user.roles);
-		var postData = 'username=' + user.userName + 
-			'&full_name=' + user.fullName +
-			'&password=' + user.password +
-			'&email=' + user.email;
-
-		if(currentUserRoles !== undefined) {
-			postData += '&roles=' + currentUserRoles;
-		}
-
-		if(user.id !== undefined && user.id > 0) {
-			postData += '&user_id=' + user.id;
-		}
-
-		return postData;
-	}
-
-	function addUser() {
-		//vm.users.push(angular.copy(vm.person2Add));
-		if ($scope.addUserForm.$valid) {
-			var postData = userPostData(vm.user2Add);
-			identitySrv.addUser(postData).success(function (data) {
-				vm.dtInstance.reloadData();
-			});
-			$scope.addUserForm.$setPristine();
-			$scope.addUserForm.$setUntouched();
-		}		
-	}
-
-	function colSelectUserRole(id) {
-
-		if(vm.user2Add.roles === undefined) {
-			vm.user2Add.roles = [];
-		}
-
-		if(vm.user2Add.roles.indexOf(id) >= 0) {
-			vm.user2Add.roles.splice(vm.user2Add.roles.indexOf(id), 1);
-		} else {
-			vm.user2Add.roles.push(id);
-		}
-		console.log(vm.user2Add.roles);
-	}
-
-	function editUser(user) {
-		//vm.message = 'You are trying to edit the row: ' + JSON.stringify(user);
-		vm.editUserName = false;
-		vm.user2Add = angular.copy(user);
-		vm.user2Add.confirm_password = angular.copy(vm.user2Add.password);
-		vm.user2Add.roles = [];
-		for(var i = 0; i < user.roles.length; i++) {
-			vm.user2Add.roles.push(user.roles[i].id);
-		}
 	}
 
 	function removeRoleFromUser(user, roleKey) {
 		SweetAlert.swal({
 			title: "Are you sure?",
-			text: 'Remove "' + user.roles[roleKey].name + '" role from user!',
+			text: 'Remove "' + user.roles[roleKey].name + '" role from user "' + user.userName + '"!',
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
@@ -148,7 +121,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 				console.log(postData);
 				identitySrv.addUser(postData).success(function (data) {
 					SweetAlert.swal("Removed!", "Role has been removed.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User role is safe :). Error: " + data, "error");
 				});
@@ -175,7 +148,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			if (isConfirm) {
 				identitySrv.deleteUser(user.id).success(function (data) {
 					SweetAlert.swal("Deleted!", "User has been deleted.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User is safe :). Error: " + data, "error");
 				});
@@ -185,6 +158,63 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 		});
 	}
 };
+
+function IdentityUserFormCtrl($scope, identitySrv, ngDialog) {
+
+	var vm = this;
+	vm.user2Add = {};
+	vm.roles = [];
+	vm.currentUserRoles = [];
+	vm.editUserName = false;
+
+	//functions
+	vm.addUser = addUser;
+	vm.colSelectUserRole = colSelectUserRole;
+
+	if($scope.ngDialogData !== undefined) {
+		vm.user2Add = $scope.ngDialogData;
+		vm.editUser = true;
+		vm.currentUserRoles = angular.copy(vm.user2Add.roles);
+		vm.user2Add.confirm_password = angular.copy(vm.user2Add.password);
+
+		vm.user2Add.roles = [];
+		for(var i = 0; i < vm.currentUserRoles.length; i++) {
+			vm.user2Add.roles.push(vm.currentUserRoles[i].id);
+		}
+	}
+
+	function getRolesFromAPI() {
+		identitySrv.getRoles().success(function (data) {
+			vm.roles = data;
+		});
+	}
+	getRolesFromAPI();
+
+	function addUser() {
+		if ($scope.addUserForm.$valid) {
+			var postData = userPostData(vm.user2Add);
+			identitySrv.addUser(postData).success(function (data) {
+				ngDialog.closeAll();
+			});
+			$scope.addUserForm.$setPristine();
+			$scope.addUserForm.$setUntouched();
+		}		
+	}
+
+	function colSelectUserRole(id) {
+
+		if(vm.user2Add.roles === undefined) {
+			vm.user2Add.roles = [];
+		}
+
+		if(vm.user2Add.roles.indexOf(id) >= 0) {
+			vm.user2Add.roles.splice(vm.user2Add.roles.indexOf(id), 1);
+		} else {
+			vm.user2Add.roles.push(id);
+		}
+	}
+
+}
 
 function pwCheck() {
 	return {
