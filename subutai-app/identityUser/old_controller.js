@@ -266,7 +266,6 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	}
 
 	function editUser(user) {
-		//vm.message = 'You are trying to edit the row: ' + JSON.stringify(user);
 		vm.editUserName = false;
 		vm.user2Add = angular.copy(user);
 		vm.user2Add.confirm_password = angular.copy(vm.user2Add.password);

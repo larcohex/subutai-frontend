@@ -705,6 +705,7 @@ body {
     width: 100%;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
+	min-height: 102px;
     max-height: 129px;
     overflow: auto;
 }

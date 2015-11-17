@@ -107,9 +107,15 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 
 	vm.dtInstance = {};
 	vm.roles = {};
-	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		return $resource(serverUrl + 'identity_ui/roles/').query().$promise;
-	}).withPaginationType('full_numbers').withOption('createdRow', createdRow);
+	vm.dtOptions = DTOptionsBuilder
+		.fromFnPromise(function() {
+			return $resource(serverUrl + 'identity_ui/roles/').query().$promise;
+		})
+		.withPaginationType('full_numbers')
+		.withOption('stateSave', true)
+		.withOption('order', [[ 1, "asc" ]])
+		.withOption('createdRow', createdRow);
+
 	vm.dtColumns = [
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEdit),
 		DTColumnBuilder.newColumn('name').withTitle('Role'),
@@ -189,7 +195,7 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 
 				identitySrv.addRole(postData).success(function (data) {
 					SweetAlert.swal("Removed!", "Permission has been removed.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Role permission is safe :). Error: " + data, "error");
 				});
@@ -216,7 +222,7 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			if (isConfirm) {
 				identitySrv.deleteRole(roleId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Role has been deleted.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				});
 			} else {
 				SweetAlert.swal("Cancelled", "Role is safe :)", "error");
@@ -244,7 +250,7 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 		}
 
 		identitySrv.addRole(postData).success(function (data) {
-			vm.dtInstance.reloadData();
+			vm.dtInstance.reloadData(null, false);
 		});
 	}	
 

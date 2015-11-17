@@ -29,12 +29,18 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 
 	vm.dtInstance = {};
 	vm.users = {};
-	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		return $resource(serverUrl + 'environments_ui/').query().$promise;
-	}).withPaginationType('full_numbers').withOption('createdRow', createdRow);
+	vm.dtOptions = DTOptionsBuilder
+		.fromFnPromise(function() {
+			return $resource(serverUrl + 'environments_ui/').query().$promise;
+		}).withPaginationType('full_numbers')
+		.withOption('createdRow', createdRow)
+		.withOption('order', [[ 1, "asc" ]])
+		//.withDisplayLength(2)
+		.withOption('stateSave', true);
+
 	vm.dtColumns = [
 		//DTColumnBuilder.newColumn('id').withTitle('ID'),
-		DTColumnBuilder.newColumn(null).withTitle('').renderWith(statusHTML),
+		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(statusHTML),
 		DTColumnBuilder.newColumn('name').withTitle('Environment name'),
 		DTColumnBuilder.newColumn(null).withTitle('Key SSH').renderWith(sshKeyLinks),
 		DTColumnBuilder.newColumn(null).withTitle('Domains'),
@@ -89,7 +95,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 			if (isConfirm) {
 				environmentService.destroyContainer(containerId).success(function (data) {
 					SweetAlert.swal("Destroyed!", "Your container has been destroyed.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
 				});
@@ -116,7 +122,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 				if (isConfirm) {
 					environmentService.destroyEnvironment(environmentId).success(function (data) {
 						SweetAlert.swal("Destroyed!", "Your environment has been destroyed.", "success");
-						vm.dtInstance.reloadData();
+						vm.dtInstance.reloadData(null, false);
 					}).error(function (data) {
 						SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
 					});

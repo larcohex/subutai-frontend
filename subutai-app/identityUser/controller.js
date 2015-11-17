@@ -45,16 +45,23 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			controllerAs: 'identityUserFormCtrl',
 			data: user,
 			preCloseCallback: function(value) {
-				vm.dtInstance.reloadData();
+				vm.dtInstance.reloadData(null, false);
 			}
 		});
 	}	
 
 	vm.dtInstance = {};
 	vm.users = {};
-	vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
-		return $resource( serverUrl + 'identity_ui/').query().$promise;
-	}).withPaginationType('full_numbers').withOption('createdRow', createdRow);
+	vm.dtOptions = DTOptionsBuilder
+		.fromFnPromise(function() {
+			return $resource( serverUrl + 'identity_ui/').query().$promise;
+		})
+		.withPaginationType('full_numbers')
+		.withOption('createdRow', createdRow)
+		.withOption('order', [[ 1, "asc" ]])
+		//.withDisplayLength(2)
+		.withOption('stateSave', true);
+
 	vm.dtColumns = [
 		//DTColumnBuilder.newColumn('id').withTitle('ID'),
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEdit),
@@ -92,7 +99,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	function removeRoleFromUser(user, roleKey) {
 		SweetAlert.swal({
 			title: "Are you sure?",
-			text: 'Remove "' + user.roles[roleKey].name + '" role from user!',
+			text: 'Remove "' + user.roles[roleKey].name + '" role from user "' + user.userName + '"!',
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
@@ -114,7 +121,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 				console.log(postData);
 				identitySrv.addUser(postData).success(function (data) {
 					SweetAlert.swal("Removed!", "Role has been removed.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User role is safe :). Error: " + data, "error");
 				});
@@ -141,7 +148,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			if (isConfirm) {
 				identitySrv.deleteUser(user.id).success(function (data) {
 					SweetAlert.swal("Deleted!", "User has been deleted.", "success");
-					vm.dtInstance.reloadData();
+					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User is safe :). Error: " + data, "error");
 				});
