@@ -63,7 +63,7 @@ body {
 }
 
 .b-header-userbar-avatar {
-    border: 1px solid #e6eaf5;
+    border: 1px solid #dcdcdc;
     border-radius: 15px;
 }
 
@@ -102,7 +102,7 @@ body {
 .b-workspace {
 	margin: 0 0 0 220px;
     background-color: #fff;
-    border: 1px solid #e6eaf5;
+    border: 1px solid #dcdcdc;
     border-radius: 5px;
 	padding: 16px 0 32px 0;
 	position: relative;
@@ -111,7 +111,7 @@ body {
 .b-workspace__header {
 	padding: 0 25px 14px 25px;
 	margin: 0 0 21px 0;
-	border-bottom: 1px solid #e6eaf5;
+	border-bottom: 1px solid #dcdcdc;
 }
 
 .b-workspace__content {
@@ -221,7 +221,7 @@ body {
     transition: all .4s ease-in-out;
 }
 .b-main-table-border {
-    border: 1px solid #e9edf6;
+    border: 1px solid #dcdcdc;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
@@ -292,7 +292,7 @@ body {
 }
 
 .b-main-table tr {
-	border-bottom: 1px solid #e9edf6;
+	border-bottom: 1px solid #dcdcdc;
 }
 .b-main-table_white-header tr {
     border: none;
@@ -398,7 +398,7 @@ body {
 .b-nav {
     width: 205px;
     background-color: #fff;
-    border: 1px solid #e6eaf5;
+    border: 1px solid #dcdcdc;
     border-radius: 5px;
     padding-top: 50px;
 }
@@ -420,8 +420,8 @@ body {
 
 .b-nav-menu_active {
     background-color: #f5f6fb;
-    border-top: 1px solid #e6eaf5;
-    border-bottom: 1px solid #e6eaf5;
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
     border-left: 3px solid #0b55ff;
 }
 
@@ -667,7 +667,7 @@ body {
     font-size: 16px;
     line-height: 12px;
     color: #19286e;
-    border-bottom: 1px solid #e6eaf5;
+    border-bottom: 1px solid #dcdcdc;
 	text-transform: capitalize;
 }
 
@@ -749,7 +749,7 @@ body {
 .b-popup-body-input {
     box-sizing: border-box;
     height: 29px;
-    border: 1px solid #e6eaf5;
+    border: 1px solid #dcdcdc;
     border-radius: 5px;
     padding: 0 5px;
     font-family: 'Ubuntu', sans-serif;
@@ -791,7 +791,7 @@ body {
 .b-popup-body__box {
     display: inline-block;
     padding: 10px;
-    border: 1px solid #e6eaf5;
+    border: 1px solid #dcdcdc;
     border-radius: 5px;
     vertical-align: top;
 }
