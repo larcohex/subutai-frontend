@@ -8,6 +8,14 @@ html, body {
     margin: 0;
 }
 
+a {
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
 body {
     font-family: 'Ubuntu', sans-serif;
     background-color: #f0f0f0;
@@ -124,6 +132,12 @@ body {
 	margin: 0 0 0 0;
 	color: #19286e;
 	font-weight: 700;
+}
+
+.b-title_sub {
+	font-size: 16px;
+	font-weight: 400;
+	padding-bottom: 20px;
 }
 
 .b-title_breadcrumbs {
@@ -319,7 +333,7 @@ body {
 
 .b-main-table_white-header td {
     padding: 8px 0 8px 7px;
-    font-size: 11px;
+    font-size: 12px;
 }
 .b-main-table_white-header td:first-child,
 .b-main-table_white-header td:last-child {
@@ -380,17 +394,23 @@ body {
 	height: 10px;
 	border-radius: 50px;
 	overflow: hidden;
-}
-
-.b-status-icon_UNDER_MODIFICATION {
 	background-color: #efc94c;
 }
 
-.b-status-icon_UNHEALTHY {
+.b-status-icon_UNDER_MODIFICATION,
+.b-status-icon_WAIT {
+	background-color: #efc94c;
+}
+
+.b-status-icon_UNHEALTHY,
+.b-status-icon_FAILED,
+.b-status-icon_REQUESTED {
 	background-color: #c1272d;
 }
 
-.b-status-icon_HEALTHY {
+.b-status-icon_HEALTHY,
+.b-status-icon_SUCCEEDED,
+.b-status-icon_APPROVED {
 	background-color: #22b573;
 }
 
@@ -660,6 +680,14 @@ body {
     width: 690px;
 }
 
+.b-popup_log {
+	width: 500px;
+}
+
+.b-popup_min {
+	width: 305px;
+}
+
 .b-popup__header {
     box-sizing: border-box;
     width: 100%;
@@ -671,9 +699,26 @@ body {
 	text-transform: capitalize;
 }
 
+.b-popup_min .b-popup__header {
+	padding: 20px 20px;
+}
+
 .b-popup__body {
     padding: 15px 30px;
 }
+
+.b-popup_min .b-popup__body {
+    padding: 15px 20px;
+}
+
+.b-popup__footer {
+    padding: 0 30px 15px 30px;
+}
+
+.b-popup_min .b-popup__footer {
+    padding: 0 20px 15px 20px;
+}
+
 .b-popup-body_role {
     width: 201px;
     display: inline-block;
@@ -843,10 +888,6 @@ body {
     color: #cccccc;
 }
 
-.b-popup__footer {
-    padding: 0 30px 15px 30px;
-}
-
 /*Empty List*/
 .b-empty-list {
     text-align: center;
@@ -960,5 +1001,32 @@ body {
 
 .b-form-hint_red {
 	color: #ff0000;
+}
+
+.b-main-table__status-col {
+	width: 95px;
+}
+
+.b-main-table__peer-status-col {
+	width: 65px;
+	text-align: center!important;
+}
+
+td.b-main-table__status-col {
+	text-align: center!important;
+}
+
+.b-logs-view {
+	background-color: #f1f4f8;
+	padding: 10px 14px;
+	overflow: auto;
+	height: 160px;
+	border-radius: 5px;
+	font-size: 13px;
+	color: #5a5a5a;
+}
+
+.b-main-table__buttons-group .b-btn {
+	margin-left: 10px;
 }
 

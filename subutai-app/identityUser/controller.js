@@ -48,7 +48,7 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 				vm.dtInstance.reloadData(null, false);
 			}
 		});
-	}	
+	}
 
 	vm.dtInstance = {};
 	vm.users = {};
