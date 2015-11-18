@@ -6,11 +6,49 @@
 
 	<div class="b-workspace__content">
 		<div class="b-data-table">
-			<table datatable="" 
+			<table datatable="ng" 
 				dt-options="containerViewCtrl.dtOptions" 
-				dt-columns="containerViewCtrl.dtColumns" 
-				dt-instance="containerViewCtrl.dtInstance" 
-				class="table table-striped table-hover">
+				dt-column-defs="containerViewCtrl.dtColumnDefs" 
+				class="row-border hover">
+				<thead>
+					<tr>
+						<th>Status</th>
+						<th>Template</th>
+						<th>IP</th>
+						<th>Tags</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(key, container) in containerViewCtrl.containers">
+						<td class="b-main-table__container-status">
+							<div class="b-status-icon b-status-icon_{{ container.state }}" title="{{ container.state }}"></div>
+						</td>
+						<td>{{ container.templateName }}</td>
+						<td>{{ container.ip }}</td>
+						<td>{{ container.hostname }}</td>
+						<td>
+							<button ng-show="container.state == 'RUNNING'" class="b-btn b-btn_red" 
+							ng-click="containerViewCtrl.containerAction(key)">
+								Stop
+							</button>
+							<button ng-show="container.state == 'STOPPED'" class="b-btn b-btn_green" 
+							ng-click="containerViewCtrl.containerAction(key)">
+								Start
+							</button>
+							<span class="b-load-icon" title="{{ container.state }}" 
+								ng-show="container.state != 'STOPPED' && container.state != 'RUNNING'">
+							</span>
+						</td>
+						<td>
+							<a href="" 
+								class="b-icon b-icon_remove" 
+								ng-click="containerViewCtrl.destroyContainer(container.id, key)">
+							</a>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 
@@ -23,5 +61,5 @@
 			</a>	
 		</div>-->
 	</div>
-	
+
 </div>

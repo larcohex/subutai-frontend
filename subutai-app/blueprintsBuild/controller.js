@@ -123,7 +123,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		vm.totalContainers +=  node.options.start;
 		node.numberOfContainers = node.numberOfContainers - node.options.start;
 		node = setRangeSliderValues(node, node.numberOfContainers);
-		console.log(vm.nodesToCreate);
 	}
 
 	function setRangeSliderValues(node, value) {
@@ -158,7 +157,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	function removeNodeFromCreateList(key) {
 		var parentKey = vm.nodesToCreate[key].parentNode;
 		var node = vm.transportNodes[parentKey];
-		console.log(vm.nodesToCreate[key]);
 
 		var numberOfContainers = (
 			parseInt(node.numberOfContainers) 
@@ -174,7 +172,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	}
 
 	function removeNode(peer, strategies, itemKey, itemParentKey) {
-		console.log(itemParentKey);
 		removeNodeFromCreateList(itemParentKey);
 		vm.groupList[peer][strategies].splice(itemKey, 1);
 	}

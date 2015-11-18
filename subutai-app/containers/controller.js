@@ -3,70 +3,48 @@
 angular.module('subutai.containers.controller', [])
 	.controller('ContainerViewCtrl', ContainerViewCtrl);
 
-ContainerViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile',];
+ContainerViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder'];
 
-function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuilder, DTColumnBuilder, $resource, $compile) {
+function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder) {
 
 	var vm = this;
 	vm.environments = [];
+	vm.containers = [];
 
 	// functions
-	vm.getEnvironments = getEnvironments;
-	vm.showContainersList = showContainersList;
+	vm.getContainers = getContainers;
+	vm.containerAction = containerAction;
 	vm.destroyContainer = destroyContainer;
 
-	function getEnvironments() {
+	function getContainers() {
 		environmentService.getEnvironments().success(function (data) {
 			vm.environments = data;
+			vm.containers = [];
+			for(var i in vm.environments) {
+				for(var j in vm.environments[i].containers) {
+					vm.containers.push(vm.environments[i].containers[j]);
+				}
+			}
 		});
 	}
 
-	getEnvironments();
+	getContainers();
 
-	vm.dtInstance = {};
-	vm.users = {};
 	vm.dtOptions = DTOptionsBuilder
-		.fromFnPromise(function() {
-			return $resource(serverUrl + 'environments_ui/').query().$promise;
-		}).withPaginationType('full_numbers')
-		.withOption('createdRow', createdRow)
-		.withOption('order', [[ 1, "asc" ]])
-		//.withDisplayLength(2)
-		.withOption('stateSave', true);
+		.newOptions()
+		//.withOption('order', [[ 1, "asc" ]])
+		.withOption('stateSave', true)
+		.withPaginationType('full_numbers');
+	vm.dtColumnDefs = [
+		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(1),
+		DTColumnDefBuilder.newColumnDef(2).notSortable(),
+		DTColumnDefBuilder.newColumnDef(3),
+		DTColumnDefBuilder.newColumnDef(4).notSortable(),
+		DTColumnDefBuilder.newColumnDef(5).notSortable()
+	];	
 
-	vm.dtColumns = [
-		//DTColumnBuilder.newColumn('id').withTitle('ID'),
-		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(statusHTML),
-		DTColumnBuilder.newColumn('name').withTitle('Environment name'),
-		DTColumnBuilder.newColumn(null).withTitle('').renderWith(containersTags),
-		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionDelete)
-	];
-
-	function createdRow(row, data, dataIndex) {
-		$compile(angular.element(row).contents())($scope);
-	}
-
-	function statusHTML(data, type, full, meta) {
-		vm.users[data.id] = data;
-		return '<div class="b-status-icon b-status-icon_' + data.status + '" title="' + data.status + '"></div>';
-	}
-
-	function containersTags(data, type, full, meta) {
-		var containersHTML = '';
-		for(var i = 0; i < data.containers.length; i++) {
-			containersHTML += '<span class="b-tags b-tags_' + quotaColors[data.containers[i].type] + '">' 
-				+ data.containers[i].templateName 
-				+ ' <a href ng-click="environmentViewCtrl.destroyContainer(\'' + data.containers[i].id + '\')"><i class="fa fa-times"></i></a>' 
-			+ '</span>';
-		}
-		return containersHTML;
-	}
-
-	function actionDelete(data, type, full, meta) {
-		return '<a href="" class="b-icon b-icon_remove" ng-click="environmentViewCtrl.destroyEnvironment(\'' + data.id + '\')"></a>';
-	}
-
-	function destroyContainer(containerId) {
+	function destroyContainer(containerId, key) {
 		SweetAlert.swal({
 			title: "Are you sure?",
 			text: "Your will not be able to recover this Container!",
@@ -83,7 +61,7 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 			if (isConfirm) {
 				environmentService.destroyContainer(containerId).success(function (data) {
 					SweetAlert.swal("Destroyed!", "Your container has been destroyed.", "success");
-					vm.dtInstance.reloadData(null, false);
+					vm.containers.splice(key, 1);
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
 				});
@@ -93,13 +71,20 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 		});
 	}
 
-	function showContainersList(key) {
-		vm.containers = vm.environments[key].containers;
-	}
+	function containerAction(key) {
+		var action = 'start';
+		if(vm.containers[key].state == 'RUNNING') {
+			action = 'stop';
+			vm.containers[key].state = 'STOPPING';
+		} else {
+			vm.containers[key].state = 'STARTING';
+		}
 
-	function getContainers() {
-		var environment = vm.environments[vm.environmentQuota];
-		vm.containersForQuota = environment.containers;
+		environmentService.switchContainer(vm.containers[key].id, action).success(function (data) {
+			environmentService.getContainerStatus(vm.containers[key].id).success(function (data) {
+				vm.containers[key].state = data.STATE;
+			});				
+		});		
 	}
 
 }

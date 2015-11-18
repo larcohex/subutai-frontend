@@ -99,8 +99,8 @@ body {
 }
 
 #nprogress .spinner-icon {
-    border-top-color: #0b55ff;;
-    border-left-color: #0b55ff;;
+    border-top-color: #0b55ff;
+    border-left-color: #0b55ff;
 }
 
 .b-content {
@@ -399,19 +399,26 @@ body {
 }
 
 .b-status-icon_UNDER_MODIFICATION,
-.b-status-icon_WAIT {
+.b-status-icon_WAIT ,
+.b-status-icon_STOPPING ,
+.b-status-icon_STARTING {
 	background-color: #efc94c;
 }
 
 .b-status-icon_UNHEALTHY,
 .b-status-icon_FAILED,
-.b-status-icon_REQUESTED {
+.b-status-icon_REQUESTED,
+.b-status-icon_STOPPED,
+.b-status-icon_ABORTING,
+.b-status-icon_FREEZING,
+.b-status-icon_FROZEN {
 	background-color: #c1272d;
 }
 
 .b-status-icon_HEALTHY,
 .b-status-icon_SUCCEEDED,
-.b-status-icon_APPROVED {
+.b-status-icon_APPROVED,
+.b-status-icon_RUNNING {
 	background-color: #22b573;
 }
 
@@ -1008,6 +1015,11 @@ body {
 	width: 95px;
 }
 
+.b-main-table__container-status {
+	width: 45px;
+	text-align: center!important;
+}
+
 .b-main-table__peer-status-col {
 	width: 65px;
 	text-align: center!important;
@@ -1029,5 +1041,14 @@ td.b-main-table__status-col {
 
 .b-main-table__buttons-group .b-btn {
 	margin-left: 10px;
+}
+
+.b-load-icon {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background-image: url('../assets/elements/ring-alt.svg');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
 }
 
