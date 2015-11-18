@@ -236,6 +236,7 @@ body {
 }
 .b-main-table-border {
     border: 1px solid #dcdcdc;
+	border-bottom: none;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
@@ -320,10 +321,6 @@ body {
 	visibility: visible;
 }
 
-.b-main-table tr:last-child {
-	border: none;
-}
-
 .b-main-table td {
     font-size: 13px;
     color: #19286e;
@@ -352,6 +349,10 @@ body {
 	border-radius: 5px;
 	margin: 0 5px 5px 0;
 	/*transition: all .4s ease-in-out;	*/
+}
+
+.b-tags a {
+	color: inherit;
 }
 
 .b-tags_bark-red {
