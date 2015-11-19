@@ -6,7 +6,7 @@
 
 	<div class="b-workspace__content">
 		<div class="b-data-table">
-			<table datatable="ng" 
+			<table datatable="ng" ng-show="containerViewCtrl.containers.length > 0" 
 				dt-options="containerViewCtrl.dtOptions" 
 				dt-column-defs="containerViewCtrl.dtColumnDefs" 
 				class="row-border hover">
@@ -42,7 +42,7 @@
 							</span>
 						</td>
 						<td>
-							<a href="" 
+							<a href 
 								class="b-icon b-icon_remove" 
 								ng-click="containerViewCtrl.destroyContainer(container.id, key)">
 							</a>

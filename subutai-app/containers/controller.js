@@ -50,11 +50,11 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 			text: "Your will not be able to recover this Container!",
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, destroy it!",
-			cancelButtonText: "No, cancel plx!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Destroy",
+			cancelButtonText: "Cancel",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -65,8 +65,6 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Your environment is safe :). Error: " + data.ERROR, "error");
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "Your container is safe :)", "error");
 			}
 		});
 	}

@@ -97,11 +97,11 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 			text: "Your unregister peer request!",
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, unregister it!",
-			cancelButtonText: "No, cancel plx!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Unregister",
+			cancelButtonText: "Cancel",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -112,8 +112,6 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Your peer request is safe :). Error: " + data.ERROR, "error");
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "Your peer request is safe :)", "error");
 			}
 		});
 	}
@@ -124,11 +122,11 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 			text: "Your cancel peer request!",
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, cancel it!",
-			cancelButtonText: "No, cancel plx!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Cancel request",
+			cancelButtonText: "No",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -139,8 +137,6 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Your peer request is safe :). Error: " + data.ERROR, "error");
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "Your peer request is safe :)", "error");
 			}
 		});
 	}	

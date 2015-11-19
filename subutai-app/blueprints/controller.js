@@ -32,11 +32,11 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 			text: "Your will not be able to recover this blueprint!",
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, delete it!",
-			cancelButtonText: "No, cancel plx!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -45,8 +45,6 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 				environmentService.deleteBlueprint(blueprintId).success(function (data) {
 					vm.blueprints.splice(key, 1);
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "Your blueprint is safe :)", "error");
 			}
 		});
 	}
@@ -77,7 +75,7 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 	var vm = this;
 
 	vm.blueprintFrom = {};
-	vm.blueprintFrom.currentNode = {};
+	vm.blueprintFrom.currentNode = getDefaultValues();
 	vm.nodeList = [];	
 	vm.templates = [];
 	vm.containersType = [];
@@ -113,12 +111,11 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 			if(tempNode.sshGroupId === undefined) return;
 			if(tempNode.hostsGroupId === undefined) return;
 
-			vm.blueprintFrom.currentNode = {};
 			vm.nodeList.push(tempNode);
 		} else {
-			vm.blueprintFrom.currentNode = {};
 			vm.nodeStatus = 'Add to';
 		}
+		vm.blueprintFrom.currentNode = getDefaultValues;
 	}
 
 	function setNodeData(key) {
@@ -143,6 +140,17 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 
 		vm.nodeList = [];
 		vm.blueprintFrom = {};
-	}	
+	}
+
+	function getDefaultValues() {
+		var defaultVal = {
+			"templateName": "master",
+			"numberOfContainers": 2,
+			"sshGroupId": 0,
+			"hostsGroupId": 0,
+			"type": "SMALL"
+		};
+		return defaultVal;
+	}
 	
 }

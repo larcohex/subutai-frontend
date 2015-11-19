@@ -13,6 +13,7 @@
 				ng-show="blueprintsBuildCtrl.blueprintAction == 'grow'">
 				<label class="b-popup-body-label b-popup-body-label_inline">Environment</label>
 				<select class="b-popup-body-input b-popup-body-input_enviroment-name" 
+					ng-class="blueprintsBuildCtrl.popupError ? 'b-popup-body-input__error' : ''" 
 					ng-model="blueprintsBuildCtrl.environmentToGrow">
 					<option 
 						ng-repeat="(key, environment) in blueprintsBuildCtrl.environments" 
@@ -28,6 +29,7 @@
 				<label class="b-popup-body-label b-popup-body-label_inline">Environment name</label>
 				<input type="text" 
 				class="b-popup-body-input b-popup-body-input__enviroment-name" 
+				ng-class="blueprintsBuildCtrl.popupError ? 'b-popup-body-input__error' : ''" 
 				ng-model="blueprintsBuildCtrl.newEnvironmentName">
 			</div>
 

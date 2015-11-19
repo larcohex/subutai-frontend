@@ -20,6 +20,7 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	vm.newEnvironmentName = '';
 	vm.environmentToGrow;
 	vm.totalContainers = 0;
+	vm.popupError = false;
 
 	vm.groupList = {};
 	vm.colors = quotaColors;	
@@ -75,9 +76,22 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	});
 
 	function buildPopup() {
-		var dataToBuild = {};
+
+		if(vm.blueprintAction == 'grow') {
+			if(vm.environmentToGrow === undefined || vm.environmentToGrow.length < 1) {
+				vm.popupError = true;
+				return;
+			}
+		} else {
+			console.log(vm.newEnvironmentName);
+			if(vm.newEnvironmentName === undefined || vm.newEnvironmentName.length < 1) {
+				vm.popupError = true;
+				return;
+			}
+		}
 
 		if(vm.nodesToCreate.length < 1) return;
+		vm.popupError = false;
 
 		for(var i = 0; i < vm.nodesToCreate.length; i++) {
 			var currentNode = vm.nodesToCreate[i];
