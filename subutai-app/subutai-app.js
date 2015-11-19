@@ -88,7 +88,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		}
 	})
 	.state("containers", {
-		url: "/containers",
+		url: "/containers/{environmentId}",
 		templateUrl: "subutai-app/containers/partials/view.html",
 		resolve: {
 			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -178,6 +178,24 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}]
 		}
 	})
+	.state("tokens", {
+		url: "/tokens",
+		templateUrl: "subutai-app/tokens/partials/view.html",
+		resolve: {
+			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+						{
+							name: 'subutai.tokens',
+							files: [
+								'subutai-app/tokens/tokens.js',
+								'subutai-app/tokens/controller.js',
+								'subutai-app/identity/service.js'
+							]
+						}
+				]);
+			}]
+		}
+	})	
 }
 
 function startup($rootScope, $state) {
