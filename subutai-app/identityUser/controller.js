@@ -102,11 +102,11 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			text: 'Remove "' + user.roles[roleKey].name + '" role from user "' + user.userName + '"!',
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, remove it!",
-			cancelButtonText: "No, cancel!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Remove",
+			cancelButtonText: "Cancel",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -125,8 +125,6 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User role is safe :). Error: " + data, "error");
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "User role is safe :)", "error");
 			}
 		});
 	}
@@ -137,11 +135,11 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			text: "Your will not be able to recover this user!",
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, delete it!",
-			cancelButtonText: "No, cancel plx!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -152,8 +150,6 @@ function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User is safe :). Error: " + data, "error");
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "User is safe :)", "error");
 			}
 		});
 	}

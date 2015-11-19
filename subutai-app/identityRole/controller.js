@@ -87,11 +87,11 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			text: 'Remove "' + perrmission.name + '" permission from role!',
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, remove it!",
-			cancelButtonText: "No, cancel!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Remove",
+			cancelButtonText: "Cancel",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -111,8 +111,6 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Role permission is safe :). Error: " + data, "error");
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "Role permission is safe :)", "error");
 			}
 		});
 	}
@@ -123,11 +121,11 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 			text: "Your will not be able to recover this role!",
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Yes, delete it!",
-			cancelButtonText: "No, cancel plx!",
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
 			closeOnConfirm: false,
-			closeOnCancel: false,
+			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
 		function (isConfirm) {
@@ -136,8 +134,6 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 					SweetAlert.swal("Deleted!", "Role has been deleted.", "success");
 					vm.dtInstance.reloadData(null, false);
 				});
-			} else {
-				SweetAlert.swal("Cancelled", "Role is safe :)", "error");
 			}
 		});		
 	}

@@ -811,12 +811,18 @@ body {
     font-size: 13px;
     color: #cccccc;
 }
+
 .b-popup-body-input:focus {
     color: #19286e;
+	box-shadow: none;
 }
 
 .b-popup-body-input_full {
     width: 100%;
+}
+
+.b-popup-body-input__error {
+	box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.6);
 }
 
 .b-popup-body-input_margin-bttm {
@@ -1045,10 +1051,15 @@ td.b-main-table__status-col {
 
 .b-load-icon {
 	display: inline-block;
-	width: 30px;
-	height: 30px;
-	background-image: url('../assets/elements/ring-alt.svg');
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    box-sizing: border-box;
+    border: solid 2px transparent;
+    border-top-color: #0b55ff;
+    border-left-color: #0b55ff;
+    border-radius: 50%;
+    -webkit-animation: nprogress-spinner 400ms linear infinite;
+    animation: nprogress-spinner 400ms linear infinite;
 }
+
 
