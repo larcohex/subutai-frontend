@@ -195,7 +195,29 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				]);
 			}]
 		}
-	})	
+	})
+	.state("cassandra", {
+		url: "/plugins/cassandra",
+		templateUrl: "subutai-app/plugins/cassandra/partials/view.html",
+		resolve: {
+			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.cassandra',
+							files: [
+								'subutai-app/plugins/cassandra/cassandra.js',
+								'subutai-app/plugins/cassandra/controller.js',
+								'subutai-app/plugins/cassandra/service.js'
+							]
+						}
+				]);
+			}]
+		}
+	})
+	.state("404", {
+		url: "/404",
+		template: "Not found"
+	})
 }
 
 function startup($rootScope, $state) {

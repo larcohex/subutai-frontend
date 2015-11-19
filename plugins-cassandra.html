@@ -2,211 +2,211 @@
 <html ng-app="subutai-app">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ Page.title() }}</title>
+<title>{{ Page.title() }}</title>
 
-    <!--CSS Libs-->
-    <link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/libs/nprogress.css"/>
-    <link rel="stylesheet" href="css/libs/normalize.css"/>
-    <link rel="stylesheet" href="css/libs/sweetalert.css">
-    <link rel="stylesheet" href="css/libs/ngDialog.css">
-    <link rel="stylesheet" href="css/libs/nouislider.min.css">
-    <link rel="stylesheet" href="css/libs/datatables.css">
-    <!--CSS-->
+<!--CSS Libs-->
+<link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
+<link rel="stylesheet" href="css/libs/nprogress.css"/>
+<link rel="stylesheet" href="css/libs/normalize.css"/>
+<link rel="stylesheet" href="css/libs/sweetalert.css">
+<link rel="stylesheet" href="css/libs/ngDialog.css">
+<link rel="stylesheet" href="css/libs/nouislider.min.css">
+<link rel="stylesheet" href="css/libs/datatables.css">
+<!--CSS-->
 
-    <link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/style.css"/>
 
-    <!-- DIRS -->
-    <!-- END DIRS -->
+<!-- DIRS -->
+<!-- END DIRS -->
 </head>
 
 <body>
 
 <header class="b-header">
-    <div class="b-header__logo b-header__logo_left">
-        <div class="b-header-logo">
-            <a href="index.html"><img src="assets/elements/logo.svg" alt="" height="20px"/></a>
-        </div>
-    </div>
-    <div class="b-header__userbar b-header__userbar_right">
-        <div class="b-header-userbar">
-            <div class="b-header-userbar__name">
-                <a href="#" class="b-header-userbar-name">Name Username</a>
-            </div>
-            <div class="b-header-userbar__avatar">
-                <img src="" alt="" class="b-header-userbar-avatar"
-                     onerror="this.onerror=null;this.src='assets/elements/avatar-empty.svg';"/>
-            </div>
-        </div>
-    </div>
+	<div class="b-header__logo b-header__logo_left">
+		<div class="b-header-logo">
+			<a href="index.html"><img src="assets/elements/logo.svg" alt="" height="20px"/></a>
+		</div>
+	</div>
+	<div class="b-header__userbar b-header__userbar_right">
+		<div class="b-header-userbar">
+			<div class="b-header-userbar__name">
+				<a href="#" class="b-header-userbar-name">Name Username</a>
+			</div>
+			<div class="b-header-userbar__avatar">
+				<img src="" alt="" class="b-header-userbar-avatar"
+				onerror="this.onerror=null;this.src='assets/elements/avatar-empty.svg';"/>
+			</div>
+		</div>
+	</div>
 </header>
 
 <div class="b-content">
-    <div ng-include="'subutai-app/common/partials/nav-menu.html'"></div>
+	<div ng-include="'subutai-app/common/partials/nav-menu.html'"></div>
 
-    <div class="b-workspace">
+	<div class="b-workspace">
 
-        <div class="b-workspace__header">
-            <h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Cassandra</span></h1>
-        </div>
-        <div class="b-workspace__content">
-            <div class="b-workspace-content b-workspace-content_border">
-                <div class="b-workspace-content__row">
-                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
-                        <div class="b-form">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-1 g-left">Enter cluster name</label>
+		<div class="b-workspace__header">
+			<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Cassandra</span></h1>
+		</div>
+		<div class="b-workspace__content">
+			<div class="b-workspace-content b-workspace-content_border">
+				<div class="b-workspace-content__row">
+					<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+						<div class="b-form">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-1 g-left">Enter cluster name</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-1">
-                                    <input class="b-form-input b-form-input_full" type="text"
-                                           value="Enter cluster name">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-1 g-left">Enter domain name</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+									<input class="b-form-input b-form-input_full" type="text"
+									value="Enter cluster name">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-1 g-left">Enter domain name</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-1">
-                                    <input class="b-form-input b-form-input_full" type="text"
-                                           value="Enter domain name">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-1 g-left">Data directory</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+									<input class="b-form-input b-form-input_full" type="text"
+									value="Enter domain name">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-1 g-left">Data directory</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-1">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1"></option>
-                                    </select>
-                                </div>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+									<select class="b-form-input b-form-input_full">
+										<option value="1"></option>
+									</select>
+								</div>
 
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
-                        <div class="b-form">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-1 g-left">Commit log directory</label>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+					<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
+						<div class="b-form">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-1 g-left">Commit log directory</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-1">
-                                    <input class="b-form-input b-form-input_full" type="text">
-                                </div>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+									<input class="b-form-input b-form-input_full" type="text">
+								</div>
 
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-1 g-left">Saved caches
-                                    directory</label>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-1 g-left">Saved caches
+									directory</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-1">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1"></option>
-                                    </select>
-                                </div>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+									<select class="b-form-input b-form-input_full">
+										<option value="1"></option>
+									</select>
+								</div>
 
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-1 g-left">Choose Environment</label>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-1 g-left">Choose Environment</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-1">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1"></option>
-                                    </select>
-                                </div>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+									<select class="b-form-input b-form-input_full">
+										<option value="1"></option>
+									</select>
+								</div>
 
-                                <div class="clear"></div>
-                            </div>
-                        </div>
+								<div class="clear"></div>
+							</div>
+						</div>
 
-                    </div>
-                </div>
+					</div>
+				</div>
 
-                <div class="b-workspace-content__row">
-                    <h2 class="b-workspace-content-row-h2">
-                        Nodes to be configured
-                    </h2>
+				<div class="b-workspace-content__row">
+					<h2 class="b-workspace-content-row-h2">
+						Nodes to be configured
+					</h2>
 
-                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right g-left">
-                        <span class="b-form-label b-form-label_block">Available nodes</span>
-                        <ul class="b-form-list b-form-list_table">
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                        </ul>
-                    </div>
-                    <div class="b-form-list-buttons b-form-list-buttons_absolute">
-                        <a href="#" class="b-btn-grey b-btn-grey_horizontal b-btn-block"><i
-                                class="fa fa-angle-double-left"></i></a>
-                        <a href="#" class="b-btn-grey b-btn-grey_horizontal"><i
-                                class="fa fa-angle-double-right"></i></a>
-                    </div>
-                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
-                        <span class="b-form-label b-form-label_block">Selected nodes</span>
-                        <ul class="b-form-list b-form-list_table">
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                        </ul>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+					<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right g-left">
+						<span class="b-form-label b-form-label_block">Available nodes</span>
+						<ul class="b-form-list b-form-list_table">
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+						</ul>
+					</div>
+					<div class="b-form-list-buttons b-form-list-buttons_absolute">
+						<a href="#" class="b-btn-grey b-btn-grey_horizontal b-btn-block"><i
+								class="fa fa-angle-double-left"></i></a>
+						<a href="#" class="b-btn-grey b-btn-grey_horizontal"><i
+								class="fa fa-angle-double-right"></i></a>
+					</div>
+					<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
+						<span class="b-form-label b-form-label_block">Selected nodes</span>
+						<ul class="b-form-list b-form-list_table">
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
 
-                <div class="b-workspace-content__row">
-                    <h2 class="b-workspace-content-row-h2">
-                        Seeds
-                    </h2>
+				<div class="b-workspace-content__row">
+					<h2 class="b-workspace-content-row-h2">
+						Seeds
+					</h2>
 
-                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right g-left">
-                        <span class="b-form-label b-form-label_block">Available nodes</span>
-                        <ul class="b-form-list b-form-list_table">
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                        </ul>
-                    </div>
-                    <div class="b-form-list-buttons b-form-list-buttons_absolute">
-                        <a href="#" class="b-btn-grey b-btn-grey_horizontal b-btn-block"><i
-                                class="fa fa-angle-double-left"></i></a>
-                        <a href="#" class="b-btn-grey b-btn-grey_horizontal"><i
-                                class="fa fa-angle-double-right"></i></a>
-                    </div>
-                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
-                        <span class="b-form-label b-form-label_block">Selected nodes</span>
-                        <ul class="b-form-list b-form-list_table">
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                            <li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
-                        </ul>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+					<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right g-left">
+						<span class="b-form-label b-form-label_block">Available nodes</span>
+						<ul class="b-form-list b-form-list_table">
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+						</ul>
+					</div>
+					<div class="b-form-list-buttons b-form-list-buttons_absolute">
+						<a href="#" class="b-btn-grey b-btn-grey_horizontal b-btn-block"><i
+								class="fa fa-angle-double-left"></i></a>
+						<a href="#" class="b-btn-grey b-btn-grey_horizontal"><i
+								class="fa fa-angle-double-right"></i></a>
+					</div>
+					<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
+						<span class="b-form-label b-form-label_block">Selected nodes</span>
+						<ul class="b-form-list b-form-list_table">
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+							<li><a class="b-popup-body-list-table__link" href="#">Role</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
 
-            </div>
+			</div>
 
-        </div>
-        <div class="b-workspace__footer">
-            <a href="#" class="b-btn b-btn_blue g-right">Next</a>
-            <a href="#" class="b-btn b-btn_blue g-right  b-btn_margin-r">Back</a>
-        </div>
-    </div>
+		</div>
+		<div class="b-workspace__footer">
+			<a href="#" class="b-btn b-btn_blue g-right">Next</a>
+			<a href="#" class="b-btn b-btn_blue g-right  b-btn_margin-r">Back</a>
+		</div>
+	</div>
 </div>
 
 <div class="clear"></div>
