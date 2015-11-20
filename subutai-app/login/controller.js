@@ -1,22 +1,22 @@
 'use strict';
 
 angular.module('subutai.login.controller', [])
-    .controller('LoginCtrl', LoginCtrl);
+	.controller('LoginCtrl', LoginCtrl);
 
 LoginCtrl.$inject = ['loginSrv'];
 
 function LoginCtrl( loginSrv )
 {
-    var vm = this;
+	var vm = this;
 
-    vm.name = "";
-    vm.pass = "";
+	vm.name = "";
+	vm.pass = "";
 
-    //functions
-    vm.login = login;
+	//functions
+	vm.login = login;
 
-    function login()
-    {
-        loginSrv.login( vm.name, vm.pass );
-    }
+	function login()
+	{
+		loginSrv.login( vm.name, vm.pass );
+	}
 }

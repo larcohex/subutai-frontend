@@ -1,5 +1,6 @@
 var app = angular.module("subutai-app", [
 	'ui.router',
+	'ngCookies',
 	'ngResource',
 	'oc.lazyLoad',
 	'oitozero.ngSweetAlert',
@@ -10,7 +11,7 @@ var app = angular.module("subutai-app", [
 	.run(startup);
 
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
-startup.$inject = ['$rootScope', '$state'];
+startup.$inject = ['$rootScope', '$state', '$cookieStore', '$location', '$http'];
 
 function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
@@ -262,8 +263,17 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 	})
 }
 
-function startup($rootScope, $state) {
+function startup($rootScope, $state, $cookieStore, $location, $http) {
+
+	//$rootScope.sptoken = $cookieStore.get('sptoken') || false;
+	$rootScope.sptoken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkNjI1YzA4MS0yY2VmLTRmNGEtYjkwYi04ZjIxNDU5NmE5YmQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.tTN-sKSJMsrIJi29o9IL_zLMJ5mMbXFdYBWRPhc5TsU';
+	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+	if (restrictedPage && !$rootScope.sptoken) {
+		$location.path('login');
+	}
+
 	$rootScope.$state = $state;
+	$http.defaults.headers.common['sptoken']= $rootScope.sptoken;
 }
 
 app.directive('dropdownMenu', function() {

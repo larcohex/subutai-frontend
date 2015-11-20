@@ -13,7 +13,6 @@ angular.module('subutai.console.controller', [])
 ConsoleViewCtrl.$inject = ['$scope', 'consoleService'];
 
 function ConsoleViewCtrl($scope, consoleService) {
-	console.log('loloolo');
 
 	//Console UI
 	$scope.theme = 'modern';
