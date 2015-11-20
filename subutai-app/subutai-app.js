@@ -21,6 +21,24 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 	});
 
 	$stateProvider
+	.state("login", {
+		url: "/login",
+		templateUrl: "subutai-app/login/partials/view.html",
+		resolve: {
+			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{
+						name: 'subutai.login',
+						files: [
+							'subutai-app/login/login.js',
+							'subutai-app/login/controller.js',
+							'subutai-app/login/service.js'
+						]
+					}
+				])
+			}]
+		}
+	})
 	.state("home", {
 		url: "",
 		templateUrl: "subutai-app/home/partials/view.html"
@@ -190,30 +208,6 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'subutai-app/tokens/tokens.js',
 								'subutai-app/tokens/controller.js',
 								'subutai-app/identity/service.js'
-							]
-						}
-				]);
-			}]
-		}
-	})
-	.state("console", {
-		url: "/console",
-		templateUrl: "subutai-app/console/partials/view.html",
-		resolve: {
-			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-				return $ocLazyLoad.load([
-						{
-							name: 'vtortola.ng-terminal',
-							files: [
-								'assets/js/plugins/vtortola.ng-terminal.js'
-							]
-						},
-						{
-							name: 'subutai.console',
-							files: [
-								'subutai-app/console/console.js',
-								'subutai-app/console/controller.js',
-								'subutai-app/console/service.js'
 							]
 						}
 				]);
