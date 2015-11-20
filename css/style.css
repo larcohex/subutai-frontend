@@ -1142,10 +1142,19 @@ td.b-main-table__status-col {
 .b-workspace-content-row_col-2_padding-left {
     padding-left: 25px;
 }
+.b-form_border {
+    border: 1px solid #dcdcdc;
+    padding: 15px;
+    border-radius: 5px;
+}
 .b-form-label {
     font-size: 13px;
     line-height: 29px;
     color: #19286e;
+}
+.b-form-label_h2 {
+    font-weight: 700;
+    margin: 0 0 10px;
 }
 .b-form-label_block {
     display: block;
