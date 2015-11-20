@@ -214,6 +214,30 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}]
 		}
 	})
+	.state("console", {
+		url: "/console",
+		templateUrl: "subutai-app/console/partials/view.html",
+		resolve: {
+			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{
+						name: 'vtortola.ng-terminal',
+						files: [
+							'assets/js/plugins/vtortola.ng-terminal.js'
+						]
+					},
+					{
+						name: 'subutai.console',
+						files: [
+							'subutai-app/console/console.js',
+							'subutai-app/console/controller.js',
+							'subutai-app/console/service.js'
+						]
+					}
+				]);
+			}]
+		}
+	})
 	.state("cassandra", {
 		url: "/plugins/cassandra",
 		templateUrl: "subutai-app/plugins/cassandra/partials/view.html",
