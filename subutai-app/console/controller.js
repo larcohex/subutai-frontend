@@ -62,70 +62,58 @@ function ConsoleViewCtrl($scope, consoleService) {
 
 
 	var vm = this;	
-	vm.currentType = 'resourceHosts';
+	vm.currentType = 'peer';
 	vm.activeConsole = [];
+	vm.hosts = [];
+	vm.environments = [];
+	vm.containers = [];
+	vm.currentTab = '';
 
-	vm.resourceHosts = [];
+	consoleService.getResourceHosts().success(function (data) {
+		vm.hosts = data;
+	});
+
+	consoleService.getEnvironments().success(function (data) {
+		vm.environments = data;
+	});	
 
 	//functions
-	vm.getSubMenuTree = getSubMenuTree;
+	vm.setCurrentType = setCurrentType;
 	vm.setConsole = setConsole;
+	vm.showContainers = showContainers;
+	vm.onClickTab = onClickTab;
 
 	function setConsole(node) {
-		vm.activeConsole.push(node);
-	}
-
-	function getResourceHosts() {
-		consoleService.getResourceHosts().success(function (data) {
-			for(var i = 0; i < data.length; i++) {
-				var currebtNode = createJsTreeNode(data[i]);
-				vm.resourceHosts.push(currebtNode);
-			}
-			return;
-		});
-	}
-
-	function getEnvironments() {
-		consoleService.getEnvironments().success(function (data) {
-			for(var i = 0; i < data.length; i++) {
-				var currebtNode = createJsTreeNode(data[i]);
-				vm.resourceHosts.push(currebtNode);
-			}
-			return;
-		});
-	}
-
-	function getSubMenuTree() {
-		vm.resourceHosts = [];
-		if(vm.currentType == 'resourceHosts') {
-			getResourceHosts();
-		} else {
-			getEnvironments();
+		if(vm.activeConsole.indexOf(node) == -1) {
+			var item = {};
+			item.id = node;
+			item.url = 'terminal' + (vm.activeConsole.length + 1) + '.html';
+			vm.activeConsole.push(item);
 		}
 	}
 
-	getSubMenuTree();
+	function onClickTab(tab) {
+		vm.currentTab = tab.url;
+	}
 
-	function createJsTreeNode(json) {
-		var jsTreeNode = {};
-		if(json.hostname !== undefined) {
-			jsTreeNode.title = json.hostname;
-		}
-		if(json.name !== undefined) {
-			jsTreeNode.title = json.name;
-		}		
-		if(json.id !== undefined) {
-			jsTreeNode.id = json.id;
-		}
+	function isActiveTab(tabUrl) {
+		return tabUrl == vm.currentTab;
+	}
 
-		if(vm.currentType != 'resourceHosts' && json.containers !== undefined && json.containers.length > 0) {
-			jsTreeNode.nodes = [];
-			for(var i = 0; i < json.containers.length; i++) {
-				var childNode = createJsTreeNode(json.containers[i]);
-				jsTreeNode.nodes.push(childNode);
+	function setCurrentType(type) {
+		vm.containers = [];
+		vm.currentType = type;
+	}
+
+	function showContainers(environmentId) {
+		vm.containers = [];
+		for(var i in vm.environments) {
+			if(environmentId == vm.environments[i].id) {
+				vm.containers = vm.environments[i].containers;
+				console.log(vm.containers);
+				break;
 			}
 		}
-		return jsTreeNode;
 	}
 
 }
