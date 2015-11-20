@@ -1189,10 +1189,12 @@ td.b-main-table__status-col {
 }
 
 .b-workspace-content-row-h2 {
-    display: inline-block;
     font-weight: 600;
     font-size: 14px;
     color: #19286e;
+}
+.b-workspace-content-row-h2_inline {
+    display: inline-block;
 }
 .b-form-list {
     list-style-type: none;
