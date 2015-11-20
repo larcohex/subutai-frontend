@@ -241,16 +241,16 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 	})
 	.state("plugins", {
 		url: "/plugins",
-		templateUrl: "subutai-app/plugins/cassandra/partials/plugins-cassandra.html",
+		templateUrl: "subutai-app/plugins/partials/view.html",
 		resolve: {
 			loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 				return $ocLazyLoad.load([
 					{
-						name: 'subutai.plugins.cassandra',
+						name: 'subutai.plugins',
 						files: [
-							'subutai-app/plugins/cassandra/cassandra.js',
-							'subutai-app/plugins/cassandra/controller.js',
-							'subutai-app/plugins/cassandra/service.js'
+							'subutai-app/plugins/plugins.js',
+							'subutai-app/plugins/controller.js',
+							'subutai-app/plugins/service.js'
 						]
 					}
 				]);
@@ -284,7 +284,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 function startup($rootScope, $state, $cookieStore, $location, $http) {
 
 	//$rootScope.sptoken = $cookieStore.get('sptoken') || false;
-	$rootScope.sptoken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkNjI1YzA4MS0yY2VmLTRmNGEtYjkwYi04ZjIxNDU5NmE5YmQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.tTN-sKSJMsrIJi29o9IL_zLMJ5mMbXFdYBWRPhc5TsU';
+	$rootScope.sptoken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MjQ4ZGJhMi1iODc3LTQyYTAtOTBiMi0wMDA1YWUzNWZmMmIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.nevrOmYGmLFGoPces9x1y9ZboCzfKZPssa0JiWjN6Kw';
 	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
 	if (restrictedPage && !$rootScope.sptoken) {
 		$location.path('login');

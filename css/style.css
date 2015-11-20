@@ -286,7 +286,7 @@ body {
 }
 
 .b-main-table__controls {
-    width: 70px;
+    width: 82px;
 }
 
 .b-main-table__node-one {
@@ -575,9 +575,9 @@ body {
 /*Icons*/
 
 .b-icon {
-    height: 10px;
-    width: 11px;
-    background-size: 10px;
+    height: 15px;
+    width: 16px;
+    background-size: 15px;
     background-repeat: no-repeat;
     cursor: pointer;
     text-decoration: none;
@@ -612,7 +612,7 @@ body {
 }
 
 .b-icon_grow:hover {
-    height: 15px;
+	padding-top: 5px;
 }
 
 .b-icon_edit {
@@ -1400,3 +1400,56 @@ td.b-main-table__status-col {
 .b-workspace-content-row-bttns {
     display: inline-block;
 }
+
+.b-toggle-buttons {
+	font-size: 0;
+	line-height: 0;
+}
+
+.b-toggle-buttons ul {
+	padding: 0 0 0 0;
+}
+
+.b-toggle-buttons__item {
+	display: inline-block;
+	margin: 0 0 0 0;
+	background-color: #FFF;
+	border: 1px solid #e6eaf5;
+	border-left: none;
+	height: 26px;
+	line-height: 26px;
+	padding: 0 24px;
+	text-decoration: underline;
+	font-size: 12px;
+	color: #19286e;
+	cursor: pointer;
+}
+
+.b-toggle-buttons__item_active,
+.b-toggle-buttons__item:hover {
+	text-decoration: none;
+	background-color: #f1f4f8;
+}
+
+.b-toggle-buttons__item:first-child {
+	border-left: 1px solid #e6eaf5;
+	border-radius: 5px 0 0 5px;
+}
+
+.b-toggle-buttons__item:last-child {
+	border-radius: 0px 5px 5px 0;
+}
+
+.b-console-selects {
+	float: right;
+}
+
+.b-console-selects__item {
+	width: 190px;
+}
+
+.b-console-selects__item .b-popup-body-input {
+	width: 100%;
+	color: #19286e;
+}
+
