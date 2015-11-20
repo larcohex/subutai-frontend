@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('subutai.console.controller', ['vtortola.ng-terminal', 'jsTree.directive'])
+angular.module('subutai.console.controller', [])
 	.controller('ConsoleViewCtrl', ConsoleViewCtrl)
 	.config(['terminalConfigurationProvider', function (terminalConfigurationProvider) {
 
@@ -13,6 +13,7 @@ angular.module('subutai.console.controller', ['vtortola.ng-terminal', 'jsTree.di
 ConsoleViewCtrl.$inject = ['$scope', 'consoleService'];
 
 function ConsoleViewCtrl($scope, consoleService) {
+	console.log('loloolo');
 
 	//Console UI
 	$scope.theme = 'modern';
@@ -21,9 +22,6 @@ function ConsoleViewCtrl($scope, consoleService) {
 			output: true,
 			text: [
 				'Wake up, Neo...',
-				//'The Matrix has you...',
-				//'Follow the white rabbit...',
-				//'Knock, knock, Neo.',
 			],
 			breakLine: true
 		});
