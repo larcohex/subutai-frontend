@@ -286,7 +286,7 @@ body {
 }
 
 .b-main-table__controls {
-    width: 70px;
+    width: 82px;
 }
 
 .b-main-table__node-one {
@@ -575,9 +575,9 @@ body {
 /*Icons*/
 
 .b-icon {
-    height: 10px;
-    width: 11px;
-    background-size: 10px;
+    height: 15px;
+    width: 16px;
+    background-size: 15px;
     background-repeat: no-repeat;
     cursor: pointer;
     text-decoration: none;
@@ -612,7 +612,7 @@ body {
 }
 
 .b-icon_grow:hover {
-    height: 15px;
+	padding-top: 5px;
 }
 
 .b-icon_edit {
@@ -1004,7 +1004,7 @@ body {
 /*Enviroment build/grow*/
 
 .b-main-form {
-    padding: 0 25px 16px 25px;
+    padding: 0 0 16px 0;
 }
 
 .b-main-form__wrapper {
