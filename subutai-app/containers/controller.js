@@ -50,8 +50,8 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 			) {
 				for(var j in vm.environments[i].containers) {
 					if(
-						vm.containersTypeId == vm.environments[i].containers[i].type || 
-						vm.containersTypeId === undefined
+						vm.containersTypeId === undefined || 
+						vm.containersTypeId == vm.environments[i].containers[j].type
 					) {
 						vm.containers.push(vm.environments[i].containers[j]);
 					}
