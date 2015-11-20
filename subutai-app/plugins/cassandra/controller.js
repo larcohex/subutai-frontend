@@ -29,10 +29,8 @@ function CassandraCtrl(cassandraSrv, SweetAlert) {
 	});
 
 	function createCassandra() {
-		//SweetAlert.swal("Success!", "Your Cassandra cluster start creating.", "success");
 		cassandraSrv.createCassandra(JSON.stringify(vm.cassandraInstall)).success(function (data) {
 			SweetAlert.swal("Success!", "Your Cassandra cluster start creating.", "success");
-			//SweetAlert.swal("Success!", "You cassandra cluster create successfully.", "success");
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Cassandra cluster create error: ' + error.ERROR, "error");
 		});
