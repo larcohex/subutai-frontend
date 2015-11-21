@@ -15,8 +15,9 @@ function LoginCtrl( loginSrv )
 	//functions
 	vm.login = login;
 
-	function login()
-	{
-		loginSrv.login( vm.name, vm.pass );
+	function login() {
+		loginSrv.login( vm.name, vm.pass ).success(function(data){
+			console.log(getCookie('sptoken'));
+		});
 	}
 }

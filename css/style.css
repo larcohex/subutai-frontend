@@ -317,6 +317,10 @@ body {
     text-align: left;
 }
 
+.b-main-table_white-header {
+	border-bottom: 1px solid #dcdcdc;
+}
+
 .b-main-table_white-header th {
     background-color: #fff;
     font-size: 11px;
