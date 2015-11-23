@@ -8,7 +8,7 @@ keshigSrv.$inject = ['$http'];
 function keshigSrv($http) {
 
 	var baseURL = serverUrl + 'keshig/v1';
-	var serversUrl = baseUrl + 'server/';
+	var serversUrl = baseURL + 'server/';
 	var optionUrl = baseURL + 'option/';
 	var profilesUrl = baseURL + 'profiles/';
 
