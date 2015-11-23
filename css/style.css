@@ -359,7 +359,7 @@ body {
 .b-main-table td {
     font-size: 13px;
     color: #19286e;
-    padding: 18px 0 17px 18px;
+    padding: 10px 0 10px 18px;
     text-align: left;
 }
 
@@ -616,7 +616,7 @@ body {
 }
 
 .b-icon_grow:hover {
-	padding-top: 5px;
+    padding-top: 5px;
 }
 
 .b-icon_edit {
@@ -1167,6 +1167,7 @@ td.b-main-table__status-col {
 .b-workspace-content__row {
     position: relative;
 }
+
 .b-workspace-content__row_margin-b {
     margin-bottom: 20px;
 }
@@ -1206,6 +1207,20 @@ td.b-main-table__status-col {
     border: 1px solid #dcdcdc;
     padding: 15px;
     border-radius: 5px;
+}
+
+.b-form-col-2 {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.b-form-col-2:nth-child(odd){
+    padding-right: 25px;
+}
+
+.b-form-col-2:nth-child(even) {
+    padding-left: 25px;
 }
 
 .b-form-label {
@@ -1267,11 +1282,17 @@ td.b-main-table__status-col {
     display: inline-block;
     width: 80px;
 }
+.b-form-label_fix-size-2 {
+    display: inline-block;
+    width: 80px;
+}
 
 .b-form-wrapper_margin-size-1 {
     margin-left: 80px;
 }
-
+.b-form-wrapper_margin-size-2 {
+    margin-left: 80px;
+}
 .b-form-input_dropdown {
     position: relative;
     cursor: pointer;
@@ -1407,55 +1428,55 @@ td.b-main-table__status-col {
 }
 
 .b-toggle-buttons {
-	font-size: 0;
-	line-height: 0;
+    font-size: 0;
+    line-height: 0;
 }
 
 .b-toggle-buttons ul {
-	padding: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 .b-toggle-buttons__item {
-	display: inline-block;
-	margin: 0 0 0 0;
-	background-color: #FFF;
-	border: 1px solid #e6eaf5;
-	border-left: none;
-	height: 26px;
-	line-height: 26px;
-	padding: 0 24px;
-	text-decoration: underline;
-	font-size: 12px;
-	color: #19286e;
-	cursor: pointer;
+    display: inline-block;
+    margin: 0 0 0 0;
+    background-color: #FFF;
+    border: 1px solid #e6eaf5;
+    border-left: none;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 24px;
+    text-decoration: underline;
+    font-size: 12px;
+    color: #19286e;
+    cursor: pointer;
 }
 
 .b-toggle-buttons__item_active,
 .b-toggle-buttons__item:hover {
-	text-decoration: none;
-	background-color: #f1f4f8;
+    text-decoration: none;
+    background-color: #f1f4f8;
 }
 
 .b-toggle-buttons__item:first-child {
-	border-left: 1px solid #e6eaf5;
-	border-radius: 5px 0 0 5px;
+    border-left: 1px solid #e6eaf5;
+    border-radius: 5px 0 0 5px;
 }
 
 .b-toggle-buttons__item:last-child {
-	border-radius: 0px 5px 5px 0;
+    border-radius: 0px 5px 5px 0;
 }
 
 .b-console-selects {
-	float: right;
+    float: right;
 }
 
 .b-console-selects__item {
-	width: 190px;
+    width: 190px;
 }
 
 .b-console-selects__item .b-popup-body-input {
-	width: 100%;
-	color: #19286e;
+    width: 100%;
+    color: #19286e;
 }
 
 .b-plugins-list {
