@@ -8,6 +8,7 @@
 			<div class="b-form b-form_border">
 
 				<div class="b-form__cols">
+				<form ng-submit="keshigCtrl.updateServer()">
 
 					<div class="b-form__col">
 
@@ -18,7 +19,7 @@
 								<input 
 								class="b-form-input b-form-input_full" 
 								ng-model="keshigCtrl.server2Add.serverName" 
-								type="text">
+								type="text" require>
 							</div>
 							<div class="clear"></div>
 						</div>
@@ -30,7 +31,8 @@
 								<select 
 								class="b-form-input b-form-input_full" 
 								ng-model="keshigCtrl.server2Add.serverType" 
-								ng-options="type for type in keshigCtrl.serverTypes">
+								ng-options="type for type in keshigCtrl.serverTypes" 
+								require>
 								</select>
 							</div>
 							<div class="clear"></div>
@@ -46,14 +48,19 @@
 								<select 
 								class="b-form-input b-form-input_full" 
 								ng-model="keshigCtrl.server2Add.serverId" 
-								ng-options="type for type in keshigCtrl.serverTypes">
+								require>
+									<option ng-repeat="resourceHost in keshigCtrl.resourceHosts" value="{{ resourceHost.id }}">
+										{{ resourceHost.hostname }}
+									</option>
 								</select>								
 							</div>
 							<div class="clear"></div>
 						</div>
 
-						<a href="#" class="b-btn b-btn_green g-right">Save</a>
+						<button type="submit" class="b-btn b-btn_green g-right">Save</button>
 					</div>
+
+				</form>
 				</div>
 
 

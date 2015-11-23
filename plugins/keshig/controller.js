@@ -33,7 +33,12 @@ function KeshigCtrl(keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $co
 	});
 
 	keshigSrv.getResourceHosts().success(function (data) {
-		vm.resourceHosts = data;
+		vm.resourceHosts = [];
+		for(var i = 0; i < data.length; i++) {
+			if(data[i].hostname != 'management') {
+				vm.resourceHosts.push(data[i]);
+			}
+		}
 		console.log(vm.resourceHosts);
 	});	
 
@@ -87,6 +92,9 @@ function KeshigCtrl(keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $co
 
 	function updateServer( id )	{
 		var server = {};
+
+		console.log(vm.server2Add);
+		return;
 
 		server.serverId = vm.serverId;
 		server.serverName = vm.serverName;
