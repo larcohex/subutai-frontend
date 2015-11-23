@@ -2,50 +2,50 @@
 <html ng-app="subutai-app">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ Page.title() }}</title>
+<title>{{ Page.title() }}</title>
 
-    <!--CSS Libs-->
-    <link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/libs/nprogress.css"/>
-    <link rel="stylesheet" href="css/libs/normalize.css"/>
-    <link rel="stylesheet" href="css/libs/sweetalert.css">
-    <link rel="stylesheet" href="css/libs/ngDialog.css">
-    <link rel="stylesheet" href="css/libs/nouislider.min.css">
-    <link rel="stylesheet" href="css/libs/datatables.css">
-    <!--CSS-->
+<!--CSS Libs-->
+<link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
+<link rel="stylesheet" href="css/libs/nprogress.css"/>
+<link rel="stylesheet" href="css/libs/normalize.css"/>
+<link rel="stylesheet" href="css/libs/sweetalert.css">
+<link rel="stylesheet" href="css/libs/ngDialog.css">
+<link rel="stylesheet" href="css/libs/nouislider.min.css">
+<link rel="stylesheet" href="css/libs/datatables.css">
+<!--CSS-->
 
-    <link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/style.css"/>
 
-    <!-- DIRS -->
-    <!-- END DIRS -->
+<!-- DIRS -->
+<!-- END DIRS -->
 </head>
 
 <body>
 
 <header class="b-header">
-    <div class="b-header__logo b-header__logo_left">
-        <div class="b-header-logo">
-            <a href="index.html"><img src="assets/elements/logo.svg" alt="" height="20px"/></a>
-        </div>
-    </div>
-    <div class="b-header__userbar b-header__userbar_right">
-        <div class="b-header-userbar">
-            <div class="b-header-userbar__name">
-                <a href="#" class="b-header-userbar-name">Name Username</a>
-            </div>
-            <div class="b-header-userbar__avatar">
-                <img src="" alt="" class="b-header-userbar-avatar"
-                     onerror="this.onerror=null;this.src='assets/elements/avatar-empty.svg';"/>
-            </div>
-        </div>
-    </div>
+	<div class="b-header__logo b-header__logo_left">
+		<div class="b-header-logo">
+			<a href="index.html"><img src="assets/elements/logo.svg" alt="" height="20px"/></a>
+		</div>
+	</div>
+	<div class="b-header__userbar b-header__userbar_right">
+		<div class="b-header-userbar">
+			<div class="b-header-userbar__name">
+				<a href="#" class="b-header-userbar-name">Name Username</a>
+			</div>
+			<div class="b-header-userbar__avatar">
+				<img src="" alt="" class="b-header-userbar-avatar"
+				onerror="this.onerror=null;this.src='assets/elements/avatar-empty.svg';"/>
+			</div>
+		</div>
+	</div>
 </header>
 
 <div class="b-content">
-    <div ng-include="'subutai-app/common/partials/nav-menu.html'"></div>
+	<div ng-include="'subutai-app/common/partials/nav-menu.html'"></div>
 
 
     <!--Tab 1 Build-->
@@ -56,10 +56,11 @@
         </div>
         <div class="b-workspace__content">
             <div class="b-workspace-content b-workspace-content_border">
-                <div class="b-workspace-content__row b-workspace-content__row_margin-b">
-                    <h2 class="b-workspace-content-row-h2">
-                        Configure server
-                    </h2>
+                <div class="b-workspace-content__row">
+                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+                        <h2 class="b-workspace-content-row-h2">
+                            Configure server
+                        </h2>
 
                     <div class="b-form b-form_border">
                         <div class="b-form-col-2">

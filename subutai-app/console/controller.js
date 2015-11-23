@@ -4,8 +4,8 @@ angular.module('subutai.console.controller', [])
 	.controller('ConsoleViewCtrl', ConsoleViewCtrl)
 	.config(['terminalConfigurationProvider', function (terminalConfigurationProvider) {
 
-		terminalConfigurationProvider.config('modern').outputDelay = 80;
 		terminalConfigurationProvider.config('modern').allowTypingWriteDisplaying = false;
+		terminalConfigurationProvider.config('modern').outputDelay = 80;
 		//terminalConfigurationProvider.config('vintage').typeSoundUrl ='example/content/type.wav';
 		//terminalConfigurationProvider.config('vintage').startSoundUrl ='example/content/start.wav';
 	}]);
@@ -28,7 +28,7 @@ function ConsoleViewCtrl($scope, consoleService) {
 
 	consoleService.getEnvironments().success(function (data) {
 		vm.environments = data;
-	});	
+	});
 
 	//Console UI
 	$scope.theme = 'modern';
@@ -36,7 +36,7 @@ function ConsoleViewCtrl($scope, consoleService) {
 		$scope.$broadcast('terminal-output', {
 			output: true,
 			text: [
-				'Wake up, Neo...',
+				'Subutai Social',
 			],
 			breakLine: true
 		});
