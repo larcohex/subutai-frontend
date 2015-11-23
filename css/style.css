@@ -1260,15 +1260,16 @@ td.b-main-table__status-col {
 
 .b-form__wrapper_margin-bottom {
     margin-bottom: 10px;
+	overflow: hidden;
 }
 
 .b-form-label_fix-size-1 {
     display: inline-block;
-    width: 165px;
+    width: 80px;
 }
 
 .b-form-wrapper_margin-size-1 {
-    margin-left: 165px;
+    margin-left: 80px;
 }
 
 .b-form-input_dropdown {
@@ -1536,5 +1537,23 @@ td.b-main-table__status-col {
 
 .b-workspace__button-group {
 	padding-top: 20px;
+}
+
+.b-form__cols {
+	font-size: 0;
+	line-height: 0;
+	vertical-align: top;
+}
+
+.b-form__col {
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+	box-sizing: border-box;
+	padding: 0 30px 0 0;
+}
+
+.b-form__col:last-child {
+	padding-right: 0;
 }
 

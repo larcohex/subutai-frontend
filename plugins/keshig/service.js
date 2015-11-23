@@ -7,13 +7,16 @@ keshigSrv.$inject = ['$http'];
 
 function keshigSrv($http) {
 
-	var baseURL = serverUrl + 'keshig/v1';
+	var baseURL = serverUrl + 'v1/keshig/';
 	var serversUrl = baseURL + 'server/';
 	var optionUrl = baseURL + 'option/';
 	var profilesUrl = baseURL + 'profiles/';
 
+	var resourceHostsURL = serverUrl + 'command_ui/resource_hosts/';
+
 
 	var keshigSrv = {
+		getResourceHosts : getResourceHosts,
 		getProfiles : getProfiles,
 		addProfile : addProfile,
 		removeProfile : removeProfile,
@@ -35,6 +38,10 @@ function keshigSrv($http) {
 	/*
 	 *   Keshig Server Services
 	 * */
+
+	function getResourceHosts() {
+		return $http.get(resourceHostsURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
 
 	function getProfiles()
 	{
