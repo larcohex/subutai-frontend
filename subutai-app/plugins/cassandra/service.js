@@ -42,7 +42,7 @@ function cassandraSrv($http) {
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
 		return $http.post(
 			clustersURL + 'nodes/stop', 
-			postData, 
+			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
