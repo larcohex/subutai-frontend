@@ -8,7 +8,7 @@ keshigSrv.$inject = ['$http'];
 function keshigSrv($http) {
 
 	var baseURL = serverUrl + 'keshig/v1';
-	var serverUrl = baseUrl + 'server/';
+	var serversUrl = baseUrl + 'server/';
 	var optionUrl = baseURL + 'option/';
 	var profilesUrl = baseURL + 'profiles/';
 
@@ -60,14 +60,14 @@ function keshigSrv($http) {
 
 	function getServers()
 	{
-		return $http.get(serverUrl, {
+		return $http.get(serversUrl, {
 			withCredentials: true
 		});
 	}
 
 	function addServer( server )
 	{
-		return $http.post(serverUrl, server, {
+		return $http.post(serversUrl, server, {
 			withCredentials: true,
 			headers: {'Content-Type': 'application/json'}
 		});
@@ -75,21 +75,21 @@ function keshigSrv($http) {
 
 	function removeServer(id)
 	{
-		return $http.remove(serverUrl + id, {
+		return $http.remove(serversUrl + id, {
 			withCredentials: true
 		});
 	}
 
 
 	function getServerTypes() {
-		return $http.get(serverUrl + 'types', {
+		return $http.get(serversUrl + 'types', {
 			withCredentials: true
 		});
 	}
 
 
 	function updateServer( server ) {
-		return $http.put(serverUrl, server, {
+		return $http.put(serversUrl, server, {
 			withCredentials: true,
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		});
