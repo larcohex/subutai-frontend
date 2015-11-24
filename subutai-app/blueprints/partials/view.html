@@ -37,14 +37,14 @@
 					</td>
 					<td class="b-main-table__controls">
 						<a ui-sref="blueprintsActions({ blueprintId: blueprint.id, action: 'build' })" 
-							class="b-icon b-icon_build" tooltips tooltip-title="build">
+							class="b-icon b-icon_build" tooltips tooltip-title="Build">
 						</a>
 
 						<a ng-if="bvc.hasEnvironments" ui-sref="blueprintsActions({ blueprintId: blueprint.id, action: 'grow' })"
-							class="b-icon b-icon_grow" tooltips tooltip-title="grow">
+							class="b-icon b-icon_grow" tooltips tooltip-title="Grow">
 						</a>
 
-						<a ng-if="!bvc.hasEnvironments" tooltips tooltip-title="grow disabled"
+						<a ng-if="!bvc.hasEnvironments" tooltips tooltip-title="Grow Disabled"
 							 class="b-icon b-icon_grow_disabled">
 						</a>
 

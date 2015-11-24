@@ -11,8 +11,8 @@ var app = angular.module('subutai-app', [
 	.config(routesConf)
 	.config(function(tooltipsConfigProvider) {
 		tooltipsConfigProvider.options({
-			lazy: true,
-			side: 'bottom'
+			//lazy: true,
+			speed: 'fast'
 		})
 	})
 	.run(startup);
@@ -323,16 +323,16 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
-	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-	//	if (restrictedPage && !getCookie('sptoken')) {
-	//		$location.path('/login');
-	//	}
-	//});
+	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NjM3YjAxYy0yODc3LTQ1NDktOGRkMi04YmQzNjBiNDUzZjMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.WzeH9bvHvk4qmcQFcSQSJ21QY2J2WQksatify3upb5k";
+	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+		if (restrictedPage && !getCookie('sptoken')) {
+			$location.path('/login');
+		}
+	});
 
 	$rootScope.$state = $state;
-	//$http.defaults.headers.common['sptoken']= getCookie('sptoken');
-	$http.defaults.headers.common['sptoken']= 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMzBmM2ZlOS05ODk3LTQ2OWEtOGNhNi05MWJhMzg0YzQyYzUiLCJpc3MiOiJpby5zdWJ1dGFpIn0.HecBccekuF_2kIMQdKer1p5Cq0eu6d_QQkRS0js_xXA';
+	$http.defaults.headers.common['sptoken']= getCookie('sptoken');
 }
 
 function getCookie(cname) {
