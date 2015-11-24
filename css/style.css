@@ -266,7 +266,9 @@ body {
     overflow: hidden;
     position: relative;
 }
-
+.b-main-table-border_half {
+    width: 50%;
+}
 .b-data-table {
     overflow: hidden;
     padding-top: 20px;
