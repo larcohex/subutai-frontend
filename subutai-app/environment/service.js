@@ -7,22 +7,22 @@ angular.module('subutai.environment.service', [])
 environmentService.$inject = ['$http'];
 
 function environmentService($http) {
-	var BASE_URL = SERVER_URL + 'rest/ui/environments/';
 
-	var ENVIRONMENTS_URL = BASE_URL;
+	var ENVIRONMENTS_URL = SERVER_URL + 'rest/ui/environments/';
+
 	var SSH_KEY_URL = ENVIRONMENTS_URL + 'key/';
 	var CONTAINERS_URL = ENVIRONMENTS_URL + 'containers/';
 	var CONTAINER_TYPES_URL = CONTAINERS_URL + 'types/';
 
-	var BLUEPRINT_URL = BASE_URL + 'blueprints/';
+	var BLUEPRINT_URL = ENVIRONMENTS_URL + 'blueprints/';
 
-	var GROW_BLUEPRINT_URL = BASE_URL + 'grow/';
+	var GROW_BLUEPRINT_URL = ENVIRONMENTS_URL + 'grow/';
 
-	var STRATEGIES_URL = BASE_URL + 'strategies/';
+	var STRATEGIES_URL = ENVIRONMENTS_URL + 'strategies/';
 
-	var TEMPLATES_URL = BASE_URL + 'templates/';
+	var TEMPLATES_URL = ENVIRONMENTS_URL + 'templates/';
 
-	var PEERS_URL = BASE_URL + 'peers/';
+	var PEERS_URL = ENVIRONMENTS_URL + 'peers/';
 
 
 	var environmentService = {
@@ -64,7 +64,10 @@ function environmentService($http) {
 		getStrategies : getStrategies,
 
 
-		getPeers : getPeers
+		getPeers : getPeers,
+
+
+		getServerUrl : function getServerUrl() { return ENVIRONMENTS_URL; }
 	};
 
 	return environmentService;

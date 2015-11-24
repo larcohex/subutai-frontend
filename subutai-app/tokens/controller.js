@@ -29,7 +29,7 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 	vm.dtInstance = {};
 	vm.dtOptions = DTOptionsBuilder
 		.fromFnPromise(function() {
-			return $resource( SERVER_URL + 'identity_ui/users/tokens/' ).query().$promise;
+			return $resource( identitySrv.getTokensUrl() ).query().$promise;
 		})
 		.withPaginationType('full_numbers')
 		.withOption('createdRow', createdRow)
