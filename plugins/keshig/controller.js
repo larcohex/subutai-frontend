@@ -178,7 +178,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	function actionEditServer(data, type, full, meta) {
 		vm.servers[data.serverName] = data;
-		return '<a href class="b-icon b-icon_edit" ng-click="keshigCtrl.addServer2From(keshigCtrl.servers[\'' + data.serverName + '\'])"></a>';
+		return '<a href class="b-icon b-icon_edit" tooltips tooltipe-title="Edit" ng-click="keshigCtrl.addServer2From(keshigCtrl.servers[\'' + data.serverName + '\'])"></a>';
 	}
 
 	function actionEditOption(data, type, full, meta) {
