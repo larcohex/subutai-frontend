@@ -306,9 +306,9 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 						{
 							name: 'subutai.plugins.hadoop',
 							files: [
-								'subutai-app/plugins/hadoop/hadoop.js',
-								'subutai-app/plugins/hadoop/controller.js',
-								'subutai-app/plugins/hadoop/service.js'
+								'plugins/hadoop/hadoop.js',
+								'plugins/hadoop/controller.js',
+								'plugins/hadoop/service.js'
 							]
 						}
 					]);
@@ -323,16 +323,17 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5N2Q5ZTc2Zi03NTFjLTQ4ZDUtOTA2Yi0yZjc4Y2NlNTg5YTQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.gD13_szrugI29UbW0N0SRkb3-qgp7TzzV22U1bxtZqo";
-	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
-		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-		if (restrictedPage && !getCookie('sptoken')) {
-			$location.path('/login');
-		}
-	});
+	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5OWU3NGJhNi02MzU0LTQxMjItYTczMS0zZWE2MTkwY2ExZDAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.5PnFliRANyG3A5GRS5M3uDfTw7RMyIm0_8E2EBZdKwE";
+	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+	//	if (restrictedPage && !getCookie('sptoken')) {
+	//		$location.path('/login');
+	//	}
+	//});
 
 	$rootScope.$state = $state;
-	$http.defaults.headers.common['sptoken']= getCookie('sptoken');
+	//$http.defaults.headers.common['sptoken']= getCookie('sptoken');
+	$http.defaults.headers.common['sptoken']= 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZGI0MTc4OC02ODdkLTQ3NmMtYTZmMS1kNDBjNWZlYTM1YzQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.hD7civHP0oYsrIVOJ2EojbhmvmQojDrWqDphyKfDcXM';
 }
 
 function getCookie(cname) {
@@ -397,12 +398,43 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var serverUrl = '/rest/';
+var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
+var VARS_TOOLTIP_TIMEOUT = 900;
+
+function VARS_MODAL_CONFIRMATION( object, title, text, func )
+{
+	object.swal({
+			title: title,
+			text: text,
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			closeOnCancel: true,
+			showLoaderOnConfirm: true
+		},
+		func
+	);
+}
+
+function VARS_MODAL_ERROR( object, text )
+{
+	object.swal({
+			title: "ERROR!",
+			text: text,
+			type: "error",
+			confirmButtonColor: "#ff3f3c"
+		});
+}
+
 var serverUrl = 'http://172.16.131.205:8181/rest/';
 quotaColors = [];
 quotaColors['CUSTOM'] = 'blue';
 quotaColors['HUGE'] = 'bark-red';
 quotaColors['LARGE'] = 'red';
-quotaColors['MEDIUME'] = 'orange';
+quotaColors['MEDIUM'] = 'orange';
 quotaColors['SMALL'] = 'yellow';
 quotaColors['TINY'] = 'green';
 

@@ -374,6 +374,7 @@ body {
 }
 
 .b-tags {
+    cursor: pointer;
     display: inline-block;
     padding: 0 8px;
     height: 18px;
@@ -615,8 +616,16 @@ body {
     background-image: url('../assets/elements/buttons/b-icon-grow.svg');
 }
 
+.b-icon_grow_disabled {
+    background-image: url('../assets/elements/buttons/b-icon-grow-disabled.svg');
+}
+
 .b-icon_grow:hover {
     padding-top: 5px;
+}
+
+.b-icon_disabled {
+    color: gray;
 }
 
 .b-icon_edit {
