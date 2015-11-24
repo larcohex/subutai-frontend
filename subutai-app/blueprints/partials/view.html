@@ -30,7 +30,9 @@
 					<td>
 						<span 
 							class="b-tags b-tags_{{ bvc.colors[nodeGroup.type] }}"
-							ng-repeat="nodeGroup in blueprint.nodeGroups">
+							ng-repeat="nodeGroup in blueprint.nodeGroups" 
+							tooltips 
+							tooltip-content='Template: <b>{{ nodeGroup.templateName }}</b><br>Quota: <div class="b-quota-type-round b-quota-type-round_{{ bvc.colors[nodeGroup.type] }}"></div> <b>{{ nodeGroup.type }}</b>'>
 							{{ nodeGroup.name }}: {{ nodeGroup.numberOfContainers }}
 							<i class="fa fa-times" ng-click="bvc.removeNodeGroup( blueprint.id, nodeGroup.name )"></i>
 						</span>
