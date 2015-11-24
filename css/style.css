@@ -1645,4 +1645,5 @@ td.b-main-table__status-col {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+    width: 109px;
 }
