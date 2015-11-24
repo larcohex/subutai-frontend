@@ -6,13 +6,15 @@ angular.module('subutai.console.service', [])
 consoleService.$inject = ['$http', 'environmentService'];
 
 function consoleService($http, environmentService) {
-	var BASE_URL = SERVER_URL + 'rest/ui/command/';
+	var BASE_URL = SERVER_URL + 'rest/ui/commands/';
 	var RH_URL = BASE_URL + 'resource_hosts/';
 
 	var consoleService = {
 		getResourceHosts: getResourceHosts,
 		getEnvironments: getEnvironments,
 		sendCommand: sendCommand,
+
+		getRhUrl : function() { return RH_URL; }
 	};
 
 	return consoleService;

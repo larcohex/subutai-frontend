@@ -12,8 +12,6 @@ function keshigSrv($http) {
 	var optionUrl = baseURL + 'option/';
 	var profilesUrl = baseURL + 'profiles/';
 
-	var resourceHostsURL = SERVER_URL + 'command_ui/resource_hosts/';
-
 
 	var keshigSrv = {
 		getResourceHosts : getResourceHosts,
@@ -53,7 +51,7 @@ function keshigSrv($http) {
 	}
 
 	function getResourceHosts() {
-		return $http.get(resourceHostsURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return $http.get(trackerSrv.getBaseUrl(), {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function getProfiles() {
