@@ -177,6 +177,24 @@ body {
     -o-transition: all .4s ease-in-out;
     -ms-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
+	cursor: pointer;
+}
+
+.b-btn_light-grey {
+    background-color: #F1F4F8;
+    color: #333333;
+}
+
+.b-btn-light-grey-icon {
+    font-size: 14px;
+}
+
+.b-btn-light-grey-icon_green {
+    color: #22B573;
+}
+
+.b-btn-light-grey-icon_red {
+    color: #FF3F3C;
 }
 
 .b-btn_margin-r {
@@ -201,15 +219,36 @@ body {
 }
 
 .b-btn_green:hover {
-    background-color: #19286e;
-}
-
-.b-btn_light-green {
-    background-color: #39b54a;
-}
-
-.b-btn_light-green:hover {
     background-color: #009245;
+}
+
+.b-btn_red {
+    background-color: #ff3f3c;
+}
+
+.b-btn_red:hover {
+    background-color: #c1272d;
+}
+
+.b-btn_light-grey {
+    background-color: #F1F4F8;
+    color: #333333;
+}
+
+.b-btn_light-grey:hover {
+    background-color: #F1F4F8;
+}
+
+.b-btn-light-grey-icon {
+    font-size: 14px;
+}
+
+.b-btn-light-grey-icon_green {
+    color: #22B573;
+}
+
+.b-btn-light-grey-icon_red {
+    color: #FF3F3C;
 }
 
 .b-btn_header-button {
@@ -401,6 +440,7 @@ body {
 
 .b-tags a {
     color: inherit;
+	text-decoration: none;
 }
 
 .b-tags_bark-red {
@@ -408,7 +448,8 @@ body {
     color: #fff;
 }
 
-.b-tags_grey {
+.b-tags_grey,
+.b-tags_Inactive {
     background-color: #f1f4f8;
     color: #333;
 }
@@ -692,75 +733,6 @@ body {
     float: left;
 }
 
-/*Buttons*/
-.b-btn {
-    display: inline-block;
-    padding: 0 15px;
-    height: 26px;
-    line-height: 26px;
-    background-color: #7f8ea4;
-    border-radius: 5px;
-    color: #fff;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 13px;
-    text-decoration: none;
-    -webkit-transition: all .4s ease-in-out;
-    -moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    -ms-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
-}
-
-.b-btn:hover {
-    text-decoration: none;
-    background-color: #ccc;
-}
-
-.b-btn_blue {
-    background-color: #255fb5;
-}
-
-.b-btn_blue:hover {
-    background-color: #19286e;
-}
-
-.b-btn_green {
-    background-color: #39b54a;
-}
-
-.b-btn_green:hover {
-    background-color: #009245;
-}
-
-.b-btn_red {
-    background-color: #ff3f3c;
-}
-
-.b-btn_red:hover {
-    background-color: #c1272d;
-}
-
-.b-btn_light-grey {
-    background-color: #F1F4F8;
-    color: #333333;
-}
-
-.b-btn_light-grey:hover {
-    background-color: #F1F4F8;
-}
-
-.b-btn-light-grey-icon {
-    font-size: 14px;
-}
-
-.b-btn-light-grey-icon_green {
-    color: #22B573;
-}
-
-.b-btn-light-grey-icon_red {
-    color: #FF3F3C;
-}
-
 /*Popup*/
 .b-popup {
     box-sizing: border-box;
@@ -780,6 +752,10 @@ body {
 
 .b-popup_min {
     width: 305px;
+}
+
+.b-popup_middle {
+    width: 355px;
 }
 
 .b-popup__header {
@@ -1306,6 +1282,10 @@ td.b-main-table__status-col {
     width: 154px;
 }
 
+.b-form-input_fix-size-2 {
+    width: 144px;
+}
+
 .b-form-label_margin_r {
     margin-right: 15px;
 }
@@ -1687,6 +1667,23 @@ td.b-main-table__status-col {
     font-size: 20px;
     cursor: pointer;
     opacity: 0;
-    filter: alpha(opacity=0);
     width: 109px;
+	cursor: pointer;
 }
+
+.b-sshKey-textarea {
+	width: 100%;
+	height: 100px;
+	padding: 10px;
+	box-sizing: border-box;
+	background-color: #f1f4f8;
+}
+
+.b-file-uploader {
+	
+}
+
+.b-file-uploader .fileUpload {
+	margin-right: 10px;
+}
+

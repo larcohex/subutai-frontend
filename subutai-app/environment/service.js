@@ -10,15 +10,16 @@ function environmentService($http) {
 
 	var ENVIRONMENTS_URL = SERVER_URL + 'rest/ui/environments/';
 
-	var SSH_KEY_URL = ENVIRONMENTS_URL + 'key/';
+	var SSH_KEY_URL = ENVIRONMENTS_URL + 'keys/';
 	var CONTAINERS_URL = ENVIRONMENTS_URL + 'containers/';
 	var CONTAINER_TYPES_URL = CONTAINERS_URL + 'types/';
+	var DOMAINS_URL = ENVIRONMENTS_URL + 'domains/';
 
 	var BLUEPRINT_URL = ENVIRONMENTS_URL + 'blueprints/';
 
 	var GROW_BLUEPRINT_URL = ENVIRONMENTS_URL + 'grow/';
 
-	var STRATEGIES_URL = ENVIRONMENTS_URL + 'strategies/';
+	var STRATEGYS_URL = ENVIRONMENTS_URL + 'strategies/';
 
 	var TEMPLATES_URL = ENVIRONMENTS_URL + 'templates/';
 
@@ -45,6 +46,7 @@ function environmentService($http) {
 		removeSshKey : removeSshKey,
 
 
+		getDomainStrategys : getDomainStrategys,
 		setDomain : setDomain,
 		removeDomain : removeDomain,
 
@@ -61,7 +63,7 @@ function environmentService($http) {
 		updateQuota: updateQuota,
 
 
-		getStrategies : getStrategies,
+		getDomainStrategys : getDomainStrategys,
 
 
 		getPeers : getPeers,
@@ -154,7 +156,6 @@ function environmentService($http) {
 
 	function setSshKey(sshKey, environmentId) {
 		var postData = 'environmentId=' + environmentId + '&key=' + sshKey;
-		console.log(postData);
 		return $http.post(
 			SSH_KEY_URL,
 			postData, 
@@ -167,10 +168,19 @@ function environmentService($http) {
 	}
 
 
-	function setDomain(envId, domainName, file) {
+	function getDomainStrategys() {
+		return $http.get(
+			DOMAINS_URL + 'strategys/',
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
+	}
+
+
+	function setDomain(domain, envId, file) {
 		var fd = new FormData();
 		fd.append('environmentId', envId);
-		fd.append('hostName', domainName);
+		fd.append('hostName', domain.name);
+		fd.append('strategy', domain.strategy);
 		fd.append('file', file);
 
 		return $http.post(
@@ -205,8 +215,8 @@ function environmentService($http) {
 	}
 
 
-	function getStrategies() {
-		return $http.get(STRATEGIES_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	function getStrategys() {
+		return $http.get(STRATEGYS_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 
