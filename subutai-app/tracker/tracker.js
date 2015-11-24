@@ -2,6 +2,5 @@
 
 angular.module('subutai.tracker', [
     'subutai.tracker.controller',
-    'subutai.tracker.service',
-    'subutai.tracker.filter'
+    'subutai.tracker.service'
 ])
