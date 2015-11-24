@@ -9,12 +9,6 @@ var app = angular.module('subutai-app', [
 		'720kb.tooltips'
 	])
 	.config(routesConf)
-	.config(function(tooltipsConfigProvider) {
-		tooltipsConfigProvider.options({
-			//lazy: true,
-			speed: 'fast'
-		})
-	})
 	.run(startup);
 
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
