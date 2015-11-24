@@ -172,8 +172,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 							files: [
 								'subutai-app/tracker/tracker.js',
 								'subutai-app/tracker/controller.js',
-								'subutai-app/tracker/service.js',
-								'subutai-app/tracker/filter.js'
+								'subutai-app/tracker/service.js'
 							]
 						}
 					]);
@@ -230,7 +229,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 							files: [
 								'subutai-app/console/console.js',
 								'subutai-app/console/controller.js',
-								'subutai-app/console/service.js'
+								'subutai-app/console/service.js',
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);
@@ -266,7 +266,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 							files: [
 								'plugins/cassandra/cassandra.js',
 								'plugins/cassandra/controller.js',
-								'plugins/cassandra/service.js'
+								'plugins/cassandra/service.js',
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);
@@ -317,16 +318,17 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NjM3YjAxYy0yODc3LTQ1NDktOGRkMi04YmQzNjBiNDUzZjMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.WzeH9bvHvk4qmcQFcSQSJ21QY2J2WQksatify3upb5k";
-	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
-		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-		if (restrictedPage && !getCookie('sptoken')) {
-			$location.path('/login');
-		}
-	});
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTQyMWMzOC01ZmExLTQ3OWYtOTUyZC0zYmUyZjliMzU5YmQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.hkgsXlkDAZQyALh3c5ilqUFkB1eTFJaFHHdr0V9LzX4';
+
+	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+	//	if (restrictedPage && !getCookie('sptoken')) {
+	//		$location.path('/login');
+	//	}
+	//});
+	//$http.defaults.headers.common['sptoken'] = getCookie('sptoken');
 
 	$rootScope.$state = $state;
-	$http.defaults.headers.common['sptoken']= getCookie('sptoken');
 }
 
 function getCookie(cname) {
