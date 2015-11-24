@@ -7,7 +7,7 @@ angular.module('subutai.identity.service', [])
 identitySrv.$inject = ['$http'];
 
 function identitySrv($http) {
-	var BASE_URL = SERVER_URL + 'rest/ui/identity_ui/';
+	var BASE_URL = SERVER_URL + 'rest/ui/identity/';
 	var USERS_URL = BASE_URL;
 	var ROLES_URL = BASE_URL + 'roles/';
 	var TOKENS_URL = BASE_URL + 'users/tokens/';
@@ -22,12 +22,17 @@ function identitySrv($http) {
 		deleteUser: deleteUser,
 		getRoles: getRoles,
 		addRole: addRole,
-		deleteRole: deleteRole
+		deleteRole: deleteRole,
+
+		getUsersUrl : function(){ return USERS_URL },
+		getRolesUrl : function(){ return ROLES_URL },
+		getTokensUrl : function(){ return TOKENS_URL }
 	};
 
 	return identitySrv;
 
 	//// Implementation
+
 	
 	function getTokens() {
 		return $http.get(TOKENS_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});

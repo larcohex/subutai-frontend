@@ -31,7 +31,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	vm.users = {};
 	vm.dtOptions = DTOptionsBuilder
 		.fromFnPromise(function() {
-			return $resource(SERVER_URL + 'environments_ui/').query().$promise;
+			return $resource( cassandraSrv.getServerUrl() ) .query().$promise;
 		}).withPaginationType('full_numbers')
 		.withOption('createdRow', createdRow)
 		.withOption('order', [[ 1, "asc" ]])

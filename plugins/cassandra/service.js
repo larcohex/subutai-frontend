@@ -3,13 +3,12 @@
 angular.module('subutai.plugins.cassandra.service',[])
 	.factory('cassandraSrv', cassandraSrv);
 
-cassandraSrv.$inject = ['$http'];
+cassandraSrv.$inject = ['$http', 'environmentService'];
 
-function cassandraSrv($http) {
+function cassandraSrv($http, environmentService) {
 
 	var baseURL = SERVER_URL + 'cassandra/';
 	var clustersURL = baseURL + 'clusters/';
-	var environmentsURL = SERVER_URL + 'environments_ui/';
 
 	var cassandraSrv = {
 		getClusters: getClusters,
@@ -60,7 +59,7 @@ function cassandraSrv($http) {
 	}
 
 	function getEnvironments() {
-		return $http.get(environmentsURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return environmentService.getEnvironments();
 	}
 
 	function getClusters(clusterName) {

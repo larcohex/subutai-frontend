@@ -7,7 +7,7 @@ angular.module('subutai.peer-registration.service', [])
 peerRegistrationService.$inject = ['$http'];
 
 function peerRegistrationService($http) {
-	var PEERS_URL = SERVER_URL + 'peer_ui/';
+	var PEERS_URL = SERVER_URL + 'rest/ui/peers/';
 
 	var peerRegistrationService = {
 		getRequestedPeers: getRequestedPeers,
@@ -15,7 +15,9 @@ function peerRegistrationService($http) {
 		rejectPeerRequest: rejectPeerRequest,
 		approvePeerRequest: approvePeerRequest,
 		cancelPeerRequest: cancelPeerRequest,
-		unregisterPeerRequest: unregisterPeerRequest
+		unregisterPeerRequest: unregisterPeerRequest,
+
+		getPeersUrl : function() { return PEERS_URL; }
 	};
 
 	return peerRegistrationService;
