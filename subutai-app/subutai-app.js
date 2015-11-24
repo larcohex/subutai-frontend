@@ -172,8 +172,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 							files: [
 								'subutai-app/tracker/tracker.js',
 								'subutai-app/tracker/controller.js',
-								'subutai-app/tracker/service.js',
-								'subutai-app/tracker/filter.js'
+								'subutai-app/tracker/service.js'
 							]
 						}
 					]);
@@ -230,7 +229,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 							files: [
 								'subutai-app/console/console.js',
 								'subutai-app/console/controller.js',
-								'subutai-app/console/service.js'
+								'subutai-app/console/service.js',
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);
@@ -317,7 +317,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NjM3YjAxYy0yODc3LTQ1NDktOGRkMi04YmQzNjBiNDUzZjMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.WzeH9bvHvk4qmcQFcSQSJ21QY2J2WQksatify3upb5k";
+	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkNWEyMjRhMS00ZmEwLTQ5MjEtODQ2Ni0zZTY4MjI4NGE3NDIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.XdSY_If3BRY5-1PXPGxYDiTs3oM2irpapHgnG0QE48U";
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
 		if (restrictedPage && !getCookie('sptoken')) {
