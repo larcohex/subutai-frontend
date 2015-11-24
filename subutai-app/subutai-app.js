@@ -396,7 +396,9 @@ app.directive('checkbox-list-dropdown', function() {
 });
 
 //Global variables
-//var serverUrl = '/rest/';
+//var SERVER_URL = '/';
+var SERVER_URL = 'http://172.16.131.205:8181/';
+
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
 
@@ -428,7 +430,6 @@ function VARS_MODAL_ERROR( object, text )
 		});
 }
 
-var serverUrl = 'http://172.16.131.205:8181/rest/';
 quotaColors = [];
 quotaColors['CUSTOM'] = 'blue';
 quotaColors['HUGE'] = 'bark-red';

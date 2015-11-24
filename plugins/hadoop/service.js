@@ -6,9 +6,9 @@ angular.module('subutai.plugins.hadoop.service',[])
 hadoopSrv.$inject = ['$http'];
 function hadoopSrv($http) {
 
-	var baseURL = serverUrl + 'hadoop/';
+	var baseURL = SERVER_URL + 'hadoop/';
 	var hadoopCreateURL = baseURL + 'clusters/create';
-	var environmentsURL = serverUrl + 'environments_ui/';		
+	var environmentsURL = SERVER_URL + 'environments_ui/';
 
 	var hadoopSrv = {
 		getEnvironments: getEnvironments,

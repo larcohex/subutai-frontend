@@ -7,7 +7,7 @@ angular.module('subutai.peer-registration.service', [])
 peerRegistrationService.$inject = ['$http'];
 
 function peerRegistrationService($http) {
-	var peersURL = serverUrl + 'peer_ui/';
+	var PEERS_URL = SERVER_URL + 'peer_ui/';
 
 	var peerRegistrationService = {
 		getRequestedPeers: getRequestedPeers,
@@ -23,12 +23,12 @@ function peerRegistrationService($http) {
 	//// Implementation
 
 	function getRequestedPeers() {
-		return $http.get(peersURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return $http.get(PEERS_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function registerRequest(postData) {
 		return $http.post(
-			peersURL, 
+			PEERS_URL,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
@@ -37,7 +37,7 @@ function peerRegistrationService($http) {
 	function rejectPeerRequest(peerId) {
 		var postData = 'peerId=' + peerId;
 		return $http.put(
-			peersURL + 'reject/', 
+			PEERS_URL + 'reject/',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);		
@@ -46,7 +46,7 @@ function peerRegistrationService($http) {
 	function unregisterPeerRequest(peerId) {
 		var postData = 'peerId=' + peerId;
 		return $http.put(
-			peersURL + 'unregister/', 
+			PEERS_URL + 'unregister/',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);		
@@ -55,7 +55,7 @@ function peerRegistrationService($http) {
 	function cancelPeerRequest(peerId) {
 		var postData = 'peerId=' + peerId;
 		return $http.put(
-			peersURL + 'cancel/', 
+			PEERS_URL + 'cancel/',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);		
@@ -64,7 +64,7 @@ function peerRegistrationService($http) {
 	function approvePeerRequest(peerId, keyPhrase) {
 		var postData = 'peerId=' + peerId + '&key_phrase=' + keyPhrase;
 		return $http.put(
-			peersURL + 'approve/', 
+			PEERS_URL + 'approve/',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);		

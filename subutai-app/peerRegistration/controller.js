@@ -22,7 +22,7 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 	vm.users = {};
 	vm.dtOptions = DTOptionsBuilder
 		.fromFnPromise(function() {
-			return $resource( serverUrl + 'peer_ui/' ).query().$promise;
+			return $resource( SERVER_URL + 'peer_ui/' ).query().$promise;
 		})
 		.withPaginationType('full_numbers')
 		.withOption('createdRow', createdRow)
