@@ -58,7 +58,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	}
 
 	function sshKeyLinks(data, type, full, meta) {
-		var addSshKeyLink = '<a href ng-click="environmentViewCtrl.addSshKey(\'' + data.id + '\')">Add</a>';
+		var addSshKeyLink = '<a href ng-click="environmentViewCtrl.setSshKey(\'' + data.id + '\')">Add</a>';
 		var removeSshKeyLink = '<a href ng-click="environmentViewCtrl.removeSshKey(\'' + data.id + '\')">Remove</a>';
 		return addSshKeyLink + '/' + removeSshKeyLink;
 	}
@@ -141,7 +141,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 
 	function addSshKey(key){
 		var enviroment = vm.environments[vm.enviromentSSHKey.environmentKey];
-		environmentService.addSshKey(vm.enviromentSSHKey.key, enviroment.id).success(function (data) {
+		environmentService.setSshKey(vm.enviromentSSHKey.key, enviroment.id).success(function (data) {
 			SweetAlert.swal("Success!", "You successfully add SSH key for " + enviroment.id + " environment!", "success");
 			console.log(data);
 		}).error(function (data) {

@@ -306,9 +306,9 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 						{
 							name: 'subutai.plugins.hadoop',
 							files: [
-								'subutai-app/plugins/hadoop/hadoop.js',
-								'subutai-app/plugins/hadoop/controller.js',
-								'subutai-app/plugins/hadoop/service.js'
+								'plugins/hadoop/hadoop.js',
+								'plugins/hadoop/controller.js',
+								'plugins/hadoop/service.js'
 							]
 						}
 					]);
@@ -332,7 +332,8 @@ function startup($rootScope, $state, $location, $http) {
 	});
 
 	$rootScope.$state = $state;
-	$http.defaults.headers.common['sptoken']= getCookie('sptoken');
+	//$http.defaults.headers.common['sptoken']= getCookie('sptoken');
+	$http.defaults.headers.common['sptoken']= 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZGI0MTc4OC02ODdkLTQ3NmMtYTZmMS1kNDBjNWZlYTM1YzQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.hD7civHP0oYsrIVOJ2EojbhmvmQojDrWqDphyKfDcXM';
 }
 
 function getCookie(cname) {
@@ -397,12 +398,43 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var serverUrl = '/rest/';
+var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
+var VARS_TOOLTIP_TIMEOUT = 900;
+
+function VARS_MODAL_CONFIRMATION( object, title, text, func )
+{
+	object.swal({
+			title: title,
+			text: text,
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			closeOnCancel: true,
+			showLoaderOnConfirm: true
+		},
+		func
+	);
+}
+
+function VARS_MODAL_ERROR( object, text )
+{
+	object.swal({
+			title: "ERROR!",
+			text: text,
+			type: "error",
+			confirmButtonColor: "#ff3f3c"
+		});
+}
+
 var serverUrl = 'http://172.16.131.205:8181/rest/';
 quotaColors = [];
 quotaColors['CUSTOM'] = 'blue';
 quotaColors['HUGE'] = 'bark-red';
 quotaColors['LARGE'] = 'red';
-quotaColors['MEDIUME'] = 'orange';
+quotaColors['MEDIUM'] = 'orange';
 quotaColors['SMALL'] = 'yellow';
 quotaColors['TINY'] = 'green';
 
