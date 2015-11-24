@@ -138,6 +138,15 @@ body {
     font-weight: 700;
 }
 
+.b-title a {
+	text-decoration: none;
+	color: #19286e;
+}
+
+.b-title a:hover {
+	text-decoration: underline;
+}
+
 .b-title_sub {
     font-size: 16px;
     font-weight: 400;
@@ -670,6 +679,7 @@ body {
 
 .b-icon_box-white_place {
     height: 10px;
+	background-size: 13px;
 }
 
 .g-right {
