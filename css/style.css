@@ -1628,8 +1628,39 @@ td.b-main-table__status-col {
 	text-align: center;
 }
 
-.b-options-type__item {
-	/*border: 1px solid #dcdcdc;*/
+.b-quota-type-round {
+	display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+}
+
+.b-quota-type-round_yellow {
+    background-color: #efc94c;
+}
+
+.b-quota-type-round_bark-red {
+    background-color: #330000;
+}
+
+.b-quota-type-round_grey {
+    background-color: #f1f4f8;
+}
+
+.b-quota-type-round_orange {
+    background-color: #e27a3f;
+}
+
+.b-quota-type-round_red {
+    background-color: #df3c3f;
+}
+
+.b-quota-type-round_green {
+    background-color: #45b29d;
+}
+
+.b-quota-type-round_blue {
+    background-color: #334d5c;
 }
 
 /*Upload btn*/

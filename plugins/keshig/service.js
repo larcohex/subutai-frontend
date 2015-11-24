@@ -14,7 +14,6 @@ function keshigSrv($http) {
 
 
 	var keshigSrv = {
-		getResourceHosts : getResourceHosts,
 		getProfiles : getProfiles,
 		addProfile : addProfile,
 		updateProfile : updateProfile,
@@ -48,10 +47,6 @@ function keshigSrv($http) {
 
 	function getPlaybooks() {
 		return $http.get(baseURL + 'tests', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
-	}
-
-	function getResourceHosts() {
-		return $http.get(trackerSrv.getBaseUrl(), {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function getProfiles() {
