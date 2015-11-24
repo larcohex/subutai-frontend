@@ -321,7 +321,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4MzExNWEwNC02MGM4LTQ0OTktODkwZC00NGQ1MzU3Zjc3NTYiLCJpc3MiOiJpby5zdWJ1dGFpIn0._tMG6a--efR406zjbIj6DJ2es3vTgH0g1wV9AptLMT8';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NzNkYjAxMC04OGMyLTRjZTEtYTA0OS0xN2FlMzdlYzc4YzEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.AT9bU-dsaLBBzAUAJbj0_5saxgq0b_R7aQv_eiRu1js';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -436,6 +436,7 @@ quotaColors['LARGE'] = 'red';
 quotaColors['MEDIUM'] = 'orange';
 quotaColors['SMALL'] = 'yellow';
 quotaColors['TINY'] = 'green';
+quotaColors['INACTIVE'] = 'grey';
 
 var permissionsDefault = [
 	{
