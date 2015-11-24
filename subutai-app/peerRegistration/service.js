@@ -8,6 +8,7 @@ peerRegistrationService.$inject = ['$http'];
 
 function peerRegistrationService($http) {
 	var PEERS_URL = SERVER_URL + 'rest/ui/peers/';
+	var RH_URL = PEERS_URL + 'resource_hosts/';
 
 	var peerRegistrationService = {
 		getRequestedPeers: getRequestedPeers,
@@ -16,6 +17,9 @@ function peerRegistrationService($http) {
 		approvePeerRequest: approvePeerRequest,
 		cancelPeerRequest: cancelPeerRequest,
 		unregisterPeerRequest: unregisterPeerRequest,
+
+		getResourceHosts: getResourceHosts,
+
 
 		getPeersUrl : function() { return PEERS_URL; }
 	};
@@ -72,4 +76,8 @@ function peerRegistrationService($http) {
 		);		
 	}
 
+
+	function getResourceHosts() {
+		return $http.get(RH_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
 }

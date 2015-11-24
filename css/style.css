@@ -275,7 +275,9 @@ body {
     overflow: hidden;
     position: relative;
 }
-
+.b-main-table-border_half {
+    width: 50%;
+}
 .b-data-table {
     overflow: hidden;
     padding-top: 20px;
@@ -1671,3 +1673,20 @@ td.b-main-table__status-col {
     background-color: #334d5c;
 }
 
+/*Upload btn*/
+
+.fileUpload {
+    position: relative;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 109px;
+}

@@ -178,7 +178,12 @@
                 <div class="b-workspace-content__row">
                     <input type="checkbox"> <label class="b-form-label b-form-label_margin_r">Daemon</label>
                     <input type="checkbox"> <label class="b-form-label b-form-label_margin_r">Script</label>
-                    <a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Upload script</a>
+
+                    <div class="fileUpload b-btn b-btn_light-grey">
+                        <span>Upload script</span>
+                        <input id="uploadBtn" type="file" class="upload" />
+                    </div>
+                    <input id="uploadFile" class="b-form-input b-form-input_fix-size-1 b-form-label_margin_r" placeholder="Choose File" disabled="disabled" />
                     <a href="#" class="b-btn b-btn_green g-right">Add operation</a>
 
                     <div class="clear"></div>
