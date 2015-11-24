@@ -1224,6 +1224,7 @@ td.b-main-table__status-col {
     display: inline-block;
     box-sizing: border-box;
     width: 50%;
+	vertical-align: top;
 }
 
 .b-form-col-2:nth-child(odd){
