@@ -19,6 +19,7 @@ function keshigSrv($http) {
 		getResourceHosts : getResourceHosts,
 		getProfiles : getProfiles,
 		addProfile : addProfile,
+		updateProfile : updateProfile,
 		removeProfile : removeProfile,
 		getServers : getServers,
 		addServer : addServer,
@@ -30,6 +31,9 @@ function keshigSrv($http) {
 		getOptionsByType : getOptionsByType,
 		startOption : startOption,
 		addOption : addOption,
+		deleteOption : deleteOption,
+		getBuilds: getBuilds,
+		getPlaybooks: getPlaybooks,
 		updateOption : updateOption
 	};
 
@@ -39,50 +43,62 @@ function keshigSrv($http) {
 	 *   Keshig Server Services
 	 * */
 
+	function getBuilds() {
+		return $http.get(baseURL + 'build', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function getPlaybooks() {
+		return $http.get(baseURL + 'tests', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
 	function getResourceHosts() {
 		return $http.get(resourceHostsURL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
-	function getProfiles()
-	{
+	function getProfiles() {
 		return $http.get(profilesUrl, {
 			withCredentials: true
 		});
 	}
 
-	function addProfile( profile )
-	{
+	function addProfile( profile ) {
 		return $http.post(profilesUrl, profile, {
 			withCredentials: true,
 			headers: {'Content-Type': 'application/json'}
 		});
 	}
 
-	function removeProfile( name )
-	{
-		return $http.delete(profilesUrl + name, {
-			withCredentials: true
-		});
-	}
-
-	function getServers()
-	{
-		return $http.get(serversUrl, {
-			withCredentials: true
-		});
-	}
-
-	function addServer( server )
-	{
-		return $http.post(serversUrl, server, {
+	function updateProfile( profile ) {
+		return $http.put(profilesUrl, profile, {
 			withCredentials: true,
 			headers: {'Content-Type': 'application/json'}
 		});
 	}
 
-	function removeServer(id)
-	{
-		return $http.remove(serversUrl + id, {
+	function removeProfile( name ) {
+		return $http.delete(profilesUrl + name, {
+			withCredentials: true
+		});
+	}
+
+	function getServers() {
+		return $http.get(serversUrl, {
+			withCredentials: true
+		});
+	}
+
+	function addServer( server ) {
+		var postData = 'serverName=' + server.serverName 
+			+ '&serverType=' + server.serverType 
+			+ '&serverId=' + server.serverId;
+		return $http.post(serversUrl, postData, {
+			withCredentials: true,
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		});
+	}
+
+	function removeServer(hostId) {
+		return $http.delete(serversUrl + hostId, {
 			withCredentials: true
 		});
 	}
@@ -96,7 +112,10 @@ function keshigSrv($http) {
 
 
 	function updateServer( server ) {
-		return $http.put(serversUrl, server, {
+		var postData = 'serverName=' + server.serverName 
+			+ '&serverType=' + server.serverType 
+			+ '&serverId=' + server.serverId;		
+		return $http.put(serversUrl, postData, {
 			withCredentials: true,
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		});
@@ -115,30 +134,34 @@ function keshigSrv($http) {
 	}
 
 	function getOptionsByType(type) {
-		return $http.get(optionUrl + 'type/' + type, {
+		return $http.get(optionUrl + 'type/' + type.toLowerCase(), {
+			withCredentials: true
+		});
+	}
+
+	function deleteOption(type, optionName) {
+		return $http.delete(optionUrl + type.toLowerCase() + '/' + optionName, {
 			withCredentials: true
 		});
 	}
 
 	function startOption(type, optionName) {
-		return $http.get(optionUrl + type + '/' + optionName + '/' + 'start', {
+		return $http.get(optionUrl + type.toLowerCase() + '/' + optionName + '/' + 'start', {
 			withCredentials: true
 		});
 	}
 
-	function addOption( type, object )
-	{
+	function addOption( type, object ) {
 		return $http.post(optionUrl + type.toLowerCase(), object, {
 			withCredentials: true,
-			headers: {'Content-Type': 'application/json'}
+			headers: { 'Content-Type': 'application/json' }
 		});
 	}
 
-	function updateOption( type, object )
-	{
+	function updateOption( type, object ) {
 		return $http.put(optionUrl + type.toLowerCase(), object, {
 			withCredentials: true,
-			headers: {'Content-Type': 'application/json'}
+			headers: { 'Content-Type': 'application/json' }
 		});
 	}
 }

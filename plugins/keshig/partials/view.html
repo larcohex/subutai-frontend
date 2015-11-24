@@ -8,17 +8,17 @@
 		<div class="b-tabs-menu">
 			<ul>
 				<li class="b-tabs-menu__item"
-						ng-click="keshigCtrl.activeTab = 'servers'"
+						ng-click="keshigCtrl.changeTab('servers')"
 						ng-class="keshigCtrl.activeTab == 'servers' ? 'b-tabs-menu__item_active' : ''">
 					Servers
 				</li>
 				<li class="b-tabs-menu__item"
-						ng-click="keshigCtrl.activeTab = 'options'"
+						ng-click="keshigCtrl.changeTab('options')"
 						ng-class="keshigCtrl.activeTab == 'options' ? 'b-tabs-menu__item_active' : ''">
 					Options
 				</li>
 				<li class="b-tabs-menu__item"
-						ng-click="keshigCtrl.activeTab = 'profiles'"
+						ng-click="keshigCtrl.changeTab('profiles')"
 						ng-class="keshigCtrl.activeTab == 'profiles' ? 'b-tabs-menu__item_active' : ''">
 					Profiles
 				</li>

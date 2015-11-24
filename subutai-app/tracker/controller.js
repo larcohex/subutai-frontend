@@ -33,6 +33,7 @@ function TrackerCtrl(trackerSrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 		})
 		.withPaginationType('full_numbers')
 		.withOption('createdRow', createdRow)
+		.withOption('order', [[ 0, "desc" ]])
 		.withOption('columnDefs', [ {className: "b-main-table__status-col", "targets": [2, 3]} ])
 		.withOption('stateSave', true);
 

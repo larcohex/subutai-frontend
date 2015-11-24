@@ -49,7 +49,7 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 	}
 
 	function actionButton(data, type, full, meta) {
-		var result = '';		
+		var result = '';
 		if(data.status == 'APPROVED') {
 			result += '<a href class="b-btn b-btn_red subt_button__peer-unregister" ng-click="peerRegistrationCtrl.unregisterPeer(\'' + data.peerInfo.id + '\')">Unregister</a>';
 		} else if(data.status == 'WAIT') {

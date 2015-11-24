@@ -323,13 +323,13 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5OWU3NGJhNi02MzU0LTQxMjItYTczMS0zZWE2MTkwY2ExZDAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.5PnFliRANyG3A5GRS5M3uDfTw7RMyIm0_8E2EBZdKwE";
-	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
-	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-	//	if (restrictedPage && !getCookie('sptoken')) {
-	//		$location.path('/login');
-	//	}
-	//});
+	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiZmE5MzUzNy0wMTE5LTQ3OTAtYTM1NC1jNWM4ZjMxNDYyMmUiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ncRQvc_9nSCkbT5P0TvG3clY_YeRK-2b0LBROQ58ikY";
+	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+		if (restrictedPage && !getCookie('sptoken')) {
+			$location.path('/login');
+		}
+	});
 
 	$rootScope.$state = $state;
 	//$http.defaults.headers.common['sptoken']= getCookie('sptoken');

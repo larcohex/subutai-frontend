@@ -2,451 +2,454 @@
 <html ng-app="subutai-app">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ Page.title() }}</title>
+<title>{{ Page.title() }}</title>
 
-    <!--CSS Libs-->
-    <link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/libs/nprogress.css"/>
-    <link rel="stylesheet" href="css/libs/normalize.css"/>
-    <link rel="stylesheet" href="css/libs/sweetalert.css">
-    <link rel="stylesheet" href="css/libs/ngDialog.css">
-    <link rel="stylesheet" href="css/libs/nouislider.min.css">
-    <link rel="stylesheet" href="css/libs/datatables.css">
-    <!--CSS-->
+<!--CSS Libs-->
+<link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
+<link rel="stylesheet" href="css/libs/nprogress.css"/>
+<link rel="stylesheet" href="css/libs/normalize.css"/>
+<link rel="stylesheet" href="css/libs/sweetalert.css">
+<link rel="stylesheet" href="css/libs/ngDialog.css">
+<link rel="stylesheet" href="css/libs/nouislider.min.css">
+<link rel="stylesheet" href="css/libs/datatables.css">
+<!--CSS-->
 
-    <link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/style.css"/>
 
-    <!-- DIRS -->
-    <!-- END DIRS -->
+<!-- DIRS -->
+<!-- END DIRS -->
 </head>
 
 <body>
 
 <header class="b-header">
-    <div class="b-header__logo b-header__logo_left">
-        <div class="b-header-logo">
-            <a href="index.html"><img src="assets/elements/logo.svg" alt="" height="20px"/></a>
-        </div>
-    </div>
-    <div class="b-header__userbar b-header__userbar_right">
-        <div class="b-header-userbar">
-            <div class="b-header-userbar__name">
-                <a href="#" class="b-header-userbar-name">Name Username</a>
-            </div>
-            <div class="b-header-userbar__avatar">
-                <img src="" alt="" class="b-header-userbar-avatar"
-                     onerror="this.onerror=null;this.src='assets/elements/avatar-empty.svg';"/>
-            </div>
-        </div>
-    </div>
+	<div class="b-header__logo b-header__logo_left">
+		<div class="b-header-logo">
+			<a href="index.html"><img src="assets/elements/logo.svg" alt="" height="20px"/></a>
+		</div>
+	</div>
+	<div class="b-header__userbar b-header__userbar_right">
+		<div class="b-header-userbar">
+			<div class="b-header-userbar__name">
+				<a href="#" class="b-header-userbar-name">Name Username</a>
+			</div>
+			<div class="b-header-userbar__avatar">
+				<img src="" alt="" class="b-header-userbar-avatar"
+				onerror="this.onerror=null;this.src='assets/elements/avatar-empty.svg';"/>
+			</div>
+		</div>
+	</div>
 </header>
 
 <div class="b-content">
-    <div ng-include="'subutai-app/common/partials/nav-menu.html'"></div>
+	<div ng-include="'subutai-app/common/partials/nav-menu.html'"></div>
 
 
-    <!--Tab 1 Build-->
-    <div class="b-workspace">
+	<!--Tab 1 Build-->
+	<div class="b-workspace">
 
-        <div class="b-workspace__header">
-            <h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
-        </div>
-        <div class="b-workspace__content">
-            <div class="b-workspace-content b-workspace-content_border">
-                <div class="b-workspace-content__row b-workspace-content__row_margin-b">
-                    <h2 class="b-workspace-content-row-h2">
-                        Configure server
-                    </h2>
+		<div class="b-workspace__header">
+			<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
+		</div>
+		<div class="b-workspace__content">
+			<div class="b-workspace-content b-workspace-content_border">
+				<div class="b-workspace-content__row b-workspace-content__row_margin-b">
+					<h2 class="b-workspace-content-row-h2">
+						Configure server
+					</h2>
 
-                    <div class="b-form b-form_border">
-                        <div class="b-form-col-2">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Name</label>
+					<div class="b-form b-form_border">
+						<div class="b-form-col-2">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Name</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-form-input_full" type="text">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Type</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-form-input_full" type="text">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Type</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                        <div class="b-form-col-2 g-right">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Timeout</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="b-form-col-2 g-right">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Timeout</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-form-input_full" type="text" value="seconds">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Server</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-form-input_full" type="text" value="seconds">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Server</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <a href="#" class="b-btn b-btn_green g-right">Save</a>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<a href="#" class="b-btn b-btn_green g-right">Save</a>
 
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="b-workspace-content__row">
-                    <div class="b-main-table-border">
-                        <table class="b-main-table b-main-table_with-header">
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Build</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td class="b-main-table__edit-icon"><a href="#" class="b-icon b-icon_edit"></a></td>
-                                <td>Name</td>
-                                <td>Build name</td>
-                                <td class="b-main-table__controls"><a href="#" class="b-btn b-btn_blue">View</a></td>
-                                <td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="b-workspace-content__row">
+					<div class="b-main-table-border">
+						<table class="b-main-table b-main-table_with-header">
+							<tr>
+								<th></th>
+								<th>Name</th>
+								<th>Build</th>
+								<th></th>
+								<th></th>
+							</tr>
+							<tr>
+								<td class="b-main-table__edit-icon"><a href="#" class="b-icon b-icon_edit"></a></td>
+								<td>Name</td>
+								<td>Build name</td>
+								<td class="b-main-table__controls"><a href="#" class="b-btn b-btn_blue">View</a></td>
+								<td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!--Tab 2 Dropdown: Deploy-->
-    <div class="b-workspace">
+	<!--Tab 2 Dropdown: Deploy-->
+	<div class="b-workspace">
 
-        <div class="b-workspace__header">
-            <h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
-        </div>
-        <div class="b-workspace__content">
-            <div class="b-workspace-content b-workspace-content_border">
-                <div class="b-workspace-content__row b-workspace-content__row_margin-b">
-                    <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+		<div class="b-workspace__header">
+			<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
+		</div>
+		<div class="b-workspace__content">
+			<div class="b-workspace-content b-workspace-content_border">
+				<div class="b-workspace-content__row b-workspace-content__row_margin-b">
+					<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
 
-                        <div class="b-form">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Timeout</label>
+						<div class="b-form">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Timeout</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-popup-body-input_full" type="text" value="seconds">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-popup-body-input_full" type="text" value="seconds">
+								</div>
+								<div class="clear"></div>
+							</div>
 
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom ">
-                                <select class="b-form-input b-popup-body-input_full b-form-label_margin_r">
-                                    <option value="1">1</option>
-                                </select>
-                            </div>
-                            <a href="#" class="b-btn b-btn_green g-right">Save</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-                <div class="b-workspace-content__row">
-                    <div class="b-main-table-border">
-                        <table class="b-main-table b-main-table_with-header">
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Build</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td class="b-main-table__edit-icon"><a href="#" class="b-icon b-icon_edit"></a></td>
-                                <td>Name</td>
-                                <td>Build name</td>
-                                <td class="b-main-table__controls"><a href="#" class="b-btn b-btn_blue">View</a></td>
-                                <td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom ">
+								<select class="b-form-input b-popup-body-input_full b-form-label_margin_r">
+									<option value="1">1</option>
+								</select>
+							</div>
+							<a href="#" class="b-btn b-btn_green g-right">Save</a>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="b-workspace-content__row">
+					<div class="b-main-table-border">
+						<table class="b-main-table b-main-table_with-header">
+							<tr>
+								<th></th>
+								<th>Name</th>
+								<th>Build</th>
+								<th></th>
+								<th></th>
+							</tr>
+							<tr>
+								<td class="b-main-table__edit-icon"><a href="#" class="b-icon b-icon_edit"></a></td>
+								<td>Name</td>
+								<td>Build name</td>
+								<td class="b-main-table__controls"><a href="#" class="b-btn b-btn_blue">View</a></td>
+								<td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
+							</tr>
+						</table>
+					</div>
+				</div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
 
-    <!--Tab 2 Dropdown: Test-->
-    <div class="b-workspace">
+	<!--Tab 2 Dropdown: Test-->
+	<div class="b-workspace">
 
-        <div class="b-workspace__header">
-            <h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
-        </div>
-        <div class="b-workspace__content">
-            <div class="b-workspace-content b-workspace-content_border">
-                <div class="b-workspace-content__row b-workspace-content__row_margin-b">
-                    <h2 class="b-workspace-content-row-h2">
-                        Configure server
-                    </h2>
+		<div class="b-workspace__header">
+			<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
+		</div>
+		<div class="b-workspace__content">
+			<div class="b-workspace-content b-workspace-content_border">
+				<div class="b-workspace-content__row b-workspace-content__row_margin-b">
+					<h2 class="b-workspace-content-row-h2">
+						Configure server
+					</h2>
 
-                    <div class="b-form b-form_border">
-                        <div class="b-form-col-2">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Timeout</label>
+					<div class="b-form b-form_border">
+						<div class="b-form-col-2">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Timeout</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-form-input_full" type="text" value="seconds">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">IP</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-form-input_full" type="text" value="seconds">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">IP</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-form-input_full" type="text"
-                                           value="_ _ _ . _ _ _ . _ _ _ . _ _ _">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                        <div class="b-form-col-2 g-right">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Test</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-form-input_full" type="text"
+									value="_ _ _ . _ _ _ . _ _ _ . _ _ _">
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="b-form-col-2 g-right">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Test</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Server</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Server</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <a href="#" class="b-btn b-btn_green g-right">Save</a>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<a href="#" class="b-btn b-btn_green g-right">Save</a>
 
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="b-workspace-content__row">
-                    <div class="b-main-table-border">
-                        <table class="b-main-table b-main-table_with-header">
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Build</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td class="b-main-table__edit-icon"><a href="#" class="b-icon b-icon_edit"></a></td>
-                                <td>Name</td>
-                                <td>Build name</td>
-                                <td class="b-main-table__controls"><a href="#" class="b-btn b-btn_blue">View</a></td>
-                                <td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="b-workspace-content__row">
+					<div class="b-main-table-border">
+						<table class="b-main-table b-main-table_with-header">
+							<tr>
+								<th></th>
+								<th>Name</th>
+								<th>Build</th>
+								<th></th>
+								<th></th>
+							</tr>
+							<tr>
+								<td class="b-main-table__edit-icon"><a href="#" class="b-icon b-icon_edit"></a></td>
+								<td>Name</td>
+								<td>Build name</td>
+								<td class="b-main-table__controls"><a href="#" class="b-btn b-btn_blue">View</a></td>
+								<td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!--Tab 2 Dropdown: Build configurations-->
-    <div class="b-workspace">
+	<!--Tab 2 Dropdown: Build configurations-->
+	<div class="b-workspace">
 
-        <div class="b-workspace__header">
-            <h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
-        </div>
-        <div class="b-workspace__content">
-            <div class="b-workspace-content b-workspace-content_border">
-                <div class="b-workspace-content__row b-workspace-content__row_margin-b">
-                    <div class="b-workspace-content-row_col-2">
-                        <div class="b-form b-form_border">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">IP</label>
+		<div class="b-workspace__header">
+			<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
+		</div>
+		<div class="b-workspace__content">
+			<div class="b-workspace-content b-workspace-content_border">
+				<div class="b-workspace-content__row b-workspace-content__row_margin-b">
+					<div class="b-workspace-content-row_col-2">
+						<div class="b-form b-form_border">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">IP</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-form-input_full" type="text"
-                                           value="_ _ _ . _ _ _ . _ _ _ . _ _ _">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">IP</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-form-input_full" type="text"
+									value="_ _ _ . _ _ _ . _ _ _ . _ _ _">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">IP</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-form-input_full" type="text"
-                                           value="_ _ _ . _ _ _ . _ _ _ . _ _ _">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Test</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-form-input_full" type="text"
+									value="_ _ _ . _ _ _ . _ _ _ . _ _ _">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Test</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <a href="#" class="b-btn b-btn_green g-right">Save</a>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<a href="#" class="b-btn b-btn_green g-right">Save</a>
 
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!--Tab 3 Profile-->
-    <div class="b-workspace">
+	<!--Tab 3 Profile-->
+	<div class="b-workspace">
 
-        <div class="b-workspace__header">
-            <h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
-        </div>
-        <div class="b-workspace__content">
-            <div class="b-workspace-content b-workspace-content_border">
-                <div class="b-workspace-content__row b-workspace-content__row_margin-b">
-                    <div class="b-form b-form_border">
-                        <div class="b-form-col-2">
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Name</label>
+		<div class="b-workspace__header">
+			<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Keshig</span></h1>
+		</div>
+		<div class="b-workspace__content">
+			<div class="b-workspace-content b-workspace-content_border">
+				<div class="b-workspace-content__row b-workspace-content__row_margin-b">
+					<div class="b-form b-form_border">
+						<div class="b-form-col-2">
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Name</label>
 
-                                <div class="b-form-wrapper b-form-wrapper_margin-size-2">
-                                    <input class="b-form-input b-form-input_full" type="text">
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                        <div class="b-form-col-2">
-                        </div>
-                        <div class="b-form-col-2">
-                            <h2 class="b-workspace-content-row-h2">
-                                Server
-                            </h2>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Clone</label>
+								<div class="b-form-wrapper b-form-wrapper_margin-size-2">
+									<input class="b-form-input b-form-input_full" type="text">
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="b-form-col-2">
+						</div>
+						<div class="b-form-col-2">
+							<h2 class="b-workspace-content-row-h2">
+								Server
+							</h2>
 
-                                <div class="b-form__wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Build</label>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Clone</label>
 
-                                <div class="b-form__wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Test</label>
+								<div class="b-form__wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
 
-                                <div class="b-form__wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Build</label>
 
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <label class="b-form-label b-form-label_fix-size-2 g-left">Deploy</label>
+								<div class="b-form__wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
 
-                                <div class="b-form__wrapper b-form-wrapper_margin-size-2">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                        <div class="b-form-col-2 g-right">
-                            <h2 class="b-workspace-content-row-h2">
-                                Options
-                            </h2>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                    <select class="b-form-input b-form-input_full">
-                                        <option value="1">1</option>
-                                    </select>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <select class="b-form-input b-form-input_full">
-                                    <option value="1">1</option>
-                                </select>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <select class="b-form-input b-form-input_full">
-                                    <option value="1">1</option>
-                                </select>
-                            </div>
-                            <div class="b-form__wrapper b-form__wrapper_margin-bottom">
-                                <select class="b-form-input b-form-input_full">
-                                    <option value="1">1</option>
-                                </select>
-                            </div>
-                            <a href="#" class="b-btn b-btn_green g-right">Save</a>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="b-workspace-content__row">
-                    <div class="b-main-table-border">
-                        <table class="b-main-table b-main-table_with-header">
-                            <tr>
-                                <th>Profile</th>
-                                <th>Build</th>
-                                <th>Test</th>
-                                <th>Deploy</th>
-                                <th>Clone</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td class="b-main-table__buttons-group">Name</td>
-                                <td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Build <i class="fa fa-minus"></i></a></td>
-                                <td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Add <i class="fa fa-plus"></i></a></td>
-                                <td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Deploy <i class="fa fa-minus"></i></a></td>
-                                <td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Test <i class="fa fa-plus"></i></a></td>
-                                <td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Test</label>
+
+								<div class="b-form__wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<label class="b-form-label b-form-label_fix-size-2 g-left">Deploy</label>
+
+								<div class="b-form__wrapper b-form-wrapper_margin-size-2">
+									<select class="b-form-input b-form-input_full">
+										<option value="1">1</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="b-form-col-2 g-right">
+							<h2 class="b-workspace-content-row-h2">
+								Options
+							</h2>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<select class="b-form-input b-form-input_full">
+									<option value="1">1</option>
+								</select>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<select class="b-form-input b-form-input_full">
+									<option value="1">1</option>
+								</select>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<select class="b-form-input b-form-input_full">
+									<option value="1">1</option>
+								</select>
+							</div>
+							<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+								<select class="b-form-input b-form-input_full">
+									<option value="1">1</option>
+								</select>
+							</div>
+							<a href="#" class="b-btn b-btn_green g-right">Save</a>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="b-workspace-content__row">
+					<div class="b-main-table-border">
+						<table class="b-main-table b-main-table_with-header">
+							<tr>
+								<th>Profile</th>
+								<th>Build</th>
+								<th>Test</th>
+								<th>Deploy</th>
+								<th>Clone</th>
+								<th></th>
+							</tr>
+							<tr>
+								<td class="b-main-table__buttons-group">Name</td>
+								<td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Build <i class="fa fa-minus"></i></a></td>
+								<td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Add <i class="fa fa-plus"></i></a></td>
+								<td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Deploy <i class="fa fa-minus"></i></a></td>
+								<td><a href="#" class="b-btn b-btn_light-grey b-btn_margin-r">Test <i class="fa fa-plus"></i></a></td>
+								<td class="b-main-table__controls"><a href="#" class="b-btn b-btn_green">Run</a></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="clear"></div>

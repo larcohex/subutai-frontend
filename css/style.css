@@ -448,14 +448,16 @@ body {
 .b-status-icon_STOPPED,
 .b-status-icon_ABORTING,
 .b-status-icon_FREEZING,
-.b-status-icon_FROZEN {
+.b-status-icon_FROZEN,
+.b-status-icon_false {
     background-color: #c1272d;
 }
 
 .b-status-icon_HEALTHY,
 .b-status-icon_SUCCEEDED,
 .b-status-icon_APPROVED,
-.b-status-icon_RUNNING {
+.b-status-icon_RUNNING,
+.b-status-icon_true {
     background-color: #22b573;
 }
 
@@ -1216,6 +1218,15 @@ td.b-main-table__status-col {
     border: 1px solid #dcdcdc;
     padding: 15px;
     border-radius: 5px;
+	overflow: hidden;
+}
+
+.b-form_dirty-hack {
+	overflow: visible;
+}
+
+.b-form_dirty-hack .clear {
+	display: inline-block;
 }
 
 .b-form-col-2 {
@@ -1266,6 +1277,10 @@ td.b-main-table__status-col {
     color: #19286e;
 }
 
+.b-form-checkbox {
+	margin-top: 8px;
+}
+
 .b-form-input_full {
     width: 100%;
 }
@@ -1284,12 +1299,21 @@ td.b-main-table__status-col {
 
 .b-form__wrapper_margin-bottom {
     margin-bottom: 10px;
+}
+
+/*.b-form__wrapper_margin-bottom:last-child {
+	margin-bottom: 0;
+}*/
+
+.b-form__wrapper_between {
+	margin: 35px 0 0 0;
 	overflow: hidden;
 }
 
 .b-form-label_fix-size-1 {
     display: inline-block;
-    width: 80px;
+    width: 175px;
+	text-align: left;
 }
 .b-form-label_fix-size-2 {
     display: inline-block;
@@ -1297,7 +1321,7 @@ td.b-main-table__status-col {
 }
 
 .b-form-wrapper_margin-size-1 {
-    margin-left: 80px;
+    margin-left: 175px;
 }
 .b-form-wrapper_margin-size-2 {
     margin-left: 80px;
@@ -1305,6 +1329,7 @@ td.b-main-table__status-col {
 .b-form-input_dropdown {
     position: relative;
     cursor: pointer;
+	line-height: 29px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -1313,6 +1338,14 @@ td.b-main-table__status-col {
     user-select: none;
     color: #19286E;
     display: inline-block;
+}
+
+.b-form-input__placeholder {
+	padding: 0 5px;
+}
+
+.b-form-wrapper .b-form-input_dropdown {
+	width: 100%;
 }
 
 .b-form-input_dropdown:after {
@@ -1563,6 +1596,7 @@ td.b-main-table__status-col {
 
 .b-tabs-menu__item_active {
 	border-bottom-color: #fff;
+	text-decoration: none;
 }
 
 .b-workspace__button-group {
@@ -1585,5 +1619,13 @@ td.b-main-table__status-col {
 
 .b-form__col:last-child {
 	padding-right: 0;
+}
+
+.b-options-type {
+	text-align: center;
+}
+
+.b-options-type__item {
+	/*border: 1px solid #dcdcdc;*/
 }
 
