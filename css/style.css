@@ -1303,7 +1303,7 @@ td.b-main-table__status-col {
 
 .b-form-label_fix-size-1 {
     display: inline-block;
-    width: 80px;
+    width: 175px;
 	text-align: left;
 }
 .b-form-label_fix-size-2 {
@@ -1312,7 +1312,7 @@ td.b-main-table__status-col {
 }
 
 .b-form-wrapper_margin-size-1 {
-    margin-left: 80px;
+    margin-left: 175px;
 }
 .b-form-wrapper_margin-size-2 {
     margin-left: 80px;
