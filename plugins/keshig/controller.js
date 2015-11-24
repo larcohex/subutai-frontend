@@ -4,8 +4,8 @@ angular.module('subutai.plugins.keshig.controller', [])
     .controller('KeshigCtrl', KeshigCtrl)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
-KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert'];
-function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert) {
+KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService'];
+function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService) {
     var vm = this;
 
 	vm.activeTab = 'servers';
@@ -83,7 +83,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		});
 	}
 
-	keshigSrv.getResourceHosts().success(function (data) {
+	peerRegistrationService.getResourceHosts().success(function (data) {
 		vm.resourceHosts = [];
 		for(var i = 0; i < data.length; i++) {
 			if(data[i].hostname != 'management') {
