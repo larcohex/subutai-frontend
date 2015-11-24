@@ -70,6 +70,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	});
 
 	function getProfileValues() {
+		vm.serversByType = [];
 		keshigSrv.getServers().success(function (data) {
 			for(var i = 0; i < data.length; i++) {
 				if(vm.serversByType[data[i].type] === undefined) vm.serversByType[data[i].type] = [];
@@ -178,7 +179,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	function actionEditServer(data, type, full, meta) {
 		vm.servers[data.serverName] = data;
-		return '<a href class="b-icon b-icon_edit" tooltips tooltipe-title="Edit" ng-click="keshigCtrl.addServer2From(keshigCtrl.servers[\'' + data.serverName + '\'])"></a>';
+		return '<a href class="b-icon b-icon_edit" ng-click="keshigCtrl.addServer2From(keshigCtrl.servers[\'' + data.serverName + '\'])"></a>';
 	}
 
 	function actionEditOption(data, type, full, meta) {
@@ -200,7 +201,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function optionStatusIcon(data, type, full, meta) {
-		return '<div style="width: 100%; text-align: center;"><div class="b-status-icon b-status-icon_' + data + '" title="' + data + '"></div></div>';
+		return '<div style="width: 100%; text-align: center;"><div class="b-status-icon b-status-icon_' + data + '" tooltips tooltip-title="' + data + '"></div></div>';
 	}
 
 	function runOptionButton(data, type, full, meta) {
