@@ -323,17 +323,16 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	//document.cookie="sptoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlNzhlMDAzOC1hMjZhLTQ0YzAtYjlmZC05MjdhNWM1N2Q3YzQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.pdZWKxsVhWoknj12taKwIOhzddCLsp67i2-eRKB2JTs";
-	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
-		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-		if (restrictedPage && !getCookie('sptoken')) {
-			$location.path('/login');
-		}
-	});
+	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+	//	if (restrictedPage && !getCookie('sptoken')) {
+	//		$location.path('/login');
+	//	}
+	//});
 
 	$rootScope.$state = $state;
 	//$http.defaults.headers.common['sptoken']= getCookie('sptoken');
-	$http.defaults.headers.common['sptoken']= 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZGI0MTc4OC02ODdkLTQ3NmMtYTZmMS1kNDBjNWZlYTM1YzQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.hD7civHP0oYsrIVOJ2EojbhmvmQojDrWqDphyKfDcXM';
+	$http.defaults.headers.common['sptoken']= 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMzBmM2ZlOS05ODk3LTQ2OWEtOGNhNi05MWJhMzg0YzQyYzUiLCJpc3MiOiJpby5zdWJ1dGFpIn0.HecBccekuF_2kIMQdKer1p5Cq0eu6d_QQkRS0js_xXA';
 }
 
 function getCookie(cname) {
@@ -397,7 +396,9 @@ app.directive('checkbox-list-dropdown', function() {
 });
 
 //Global variables
-//var serverUrl = '/rest/';
+//var SERVER_URL = '/';
+var SERVER_URL = 'http://172.16.131.205:8181/';
+
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
 
@@ -429,7 +430,6 @@ function VARS_MODAL_ERROR( object, text )
 		});
 }
 
-var serverUrl = 'http://172.16.131.205:8181/rest/';
 quotaColors = [];
 quotaColors['CUSTOM'] = 'blue';
 quotaColors['HUGE'] = 'bark-red';

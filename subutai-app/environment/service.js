@@ -7,7 +7,7 @@ angular.module('subutai.environment.service', [])
 environmentService.$inject = ['$http'];
 
 function environmentService($http) {
-	var BASE_URL = serverUrl + 'environments_ui/';
+	var BASE_URL = SERVER_URL + 'rest/ui/environments/';
 
 	var ENVIRONMENTS_URL = BASE_URL;
 	var SSH_KEY_URL = ENVIRONMENTS_URL + 'key/';

@@ -1,6 +1,3 @@
-/**
- * Created by ubuntu on 5/14/15.
- */
 'use strict';
 
 angular.module('subutai.tracker.service', [])
@@ -9,7 +6,7 @@ angular.module('subutai.tracker.service', [])
 trackerSrv.$inject = ['$http'];
 
 function trackerSrv($http) {
-	var baseURL = serverUrl + 'tracker_ui/';
+	var baseURL = SERVER_URL + 'rest/ui/tracker/';
 	var operationsURL = baseURL + 'operations/';
 	var modulesURL = operationsURL + 'sources';
 

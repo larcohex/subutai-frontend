@@ -7,9 +7,9 @@ cassandraSrv.$inject = ['$http'];
 
 function cassandraSrv($http) {
 
-	var baseURL = serverUrl + 'cassandra/';
+	var baseURL = SERVER_URL + 'cassandra/';
 	var clustersURL = baseURL + 'clusters/';
-	var environmentsURL = serverUrl + 'environments_ui/';	
+	var environmentsURL = SERVER_URL + 'environments_ui/';
 
 	var cassandraSrv = {
 		getClusters: getClusters,

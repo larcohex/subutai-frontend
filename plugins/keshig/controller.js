@@ -118,7 +118,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
-				return $resource(serverUrl + 'v1/keshig/option/type/' + vm.optionType).query().$promise;
+				return $resource(SERVER_URL + 'v1/keshig/option/type/' + vm.optionType).query().$promise;
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
@@ -132,7 +132,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
-				return $resource(serverUrl + 'v1/keshig/server').query().$promise;
+				return $resource(SERVER_URL + 'v1/keshig/server').query().$promise;
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
@@ -153,7 +153,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
-				return $resource(serverUrl + 'v1/keshig/profiles').query().$promise;
+				return $resource(SERVER_URL + 'v1/keshig/profiles').query().$promise;
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
