@@ -39,6 +39,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	vm.deleteServer = deleteServer;
 	vm.deleteOption = deleteOption;
+	vm.deleteProfile = deleteProfile;
 
 	vm.changeTab = changeTab;
 	vm.changeOptionsType = changeOptionsType;
@@ -46,6 +47,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	vm.addOption2From = addOption2From;
 	vm.runOption = runOption;
 	vm.pushPlaybook = pushPlaybook;
+	vm.runProfile = runProfile;
 
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
@@ -159,12 +161,13 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			.withOption('createdRow', createdRow);
 
 		vm.dtColumns = [
+			//DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEditProfile),
 			DTColumnBuilder.newColumn('name').withTitle('Name'),
-			DTColumnBuilder.newColumn('build').withTitle('Build').notSortable().renderWith(profileBuildButton),
-			DTColumnBuilder.newColumn('test').withTitle('Test').notSortable().renderWith(profileTestButton),
-			DTColumnBuilder.newColumn('deploy').withTitle('Deploy').notSortable().renderWith(profileDeployButton),
-			DTColumnBuilder.newColumn('clone').withTitle('Clone').notSortable().renderWith(profileCloneButton),
-			DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(runProfileButton),
+			DTColumnBuilder.newColumn('cloneOption').withTitle('Clone').notSortable().renderWith(profileCloneButton),
+			DTColumnBuilder.newColumn('buildOption').withTitle('Build').notSortable().renderWith(profileBuildButton),
+			DTColumnBuilder.newColumn('testOption').withTitle('Test').notSortable().renderWith(profileTestButton),
+			DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable().renderWith(profileDeployButton),
+			DTColumnBuilder.newColumn('name').withTitle('').notSortable().renderWith(runProfileButton),
 			DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(deleteAction)
 		];
 	}
@@ -181,6 +184,11 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	function actionEditOption(data, type, full, meta) {
 		vm.options[data.name] = data;
 		return '<a href class="b-icon b-icon_edit" ng-click="keshigCtrl.addOption2From(keshigCtrl.options[\'' + data.name + '\'])"></a>';
+	}
+
+	function actionEditProfile(data, type, full, meta) {
+		vm.profiles[data.name] = data;
+		return '<a href class="b-icon b-icon_edit" ng-click="keshigCtrl.addProfile2From(keshigCtrl.options[\'' + data.name + '\'])"></a>';
 	}
 
 	function playbooksTags(data, type, full, meta) {
@@ -200,23 +208,23 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function profileBuildButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue">Build</a>';
+		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'build\')">Build</a>';
 	}
 
 	function profileTestButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue">Test</a>';
+		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'test\')">Test</a>';
 	}
 
 	function profileDeployButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue">Deploy</a>';
+		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'deploy\')">Deploy</a>';
 	}
 
 	function profileCloneButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue">Clone</a>';
+		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'clone\')">Clone</a>';
 	}
 
 	function runProfileButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_green">Run</a>';
+		return '<a href class="b-btn b-btn_green" ng-click="keshigCtrl.runProfile(\'' + data + '\')">Run</a>';
 	}
 
 	function deleteAction(data, type, full, meta) {
@@ -228,10 +236,18 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			deleteId = data.name;
 		} else if(vm.activeTab == 'profiles') {
 			action = 'deleteProfile';
-			deleteId = data.serverId;
+			deleteId = data.name;
 		}
 
 		return '<a href class="b-icon b-icon_remove" ng-click="keshigCtrl.' + action + '(\'' + deleteId + '\')"></a>';
+	}
+
+	function runProfile(profileName) {
+		keshigSrv.startProfile( profileName ).success(function(data){
+			SweetAlert.swal("Success!", '"' + profileName + '" profile start running.', "success");
+		}).error(function (data) {
+			SweetAlert.swal("ERROR!", '"' + profileName + '" profile run error. Error: ' + data.ERROR, 'error');
+		});
 	}
 
 	function addServer2From(server) {
@@ -245,8 +261,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.optionFormUpdate = true;
 	}
 
-	function runOption(optionName) {
-		keshigSrv.startOption( vm.optionType, optionName ).success(function(data){
+	function addProfile2From(profile) {
+		vm.profiles2Add = profile;
+		vm.profilesFormUpdate = true;
+	}
+
+	function runOption(optionName, customOptionType) {
+		if(customOptionType === undefined || customOptionType === null) customOptionType = vm.optionType;
+		keshigSrv.startOption( customOptionType, optionName ).success(function(data){
 			SweetAlert.swal("Success!", '"' + optionName + '" option start running.', "success");
 			//vm.dtInstance.reloadData(null, false);
 		}).error(function (data) {
@@ -278,6 +300,32 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			});
 		}
 		vm.option2Add = {};
+	}
+
+	function deleteProfile(profileName) {
+		if(profileName === undefined) return;
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Delete profile " + profileName + "!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			closeOnCancel: true,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				keshigSrv.removeProfile(profileName).success(function (data) {
+					SweetAlert.swal("Deleted!", "Your profile has been deleted.", "success");
+					vm.dtInstance.reloadData(null, false);
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "Your profile is safe. Error: " + data.ERROR, "error");
+				});
+			}
+		});
 	}
 
 	function deleteOption( optionName )	{
