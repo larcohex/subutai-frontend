@@ -21,6 +21,7 @@ function keshigSrv($http) {
 		addProfile : addProfile,
 		updateProfile : updateProfile,
 		removeProfile : removeProfile,
+		startProfile : startProfile,
 		getServers : getServers,
 		addServer : addServer,
 		removeServer : removeServer,
@@ -57,6 +58,12 @@ function keshigSrv($http) {
 
 	function getProfiles() {
 		return $http.get(profilesUrl, {
+			withCredentials: true
+		});
+	}
+
+	function startProfile(profileName) {
+		return $http.get(profilesUrl + profileName + '/start', {
 			withCredentials: true
 		});
 	}
@@ -109,7 +116,6 @@ function keshigSrv($http) {
 			withCredentials: true
 		});
 	}
-
 
 	function updateServer( server ) {
 		var postData = 'serverName=' + server.serverName 
