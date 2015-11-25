@@ -288,7 +288,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'plugins/keshig/keshig.js',
 								'plugins/keshig/controller.js',
 								'plugins/keshig/service.js',
-								'subutai-app/peerRegistration/service.js'
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);
@@ -297,7 +297,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		})
 		.state('hadoop', {
 			url: '/plugins/hadoop',
-			templateUrl: 'subutai-app/plugins/hadoop/partials/view.html',
+			templateUrl: 'plugins/hadoop/partials/view.html',
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -313,6 +313,25 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('solr', {
+			url: '/plugins/solr',
+			templateUrl: 'plugins/solr/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.solr',
+							files: [
+								'plugins/solr/solr.js',
+								'plugins/solr/controller.js',
+								'plugins/solr/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -321,7 +340,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmM2RmODMzMC05OTlhLTRlODMtODJjYy1lOGQ2ZTNlNjJkMTQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.nitHub5v9dATgzIK2DvFXiifkiDLdAuIYoQb8kj7mLk';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiOTgzMjc0Yi01NGJiLTRkZTktODdjYy1lMTViYTkwNzZlZGYiLCJpc3MiOiJpby5zdWJ1dGFpIn0.o2yBs5PZW_SVkuiaZYl0SEfb2XfGt_5gYwn7RWmnx2U';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
