@@ -118,10 +118,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	function changeOptionsType() {
 		vm.option2Add = {};
 
+		if(vm.optionType == 'DEPLOY') {
+			vm.option2Add.buildName = 'LATEST';
+		}
+
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
-				return $resource( keshigSrv.getOptionsUrl() + '/type/' + vm.optionType ).query().$promise;
+				return $resource( keshigSrv.getOptionsUrl() + 'type/' + vm.optionType ).query().$promise;
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
@@ -323,10 +327,16 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	function updateOption() {
 
-		if(vm.option2Add.targetIps !== undefined) {
-			var targetIps = vm.option2Add.targetIps.split(',');
-			vm.option2Add.targetIps = targetIps;
+		if(vm.optionType == 'TEST') {
+			if(vm.option2Add.latest === true) {
+				vm.option2Add.targetIps = 'LATEST';
+			} else if(vm.option2Add.targetIps !== undefined) {
+				var targetIps = vm.option2Add.targetIps.split(',');
+				vm.option2Add.targetIps = targetIps;
+			}
 		}
+		console.log(vm.option2Add);
+		return;
 
 		if( vm.optionFormUpdate ) {
 			vm.optionFormUpdate = false;
