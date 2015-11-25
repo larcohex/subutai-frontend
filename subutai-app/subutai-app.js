@@ -297,7 +297,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		})
 		.state('hadoop', {
 			url: '/plugins/hadoop',
-			templateUrl: 'subutai-app/plugins/hadoop/partials/view.html',
+			templateUrl: 'plugins/hadoop/partials/view.html',
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -313,6 +313,25 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('solr', {
+			url: '/plugins/solr',
+			templateUrl: 'plugins/solr/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.solr',
+							files: [
+								'plugins/solr/solr.js',
+								'plugins/solr/controller.js',
+								'plugins/solr/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -321,7 +340,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmM2RmODMzMC05OTlhLTRlODMtODJjYy1lOGQ2ZTNlNjJkMTQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.nitHub5v9dATgzIK2DvFXiifkiDLdAuIYoQb8kj7mLk';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0YjE5MzU5ZS00OGFkLTQxMTgtOGUxOS1iOTJlNjI5OWU0YTEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.iRh7cBa1PBox73ticQ9Mxn0juEQN00t-lUff9-lUoXM';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -396,7 +415,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8181/';
+var SERVER_URL = 'http://172.16.131.205:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;

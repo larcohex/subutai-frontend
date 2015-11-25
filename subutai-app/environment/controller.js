@@ -13,7 +13,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 
 	var vm = this;
 	vm.environments = [];
-	vm.domainStrategys = [];
+	vm.domainStrategies = [];
 	vm.sshKeyForEnvironment = '';
 	vm.environmentForDomain = '';
 
@@ -37,8 +37,8 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 		});
 	}
 
-	environmentService.getDomainStrategys().success(function (data) {
-		vm.domainStrategys = data;
+	environmentService.getDomainStrategies().success(function (data) {
+		vm.domainStrategies = data;
 	});
 
 	getEnvironments();
@@ -82,7 +82,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	function domainsTag(data, type, full, meta) {
 		//return '<span class="b-tags b-tags_grey" ng-click="environmentViewCtrl.showDomainForm(\'' + data.id + '\')">Add <i class="fa fa-plus"></i></span>';
 		return '<span class="b-tags b-tags_grey" ng-click="environmentViewCtrl.removeDomain(\'' + data.id + '\')">Add <i class="fa fa-plus"></i></span>';
-	}	
+	}
 
 	function containersTags(data, type, full, meta) {
 
@@ -206,10 +206,8 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 		var enviroment = vm.environments[vm.enviromentSSHKey.environmentKey];
 		environmentService.setSshKey(vm.enviromentSSHKey.key, enviroment.id).success(function (data) {
 			SweetAlert.swal("Success!", "You successfully add SSH key for " + enviroment.id + " environment!", "success");
-			console.log(data);
 		}).error(function (data) {
 			SweetAlert.swal("Cancelled", "Error: " + data.ERROR, "error");
-			console.log(data);
 		});
 	}
 
@@ -261,13 +259,36 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	function setDomain(domain) {
 		var file = fileUploder;
 		environmentService.setDomain(domain, vm.environmentForDomain, file).success(function (data) {
+			SweetAlert.swal("Success!", "You successfully add domain for " + vm.environmentForDomain + " environment!", "success");
+			//ngDialog.closeAll();
 			console.log(data);
+		}).error(function (data) {
+			SweetAlert.swal("Cancelled", "Error: " + data.ERROR, "error");
+			//ngDialog.closeAll();
 		});
 	}
 
 	function removeDomain(environmentId) {
-		environmentService.removeDomain(environmentId).success(function (data) {
-			console.log(data);
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Delete environment domain!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			closeOnCancel: true,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				environmentService.removeDomain(environmentId).success(function (data) {
+					SweetAlert.swal("Deleted!", "Your enviroment domain has been deleted.", "success");
+				}).error(function (data) {
+					SweetAlert.swal("ERROR!", "Your domain is safe. Error: " + data.ERROR, "error");
+				});
+			}
 		});
 	}	
 
