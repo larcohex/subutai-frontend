@@ -252,19 +252,35 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function profileBuildButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'build\')">Build</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'build\')">Build</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function profileTestButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'test\')">Test</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'test\')">Test</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function profileDeployButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'deploy\')">Deploy</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'deploy\')">Deploy</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function profileCloneButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'clone\')">Clone</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'clone\')">Clone</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function runProfileButton(data, type, full, meta) {
