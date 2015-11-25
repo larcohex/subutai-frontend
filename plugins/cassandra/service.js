@@ -7,8 +7,8 @@ cassandraSrv.$inject = ['$http', 'environmentService'];
 
 function cassandraSrv($http, environmentService) {
 
-	var baseURL = SERVER_URL + 'cassandra/';
-	var clustersURL = baseURL + 'clusters/';
+	var BASE_URL = SERVER_URL + 'rest/cassandra/';
+	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var cassandraSrv = {
 		getClusters: getClusters,
@@ -25,13 +25,13 @@ function cassandraSrv($http, environmentService) {
 	return cassandraSrv;
 
 	function addNode(clusterName) {
-		return $http.post(clustersURL + clusterName + '/add');
+		return $http.post(CLUSTER_URL + clusterName + '/add');
 	}
 
 	function startNodes(clusterName, nodesArray) {
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
 		return $http.post(
-			clustersURL + 'nodes/start', 
+			CLUSTER_URL + 'nodes/start',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
@@ -40,22 +40,22 @@ function cassandraSrv($http, environmentService) {
 	function stopNodes(clusterName, nodesArray) {
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
 		return $http.post(
-			clustersURL + 'nodes/stop', 
-			postData,
+			CLUSTER_URL + 'nodes/stop',
+			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
 
 	function changeClusterScaling(clusterName, scale) {
-		return $http.post(clustersURL + clusterName + '/auto_scale/' + scale);
+		return $http.post(CLUSTER_URL + clusterName + '/auto_scale/' + scale);
 	}
 
 	function deleteCluster(clusterName) {
-		return $http.delete(clustersURL + clusterName);
+		return $http.delete(CLUSTER_URL + clusterName);
 	}
 
 	function deleteNode(clusterName, nodeId) {
-		return $http.delete(clustersURL + clusterName + '/node/' + nodeId);
+		return $http.delete(CLUSTER_URL + clusterName + '/node/' + nodeId);
 	}
 
 	function getEnvironments() {
@@ -65,7 +65,7 @@ function cassandraSrv($http, environmentService) {
 	function getClusters(clusterName) {
 		if(clusterName === undefined || clusterName === null) clusterName = '';
 		return $http.get(
-			clustersURL + clusterName,
+			CLUSTER_URL + clusterName,
 			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
 		);
 	}
@@ -73,7 +73,7 @@ function cassandraSrv($http, environmentService) {
 	function createCassandra(cassandraJson) {
 		var postData = 'clusterConfJson=' + cassandraJson;
 		return $http.post(
-			clustersURL + 'create', 
+			CLUSTER_URL + 'create',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);

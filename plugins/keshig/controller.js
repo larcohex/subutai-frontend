@@ -110,6 +110,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		} else if(vm.activeTab == 'profiles') {
 			getProfileValues();
 			profilesTable();
+		} else if(vm.activeTab == 'history') {
+			historyTable();
 		}
 	}
 
@@ -119,7 +121,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
-				return $resource(SERVER_URL + 'v1/keshig/option/type/' + vm.optionType).query().$promise;
+				return $resource( keshigSrv.getOptionsUrl() + '/type/' + vm.optionType ).query().$promise;
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
@@ -133,7 +135,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
-				return $resource(SERVER_URL + 'v1/keshig/server').query().$promise;
+				return $resource(keshigSrv.getServersUrl()).query().$promise;
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
@@ -154,7 +156,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
-				return $resource(SERVER_URL + 'v1/keshig/profiles').query().$promise;
+				return $resource(keshigSrv.getProfilesUrl()).query().$promise;
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
@@ -170,6 +172,26 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable().renderWith(profileDeployButton),
 			DTColumnBuilder.newColumn('name').withTitle('').notSortable().renderWith(runProfileButton),
 			DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(deleteAction)
+		];
+	}
+
+	function historyTable() {
+		vm.dtInstance = {};
+		vm.dtOptions = DTOptionsBuilder
+			.fromFnPromise(function() {
+				return $resource(keshigSrv.getHistoryUrl()).query().$promise;
+			})
+			.withPaginationType('full_numbers')
+			.withOption('stateSave', true)
+			.withOption('order', [[ 0, "asc" ]])
+			.withOption('createdRow', createdRow);
+
+		vm.dtColumns = [
+			DTColumnBuilder.newColumn('type').withTitle('Type'),
+			DTColumnBuilder.newColumn('server').withTitle('Server'),
+			DTColumnBuilder.newColumn('startTime').withTitle('Start time').renderWith(dateToFormat),
+			DTColumnBuilder.newColumn('endTime').withTitle('End time').renderWith(dateToFormat),
+			DTColumnBuilder.newColumn(null).withTitle('Results').renderWith(renderHistoryOutput)
 		];
 	}
 
@@ -190,6 +212,28 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	function actionEditProfile(data, type, full, meta) {
 		vm.profiles[data.name] = data;
 		return '<a href class="b-icon b-icon_edit" ng-click="keshigCtrl.addProfile2From(keshigCtrl.options[\'' + data.name + '\'])"></a>';
+	}
+
+	function renderHistoryOutput(data, type, full, meta) {
+		var contentOutput = '';
+		if(data.stdOut === undefined || data.stdOut == null || data.stdOut.length < 1) {
+			contentOutput = data.stdErr;
+		} else {
+			if(data.type == 'TEST') {
+				contentOutput = '<a href="' + data.stdOut + '" target="_blank">' + data.stdOut + '</a>';
+			} else {
+				contentOutput = data.stdOut;
+			}
+		}
+		return contentOutput;
+	}
+
+	function dateToFormat(data, type, full, meta) {
+		var historyDate = new Date(data);
+		return historyDate.getMonth() + '/' 
+			+ historyDate.getDate() + '/' 
+			+ historyDate.getFullYear() + ' ' 
+			+ historyDate.getHours() + ':' + historyDate.getMinutes() + ':' + historyDate.getSeconds();
 	}
 
 	function playbooksTags(data, type, full, meta) {
