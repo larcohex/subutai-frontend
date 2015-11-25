@@ -306,7 +306,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 							files: [
 								'plugins/hadoop/hadoop.js',
 								'plugins/hadoop/controller.js',
-								'plugins/hadoop/service.js'
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js',
 							]
 						}
 					]);
