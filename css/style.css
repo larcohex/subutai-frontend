@@ -335,6 +335,10 @@ body {
     width: 100%;
 }
 
+.b-main-table__capitalize {
+	text-transform: capitalize;
+}
+
 .b-main-table__controls {
     width: 82px;
 }
@@ -698,24 +702,42 @@ body {
     background-image: url('../assets/elements/buttons/b-icon-box_white.svg');
 }
 
+.b-fixed-button {
+	position: fixed;
+	right: 0;
+	top: 45%;
+	background-color: #39b54a;
+	border-radius: 5px 0 0 5px;
+}
+
 .b-icon_notification {
     position: relative;
-    height: 14px;
-    width: 15px;
-    background-size: 14px;
+    height: 40px;
+    width: 40px;
+	margin: 0 0 0 0;
+    background-size: 25px;
+	background-position: 50% 50%;
     vertical-align: bottom;
+}
+
+.b-fixed-button_disabled {
+	background-color: #D9D9D9;
+}
+
+.b-fixed-button_disabled .b-icon {
+	cursor: default;
 }
 
 .b-icon__inner-num {
     position: absolute;
     width: 15px;
     height: 15px;
-    background-color: #39b54a;
-    right: -7px;
-    top: -7px;
+    background-color: #fff;
+    right: 2px;
+    top: 4px;
     border-radius: 10px;
     font-size: 10px;
-    color: #fff;
+    color: #39b54a;
     line-height: 15px;
     text-align: center;
 }
@@ -1183,6 +1205,7 @@ td.b-main-table__status-col {
 
 .b-workspace-content__row {
     position: relative;
+	overflow: hidden;
 }
 
 .b-workspace-content__row_margin-b {

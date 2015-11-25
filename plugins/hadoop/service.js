@@ -6,18 +6,24 @@ angular.module('subutai.plugins.hadoop.service',[])
 hadoopSrv.$inject = ['$http', 'environmentService'];
 function hadoopSrv($http, environmentService) {
 
-	var baseURL = SERVER_URL + 'hadoop/';
-	var hadoopCreateURL = baseURL + 'clusters/create';
+	var BASE_URL = SERVER_URL + 'rest/hadoop/';
+	var CLUSTER_URL = BASE_URL + 'clusters/';
+	var HADOOP_CREATE_URL = BASE_URL + 'configure_environment';
 
 	var hadoopSrv = {
-		getHadoop: getHadoop,
+		createHadoop: createHadoop,
+		getClusters: getClusters,
 		getEnvironments: getEnvironments
 	};
 
 	return hadoopSrv;
 
-	function getHadoop() {
-		return $http.get(hadoopUrl);
+	function getClusters(clusterName) {
+		if(clusterName === undefined || clusterName === null) clusterName = '';
+		return $http.get(
+			CLUSTER_URL + clusterName,
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
 	}
 
 	function getEnvironments() {
@@ -25,9 +31,9 @@ function hadoopSrv($http, environmentService) {
 	}
 
 	function createHadoop(hadoopJson) {
-		var postData = 'clusterConfJson=' + hadoopJson;
+		var postData = 'config=' + hadoopJson;
 		return $http.post(
-			hadoopCreateURL, 
+			HADOOP_CREATE_URL, 
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);

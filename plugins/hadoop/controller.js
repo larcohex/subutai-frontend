@@ -5,24 +5,52 @@ angular.module('subutai.plugins.hadoop.controller', [])
 	.directive('colSelectContainers', colSelectContainers)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
-HadoopCtrl.$inject = ['hadoopSrv'];
+HadoopCtrl.$inject = ['hadoopSrv', 'SweetAlert'];
 
-function HadoopCtrl(hadoopSrv)
+function HadoopCtrl(hadoopSrv, SweetAlert)
 {
     var vm = this;
 	vm.activeTab = 'install';
 	vm.hadoopInstall = {};
 	vm.environments = [];
 	vm.containers = [];
+	vm.clusters = [];
 
 	//functions
+	vm.createHadoop = createHadoop;
 	vm.showContainers = showContainers;
 	vm.addContainer = addContainer;
+	vm.getClustersInfo = getClustersInfo;
 
 	setDefaultValues();
+
 	hadoopSrv.getEnvironments().success(function (data) {
 		vm.environments = data;
 	});
+
+	function getClusters() {
+		hadoopSrv.getClusters().success(function (data) {
+			vm.clusters = data;
+			console.log(vm.clusters);
+		});
+	}
+	getClusters();
+
+	function getClustersInfo(selectedCluster) {
+		hadoopSrv.getClusters(selectedCluster).success(function (data) {
+			vm.currentCluster = data;
+			console.log(vm.currentCluster);
+		});
+	}
+
+	function createHadoop() {
+		SweetAlert.swal("Success!", "Hadoop cluster start creating.", "success");
+		hadoopSrv.createHadoop(JSON.stringify(vm.hadoopInstall)).success(function (data) {
+			SweetAlert.swal("Success!", "Hadoop cluster create successfully.", "success");
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Hadoop cluster create error: ' + error, "error");
+		});
+	}
 
 	function showContainers(environmentId) {
 		vm.containers = [];
@@ -40,16 +68,16 @@ function HadoopCtrl(hadoopSrv)
 	}
 
 	function addContainer(containerId) {
-		if(vm.hadoopInstall.containerId.indexOf(containerId) > -1) {
-			vm.hadoopInstall.containerId.splice(vm.hadoopInstall.containerId.indexOf(containerId), 1);
+		if(vm.hadoopInstall.slaves.indexOf(containerId) > -1) {
+			vm.hadoopInstall.slaves.splice(vm.hadoopInstall.slaves.indexOf(containerId), 1);
 		} else {
-			vm.hadoopInstall.containerId.push(containerId);
+			vm.hadoopInstall.slaves.push(containerId);
 		}
-		vm.seeds = angular.copy(vm.hadoopInstall.containerId);
 	}	
 
 	function setDefaultValues() {
-		vm.hadoopInstall.containerId = [];
+		vm.hadoopInstall.domainName = 'intra.lan';
+		vm.hadoopInstall.slaves = [];
 	}
 
 }
