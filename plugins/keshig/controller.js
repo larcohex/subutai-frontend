@@ -223,7 +223,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			contentOutput = data.stdErr;
 		} else {
 			if(data.type == 'TEST') {
-				contentOutput = '<a href="' + data.stdOut + '" target="_blank">' + data.stdOut + '</a>';
+				contentOutput = '<a href="' + getBaseUrl() + ':80' + data.stdOut + '" target="_blank">' + data.stdOut + '</a>';
 			} else {
 				contentOutput = data.stdOut;
 			}
@@ -541,6 +541,15 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			+ dateFormat.getDate() + '/' 
 			+ dateFormat.getFullYear() + ' ' 
 			+ dateFormat.getHours() + ':' + dateFormat.getMinutes() + ':' + dateFormat.getSeconds();
+	}
+
+	function getBaseUrl() {
+		var pathArray = location.href.split( '/' );
+		var protocol = pathArray[0];
+		var hostWithPort = pathArray[2].split(':');
+		var host = hostWithPort[0];
+		var url = protocol + '//' + host;
+		return url;
 	}
 }
 
