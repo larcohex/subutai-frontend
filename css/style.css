@@ -1176,6 +1176,7 @@ td.b-main-table__status-col {
 }
 
 .b-workspace-content-row_col-2 {
+    position: relative;
     width: 50%;
     display: inline-block;
     vertical-align: top;
@@ -1198,6 +1199,10 @@ td.b-main-table__status-col {
 
 .b-workspace-content-row-h2_inline {
     display: inline-block;
+}
+
+.b-workspace-content-row-h2_margin-b {
+    margin-bottom: 40px;
 }
 
 /*Forms*/
@@ -1427,9 +1432,11 @@ td.b-main-table__status-col {
     width: 100%;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
-    min-height: 102px;
-    max-height: 129px;
+    height: 129px;
     overflow: auto;
+}
+.b-form-list_table_height-1 {
+    height: 105px;
 }
 
 .b-form-list-table__link {
