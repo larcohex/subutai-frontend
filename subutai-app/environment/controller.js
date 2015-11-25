@@ -80,8 +80,8 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	}
 
 	function domainsTag(data, type, full, meta) {
-		//return '<span class="b-tags b-tags_grey" ng-click="environmentViewCtrl.showDomainForm(\'' + data.id + '\')">Add <i class="fa fa-plus"></i></span>';
-		return '<span class="b-tags b-tags_grey" ng-click="environmentViewCtrl.removeDomain(\'' + data.id + '\')">Add <i class="fa fa-plus"></i></span>';
+		return '<span class="b-tags b-tags_grey" ng-click="environmentViewCtrl.showDomainForm(\'' + data.id + '\')">Add <i class="fa fa-plus"></i></span>';
+		//return '<span class="b-tags b-tags_grey" ng-click="environmentViewCtrl.removeDomain(\'' + data.id + '\')">Add <i class="fa fa-plus"></i></span>';
 	}
 
 	function containersTags(data, type, full, meta) {
@@ -109,17 +109,19 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 		var containersHTML = '';
 		for(var template in containersTotal) {
 			for (var type in containersTotal[template]){
-				if(type != 'INACTIVE') {
-					var tooltipContent = 'Quota: <div class="b-quota-type-round b-quota-type-round_' + quotaColors[type] + '"></div> <b>' + type + '</b><br>State: <b>RUNNING</b>';
-				} else {
-					var tooltipContent = 'State: <b>INACTIVE</b>';
+				if(containersTotal[template][type] > 0) {
+					if(type != 'INACTIVE') {
+						var tooltipContent = 'Quota: <div class="b-quota-type-round b-quota-type-round_' + quotaColors[type] + '"></div> <b>' + type + '</b><br>State: <b>RUNNING</b>';
+					} else {
+						var tooltipContent = 'State: <b>INACTIVE</b>';
+					}
+					containersHTML += '<a ui-sref="containers({environmentId:\'' + data.id + '\'})" ' 
+						+ ' class="b-tags b-tags_' + quotaColors[type] + '" ' 
+						+ 'tooltips tooltip-content=\'' + tooltipContent + '\' tooltip-hide-trigger="mouseleave click" '
+						+ '>' 
+						+ template + ': ' + containersTotal[template][type] 
+					+ '</a>';
 				}
-				containersHTML += '<a ui-sref="containers({environmentId:\'' + data.id + '\'})" ' 
-					+ ' class="b-tags b-tags_' + quotaColors[type] + '" ' 
-					+ 'tooltips tooltip-content=\'' + tooltipContent + '\' tooltip-hide-trigger="mouseleave click" '
-					+ '>' 
-					+ template + ': ' + containersTotal[template][type] 
-				+ '</a>';
 			}
 		}
 

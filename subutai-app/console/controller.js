@@ -124,7 +124,7 @@ function ConsoleViewCtrl($scope, consoleService, peerRegistrationService) {
 
 				$scope.session.output.push(
 					{ output: true, text: output, breakLine: true }
-				);				
+				);
 			}).error(function (data) {
 				$scope.session.output.push({ output: true, breakLine: true, text: [data] });
 			});
@@ -167,3 +167,4 @@ function ConsoleViewCtrl($scope, consoleService, peerRegistrationService) {
 	}
 
 }
+
