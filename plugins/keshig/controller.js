@@ -335,8 +335,6 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 				vm.option2Add.targetIps = targetIps;
 			}
 		}
-		console.log(vm.option2Add);
-		return;
 
 		if( vm.optionFormUpdate ) {
 			vm.optionFormUpdate = false;
