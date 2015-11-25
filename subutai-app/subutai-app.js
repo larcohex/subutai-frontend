@@ -288,7 +288,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'plugins/keshig/keshig.js',
 								'plugins/keshig/controller.js',
 								'plugins/keshig/service.js',
-								'subutai-app/peerRegistration/service.js'
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);
@@ -297,7 +297,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		})
 		.state('hadoop', {
 			url: '/plugins/hadoop',
-			templateUrl: 'subutai-app/plugins/hadoop/partials/view.html',
+			templateUrl: 'plugins/hadoop/partials/view.html',
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -307,6 +307,25 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'plugins/hadoop/hadoop.js',
 								'plugins/hadoop/controller.js',
 								'plugins/hadoop/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('solr', {
+			url: '/plugins/solr',
+			templateUrl: 'plugins/solr/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.solr',
+							files: [
+								'plugins/solr/solr.js',
+								'plugins/solr/controller.js',
+								'plugins/solr/service.js',
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);

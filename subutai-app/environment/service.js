@@ -63,8 +63,6 @@ function environmentService($http) {
 		updateQuota: updateQuota,
 
 
-		getDomainStrategys : getDomainStrategys,
-
 
 		getPeers : getPeers,
 
