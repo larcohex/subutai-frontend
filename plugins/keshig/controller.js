@@ -520,7 +520,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function dateToFormat(date) {
-		var dateFormat = new Date(data);
+		var dateFormat = new Date(date);
 		return dateFormat.getMonth() + '/' 
 			+ dateFormat.getDate() + '/' 
 			+ dateFormat.getFullYear() + ' ' 
