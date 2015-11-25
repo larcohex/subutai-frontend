@@ -288,7 +288,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'plugins/keshig/keshig.js',
 								'plugins/keshig/controller.js',
 								'plugins/keshig/service.js',
-								'subutai-app/environment/service.js'
+								'subutai-app/peerRegistration/service.js'
 							]
 						}
 					]);

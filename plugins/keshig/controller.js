@@ -59,8 +59,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	keshigSrv.getBuilds().success(function (data) {
 		for(var i = 0; i < data.length; i++) {
-			var buildDate = new Date(data[i].date);
-			data[i].dateFormated = buildDate.getMonth() + '/' + buildDate.getDate();
+			data[i].dateFormated = dateToFormat(data[i].date);
 		}
 		vm.optionsDeployBuilds = data;
 	});
@@ -233,11 +232,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function dateToFormat(data, type, full, meta) {
-		var historyDate = new Date(data);
-		return historyDate.getMonth() + '/' 
-			+ historyDate.getDate() + '/' 
-			+ historyDate.getFullYear() + ' ' 
-			+ historyDate.getHours() + ':' + historyDate.getMinutes() + ':' + historyDate.getSeconds();
+		return dateToFormat(data);
 	}
 
 	function playbooksTags(data, type, full, meta) {
@@ -522,6 +517,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 					DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(deleteAction)
 				];
 		}
+	}
+
+	function dateToFormat(date) {
+		var dateFormat = new Date(data);
+		return dateFormat.getMonth() + '/' 
+			+ dateFormat.getDate() + '/' 
+			+ dateFormat.getFullYear() + ' ' 
+			+ dateFormat.getHours() + ':' + dateFormat.getMinutes() + ':' + dateFormat.getSeconds();
 	}
 }
 

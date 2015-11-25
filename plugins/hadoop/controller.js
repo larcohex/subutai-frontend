@@ -57,7 +57,7 @@ function HadoopCtrl(hadoopSrv)
 function colSelectContainers() {
 	return {
 		restrict: 'E',
-		templateUrl: 'subutai-app/plugins/hadoop/directives/col-select/col-select-containers.html'
+		templateUrl: 'plugins/hadoop/directives/col-select/col-select-containers.html'
 	}
 };
 
