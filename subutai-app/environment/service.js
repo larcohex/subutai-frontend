@@ -19,7 +19,7 @@ function environmentService($http) {
 
 	var GROW_BLUEPRINT_URL = ENVIRONMENTS_URL + 'grow/';
 
-	var STRATEGIES_URL = DOMAINS_URL + 'strategies/';
+	var STRATEGIES_URL = ENVIRONMENTS_URL + 'strategies/';
 
 	var TEMPLATES_URL = ENVIRONMENTS_URL + 'templates/';
 
@@ -34,6 +34,7 @@ function environmentService($http) {
 		getBlueprintById: getBlueprintById,
 		saveBlueprint : saveBlueprint,
 		deleteBlueprint : deleteBlueprint,
+		getStrategies : getStrategies,
 
 
 		getEnvironments : getEnvironments,
@@ -168,7 +169,7 @@ function environmentService($http) {
 
 	function getDomainStrategies() {
 		return $http.get(
-			STRATEGIES_URL,
+			DOMAINS_URL + 'strategies/',
 			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
 		);
 	}
@@ -214,7 +215,7 @@ function environmentService($http) {
 
 
 	function getStrategies() {
-		return $http.get(STRATEGY_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return $http.get(STRATEGIES_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 
