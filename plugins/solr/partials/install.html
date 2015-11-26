@@ -1,85 +1,34 @@
 
-<form ng-submit="cassandraCtrl.createCassandra()">
+<form ng-submit="solrCtrl.createSolr()">
 	<div class="b-workspace-content b-workspace-content_border">
 		<div class="b-workspace-content__row">
 			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
 				<div class="b-form">
 					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
-						<label class="b-form-label b-form-label_fix-size-1 g-left">Enter cluster name</label>
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Enter Installation name</label>
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
 							placeholder="Enter cluster name" 
-							ng-model="cassandraCtrl.cassandraInstall.name" 
+							ng-model="solrCtrl.solrInstall.clusterName" 
 							required>
 						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
-						<label class="b-form-label b-form-label_fix-size-1 g-left">Enter domain name</label>
-
-						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
-							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Enter domain name" 
-							ng-model="cassandraCtrl.cassandraInstall.domainName" 
-							required>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
-						<label class="b-form-label b-form-label_fix-size-1 g-left">Data directory</label>
-
-						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
-							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Data directory" 
-							ng-model="cassandraCtrl.cassandraInstall.dataDir" 
-							required>
-						</div>
-
 						<div class="clear"></div>
 					</div>
 				</div>
 			</div>
 			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
-				<div class="b-form">
-					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
-						<label class="b-form-label b-form-label_fix-size-1 g-left">Commit log directory</label>
-
-						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
-							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Commit log directory" 
-							ng-model="cassandraCtrl.cassandraInstall.commitDir" 
-							required>
-						</div>
-
-						<div class="clear"></div>
-					</div>
-					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
-						<label class="b-form-label b-form-label_fix-size-1 g-left">
-							Saved caches directory
-						</label>
-
-						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
-							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Saved caches directory" 
-							ng-model="cassandraCtrl.cassandraInstall.cacheDir" 
-							required>
-						</div>
-
-						<div class="clear"></div>
-					</div>
 					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
 						<label class="b-form-label b-form-label_fix-size-1 g-left">Choose Environment</label>
-
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<select class="b-form-input b-form-input_full" 
-								ng-model="cassandraCtrl.cassandraInstall.environmentId" 
-								ng-change="cassandraCtrl.showContainers(cassandraCtrl.cassandraInstall.environmentId)">
+								ng-model="solrCtrl.solrInstall.environmentId" 
+								ng-change="solrCtrl.showContainers(solrCtrl.solrInstall.environmentId)">
 								<option value="">Select environment</option>
-								<option ng-repeat="environment in cassandraCtrl.environments" value="{{ environment.id }}">
+								<option ng-repeat="environment in solrCtrl.environments" value="{{ environment.id }}">
 									{{ environment.name }}
 								</option>
-							</select>						
+							</select>
 						</div>
 
 						<div class="clear"></div>
@@ -98,7 +47,7 @@
 
 			<div class="clear"></div>
 		</div>
-
+	<!--
 		<div class="b-workspace-content__row">
 			<h2 class="b-workspace-content-row-h2">
 				Seeds
@@ -108,7 +57,7 @@
 
 			<div class="clear"></div>
 		</div>
-
+	-->
 	</div>
 
 	<div class="b-workspace__button-group b-workspace__button-group_right">
