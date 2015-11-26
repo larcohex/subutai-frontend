@@ -29,6 +29,7 @@ function solrSrv($http, environmentService) {
 	}
 
 	function startNodes(clusterName, nodesArray) {
+		console.log('starting');
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
 		console.log(postData);
 		var url = CLUSTER_URL +  'nodes/start';
@@ -48,7 +49,9 @@ function solrSrv($http, environmentService) {
 	}
 
 	function stopNodes(clusterName, nodesArray) {
+	console.log('stopping');
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
+		console.log(postData);
 		return $http.post(
 			CLUSTER_URL + 'nodes/stop',
 			postData, 
@@ -61,7 +64,7 @@ function solrSrv($http, environmentService) {
 	}
 
 	function deleteCluster(clusterName) {
-		return $http.delete(CLUSTER_URL + clusterName);
+		return $http.delete(CLUSTER_URL + "destroy/" + clusterName);
 	}
 
 	function deleteNode(clusterName, nodeId) {

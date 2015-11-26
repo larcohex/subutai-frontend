@@ -36,17 +36,14 @@
 		<table class="b-main-table b-main-table_with-header">
 			<tr>
 				<th><input type="checkbox"></th>
+				<th>Status</th>
 				<th>Host</th>
 				<th>IP</th>
-				<th>Status</th>
-				<th></th>
 			</tr>
 			<tr ng-repeat="clusterNode in solrCtrl.currentCluster.containerInfos">
 				<td class="b-main-table__edit-icon">
-					<input type="checkbox" ng-click="solrCtrl.pushNode(clusterNode)">
+					<input type="checkbox" ng-click="solrCtrl.pushNode(clusterNode.id)">
 				</td>
-				<td>{{ clusterNode.ip }}</td>
-				<td>{{ clusterNode.ip }}</td>
 				<td class="b-main-table__container-status">
 					<div 
 						class="b-status-icon b-status-icon_{{ clusterNode.status }}" 
@@ -54,9 +51,8 @@
 						tooltip-title="{{ clusterNode.status }}">
 					</div>
 				</td>
-				<td class="b-main-table__controls">
-					<a href ng-click="solrCtrl.deleteNode(clusterNode)" class="b-icon b-icon_remove"></a>
-				</td>
+				<td>{{ clusterNode.hostname }}</td>
+				<td>{{ clusterNode.ip }}</td>
 			</tr>
 		</table>
 	</div>
