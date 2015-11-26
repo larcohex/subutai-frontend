@@ -7,7 +7,6 @@ mahoutSrv.$inject = ['$http', 'hadoopSrv'];
 
 function mahoutSrv($http, hadoopSrv) {
 	var BASE_URL = SERVER_URL + 'rest/mahout/';
-	console.log(hadoopSrv);
 
 	var mahoutSrv = {
 		getHadoopClusters: getHadoopClusters

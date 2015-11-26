@@ -9,6 +9,7 @@ MahoutCtrl.$inject = ['mahoutSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDe
 function MahoutCtrl(mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder) {
     var vm = this;
 	vm.activeTab = 'install';
+	vm.mahoutInstall = {};
 	vm.hadoopClusters = [];
 
 	vm.dtOptions = DTOptionsBuilder

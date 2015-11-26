@@ -45,10 +45,15 @@ function SolrCtrl(solrSrv, SweetAlert) {
 
 	function getClustersInfo(selectedCluster) {
 		console.log(selectedCluster);
+		LOADING_SCREEN();
 		solrSrv.getClusters(selectedCluster).success(function (data){
 			console.log('RESULT: ');
 			console.log(data);
 			vm.currentCluster = data;
+			LOADING_SCREEN('none');
+		}).error(function(data){
+			SweetAlert.swal("ERROR!", 'Cluster info error: ' + data, "error");
+			LOADING_SCREEN('none');
 		});
 	}
 
@@ -56,7 +61,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 		if(vm.nodes2Action.length == 0) return;
 		console.log(vm.currentCluster);
 		if(vm.currentCluster.name === undefined) return;
-		solrSrv.startNodes(vm.currentCluster.name, vm.nodes2Action).success(function (data) {
+		solrSrv.startNodes(vm.currentCluster.name, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
@@ -121,7 +126,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	}
 
 	function deleteCluster() {
-		if(vm.currentCluster.clusterName === undefined) return;
+		if(vm.currentCluster.name === undefined) return;
 		SweetAlert.swal({
 			title: "Are you sure?",
 			text: "Your will not be able to recover this cluster!",
@@ -136,9 +141,10 @@ function SolrCtrl(solrSrv, SweetAlert) {
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				solrSrv.deleteCluster(vm.currentCluster.clusterName).success(function (data) {
+				solrSrv.deleteCluster(vm.currentCluster.name).success(function (data) {
 					SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 					vm.currentCluster = {};
+					getClusters();
 				});
 			}
 		});
