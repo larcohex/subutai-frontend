@@ -38,7 +38,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	function getClusters() {
 		solrSrv.getClusters().success(function (data) {
 			vm.clusters = data;
-			getClustersInfo(data[0]);
+			//getClustersInfo(data[0]);
 		});
 	}
 	getClusters();
@@ -58,9 +58,8 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	}
 
 	function startNodes() {
-		if(vm.nodes2Action.length == 0) return;
-		console.log(vm.currentCluster);
-		if(vm.currentCluster.name === undefined) return;
+		//if(vm.nodes2Action.length == 0) return;
+		//if(vm.currentCluster.name === undefined) return;
 		solrSrv.startNodes(vm.currentCluster.name, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
@@ -70,8 +69,8 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	}
 
 	function stopNodes() {
-		if(vm.nodes2Action.length == 0) return;
-		if(vm.currentCluster.name === undefined) return;
+		//if(vm.nodes2Action.length == 0) return;
+		//if(vm.currentCluster.name === undefined) return;
 		solrSrv.stopNodes(vm.currentCluster.name, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
