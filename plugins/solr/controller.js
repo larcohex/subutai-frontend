@@ -8,6 +8,7 @@ SolrCtrl.$inject = ['solrSrv', 'SweetAlert'];
 function SolrCtrl(solrSrv, SweetAlert) {
     var vm = this;
 	vm.activeTab = 'install';
+	vm.selectedOption = 'ff';
 	vm.solrInstall = {};
 	vm.environments = [];
 	vm.containers = [];
@@ -44,7 +45,9 @@ function SolrCtrl(solrSrv, SweetAlert) {
 
 	function getClustersInfo(selectedCluster) {
 		console.log(selectedCluster);
-		solrSrv.getClusters(selectedCluster).success(function (data) {
+		solrSrv.getClusters(selectedCluster).success(function (data){
+			console.log('RESULT: ');
+			console.log(data);
 			vm.currentCluster = data;
 		});
 	}
@@ -145,7 +148,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	
 		if(tab == 'manager')
 		{
-			vm.activeTab = 'manager';
+			vm.activeTab = 'manage';
 			getClusters();
 		}
 	}
@@ -154,6 +157,9 @@ function SolrCtrl(solrSrv, SweetAlert) {
 		
 		solrSrv.createSolr(vm.solrInstall).success(function (data) {
 			SweetAlert.swal("Success!", "Your Solr cluster start creating.", "success");
+			console.log('---FIRST LINE---');
+			console.log(data);
+			console.log('---END LINE---');
 			switchTab('manager');
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Solr cluster create error: ' + error, "error");
