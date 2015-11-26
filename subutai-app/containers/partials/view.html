@@ -15,6 +15,7 @@
 					ng-change="containerViewCtrl.getContainers()" 
 					id="subt_select__containers-environment" 
 					ng-model="containerViewCtrl.environmentId">
+					<option value="">All</option>
 					<option 
 						ng-repeat="environment in containerViewCtrl.environments" 
 						value="{{ environment.id }}"
@@ -66,8 +67,22 @@
 								tooltip-title="{{ container.state }}">
 							</div>
 						</td>
-						<td>{{ container.templateName }}</td>
-						<td class="subt_text__container-ip">{{ container.ip }}</td>
+						<td>
+							<a href 
+								tooltips 
+								tooltip-content="EnvironmentId: <b>{{ container.environmentId }}</b><br>
+								ID: <b>{{ container.id }}</b><br>
+								Host Name: <b>{{ container.hostname }}</b>">
+								{{ container.templateName }}
+							</a>
+						</td>
+						<td class="subt_text__container-ip">
+							<span 
+								tooltips 
+								tooltip-content="mac: <b>{{ container.environmentId }}</b>">
+								{{ container.ip }}
+							</span>
+						</td>
 						<td>{{ container.hostname }}</td>
 						<td>
 							<button ng-show="container.state == 'RUNNING'" class="b-btn b-btn_red subt_button__container-stop" 
