@@ -75,7 +75,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 			for(var i in vm.peers) {
 				var resources = vm.peers[i];
 				vm.peers[i] = {"strategie": strategie, "resources": resources};
-				console.log(vm.peers[i]);
 			}
 		});
 	});
@@ -88,7 +87,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 				return;
 			}
 		} else {
-			console.log(vm.newEnvironmentName);
 			if(vm.newEnvironmentName === undefined || vm.newEnvironmentName.length < 1) {
 				vm.popupError = true;
 				return;

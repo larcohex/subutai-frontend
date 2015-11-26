@@ -37,9 +37,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert)
 	getClusters();
 
 	function getClustersInfo(selectedCluster) {
+		LOAD_SCREEN();
 		hadoopSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
 			console.log(vm.currentCluster);
+			LOAD_SCREEN('none');
 		});
 	}
 

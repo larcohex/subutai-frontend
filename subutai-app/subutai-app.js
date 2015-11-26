@@ -421,6 +421,12 @@ var SERVER_URL = 'http://172.16.131.205:8080/';
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
 
+function LOAD_SCREEN(displayStatus) {
+	if(displayStatus === undefined || displayStatus === null) displayStatus = 'block';
+	var loadScreen = document.getElementsByClassName('js-loading-screen')[0];
+	loadScreen.style.display = displayStatus;
+}
+
 function VARS_MODAL_CONFIRMATION( object, title, text, func )
 {
 	object.swal({
