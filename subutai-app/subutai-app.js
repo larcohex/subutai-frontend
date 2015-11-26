@@ -333,6 +333,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('mahout', {
+			url: '/plugins/mahout',
+			templateUrl: 'plugins/mahout/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.mahout',
+							files: [
+								'plugins/mahout/mahout.js',
+								'plugins/mahout/controller.js',
+								'plugins/mahout/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'

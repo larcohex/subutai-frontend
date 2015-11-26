@@ -1,16 +1,21 @@
 'use strict';
 
 angular.module('subutai.plugins.mahout.service',[])
-    .factory('mahoutSrv', mahoutSrv);
+	.factory('mahoutSrv', mahoutSrv);
 
-mahoutSrv.$inject = ['$http'];
-function mahoutSrv($http) {
-    var mahoutUrl = 'subutai-app/plugins/dummy-api/plugins.json';
-    var mahoutSrv = {
-        getmahout: getmahout
-    };
-    return mahoutSrv;
-    function getmahout() {
-        return $http.get(mahoutUrl);
-    }
+mahoutSrv.$inject = ['$http', 'hadoopSrv'];
+
+function mahoutSrv($http, hadoopSrv) {
+	var BASE_URL = SERVER_URL + 'rest/mahout/';
+	console.log(hadoopSrv);
+
+	var mahoutSrv = {
+		getHadoopClusters: getHadoopClusters
+	};
+
+	return mahoutSrv;
+
+	function getHadoopClusters() {
+		return hadoopSrv.getClusters();
+	}
 }
