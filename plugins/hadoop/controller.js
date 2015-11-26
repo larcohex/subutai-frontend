@@ -5,10 +5,9 @@ angular.module('subutai.plugins.hadoop.controller', [])
 	.directive('colSelectContainers', colSelectContainers)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
-HadoopCtrl.$inject = ['hadoopSrv', 'SweetAlert'];
+HadoopCtrl.$inject = ['hadoopSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder'];
 
-function HadoopCtrl(hadoopSrv, SweetAlert)
-{
+function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder) {
     var vm = this;
 	vm.activeTab = 'install';
 	vm.hadoopInstall = {};
@@ -21,6 +20,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert)
 	vm.showContainers = showContainers;
 	vm.addContainer = addContainer;
 	vm.getClustersInfo = getClustersInfo;
+	vm.changeClusterScaling = changeClusterScaling;
+	vm.deleteCluster = deleteCluster;
+	vm.addNode = addNode;
+	vm.startNode = startNode;
+	vm.stopNode = stopNode;
 
 	setDefaultValues();
 
@@ -31,17 +35,86 @@ function HadoopCtrl(hadoopSrv, SweetAlert)
 	function getClusters() {
 		hadoopSrv.getClusters().success(function (data) {
 			vm.clusters = data;
-			console.log(vm.clusters);
 		});
 	}
 	getClusters();
 
 	function getClustersInfo(selectedCluster) {
-		LOAD_SCREEN();
+		LOADING_SCREEN();
 		hadoopSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
 			console.log(vm.currentCluster);
-			LOAD_SCREEN('none');
+			LOADING_SCREEN('none');
+		});
+	}
+
+	function changeClusterScaling(scale) {
+		if(vm.currentCluster.clusterName === undefined) return;
+		try {
+			hadoopSrv.changeClusterScaling(vm.currentCluster.clusterName, scale);
+		} catch(e) {}
+	}
+
+	function addNode() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal("Success!", "Adding node action started.", "success");
+		hadoopSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
+			SweetAlert.swal(
+				"Success!",
+				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
+				"success"
+			);
+			getClustersInfo(vm.currentCluster.clusterName);
+		});
+	}
+
+	function startNode(node, nodeType) {
+		if(vm.currentCluster.clusterName === undefined) return;
+		node.status = 'STARTING';
+		hadoopSrv.startNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
+			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
+			node.status = 'RUNNING';
+			//getClustersInfo(vm.currentCluster.name);
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error, "error");
+			node.status = 'ERROR';
+		});
+	}
+
+	function stopNode(node, nodeType) {
+		if(vm.currentCluster.clusterName === undefined) return;
+		node.status = 'STOPPING';
+		hadoopSrv.stopNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
+			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
+			//getClustersInfo(vm.currentCluster.name);
+			node.status = 'STOPPED';
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error, "error");
+			node.status = 'ERROR';
+		});
+	}
+
+	function deleteCluster() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal({
+			title: "Are you sure?",
+			text: "Your will not be able to recover this cluster!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ff3f3c",
+			confirmButtonText: "Delete",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			closeOnCancel: true,
+			showLoaderOnConfirm: true
+		},
+		function (isConfirm) {
+			if (isConfirm) {
+				hadoopSrv.deleteCluster(vm.currentCluster.clusterName).success(function (data) {
+					SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
+					vm.currentCluster = {};
+				});
+			}
 		});
 	}
 
@@ -49,6 +122,9 @@ function HadoopCtrl(hadoopSrv, SweetAlert)
 		SweetAlert.swal("Success!", "Hadoop cluster start creating.", "success");
 		hadoopSrv.createHadoop(JSON.stringify(vm.hadoopInstall)).success(function (data) {
 			SweetAlert.swal("Success!", "Hadoop cluster create successfully.", "success");
+			getClusters();
+			vm.activeTab = 'manage';
+			setDefaultValues();
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Hadoop cluster create error: ' + error, "error");
 		});
@@ -77,10 +153,23 @@ function HadoopCtrl(hadoopSrv, SweetAlert)
 		}
 	}	
 
+	vm.dtOptions = DTOptionsBuilder
+		.newOptions()
+		.withOption('order', [[2, "asc" ]])
+		.withOption('stateSave', true)
+		.withPaginationType('full_numbers');
+	vm.dtColumnDefs = [
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
+		DTColumnDefBuilder.newColumnDef(1),
+		DTColumnDefBuilder.newColumnDef(2),
+		DTColumnDefBuilder.newColumnDef(3).notSortable()
+	];
+
 	function setDefaultValues() {
+		vm.hadoopInstall = {};
 		vm.hadoopInstall.domainName = 'intra.lan';
 		vm.hadoopInstall.slaves = [];
-	}
+	}	
 
 }
 

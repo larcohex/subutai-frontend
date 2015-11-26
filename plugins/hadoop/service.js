@@ -13,6 +13,11 @@ function hadoopSrv($http, environmentService) {
 	var hadoopSrv = {
 		createHadoop: createHadoop,
 		getClusters: getClusters,
+		changeClusterScaling: changeClusterScaling,
+		deleteCluster: deleteCluster,
+		addNode: addNode,
+		startNode: startNode,
+		stopNode: stopNode,
 		getEnvironments: getEnvironments
 	};
 
@@ -26,8 +31,38 @@ function hadoopSrv($http, environmentService) {
 		);
 	}
 
+	function addNode(clusterName) {
+		return $http.post(CLUSTER_URL + clusterName + '/nodes');
+	}
+
+	function startNode(clusterName, nodeType) {
+		var postData = '';
+		return $http.put(
+			CLUSTER_URL + nodeType + clusterName + '/start',
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function stopNode(clusterName, nodeType) {
+		var postData = '';
+		return $http.put(
+			CLUSTER_URL + nodeType + clusterName + '/stop',
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function changeClusterScaling(clusterName, scale) {
+		return $http.post(CLUSTER_URL + clusterName + '/auto_scale/' + scale);
+	}
+
 	function getEnvironments() {
 		return environmentService.getEnvironments();
+	}
+
+	function deleteCluster(clusterName) {
+		return $http.delete(CLUSTER_URL + clusterName);
 	}
 
 	function createHadoop(hadoopJson) {

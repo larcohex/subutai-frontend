@@ -46,8 +46,10 @@ function CassandraCtrl(cassandraSrv, SweetAlert) {
 	getClusters();
 
 	function getClustersInfo(selectedCluster) {
+		LOADING_SCREEN();
 		cassandraSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
+			LOADING_SCREEN('none');
 			console.log(vm.currentCluster);
 		});
 	}

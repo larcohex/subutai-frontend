@@ -27,34 +27,87 @@
 
 				<label class="b-form-label">
 					<input type="checkbox" 
-					ng-change="hadoopCtrl.changeClusterScaling(hadoopCtrl.currentCluster.scaling)" 
-					ng-model="hadoopCtrl.currentCluster.scaling">
+					ng-change="hadoopCtrl.changeClusterScaling(hadoopCtrl.currentCluster.autoScaling)" 
+					ng-model="hadoopCtrl.currentCluster.autoScaling">
 					Auto scale
 				</label>
 			</div>
 		</div>
 	</div>
-	<div class="b-workspace-content__row">
+	<div class="b-workspace-content__row b-workspace-content__row_margin-b">
 		<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
 			Master nodes
 		</h2>
-
-		<div class="b-workspace-content-row-bttns g-right">
-			<a href="" class="b-btn b-btn_blue">Refresh</a>
-			<a href="" class="b-btn b-btn_green">Start</a>
-			<a href="" class="b-btn b-btn_red">Stop</a>
-		</div>
-	</div>
-	<div class="b-workspace-content__row b-workspace-content__row_margin-b">
 		<div class="b-main-table-border">
 			<table class="b-main-table b-main-table_with-header">
 				<tr>
-					<th><input type="checkbox"></th>
-					<th>Host</th>
-					<th>IP List</th>
-					<th>Node role</th>
 					<th>Status</th>
+					<th>Hostname</th>
+					<th>IP</th>
 					<th></th>
+				</tr>
+				<td colspan="4" class="b-main-table__empty-item" ng-if="hadoopCtrl.currentCluster === undefined">No data available in table</td>
+				<tr ng-if="hadoopCtrl.currentCluster.nameNode !== undefined">
+					<td class="b-main-table__container-status">
+						<div 
+							class="b-status-icon b-status-icon_{{ hadoopCtrl.currentCluster.nameNode.status }}" 
+							tooltips 
+							tooltip-title="{{ hadoopCtrl.currentCluster.nameNode.status }}">
+						</div>
+					</td>
+					<td>{{ hadoopCtrl.currentCluster.nameNode.hostname }}</td>
+					<td>{{ hadoopCtrl.currentCluster.nameNode.ip }}</td>
+					<td>
+						<button ng-show="hadoopCtrl.currentCluster.nameNode.status == 'RUNNING'" class="b-btn b-btn_red subt_button__container-stop" 
+						ng-click="hadoopCtrl.stopNode(hadoopCtrl.currentCluster.nameNode, '')">
+							Stop
+						</button>
+						<button ng-show="hadoopCtrl.currentCluster.nameNode.status == 'STOPPED'" class="b-btn b-btn_green subt_button__container-start" 
+						ng-click="hadoopCtrl.startNode(hadoopCtrl.currentCluster.nameNode, '')">
+							Start
+						</button>
+						<span class="b-load-icon" title="{{ hadoopCtrl.currentCluster.nameNode.state }}" 
+							ng-show="hadoopCtrl.currentCluster.nameNode.status != 'STOPPED' && hadoopCtrl.currentCluster.nameNode.status != 'RUNNING'">
+						</span>
+					</td>
+				</tr>
+				<tr ng-if="hadoopCtrl.currentCluster.jobTracker !== undefined">
+					<td class="b-main-table__container-status">
+						<div 
+							class="b-status-icon b-status-icon_{{ hadoopCtrl.currentCluster.jobTracker.status }}" 
+							tooltips 
+							tooltip-title="{{ hadoopCtrl.currentCluster.jobTracker.status }}">
+						</div>
+					</td>
+					<td>{{ hadoopCtrl.currentCluster.jobTracker.hostname }}</td>
+					<td>{{ hadoopCtrl.currentCluster.jobTracker.ip }}</td>
+					<td>
+						<button ng-show="hadoopCtrl.currentCluster.jobTracker.status == 'RUNNING'" class="b-btn b-btn_red subt_button__container-stop" 
+						ng-click="hadoopCtrl.stopNode(hadoopCtrl.currentCluster.jobTracker, 'job/')">
+							Stop
+						</button>
+						<button ng-show="hadoopCtrl.currentCluster.jobTracker.status == 'STOPPED'" class="b-btn b-btn_green subt_button__container-start" 
+						ng-click="hadoopCtrl.startNode(hadoopCtrl.currentCluster.jobTracker, 'job/')">
+							Start
+						</button>
+						<span class="b-load-icon" title="{{ hadoopCtrl.currentCluster.jobTracker.state }}" 
+							ng-show="hadoopCtrl.currentCluster.jobTracker.status != 'STOPPED' && hadoopCtrl.currentCluster.jobTracker.status != 'RUNNING'">
+						</span>
+					</td>
+				</tr>
+				<tr ng-if="hadoopCtrl.currentCluster.secondaryNameNode !== undefined">
+					<td class="b-main-table__container-status">
+						<div 
+							class="b-status-icon b-status-icon_{{ hadoopCtrl.currentCluster.secondaryNameNode.status }}" 
+							tooltips 
+							tooltip-title="{{ hadoopCtrl.currentCluster.secondaryNameNode.status }}">
+						</div>
+					</td>
+					<td>{{ hadoopCtrl.currentCluster.secondaryNameNode.hostname }}</td>
+					<td>{{ hadoopCtrl.currentCluster.secondaryNameNode.ip }}</td>
+					<td>
+						
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -63,28 +116,17 @@
 		<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
 			Slaves nodes
 		</h2>
+		<div class="b-data-table">
 
-		<div class="b-workspace-content-row-bttns g-right">
-			<a href="" class="b-btn b-btn_blue">Refresh</a>
-			<a href="" class="b-btn b-btn_green">Start</a>
-			<a href="" class="b-btn b-btn_red">Stop</a>
-		</div>
-		<div class="clear"></div>
-	</div>
-	<div class="b-workspace-content__row">
-		<div class="b-main-table-border">
-
-			<table datatable="ng" ng-show="hadoopCtrl.containers.length > 0" 
+			<table datatable="ng" 
 				dt-options="hadoopCtrl.dtOptions" 
 				dt-column-defs="hadoopCtrl.dtColumnDefs" 
 				class="row-border hover">
 				<thead>
 					<tr>
 						<th>Status</th>
-						<th>Template</th>
+						<th>Hostname</th>
 						<th>IP</th>
-						<th>Tags</th>
-						<th></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -92,31 +134,17 @@
 					<tr ng-repeat="(key, dataNode) in hadoopCtrl.currentCluster.dataNodes">
 						<td class="b-main-table__container-status">
 							<div 
-								class="b-status-icon b-status-icon_{{ container.state }}" 
+								class="b-status-icon b-status-icon_{{ dataNode.status }}" 
 								tooltips 
-								tooltip-title="{{ container.state }}">
+								tooltip-title="{{ dataNode.status }}">
 							</div>
 						</td>
-						<td>{{ container.templateName }}</td>
-						<td class="subt_text__container-ip">{{ container.ip }}</td>
-						<td>{{ container.hostname }}</td>
-						<td>
-							<button ng-show="container.state == 'RUNNING'" class="b-btn b-btn_red subt_button__container-stop" 
-							ng-click="containerViewCtrl.containerAction(key)">
-								Stop
-							</button>
-							<button ng-show="container.state == 'STOPPED'" class="b-btn b-btn_green subt_button__container-start" 
-							ng-click="containerViewCtrl.containerAction(key)">
-								Start
-							</button>
-							<span class="b-load-icon" title="{{ container.state }}" 
-								ng-show="container.state != 'STOPPED' && container.state != 'RUNNING'">
-							</span>
-						</td>
+						<td>{{ dataNode.hostname }}</td>
+						<td class="subt_text__container-ip">{{ dataNode.ip }}</td>
 						<td>
 							<a href 
 								class="b-icon b-icon_remove" 
-								ng-click="containerViewCtrl.destroyContainer(container.id, key)">
+								ng-click="hadoopCtrl.destroyNode(dataNode.uuid, key)">
 							</a>
 						</td>
 					</tr>
