@@ -216,7 +216,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('console', {
-			url: '/console',
+			url: '/console/{containerId}',
 			templateUrl: 'subutai-app/console/partials/view.html',
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -341,7 +341,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0YjE5MzU5ZS00OGFkLTQxMTgtOGUxOS1iOTJlNjI5OWU0YTEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.iRh7cBa1PBox73ticQ9Mxn0juEQN00t-lUff9-lUoXM';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyZDg4YjY0Zi1hNzllLTRlZDItYTY2Zi1iMmY3NmYwMDE5OGUiLCJpc3MiOiJpby5zdWJ1dGFpIn0._H7W3VcYfpxlG6gcXRkXHf4gctjNUII3JJ1X9_F3BFc';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;

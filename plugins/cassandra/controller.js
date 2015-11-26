@@ -5,8 +5,8 @@ angular.module('subutai.plugins.cassandra.controller', [])
 	.directive('colSelectContainers', colSelectContainers)
 	.directive('colSelectSeeds', colSelectSeeds);
 
-CassandraCtrl.$inject = ['cassandraSrv', 'SweetAlert'];
-function CassandraCtrl(cassandraSrv, SweetAlert) {
+CassandraCtrl.$inject = ['cassandraSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$timeout'];
+function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, $timeout) {
     var vm = this;
 	vm.activeTab = 'install';
 	vm.cassandraInstall = {};
@@ -44,6 +44,32 @@ function CassandraCtrl(cassandraSrv, SweetAlert) {
 		});
 	}
 	getClusters();
+
+	vm.dtOptions = DTOptionsBuilder
+		.newOptions()
+		.withOption('order', [[2, "asc" ]])
+		.withOption('stateSave', true)
+		.withPaginationType('full_numbers');
+	vm.dtColumnDefs = [
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
+		DTColumnDefBuilder.newColumnDef(1),
+		DTColumnDefBuilder.newColumnDef(2),
+		DTColumnDefBuilder.newColumnDef(3),
+		DTColumnDefBuilder.newColumnDef(4).notSortable(),
+		DTColumnDefBuilder.newColumnDef(5).notSortable()
+	];
+
+	/*function reloadTableData() {
+		vm.refreshTable = $timeout(function myFunction() {
+			//console.log(vm.dtInstance);
+			if(vm.dtInstance !== undefined) {
+				console.log('good');
+				vm.dtInstance.reloadData(null, false);
+			}
+			vm.refreshTable = $timeout(reloadTableData, 3000);
+		}, 3000);
+	};
+	reloadTableData();*/
 
 	function getClustersInfo(selectedCluster) {
 		LOADING_SCREEN();
@@ -93,6 +119,9 @@ function CassandraCtrl(cassandraSrv, SweetAlert) {
 				"Node has been added on cluster " + vm.currentCluster.name + ".",
 				"success"
 			);
+			getClusters();
+			vm.activeTab = 'manage';
+			setDefaultValues();
 			getClustersInfo(vm.currentCluster.name);
 		});
 	}
