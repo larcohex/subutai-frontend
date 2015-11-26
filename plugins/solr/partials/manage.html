@@ -4,7 +4,8 @@
 		<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
 			<div class="b-form__wrapper b-form__wrapper_margin-bottom">
 				<label class="b-form-label b-form-label_margin_r">Select the cluster</label>
-				<select class="b-form-input b-form-input_fix-size-1 b-form-label_margin_r"  
+				<select class="b-form-input b-form-input_fix-size-1 b-form-label_margin_r" 
+					ng-model="selectedCluster" 
 					ng-change="solrCtrl.getClustersInfo(selectedCluster)">
 					<option ng-repeat="cluster in solrCtrl.clusters" value="{{cluster}}">{{cluster}}</option>
 				</select>
