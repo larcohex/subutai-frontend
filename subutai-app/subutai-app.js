@@ -353,6 +353,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('hipi', {
+			url: '/plugins/hipi',
+			templateUrl: 'plugins/hipi/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.hipi',
+							files: [
+								'plugins/hipi/hipi.js',
+								'plugins/hipi/controller.js',
+								'plugins/hipi/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
