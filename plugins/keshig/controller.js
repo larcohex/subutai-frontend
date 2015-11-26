@@ -4,8 +4,8 @@ angular.module('subutai.plugins.keshig.controller', [])
     .controller('KeshigCtrl', KeshigCtrl)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
-KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService'];
-function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService) {
+KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService', 'ngDialog'];
+function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService, ngDialog) {
     var vm = this;
 
 	vm.activeTab = 'servers';

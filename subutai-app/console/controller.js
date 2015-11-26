@@ -24,7 +24,7 @@ function ConsoleViewCtrl($scope, consoleService, peerRegistrationService, $state
 	vm.daemon = false;
 	vm.timeOut = 0;
 
-	if($stateParams.containerId !== undefined || $stateParams.containerId.length > 0) {
+	if($stateParams.containerId !== undefined && $stateParams.containerId.length > 0) {
 		vm.activeConsole = $stateParams.containerId;
 	}
 
