@@ -2,10 +2,10 @@
 	<span class="b-form-label b-form-label_block">Available nodes</span>
 	<ul class="b-form-list b-form-list_table">
 		<li class="b-form-list-table__link" 
-		ng-repeat="container in hipiCtrl.containers" 
-		ng-if="hipiCtrl.hipiInstall.containers.indexOf(container.id) == -1" 
-		ng-click="hipiCtrl.addContainer(container.id)">
-			{{ container.id }}
+		ng-repeat="container in hipiCtrl.currentClusterNodes" 
+		ng-if="hipiCtrl.hipiInstall.nodes.indexOf(container.uuid) == -1" 
+		ng-click="hipiCtrl.addContainer(container.uuid)">
+			{{ container.hostname }}
 		</li>
 	</ul>
 </div>
@@ -19,10 +19,10 @@
 	<span class="b-form-label b-form-label_block">Selected nodes</span>
 	<ul class="b-form-list b-form-list_table">
 		<li class="b-form-list-table__link" 
-		ng-repeat="container in hipiCtrl.containers" 
-		ng-if="hipiCtrl.hipiInstall.containers.indexOf(container.id) > -1" 
-		ng-click="hipiCtrl.addContainer(container.id)">
-			{{ container.id }}
+		ng-repeat="container in hipiCtrl.currentClusterNodes" 
+		ng-if="hipiCtrl.hipiInstall.nodes.indexOf(container.uuid) > -1" 
+		ng-click="hipiCtrl.addContainer(container.uuid)">
+			{{ container.hostname }}
 		</li>		
 	</ul>
 </div>
