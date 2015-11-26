@@ -8,6 +8,20 @@
 	</div>
 
 	<div class="b-workspace__content">
+
+		<div class="b-fixed-button" ng-class="blueprintsBuildCtrl.totalContainers == 0 ? 'b-fixed-button_disabled' : ''">
+			<a href 
+			ng-click="blueprintsBuildCtrl.buildPopup()" 
+			class="b-icon b-icon_box-white b-icon_notification" 
+			id="subt_link__environment-build-list">
+				<span class="b-icon__inner-num">
+					{{ blueprintsBuildCtrl.totalContainers }}
+				</span>
+			</a>
+
+			<div class="clear"></div>
+		</div>
+
 		<div class="b-main-form">
 			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r" 
 				ng-show="blueprintsBuildCtrl.blueprintAction == 'grow'">
@@ -34,18 +48,16 @@
 				ng-model="blueprintsBuildCtrl.newEnvironmentName">
 			</div>
 
-			<div class="b-main-form__wrapper g-right">
-				<a href 
-				ng-click="blueprintsBuildCtrl.buildPopup()" 
-				class="b-icon b-icon_box b-icon_notification" 
-				id="subt_link__environment-build-list">
-					<span class="b-icon__inner-num">
-						{{ blueprintsBuildCtrl.totalContainers }}
-					</span>
-				</a>
-
+			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
+				<label class="b-popup-body-label b-popup-body-label_inline">Build Type</label>
+				<select class="b-popup-body-input b-popup-body-input_enviroment-name" 
+					ng-model="blueprintsBuildCtrl.buildWith">
+					<option value="strategie">Strategie</option>
+					<option value="resources">Resource Host</option>
+				</select>
 				<div class="clear"></div>
 			</div>
+
 		</div>
 		<div class="b-main-table-border">
 			<table class="b-main-table b-main-table_with-header">
@@ -53,7 +65,7 @@
 					<th>Node group</th>
 					<th>Amount containers</th>
 					<th>Peer</th>
-					<th>Strategie</th>
+					<th class="b-main-table__capitalize">{{ blueprintsBuildCtrl.buildWith }}</th>
 					<th></th>
 				</tr>
 				<tr ng-repeat="(key, nodeGroup) in blueprintsBuildCtrl.transportNodes">
@@ -73,7 +85,7 @@
 					<td>
 						<div 
 							ya-no-ui-slider='nodeGroup.options' 
-							ya-no-ui-slider-disabled='nodeGroup.options.start <= 1'
+							ya-no-ui-slider-disabled='nodeGroup.disabled'
 							ng-if='nodeGroup.show'
 						>
 						</div>
@@ -89,17 +101,17 @@
 							<option 
 							ng-repeat="(peerId, peer) in blueprintsBuildCtrl.peers" 
 							value="{{ peerId }}">
-								{{ peer }}
+								{{ peerId }}
 							</option>
 						</select>
 					</td>
 					<td>
 						<select class="b-popup-body-input b-popup-body-input_table subt_select__environment-strategie" 
-						ng-model="nodeGroup.strategyId">
+						ng-model="nodeGroup.createOption">
 							<option 
-							ng-repeat="strategie in blueprintsBuildCtrl.strategies" 
-							value="{{ strategie }}">
-								{{ strategie }}
+							ng-repeat="buildType in blueprintsBuildCtrl.peers[nodeGroup.peer][blueprintsBuildCtrl.buildWith]" 
+							value="{{ buildType }}">
+								{{ buildType }}
 							</option>
 						</select>
 					</td>

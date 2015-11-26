@@ -12,7 +12,7 @@ function solrSrv($http, environmentService) {
 
 	var solrSrv = {
 		getClusters: getClusters,
-		createCassandra: createCassandra,
+		createSolr: createSolr,
 		changeClusterScaling: changeClusterScaling,
 		deleteCluster: deleteCluster,
 		addNode: addNode,
@@ -30,11 +30,21 @@ function solrSrv($http, environmentService) {
 
 	function startNodes(clusterName, nodesArray) {
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
+		console.log(postData);
+		var url = CLUSTER_URL +  'nodes/start';
+		console.log(url);
+		
 		return $http.post(
-			CLUSTER_URL + 'nodes/start',
+			url,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
+		/*
+		return $http.get(
+			url,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+		*/
 	}
 
 	function stopNodes(clusterName, nodesArray) {
@@ -70,10 +80,12 @@ function solrSrv($http, environmentService) {
 		);
 	}
 
-	function createCassandra(cassandraJson) {
-		var postData = 'clusterConfJson=' + cassandraJson;
+	function createSolr(solrJson) {
+	
+		var postData = 'clusterName=' + solrJson.clusterName + '&environmentId=' + solrJson.environmentId + '&nodes=' + solrJson.containers.join();
+		console.log(postData);
 		return $http.post(
-			CLUSTER_URL + 'create',
+			CLUSTER_URL + 'install',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);

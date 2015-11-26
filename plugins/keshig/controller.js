@@ -4,8 +4,8 @@ angular.module('subutai.plugins.keshig.controller', [])
     .controller('KeshigCtrl', KeshigCtrl)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
-KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService'];
-function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService) {
+KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService', 'ngDialog'];
+function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService, ngDialog) {
     var vm = this;
 
 	vm.activeTab = 'servers';
@@ -186,7 +186,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
-			.withOption('order', [[ 0, "asc" ]])
+			.withOption('order', [[ 2, "desc" ]])
 			.withOption('createdRow', createdRow);
 
 		vm.dtColumns = [
@@ -547,7 +547,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	function getBaseUrl() {
 		var pathArray = location.href.split( '/' );
-		var protocol = pathArray[0];
+		//var protocol = pathArray[0];
+		var protocol = 'http:';
 		var hostWithPort = pathArray[2].split(':');
 		var host = hostWithPort[0];
 		var url = protocol + '//' + host;
