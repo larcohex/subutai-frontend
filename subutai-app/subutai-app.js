@@ -373,6 +373,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('lucene', {
+			url: '/plugins/lucene',
+			templateUrl: 'plugins/lucene/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.lucene',
+							files: [
+								'plugins/lucene/lucene.js',
+								'plugins/lucene/controller.js',
+								'plugins/lucene/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'

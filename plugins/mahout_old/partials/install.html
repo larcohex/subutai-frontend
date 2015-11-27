@@ -1,5 +1,5 @@
 
-<form ng-submit="mahoutCtrl.createMahout()">
+<form ng-submit="cassandraCtrl.createCassandra()">
 	<div class="b-workspace-content b-workspace-content_border">
 		<div class="b-workspace-content__row">
 			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
@@ -10,7 +10,7 @@
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
 							placeholder="Enter cluster name" 
-							ng-model="mahoutCtrl.mahoutInstall.clusterName" 
+							ng-model="mahoutCtrl.mahoutInstall.name" 
 							required>
 						</div>
 						<div class="clear"></div>
@@ -20,11 +20,11 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<select class="b-form-input b-form-input_full" 
-								ng-model="mahoutCtrl.mahoutInstall.hadoopClusterName" 
-								ng-change="mahoutCtrl.getHadoopClusterNodes(mahoutCtrl.mahoutInstall.hadoopClusterName)">
-								<option value="">Select hadoop cluster</option>
-								<option ng-repeat="hadoopCluster in mahoutCtrl.hadoopClusters" value="{{ hadoopCluster }}">
-									{{ hadoopCluster }}
+								ng-model="mahoutCtrl.mahoutInstall.environmentId" 
+								ng-change="mahoutCtrl.showContainers(mahoutCtrl.mahoutInstall.environmentId)">
+								<option value="">Select environment</option>
+								<option ng-repeat="environment in mahoutCtrl.environments" value="{{ environment.id }}">
+									{{ environment.name }}
 								</option>
 							</select>						
 						</div>

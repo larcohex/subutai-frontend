@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('subutai.plugins.mahout.service',[])
-	.factory('mahoutSrv', mahoutSrv);
+angular.module('subutai.plugins.lucene.service',[])
+	.factory('luceneSrv', luceneSrv);
 
-mahoutSrv.$inject = ['$http', 'hadoopSrv'];
+luceneSrv.$inject = ['$http', 'hadoopSrv'];
 
-function mahoutSrv($http, hadoopSrv) {
-	var BASE_URL = SERVER_URL + 'rest/mahout/';
+function luceneSrv($http, hadoopSrv) {
+	var BASE_URL = SERVER_URL + 'rest/lucene/';
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
-	var mahoutSrv = {
+	var luceneSrv = {
 		getHadoopClusters: getHadoopClusters,
-		createMahout: createMahout,
+		createLucene: createLucene,
 		getClusters: getClusters,
 		deleteNode: deleteNode,
 		getAvailableNodes: getAvailableNodes,
@@ -19,7 +19,7 @@ function mahoutSrv($http, hadoopSrv) {
 		deleteCluster: deleteCluster,
 	};
 
-	return mahoutSrv;
+	return luceneSrv;
 
 	function addNode(clusterName, lxcHostname) {
 		return $http.post(CLUSTER_URL + clusterName + '/add/node/' + lxcHostname);
@@ -52,9 +52,9 @@ function mahoutSrv($http, hadoopSrv) {
 		return $http.delete(CLUSTER_URL + clusterName + '/destroy/node/' + nodeId);
 	}
 
-	function createMahout(mahoutObj) {
-		console.log(mahoutObj);
-		var postData = 'clusterName=' + mahoutObj.clusterName + '&hadoopClusterName=' + mahoutObj.hadoopClusterName + '&nodes=' + JSON.stringify(mahoutObj.nodes);
+	function createLucene(luceneObj) {
+		console.log(luceneObj);
+		var postData = 'clusterName=' + luceneObj.clusterName + '&hadoopClusterName=' + luceneObj.hadoopClusterName + '&nodes=' + JSON.stringify(luceneObj.nodes);
 		return $http.post(
 			CLUSTER_URL + 'install',
 			postData, 

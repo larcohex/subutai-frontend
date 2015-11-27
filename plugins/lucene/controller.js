@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('subutai.plugins.mahout.controller', [])
-    .controller('MahoutCtrl', MahoutCtrl)
+angular.module('subutai.plugins.lucene.controller', [])
+    .controller('LuceneCtrl', LuceneCtrl)
 	.directive('colSelectContainers', colSelectContainers);
 
-MahoutCtrl.$inject = ['$scope', 'mahoutSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
+LuceneCtrl.$inject = ['$scope', 'luceneSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
 
-function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, ngDialog) {
+function LuceneCtrl($scope, luceneSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, ngDialog) {
     var vm = this;
 	vm.activeTab = 'install';
-	vm.mahoutInstall = {};
+	vm.luceneInstall = {};
 	vm.clusters = [];
 	vm.hadoopClusters = [];
 	vm.currentClusterNodes = [];
@@ -20,13 +20,13 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 	vm.getClustersInfo = getClustersInfo;	
 	vm.getHadoopClusterNodes = getHadoopClusterNodes;	
 	vm.addContainer = addContainer;	
-	vm.createMahout = createMahout;	
+	vm.createLucene = createLucene;	
 	vm.deleteNode = deleteNode;
 	vm.addNodeForm = addNodeForm;
 	vm.addNode = addNode;
 	vm.deleteCluster = deleteCluster;
 
-	mahoutSrv.getHadoopClusters().success(function(data){
+	luceneSrv.getHadoopClusters().success(function(data){
 		vm.hadoopClusters = data;
 		console.log(vm.hadoopClusters);
 		if(vm.hadoopClusters.length == 0) {
@@ -38,7 +38,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 	setDefaultValues();
 
 	function getClusters() {
-		mahoutSrv.getClusters().success(function (data) {
+		luceneSrv.getClusters().success(function (data) {
 			vm.clusters = data;
 		});
 	}
@@ -58,7 +58,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 
 	function getClustersInfo(selectedCluster) {
 		LOADING_SCREEN();
-		mahoutSrv.getClusters(selectedCluster).success(function (data) {
+		luceneSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
 		});
@@ -66,12 +66,12 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 
 	function addNodeForm() {
 		if(vm.currentCluster.clusterName === undefined) return;
-		mahoutSrv.getAvailableNodes(vm.currentCluster.clusterName).success(function (data) {
+		luceneSrv.getAvailableNodes(vm.currentCluster.clusterName).success(function (data) {
 			vm.availableNodes = data;
 			console.log(vm.availableNodes);
 		});
 		ngDialog.open({
-			template: 'plugins/mahout/partials/addNodesForm.html',
+			template: 'plugins/lucene/partials/addNodesForm.html',
 			scope: $scope
 		});
 	}
@@ -81,7 +81,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal("Success!", "Adding node action started.", "success");
 		ngDialog.closeAll();
-		mahoutSrv.addNode(vm.currentCluster.clusterName, chosenNode).success(function (data) {
+		luceneSrv.addNode(vm.currentCluster.clusterName, chosenNode).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
 				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
@@ -93,7 +93,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 
 	function getHadoopClusterNodes(selectedCluster) {
 		LOADING_SCREEN();
-		mahoutSrv.getHadoopClusters(selectedCluster).success(function (data) {
+		luceneSrv.getHadoopClusters(selectedCluster).success(function (data) {
 			vm.currentClusterNodes = data.dataNodes;
 
 			var nameNodeFound = false;
@@ -121,16 +121,16 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		});
 	}
 
-	function createMahout() {
-		if(vm.mahoutInstall.clusterName === undefined || vm.mahoutInstall.clusterName.length == 0) return;
-		if(vm.mahoutInstall.hadoopClusterName === undefined || vm.mahoutInstall.hadoopClusterName.length == 0) return;
+	function createLucene() {
+		if(vm.luceneInstall.clusterName === undefined || vm.luceneInstall.clusterName.length == 0) return;
+		if(vm.luceneInstall.hadoopClusterName === undefined || vm.luceneInstall.hadoopClusterName.length == 0) return;
 
-		SweetAlert.swal("Success!", "Mahout cluster start creating.", "success");
-		mahoutSrv.createMahout(vm.mahoutInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Mahout cluster start creating.", "success");
+		SweetAlert.swal("Success!", "Lucene cluster start creating.", "success");
+		luceneSrv.createLucene(vm.luceneInstall).success(function (data) {
+			SweetAlert.swal("Success!", "Your Lucene cluster start creating.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Mahout cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Lucene cluster create error: ' + error, "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -152,7 +152,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				mahoutSrv.deleteCluster(vm.currentCluster.clusterName).success(function (data) {
+				luceneSrv.deleteCluster(vm.currentCluster.clusterName).success(function (data) {
 					SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 					vm.currentCluster = {};
 					getClusters();
@@ -179,7 +179,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				mahoutSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
+				luceneSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
 					vm.currentCluster = {};
 				});
@@ -188,16 +188,16 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 	}
 
 	function addContainer(containerId) {
-		if(vm.mahoutInstall.nodes.indexOf(containerId) > -1) {
-			vm.mahoutInstall.nodes.splice(vm.mahoutInstall.nodes.indexOf(containerId), 1);
+		if(vm.luceneInstall.nodes.indexOf(containerId) > -1) {
+			vm.luceneInstall.nodes.splice(vm.luceneInstall.nodes.indexOf(containerId), 1);
 		} else {
-			vm.mahoutInstall.nodes.push(containerId);
+			vm.luceneInstall.nodes.push(containerId);
 		}
 	}
 
 	function setDefaultValues() {
-		vm.mahoutInstall = {};
-		vm.mahoutInstall.nodes = [];
+		vm.luceneInstall = {};
+		vm.luceneInstall.nodes = [];
 	}
 
 }
@@ -205,7 +205,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 function colSelectContainers() {
 	return {
 		restrict: 'E',
-		templateUrl: 'plugins/mahout/directives/col-select/col-select-containers.html'
+		templateUrl: 'plugins/lucene/directives/col-select/col-select-containers.html'
 	}
 };
 

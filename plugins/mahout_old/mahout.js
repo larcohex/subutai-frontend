@@ -5,4 +5,4 @@ angular.module('subutai.plugins.mahout', [
     'subutai.plugins.mahout.service',
     'subutai.plugins.hadoop.service',
     'subutai.environment.service'
-])
+]);
