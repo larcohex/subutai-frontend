@@ -413,6 +413,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('nutch', {
+			url: '/plugins/nutch',
+			templateUrl: 'plugins/nutch/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.nutch',
+							files: [
+								'plugins/nutch/nutch.js',
+								'plugins/nutch/controller.js',
+								'plugins/nutch/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('elastic-search', {
 			url: '/plugins/elastic-search',
 			templateUrl: 'plugins/elastic-search/partials/view.html',
@@ -431,6 +451,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 					]);
 				}]
 			}
+		})		
+		.state('oozie', {
+			url: '/plugins/oozie',
+			templateUrl: 'plugins/oozie/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.oozie',
+							files: [
+								'plugins/oozie/oozie.js',
+								'plugins/oozie/controller.js',
+								'plugins/oozie/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
 		})
 		.state('404', {
 			url: '/404',
@@ -440,7 +480,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTRjMGU5MC1mMDI3LTQzZGQtYjBlMi01ZWYyZDAyYTU3MWUiLCJpc3MiOiJpby5zdWJ1dGFpIn0.Utxw74EZ5o4cETWBOycWxaNL56QRwsGHxlxhi7crB9E';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMjhmYmQxMC00OTlhLTQ0ZWYtOTA5ZC0wMjM1OTZkNWNkOGQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.r7GA1E8W6a4rl9OCc6WUMiy7nZwfNvk6pf3p3dGihRA';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -515,7 +555,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8080/';
+var SERVER_URL = 'http://172.16.131.204:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
