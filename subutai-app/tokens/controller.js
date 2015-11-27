@@ -129,7 +129,7 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 			confirmButtonColor: "#ff3f3c",
 			confirmButtonText: "Delete",
 			cancelButtonText: "Cancel",
-			closeOnConfirm: false,
+			closeOnConfirm: true,
 			closeOnCancel: true,
 			showLoaderOnConfirm: true
 		},
