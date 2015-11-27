@@ -2,7 +2,7 @@
 
 angular.module('subutai.plugins.nutch.controller', [])
     .controller('NutchCtrl', NutchCtrl)
-	.directive('colSelectContainers', colSelectContainers);
+	.directive('colSelectNutchNodes', colSelectNutchNodes);
 
 NutchCtrl.$inject = ['$scope', 'nutchSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
 
@@ -164,6 +164,7 @@ function NutchCtrl($scope, nutchSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	}
 
 	function deleteNode(nodeId) {
+		console.log (nodeId);
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 			title: "Are you sure?",
@@ -202,7 +203,7 @@ function NutchCtrl($scope, nutchSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 
 }
 
-function colSelectContainers() {
+function colSelectNutchNodes() {
 	return {
 		restrict: 'E',
 		templateUrl: 'plugins/nutch/directives/col-select/col-select-containers.html'
