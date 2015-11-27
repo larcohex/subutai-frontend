@@ -170,10 +170,11 @@ function NutchCtrl(nutchSrv, SweetAlert) {
 
 	function openSubwindow() {
 		ngDialog.open ({
-			ngDialog.openConfirm({template: 'subwindow.html',
+			ngDialog.openConfirm({template: 'subwindow.html'})
 		}).then(
 			function (value) {
 				// TODO: add node
+
 			},
 			function (value) {
 				// TODO: cancel and close ngDialog
