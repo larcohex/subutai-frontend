@@ -332,6 +332,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('mongo', {
+        			url: '/plugins/mongo',
+        			templateUrl: 'plugins/mongo/partials/view.html',
+        			resolve: {
+        				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+        					return $ocLazyLoad.load([
+        						{
+        							name: 'subutai.plugins.mongo',
+        							files: [
+        								'plugins/mongo/mongo.js',
+        								'plugins/mongo/controller.js',
+        								'plugins/mongo/service.js',
+        								'subutai-app/environment/service.js',
+                                        'subutai-app/peerRegistration/service.js'
+        							]
+        						}
+        					]);
+        				}]
+        			}
+        		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -340,7 +360,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiZTE3YWZhZi05NjI5LTRiNzAtYjM0OC00OWZhNzcwMzljOTIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.u3ZmT2sV4XIeHeFBXEQo7f7hcdAEB0YQAi7Kgnb9B1o';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ZmVkYjUyNi05N2IxLTQ1ZTUtOTc0Yi1mOTE4YjlmM2JkM2MiLCJpc3MiOiJpby5zdWJ1dGFpIn0.tt3f8_GAjzmWS0iqKRIKf5H8b7p8Q8uN6dqybHGxS90';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -415,7 +435,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8181/';
+var SERVER_URL = 'http://172.16.131.204:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
