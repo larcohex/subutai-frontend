@@ -5,16 +5,16 @@
 			<img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
 		</a>
 	</div>
-	<form ng-submit="nutchCtrl.addNewNode(chosenNode)">
+	<form ng-submit="mahoutCtrl.addNode(chosenNode)">
 		<div class="b-popup__body">
 
 			<div class="popup-body-box">
 				<label class="b-popup-body-label">Available Nodes</label>
-				<select class="b-popup-body-input b-popup-body-input_box"
-						ng-model="chosenNode">
-					<option
-							ng-repeat="availableNode in nutchCtrl.availableNodes"
-							value="{{ availableNode }}">
+				<select class="b-popup-body-input b-popup-body-input_box" 
+					ng-model="chosenNode">
+					<option 
+						ng-repeat="availableNode in mahoutCtrl.availableNodes" 
+						value="{{ availableNode }}">
 						{{ availableNode }}
 					</option>
 				</select>

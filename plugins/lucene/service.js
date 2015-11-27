@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('subutai.plugins.nutch.service',[])
-	.factory('nutchSrv', nutchSrv);
+angular.module('subutai.plugins.lucene.service',[])
+	.factory('luceneSrv', luceneSrv);
 
-nutchSrv.$inject = ['$http', 'hadoopSrv'];
+luceneSrv.$inject = ['$http', 'hadoopSrv'];
 
-function nutchSrv($http, hadoopSrv) {
-	var BASE_URL = SERVER_URL + 'rest/nutch/';
+function luceneSrv($http, hadoopSrv) {
+	var BASE_URL = SERVER_URL + 'rest/lucene/';
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
-	var nutchSrv = {
+	var luceneSrv = {
 		getHadoopClusters: getHadoopClusters,
-		createNutch: createNutch,
+		createLucene: createLucene,
 		getClusters: getClusters,
 		deleteNode: deleteNode,
 		getAvailableNodes: getAvailableNodes,
@@ -19,7 +19,7 @@ function nutchSrv($http, hadoopSrv) {
 		deleteCluster: deleteCluster,
 	};
 
-	return nutchSrv;
+	return luceneSrv;
 
 	function addNode(clusterName, lxcHostname) {
 		return $http.post(CLUSTER_URL + clusterName + '/add/node/' + lxcHostname);
@@ -52,9 +52,9 @@ function nutchSrv($http, hadoopSrv) {
 		return $http.delete(CLUSTER_URL + clusterName + '/destroy/node/' + nodeId);
 	}
 
-	function createNutch(nutchObj) {
-		console.log(nutchObj);
-		var postData = 'clusterName=' + nutchObj.clusterName + '&hadoopClusterName=' + nutchObj.hadoopClusterName + '&nodes=' + JSON.stringify(nutchObj.nodes);
+	function createLucene(luceneObj) {
+		console.log(luceneObj);
+		var postData = 'clusterName=' + luceneObj.clusterName + '&hadoopClusterName=' + luceneObj.hadoopClusterName + '&nodes=' + JSON.stringify(luceneObj.nodes);
 		return $http.post(
 			CLUSTER_URL + 'install',
 			postData, 

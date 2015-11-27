@@ -1,40 +1,34 @@
-<div ng-include="'subutai-app/plugins/partials/top.html'"></div>
-<div ng-controller="oozieCtrl as oozieCtrl"  class="ibox float-e-margins animated fadeInLeft">
-    <div style="min-height: 40px">
-        <strong> <p10>Please, specify installation settings </p10> </strong>
-    </div>
-    <div class="subCol">
-        <div>
-            oozie cluster name <font color=red size=1><b>*</b></font>
-            </br>
-            <input type="text" style="width: 200px" name="userName" ng-model="oozieCtrl.instalation.name" required>
-        </div>
-        <br>
-        <div class="subCol" style="width: 200px">
-            Hadoop cluster <font color=red size=1><b>*</b></font>
-            <select class="form-control m-b"
-                    ng-change="oozieCtrl.loadOperations()"
-                    ng-model="oozieCtrl.selectedModule">
-                <option ng-repeat="module in oozieCtrl.modules" value="{{ module }}">
-                    {{ module }}
-                </option>
-            </select>
-        </div>
-        <br/>Nodes <font color=red size=1><b>*</b></font>
-        </br>
-            <button  ng-click="oozieCtrl.do()" class="btn btn-primary" >
-                next
-            </button>
-            <button  ng-click="oozieCtrl.do()" class="btn btn-primary" >
-                back
-            </button>
-            <div>
-                <div ng-repeat="row in oozieCtrl.rows">
-                    <input type="text" placeholder="{{row.fnPlaceholder}}" ng-model="row.question">
-                    <input ng-class="{'blockInput': !row.pick}" placeholder="{{row.lnPlaceholder}}" type="text" ng-model="  row.text">
-                    <button class="btn btn-primary" ng-click="oozieCtrl.removeRow($index)">Remove</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div ng-controller="OozieCtrl as oozieCtrl">
+
+	<div class="b-workspace__header">
+		<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">oozie</span></h1>
+	</div>
+
+	<div class="b-workspace__content">
+		<div class="b-tabs-menu">
+			<ul>
+				<li class="b-tabs-menu__item" 
+				ng-click="oozieCtrl.activeTab = 'install'" 
+				ng-class="oozieCtrl.activeTab == 'install' ? 'b-tabs-menu__item_active' : ''">
+					Install
+				</li>
+				<li class="b-tabs-menu__item" 
+				ng-click="oozieCtrl.activeTab = 'manage'" 
+				ng-class="oozieCtrl.activeTab == 'manage' ? 'b-tabs-menu__item_active' : ''">
+					Manage
+				</li>
+			</ul>
+		</div>
+		<div 
+			ng-if="oozieCtrl.activeTab == 'install'" 
+			ng-include="'plugins/oozie/partials/install.html'">
+		</div>
+
+		<div 
+			ng-if="oozieCtrl.activeTab == 'manage'" 
+			ng-include="'plugins/oozie/partials/manage.html'">
+		</div>
+
+	</div>
+
 </div>

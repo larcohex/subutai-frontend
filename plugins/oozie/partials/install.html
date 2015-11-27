@@ -1,5 +1,4 @@
-
-<form ng-submit="mahoutCtrl.createMahout()">
+<form ng-submit="oozieCtrl.createoozie()">
 	<div class="b-workspace-content b-workspace-content_border">
 		<div class="b-workspace-content__row">
 			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
@@ -10,7 +9,7 @@
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
 							placeholder="Enter cluster name" 
-							ng-model="mahoutCtrl.mahoutInstall.clusterName" 
+							ng-model="oozieCtrl.oozieInstall.clusterName" 
 							required>
 						</div>
 						<div class="clear"></div>
@@ -20,13 +19,28 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<select class="b-form-input b-form-input_full" 
-								ng-model="mahoutCtrl.mahoutInstall.hadoopClusterName" 
-								ng-change="mahoutCtrl.getHadoopClusterNodes(mahoutCtrl.mahoutInstall.hadoopClusterName)">
+								ng-model="oozieCtrl.oozieInstall.hadoopClusterName" 
+								ng-change="oozieCtrl.getHadoopClusterNodes(oozieCtrl.oozieInstall.hadoopClusterName)">
 								<option value="">Select hadoop cluster</option>
-								<option ng-repeat="hadoopCluster in mahoutCtrl.hadoopClusters" value="{{ hadoopCluster }}">
+								<option ng-repeat="hadoopCluster in oozieCtrl.hadoopClusters" value="{{ hadoopCluster }}">
 									{{ hadoopCluster }}
 								</option>
 							</select>						
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Server</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<select class="b-form-input b-form-input_full"
+									ng-model="oozieCtrl.oozieInstall.hadoopClusterName"
+									ng-change="oozieCtrl.getHadoopClusterNodes(oozieCtrl.oozieInstall.hadoopClusterName)">
+								<option value="">Select server</option>
+								<option ng-repeat="hadoopCluster in oozieCtrl.hadoopClusters" value="{{ hadoopCluster }}"> <!-- TODO: change UI according to selected server -->
+									{{ hadoopCluster }}
+								</option>
+							</select>
 						</div>
 						<div class="clear"></div>
 					</div>

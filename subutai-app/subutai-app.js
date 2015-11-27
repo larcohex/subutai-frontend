@@ -353,6 +353,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('pig', {
+			url: '/plugins/pig',
+			templateUrl: 'plugins/pig/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.pig',
+							files: [
+								'plugins/pig/mahout.js',
+								'plugins/pig/controller.js',
+								'plugins/pig/service.js',
+								'plugins/pig/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('hipi', {
 			url: '/plugins/hipi',
 			templateUrl: 'plugins/hipi/partials/view.html',
@@ -365,6 +385,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'plugins/hipi/hipi.js',
 								'plugins/hipi/controller.js',
 								'plugins/hipi/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('lucene', {
+			url: '/plugins/lucene',
+			templateUrl: 'plugins/lucene/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.lucene',
+							files: [
+								'plugins/lucene/lucene.js',
+								'plugins/lucene/controller.js',
+								'plugins/lucene/service.js',
 								'plugins/hadoop/service.js',
 								'subutai-app/environment/service.js'
 							]
@@ -393,6 +433,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('oozie', {
+			url: '/plugins/oozie',
+			templateUrl: 'plugins/oozie/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.oozie',
+							files: [
+								'plugins/oozie/oozie.js',
+								'plugins/oozie/controller.js',
+								'plugins/oozie/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -401,7 +461,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0N2NkYWI4ZC0xMzM5LTQ1YTYtOTVmZS1lZTFkYjBkMGM0ZmEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.yn6YyeIgQ99APO2QjOEFJkpG7_lD0gRmbtI-8GYKLPI';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMjhmYmQxMC00OTlhLTQ0ZWYtOTA5ZC0wMjM1OTZkNWNkOGQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.r7GA1E8W6a4rl9OCc6WUMiy7nZwfNvk6pf3p3dGihRA';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -513,6 +573,18 @@ function VARS_MODAL_ERROR( object, text )
 			type: "error",
 			confirmButtonColor: "#ff3f3c"
 		});
+}
+
+Array.prototype.getUnique = function(){
+   var u = {}, a = [];
+   for(var i = 0, l = this.length; i < l; ++i){
+      if(u.hasOwnProperty(this[i])) {
+         continue;
+      }
+      a.push(this[i]);
+      u[this[i]] = 1;
+   }
+   return a;
 }
 
 quotaColors = [];
