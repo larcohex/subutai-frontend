@@ -33,7 +33,7 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 		})
 		.withPaginationType('full_numbers')
 		.withOption('createdRow', createdRow)
-		.withOption('order', [[ 3, "asc" ]])
+		.withOption('order', [[ 3, "desc" ]])
 		.withOption('columnDefs', [ {"width": "105px", "targets": [7]} ])
 		.withOption('stateSave', true);
 
