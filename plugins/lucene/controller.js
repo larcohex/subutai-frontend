@@ -2,7 +2,7 @@
 
 angular.module('subutai.plugins.lucene.controller', [])
     .controller('LuceneCtrl', LuceneCtrl)
-	.directive('colSelectContainers', colSelectContainers);
+	.directive('colSelectLuceneNodes', colSelectLuceneNodes);
 
 LuceneCtrl.$inject = ['$scope', 'luceneSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
 
@@ -95,6 +95,7 @@ function LuceneCtrl($scope, luceneSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		LOADING_SCREEN();
 		luceneSrv.getHadoopClusters(selectedCluster).success(function (data) {
 			vm.currentClusterNodes = data.dataNodes;
+			var tempArray = [];
 
 			var nameNodeFound = false;
 			var jobTrackerFound = false;
@@ -105,16 +106,26 @@ function LuceneCtrl($scope, luceneSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 				if(node.hostname === data.jobTracker.hostname) jobTrackerFound = true;
 				if(node.hostname === data.secondaryNameNode.hostname) secondaryNameNodeFound = true;
 			}
-
 			if(!nameNodeFound) {
-				vm.currentClusterNodes.push(data.nameNode);
+				tempArray.push(data.nameNode);
 			}
 			if(!jobTrackerFound) {
-				vm.currentClusterNodes.push(data.jobTracker);
+				if(tempArray[0].hostname != data.jobTracker.hostname) {
+					tempArray.push(data.jobTracker);
+				}
 			}
 			if(!secondaryNameNodeFound) {
-				vm.currentClusterNodes.push(data.secondaryNameNode);
+				var checker = 0;
+				for(var i = 0; i < tempArray.length; i++) {
+					if(tempArray[i].hostname != data.secondaryNameNode.hostname) {
+						checker++;
+					}
+				}
+				if(checker == tempArray.length) {
+					tempArray.push(data.secondaryNameNode);
+				}
 			}
+			vm.currentClusterNodes = vm.currentClusterNodes.concat(tempArray);
 
 			LOADING_SCREEN('none');
 			console.log(vm.currentClusterNodes);
@@ -202,7 +213,7 @@ function LuceneCtrl($scope, luceneSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 
 }
 
-function colSelectContainers() {
+function colSelectLuceneNodes() {
 	return {
 		restrict: 'E',
 		templateUrl: 'plugins/lucene/directives/col-select/col-select-containers.html'

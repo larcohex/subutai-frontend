@@ -2,7 +2,7 @@
 
 angular.module('subutai.plugins.mahout.controller', [])
     .controller('MahoutCtrl', MahoutCtrl)
-	.directive('colSelectContainers', colSelectContainers);
+	.directive('colSelectMahoutNodes', colSelectMahoutNodes);
 
 MahoutCtrl.$inject = ['$scope', 'mahoutSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
 
@@ -95,6 +95,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		LOADING_SCREEN();
 		mahoutSrv.getHadoopClusters(selectedCluster).success(function (data) {
 			vm.currentClusterNodes = data.dataNodes;
+			var tempArray = [];
 
 			var nameNodeFound = false;
 			var jobTrackerFound = false;
@@ -105,16 +106,26 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 				if(node.hostname === data.jobTracker.hostname) jobTrackerFound = true;
 				if(node.hostname === data.secondaryNameNode.hostname) secondaryNameNodeFound = true;
 			}
-
 			if(!nameNodeFound) {
-				vm.currentClusterNodes.push(data.nameNode);
+				tempArray.push(data.nameNode);
 			}
 			if(!jobTrackerFound) {
-				vm.currentClusterNodes.push(data.jobTracker);
+				if(tempArray[0].hostname != data.jobTracker.hostname) {
+					tempArray.push(data.jobTracker);
+				}
 			}
 			if(!secondaryNameNodeFound) {
-				vm.currentClusterNodes.push(data.secondaryNameNode);
+				var checker = 0;
+				for(var i = 0; i < tempArray.length; i++) {
+					if(tempArray[i].hostname != data.secondaryNameNode.hostname) {
+						checker++;
+					}
+				}
+				if(checker == tempArray.length) {
+					tempArray.push(data.secondaryNameNode);
+				}
 			}
+			vm.currentClusterNodes = vm.currentClusterNodes.concat(tempArray);
 
 			LOADING_SCREEN('none');
 			console.log(vm.currentClusterNodes);
@@ -202,7 +213,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 
 }
 
-function colSelectContainers() {
+function colSelectMahoutNodes() {
 	return {
 		restrict: 'E',
 		templateUrl: 'plugins/mahout/directives/col-select/col-select-containers.html'
