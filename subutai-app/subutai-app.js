@@ -373,6 +373,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('nutch', {
+			url: '/plugins/nutch',
+			templateUrl: 'plugins/nutch/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.nutch',
+							files: [
+								'plugins/nutch/nutch.js',
+								'plugins/nutch/controller.js',
+								'plugins/nutch/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -381,7 +401,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTRjMGU5MC1mMDI3LTQzZGQtYjBlMi01ZWYyZDAyYTU3MWUiLCJpc3MiOiJpby5zdWJ1dGFpIn0.Utxw74EZ5o4cETWBOycWxaNL56QRwsGHxlxhi7crB9E';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0N2NkYWI4ZC0xMzM5LTQ1YTYtOTVmZS1lZTFkYjBkMGM0ZmEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.yn6YyeIgQ99APO2QjOEFJkpG7_lD0gRmbtI-8GYKLPI';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -456,7 +476,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8080/';
+var SERVER_URL = 'http://172.16.131.204:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;

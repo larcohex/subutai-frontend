@@ -2,5 +2,6 @@
 
 angular.module('subutai.plugins.mongo', [
     'subutai.plugins.mongo.controller',
-    'subutai.plugins.mongo.service'
+    'subutai.plugins.mongo.service',
+    'subutai.environment.service'
 ])
