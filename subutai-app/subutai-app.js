@@ -362,10 +362,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 						{
 							name: 'subutai.plugins.pig',
 							files: [
-								'plugins/pig/mahout.js',
+								'plugins/pig/pig.js',
 								'plugins/pig/controller.js',
 								'plugins/pig/service.js',
-								'plugins/pig/service.js',
+								'plugins/hadoop/service.js',
 								'subutai-app/environment/service.js'
 							]
 						}
