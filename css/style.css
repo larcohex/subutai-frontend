@@ -1338,6 +1338,10 @@ td.b-main-table__status-col {
     width: 100%;
 }
 
+.b-form-input_textarea {
+    height: 100px;
+}
+
 .b-form-input_half {
     width: 50%;
 }
