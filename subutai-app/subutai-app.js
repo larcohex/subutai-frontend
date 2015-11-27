@@ -353,6 +353,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('pig', {
+			url: '/plugins/pig',
+			templateUrl: 'plugins/pig/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.pig',
+							files: [
+								'plugins/pig/mahout.js',
+								'plugins/pig/controller.js',
+								'plugins/pig/service.js',
+								'plugins/pig/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('hipi', {
 			url: '/plugins/hipi',
 			templateUrl: 'plugins/hipi/partials/view.html',
