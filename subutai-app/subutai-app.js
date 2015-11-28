@@ -434,17 +434,17 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('elasticsearch', {
-			url: '/plugins/elastic-search',
-			templateUrl: 'plugins/elastic-search/partials/view.html',
+			url: '/plugins/elasticsearch',
+			templateUrl: 'plugins/elasticsearch/partials/view.html',
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
 							name: 'subutai.plugins.elastic-search',
 							files: [
-								'plugins/elastic-search/elastic-search.js',
-								'plugins/elastic-search/controller.js',
-								'plugins/elastic-search/service.js',
+								'plugins/elasticsearch/elastic-search.js',
+								'plugins/elasticsearch/controller.js',
+								'plugins/elasticsearch/service.js',
 								'subutai-app/environment/service.js'
 							]
 						}

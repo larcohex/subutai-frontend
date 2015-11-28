@@ -221,7 +221,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 function colSelectElasticSearchNodes() {
 	return {
 		restrict: 'E',
-		templateUrl: 'plugins/elastic-search/directives/col-select/col-select-containers.html'
+		templateUrl: 'plugins/elasticsearch/directives/col-select/col-select-containers.html'
 	}
 };
 
