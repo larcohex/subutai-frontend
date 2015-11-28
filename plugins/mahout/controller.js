@@ -88,6 +88,8 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 				"success"
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Mahout add node error: ' + error, "error");
 		});
 	}
 
@@ -192,7 +194,9 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			if (isConfirm) {
 				mahoutSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete node error: ' + error, "error");
 				});
 			}
 		});
