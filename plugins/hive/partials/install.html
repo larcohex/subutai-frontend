@@ -34,10 +34,9 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<select class="b-form-input b-form-input_full"
-									ng-model="hiveCtrl.hiveInstall.server"
-									ng-change="hiveCtrl.changeDirective (hiveCtrl.hiveInstall.server.hostname)">
-								<option value="">Select server</option>
-								<option ng-repeat="node in hiveCtrl.currentClusterNodes" value="{{ node }}">
+								ng-model="hiveCtrl.hiveInstall.server"
+								ng-change="hiveCtrl.changeDirective(hiveCtrl.hiveInstall.server)">
+								<option ng-repeat="node in hiveCtrl.currentClusterNodes" value="{{ node.uuid }}">
 									{{ node.hostname }}
 								</option>
 							</select>

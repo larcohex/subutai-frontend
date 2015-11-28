@@ -29,6 +29,7 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 	vm.deleteCluster = deleteCluster;
 	vm.startServer = startServer;
 	vm.stopServer = stopServer;
+	vm.changeDirective = changeDirective;
 
 	hiveSrv.getHadoopClusters().success(function(data){
 		vm.hadoopClusters = data;
@@ -94,6 +95,16 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 		});
 	}
 
+	function changeDirective(server) {
+		console.log(server);
+		vm.hiveInstall.clients = [];
+		for (var i = 0; i < vm.currentClusterNodes.length; ++i) {
+			if (vm.currentClusterNodes[i].uuid !== server) {
+				vm.hiveInstall.clients.push(vm.currentClusterNodes[i].uuid);
+			}
+		}
+	}
+
 	function getHadoopClusterNodes(selectedCluster) {
 		LOADING_SCREEN();
 		hiveSrv.getHadoopClusters(selectedCluster).success(function (data) {
@@ -128,29 +139,25 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 					tempArray.push(data.secondaryNameNode);
 				}
 			}
+
 			vm.currentClusterNodes = vm.currentClusterNodes.concat(tempArray);
-
 			LOADING_SCREEN('none');
-
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", error, "error");
+			LOADING_SCREEN('none');
 		});
 	}
 
 	function createHive() {
 		console.log (vm.hiveInstall);
-		vm.hiveInstall.nodes = [];
-		var temp = JSON.parse (vm.hiveInstall.server);
-		for (var i = 0; i < vm.currentClusterNodes.length; ++i) {
-			if (vm.currentClusterNodes[i].hostname !== temp.hostname) {
-				vm.hiveInstall.nodes.push (vm.currentClusterNodes[i]);
-			}
-		}
 		if(vm.hiveInstall.clusterName === undefined || vm.hiveInstall.clusterName.length == 0) return;
 		if(vm.hiveInstall.hadoopClusterName === undefined || vm.hiveInstall.hadoopClusterName.length == 0) return;
+		SweetAlert.swal("Success!", "Hive cluster start creating.", "success");
 		hiveSrv.createHive(vm.hiveInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your hive cluster start creating.", "success");
+			SweetAlert.swal("Success!", "Your Hive cluster start creating.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'hive cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Hive cluster create error: ' + error, "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -201,7 +208,7 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 			if (isConfirm) {
 				hiveSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
 				});
 			}
 		});
@@ -210,27 +217,32 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 
 	function setDefaultValues() {
 		vm.hiveInstall = {};
-		vm.hiveInstall.nodes = [];
-		vm.hiveInstall.server = {};
+		vm.hiveInstall.clients = [];
 	}
 
 
 	function startServer() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		vm.currentCluster.server.status = 'STARTING';
 		hiveSrv.startNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
 			SweetAlert.swal("Success!", "Your server started.", "success");
-			getClusters();
+			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'hive server start error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Hive server start error: ' + error, "error");
+			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
 
 
 	function stopServer() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		vm.currentCluster.server.status = 'STOPPING';
 		hiveSrv.stopNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
 			SweetAlert.swal("Success!", "Your server stopped.", "success");
-			getClusters();
+			vm.currentCluster.server.status = 'STOPPED';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'hive server stop error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Hive server stop error: ' + error, "error");
+			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
 }

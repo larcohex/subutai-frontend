@@ -319,7 +319,7 @@ body {
 }
 .b-data-table {
     overflow: hidden;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .dt-loading {

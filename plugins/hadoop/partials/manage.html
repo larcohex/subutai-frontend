@@ -47,7 +47,7 @@
 					<th>IP</th>
 					<th></th>
 				</tr>
-				<td colspan="4" class="b-main-table__empty-item" ng-if="hadoopCtrl.currentCluster === undefined">No data available in table</td>
+				<td colspan="5" class="b-main-table__empty-item" ng-if="hadoopCtrl.currentCluster.nameNode === undefined">No data available in table</td>
 				<tr ng-if="hadoopCtrl.currentCluster.nameNode !== undefined">
 					<td class="b-main-table__container-status">
 						<div 

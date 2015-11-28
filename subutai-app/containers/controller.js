@@ -81,7 +81,8 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 		DTColumnDefBuilder.newColumnDef(2).notSortable(),
 		DTColumnDefBuilder.newColumnDef(3),
 		DTColumnDefBuilder.newColumnDef(4).notSortable(),
-		DTColumnDefBuilder.newColumnDef(5).notSortable()
+		DTColumnDefBuilder.newColumnDef(5).notSortable(),
+		DTColumnDefBuilder.newColumnDef(6).notSortable()
 	];
 
 	function destroyContainer(containerId, key) {

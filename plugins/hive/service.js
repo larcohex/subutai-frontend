@@ -56,12 +56,10 @@ function hiveSrv($http, hadoopSrv) {
 	}
 
 	function createHive(hiveObj) {
-		var arr = [];
-		for (var i = 0; i < hiveObj.nodes.length; ++i) {
-			arr.push (hiveObj.nodes[i].hostname);
-		}
-		var postData = 'clusterName=' + hiveObj.clusterName + '&hadoopClusterName=' + hiveObj.hadoopClusterName + '&server=' + (JSON.parse (hiveObj.server)).uuid + "&clients=" + JSON.stringify (arr);
-		console.log (postData);
+		var postData = 'clusterName=' + hiveObj.clusterName 
+			+ '&hadoopClusterName=' + hiveObj.hadoopClusterName 
+			+ '&server=' + hiveObj.server + "&clients=" 
+			+ JSON.stringify(hiveObj.clients);
 		return $http.post(
 			CLUSTER_URL + 'install',
 			postData, 

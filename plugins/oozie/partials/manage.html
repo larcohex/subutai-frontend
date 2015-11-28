@@ -40,10 +40,10 @@
 					<th>Status</th>
 					<th></th>
 				</tr>
-				<td colspan="4" class="b-main-table__empty-item" ng-if="oozieCtrl.currentCluster === undefined">
+				<td colspan="4" class="b-main-table__empty-item" ng-if="oozieCtrl.currentCluster.server === undefined">
 					No data available in table
 				</td>
-				<tr ng-if="oozieCtrl.currentCluster == {}">
+				<tr ng-if="oozieCtrl.currentCluster.server">
 					<td>{{ oozieCtrl.currentCluster.server.hostname }}</td>
 					<td>{{ oozieCtrl.currentCluster.server.ip }}</td>
 					<td class="b-main-table__container-status">
@@ -54,9 +54,18 @@
 						>
 						</div>
 					</td>
-					<td>
-						<a href ng-click="oozieCtrl.startServer()" class="b-btn b-btn_green">Start</a>
-						<a href ng-click="oozieCtrl.stopServer()" class="b-btn b-btn_red">Stop</a>
+					<td class="b-main-table__empty-item">
+						<button ng-show="oozieCtrl.currentCluster.server.status == 'RUNNING'" class="b-btn b-btn_red subt_button__container-stop" 
+						ng-click="oozieCtrl.stopServer()">
+							Stop
+						</button>
+						<button ng-show="oozieCtrl.currentCluster.server.status == 'STOPPED'" class="b-btn b-btn_green subt_button__container-start" 
+						ng-click="oozieCtrl.startServer()">
+							Start
+						</button>
+						<span class="b-load-icon" title="{{ oozieCtrl.currentCluster.nameNode.state }}" 
+							ng-show="oozieCtrl.currentCluster.server.status != 'STOPPED' && oozieCtrl.currentCluster.server.status != 'RUNNING'">
+						</span>
 					</td>
 				</tr>
 			</table>

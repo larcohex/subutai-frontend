@@ -2,7 +2,7 @@
 
 angular.module('subutai.plugins.hadoop.controller', [])
     .controller('HadoopCtrl', HadoopCtrl)
-	.directive('colSelectContainers', colSelectContainers)
+	.directive('colSelectHadoopContainers', colSelectHadoopContainers)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
 HadoopCtrl.$inject = ['hadoopSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder'];
@@ -173,12 +173,13 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 	function setDefaultValues() {
 		vm.hadoopInstall = {};
 		vm.hadoopInstall.domainName = 'intra.lan';
+		vm.hadoopInstall.replicationFactor = 1;
 		vm.hadoopInstall.slaves = [];
 	}	
 
 }
 
-function colSelectContainers() {
+function colSelectHadoopContainers() {
 	return {
 		restrict: 'E',
 		templateUrl: 'plugins/hadoop/directives/col-select/col-select-containers.html'

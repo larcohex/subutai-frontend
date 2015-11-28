@@ -34,10 +34,9 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<select class="b-form-input b-form-input_full"
-									ng-model="oozieCtrl.oozieInstall.server"
-									ng-change="oozieCtrl.changeDirective(oozieCtrl.oozieInstall.server)">
-								<option value="">Select server</option>
-								<option ng-repeat="node in oozieCtrl.currentClusterNodes" value="{{ node.hostname }}">
+								ng-model="oozieCtrl.oozieInstall.server"
+								ng-change="oozieCtrl.changeDirective(oozieCtrl.oozieInstall.server)">
+								<option ng-repeat="node in oozieCtrl.currentClusterNodes" value="{{ node.uuid }}">
 									{{ node.hostname }}
 								</option>
 							</select>
@@ -53,7 +52,7 @@
 				Nodes to be configured
 			</h2>
 
-			<col-select-containers></col-select-containers>
+			<col-select-oozie-nodes></col-select-oozie-nodes>
 
 			<div class="clear"></div>
 		</div>

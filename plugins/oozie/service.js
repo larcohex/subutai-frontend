@@ -56,12 +56,10 @@ function oozieSrv($http, hadoopSrv) {
 	}
 
 	function createOozie(oozieObj) {
-		var arr = [];
-		for (var i = 0; i < oozieObj.nodes.length; ++i) {
-			arr.push (oozieObj.nodes[i]);
-		}
-		var postData = 'clusterName=' + oozieObj.clusterName + '&hadoopClusterName=' + oozieObj.hadoopClusterName + '&server=' + (JSON.parse (oozieObj.server)).uuid + "&clients=" + JSON.stringify (arr);
-		console.log (postData);
+		var postData = 'clusterName=' + oozieObj.clusterName 
+			+ '&hadoopClusterName=' + oozieObj.hadoopClusterName 
+			+ '&server=' + oozieObj.server 
+			+ "&clients=" + JSON.stringify (oozieObj.nodes);
 		return $http.post(
 			CLUSTER_URL + 'install',
 			postData, 
@@ -70,9 +68,6 @@ function oozieSrv($http, hadoopSrv) {
 	}
 
 	function startNode (clusterName, lxcHostName) {
-		console.log (clusterName);
-		console.log (lxcHostName);
-		console.log (CLUSTER_URL + clusterName + "/start/node/" + lxcHostName);
 		return $http.put (CLUSTER_URL + clusterName + "/start/node/" + lxcHostName);
 	}
 

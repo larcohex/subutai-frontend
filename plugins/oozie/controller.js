@@ -2,7 +2,7 @@
 
 angular.module('subutai.plugins.oozie.controller', [])
     .controller('OozieCtrl', OozieCtrl)
-	.directive('colSelectContainers', colSelectContainers);
+	.directive('colSelectOozieNodes', colSelectOozieNodes);
 
 OozieCtrl.$inject = ['$scope', 'oozieSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
 
@@ -13,7 +13,7 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	vm.clusters = [];
 	vm.hadoopClusters = [];
 	vm.currentClusterNodes = [];
-	//vm.currentCluster = {};
+	vm.currentCluster = {};
 	vm.availableNodes = [];
 	vm.otherNodes = [];
 	vm.temp = [];
@@ -132,13 +132,13 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			vm.currentClusterNodes = vm.currentClusterNodes.concat(tempArray);
 
 			LOADING_SCREEN('none');
-			console.log(vm.currentClusterNodes);
 		});
 	}
 
 	function createOozie() {
 		if(vm.oozieInstall.clusterName === undefined || vm.oozieInstall.clusterName.length == 0) return;
 		if(vm.oozieInstall.hadoopClusterName === undefined || vm.oozieInstall.hadoopClusterName.length == 0) return;
+		SweetAlert.swal("Success!", "Oozie cluster start creating.", "success");
 		oozieSrv.createOozie(vm.oozieInstall).success(function (data) {
 			SweetAlert.swal("Success!", "Your Oozie cluster start creating.", "success");
 			getClusters();
@@ -194,7 +194,7 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			if (isConfirm) {
 				oozieSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
 				});
 			}
 		});
@@ -218,33 +218,39 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function changeDirective(server) {
 		vm.otherNodes = [];
 		for (var i = 0; i < vm.currentClusterNodes.length; ++i) {
-			if (vm.currentClusterNodes[i].hostname !== server) {
+			if (vm.currentClusterNodes[i].uuid !== server) {
 				vm.otherNodes.push (vm.currentClusterNodes[i]);
 			}
 		}
 	}
 
 	function startServer() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		vm.currentCluster.server.status = 'STARTING';
 		oozieSrv.startNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
 			SweetAlert.swal("Success!", "Your server started.", "success");
-			getClusters();
+			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Oozie server start error: ' + error, "error");
+			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
 
 
 	function stopServer() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		vm.currentCluster.server.status = 'STOPPING';
 		oozieSrv.stopNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
 			SweetAlert.swal("Success!", "Your server stopped.", "success");
-			getClusters();
+			vm.currentCluster.server.status = 'STOPPED';
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Oozie server stop error: ' + error, "error");
+			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
 }
 
-function colSelectContainers() {
+function colSelectOozieNodes() {
 	return {
 		restrict: 'E',
 		templateUrl: 'plugins/oozie/directives/col-select/col-select-containers.html'
