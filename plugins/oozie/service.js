@@ -5,6 +5,7 @@ angular.module('subutai.plugins.oozie.service',[])
 
 oozieSrv.$inject = ['$http', 'hadoopSrv'];
 
+
 function oozieSrv($http, hadoopSrv) {
 	var BASE_URL = SERVER_URL + 'rest/oozie/';
 	var CLUSTER_URL = BASE_URL + 'clusters/';
@@ -17,6 +18,8 @@ function oozieSrv($http, hadoopSrv) {
 		getAvailableNodes: getAvailableNodes,
 		addNode: addNode,
 		deleteCluster: deleteCluster,
+		startNode: startNode,
+		stopNode: stopNode
 	};
 
 	return oozieSrv;
@@ -45,16 +48,20 @@ function oozieSrv($http, hadoopSrv) {
 	}
 
 	function deleteCluster(clusterName) {
-		return $http.delete(CLUSTER_URL + 'destroy/' + clusterName);
+		return $http.delete(CLUSTER_URL + 'remove/' + clusterName);
 	}
 
 	function deleteNode(clusterName, nodeId) {
-		return $http.delete(CLUSTER_URL + clusterName + '/destroy/node/' + nodeId);
+		return $http.delete(CLUSTER_URL + clusterName + '/remove/node/' + nodeId);
 	}
 
 	function createOozie(oozieObj) {
-		console.log(oozieObj);
-		var postData = 'clusterName=' + oozieObj.clusterName + '&hadoopClusterName=' + oozieObj.hadoopClusterName + '&nodes=' + JSON.stringify(oozieObj.nodes);
+		var arr = [];
+		for (var i = 0; i < oozieObj.nodes.length; ++i) {
+			arr.push (oozieObj.nodes[i]);
+		}
+		var postData = 'clusterName=' + oozieObj.clusterName + '&hadoopClusterName=' + oozieObj.hadoopClusterName + '&server=' + (JSON.parse (oozieObj.server)).uuid + "&clients=" + JSON.stringify (arr);
+		console.log (postData);
 		return $http.post(
 			CLUSTER_URL + 'install',
 			postData, 
@@ -62,7 +69,14 @@ function oozieSrv($http, hadoopSrv) {
 		);
 	}
 
-	function startNode (lxcHostName) {
-		//$http.
+	function startNode (clusterName, lxcHostName) {
+		console.log (clusterName);
+		console.log (lxcHostName);
+		console.log (CLUSTER_URL + clusterName + "/start/node/" + lxcHostName);
+		return $http.put (CLUSTER_URL + clusterName + "/start/node/" + lxcHostName);
+	}
+
+	function stopNode (clusterName, lxcHostName) {
+		return $http.put (CLUSTER_URL + clusterName + "/stop/node/" + lxcHostName);
 	}
 }

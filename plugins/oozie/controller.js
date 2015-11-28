@@ -13,8 +13,11 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	vm.clusters = [];
 	vm.hadoopClusters = [];
 	vm.currentClusterNodes = [];
-	vm.currentCluster = [];
+	vm.currentCluster = {};
 	vm.availableNodes = [];
+	vm.otherNodes = [];
+	vm.temp = [];
+
 
 	//functions
 	vm.getClustersInfo = getClustersInfo;	
@@ -25,10 +28,12 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	vm.addNodeForm = addNodeForm;
 	vm.addNode = addNode;
 	vm.deleteCluster = deleteCluster;
+	vm.changeDirective = changeDirective;
+	vm.startServer = startServer;
+	vm.stopServer = stopServer;
 
 	oozieSrv.getHadoopClusters().success(function(data){
 		vm.hadoopClusters = data;
-		console.log(vm.hadoopClusters);
 		if(vm.hadoopClusters.length == 0) {
 			SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! Create Hadoop cluster first.', "error");
 		}
@@ -59,6 +64,7 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function getClustersInfo(selectedCluster) {
 		LOADING_SCREEN();
 		oozieSrv.getClusters(selectedCluster).success(function (data) {
+			vm.temp = [1];
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
 		});
@@ -68,7 +74,6 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		oozieSrv.getAvailableNodes(vm.currentCluster.clusterName).success(function (data) {
 			vm.availableNodes = data;
-			console.log(vm.availableNodes);
 		});
 		ngDialog.open({
 			template: 'plugins/oozie/partials/addNodesForm.html',
@@ -95,6 +100,7 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		LOADING_SCREEN();
 		oozieSrv.getHadoopClusters(selectedCluster).success(function (data) {
 			vm.currentClusterNodes = data.dataNodes;
+			var tempArray = [];
 
 			var nameNodeFound = false;
 			var jobTrackerFound = false;
@@ -105,16 +111,26 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 				if(node.hostname === data.jobTracker.hostname) jobTrackerFound = true;
 				if(node.hostname === data.secondaryNameNode.hostname) secondaryNameNodeFound = true;
 			}
-
 			if(!nameNodeFound) {
-				vm.currentClusterNodes.push(data.nameNode);
+				tempArray.push(data.nameNode);
 			}
 			if(!jobTrackerFound) {
-				vm.currentClusterNodes.push(data.jobTracker);
+				if(tempArray[0].hostname != data.jobTracker.hostname) {
+					tempArray.push(data.jobTracker);
+				}
 			}
 			if(!secondaryNameNodeFound) {
-				vm.currentClusterNodes.push(data.secondaryNameNode);
+				var checker = 0;
+				for(var i = 0; i < tempArray.length; i++) {
+					if(tempArray[i].hostname != data.secondaryNameNode.hostname) {
+						checker++;
+					}
+				}
+				if(checker == tempArray.length) {
+					tempArray.push(data.secondaryNameNode);
+				}
 			}
+			vm.currentClusterNodes = vm.currentClusterNodes.concat(tempArray);
 
 			LOADING_SCREEN('none');
 			console.log(vm.currentClusterNodes);
@@ -124,13 +140,11 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function createOozie() {
 		if(vm.oozieInstall.clusterName === undefined || vm.oozieInstall.clusterName.length == 0) return;
 		if(vm.oozieInstall.hadoopClusterName === undefined || vm.oozieInstall.hadoopClusterName.length == 0) return;
-
-		SweetAlert.swal("Success!", "oozie cluster start creating.", "success");
 		oozieSrv.createOozie(vm.oozieInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your oozie cluster start creating.", "success");
+			SweetAlert.swal("Success!", "Your Oozie cluster start creating.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'oozie cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Oozie cluster create error: ' + error, "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -198,8 +212,40 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function setDefaultValues() {
 		vm.oozieInstall = {};
 		vm.oozieInstall.nodes = [];
+		vm.oozieInstall.server = {};
 	}
 
+
+	function changeDirective() {
+		vm.otherNodes = [];
+		console.log (vm.currentClusterNodes);
+		var temp = JSON.parse (vm.oozieInstall.server);
+		console.log (temp);
+		for (var i = 0; i < vm.currentClusterNodes.length; ++i) {
+			if (vm.currentClusterNodes[i].hostname !== temp.hostname) {
+				vm.otherNodes.push (vm.currentClusterNodes[i]);
+			}
+		}
+	}
+
+	function startServer() {
+		oozieSrv.startNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
+			SweetAlert.swal("Success!", "Your server started.", "success");
+			getClusters();
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Oozie server start error: ' + error, "error");
+		});
+	}
+
+
+	function stopServer() {
+		oozieSrv.stopNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
+			SweetAlert.swal("Success!", "Your server stopped.", "success");
+			getClusters();
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Oozie server stop error: ' + error, "error");
+		});
+	}
 }
 
 function colSelectContainers() {
