@@ -56,7 +56,7 @@ function hipiSrv($http, hadoopSrv) {
 		console.log(hipiObj);
 		var postData = 'clusterName=' + hipiObj.clusterName + '&hadoopClusterName=' + hipiObj.hadoopClusterName + '&nodes=' + JSON.stringify(hipiObj.nodes);
 		return $http.post(
-			CLUSTER_URL + 'install',
+			BASE_URL,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);

@@ -75,11 +75,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		if(vm.currentCluster.clusterName === undefined) return;
 		node.status = 'STARTING';
 		hadoopSrv.startNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes started successfully. LOG: " + data, "success");
+			SweetAlert.swal("Success!", "Your cluster nodes started successfully. LOG: " + data.replace(/\n/g, "<br>"), "success");
 			node.status = 'RUNNING';
 			//getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\n/g, "<br />"), "error");
 			node.status = 'ERROR';
 		});
 	}
@@ -88,11 +88,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		if(vm.currentCluster.clusterName === undefined) return;
 		node.status = 'STOPPING';
 		hadoopSrv.stopNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully. LOG: " + data, "success");
+			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully. LOG: " + data.replace(/\n/g, "<br>"), "success");
 			//getClustersInfo(vm.currentCluster.name);
 			node.status = 'STOPPED';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\n/g, "<br>"), "error");
 			node.status = 'ERROR';
 		});
 	}
@@ -124,12 +124,13 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 
 	function createHadoop() {
 		SweetAlert.swal("Success!", "Hadoop cluster start creating.", "success");
+		vm.activeTab = 'manage';
 		hadoopSrv.createHadoop(JSON.stringify(vm.hadoopInstall)).success(function (data) {
+			SweetAlert.swal("Success!", "Hadoop cluster create message:" + data.replace(/\n/g, "<br>"), "success");
 			getClusters();
-			vm.activeTab = 'manage';
-			SweetAlert.swal("Success!", "Hadoop cluster create message:" + data, "success");
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Hadoop cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Hadoop cluster create error: ' + error.replace(/\n/g, "<br>"), "error");
+			getClusters();
 		});
 		setDefaultValues();
 	}

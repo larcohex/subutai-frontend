@@ -15,16 +15,21 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 	vm.containers = [];
 	vm.currentCluster = [];
 	vm.availableNodes = [];
+	vm.selectedCluster = '';
+	vm.nodes2Action = [];
 
 	//functions
 	vm.getClustersInfo = getClustersInfo;	
 	vm.addContainer = addContainer;	
 	vm.createElasticSearch = createElasticSearch;	
 	vm.deleteNode = deleteNode;
-	vm.addNodeForm = addNodeForm;
 	vm.addNode = addNode;
+	vm.pushNode = pushNode;
 	vm.deleteCluster = deleteCluster;
 	vm.showContainers = showContainers;
+	vm.changeClusterScaling = changeClusterScaling;
+	vm.startNodes = startNodes;
+	vm.stopNodes = stopNodes;
 
 	elasticSearchSrv.getEnvironments().success(function (data) {
 		vm.environments = data;
@@ -60,9 +65,11 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		.withPaginationType('full_numbers');
 
 	vm.dtColumnDefs = [
-		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		DTColumnDefBuilder.newColumnDef(1),
-		DTColumnDefBuilder.newColumnDef(2).notSortable()
+		DTColumnDefBuilder.newColumnDef(2),
+		DTColumnDefBuilder.newColumnDef(3),
+		DTColumnDefBuilder.newColumnDef(4).notSortable()
 	];
 
 	function getClustersInfo(selectedCluster) {
@@ -70,27 +77,54 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		elasticSearchSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Cluster get info error: ' + error, "error");
+			LOADING_SCREEN('none');
 		});
 	}
 
-	function addNodeForm() {
+	function changeClusterScaling(scale) {
 		if(vm.currentCluster.clusterName === undefined) return;
-		elasticSearchSrv.getAvailableNodes(vm.currentCluster.clusterName).success(function (data) {
-			vm.availableNodes = data;
-			console.log(vm.availableNodes);
-		});
-		ngDialog.open({
-			template: 'plugins/elastic-search/partials/addNodesForm.html',
-			scope: $scope
+		try {
+			elasticSearchSrv.changeClusterScaling(vm.currentCluster.clusterName, scale);
+		} catch(e) {}
+	}
+
+	function startNodes() {
+		if(vm.nodes2Action.length == 0) return;
+		if(vm.currentCluster.clusterName === undefined) return;
+		elasticSearchSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
+			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
+			getClustersInfo(vm.currentCluster.clusterName);
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.ERROR, "error");
 		});
 	}
 
-	function addNode(chosenNode) {
-		if(chosenNode === undefined) return;
+	function stopNodes() {
+		if(vm.nodes2Action.length == 0) return;
+		if(vm.currentCluster.name === undefined) return;
+		elasticSearchSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
+			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
+			getClustersInfo(vm.currentCluster.clusterName);
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.ERROR, "error");
+		});
+	}	
+
+	function pushNode(id) {
+		if(vm.nodes2Action.indexOf(id) >= 0) {
+			vm.nodes2Action.splice(vm.nodes2Action.indexOf(id), 1);
+		} else {
+			vm.nodes2Action.push(id);
+		}
+	}
+
+	function addNode() {
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal("Success!", "Adding node action started.", "success");
 		ngDialog.closeAll();
-		elasticSearchSrv.addNode(vm.currentCluster.clusterName, chosenNode).success(function (data) {
+		elasticSearchSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
 				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
@@ -106,10 +140,11 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 
 		SweetAlert.swal("Success!", "Elastic Search cluster start creating.", "success");
 		elasticSearchSrv.createElasticSearch(vm.elasticSearchInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Elastic Search cluster start creating.", "success");
+			SweetAlert.swal("Success!", "Your Elastic Search cluster created.", "success");
 			getClusters();
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Elastic Search cluster create error: ' + error, "error");
+			getClusters();
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -137,6 +172,8 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 					getClusters();
 				}).error(function(data){
 					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + data, "error");
+					vm.currentCluster = {};
+					getClusters();
 				});
 			}
 		});
@@ -160,7 +197,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			if (isConfirm) {
 				elasticSearchSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
 				});
 			}
 		});
@@ -184,7 +221,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 function colSelectElasticSearchNodes() {
 	return {
 		restrict: 'E',
-		templateUrl: 'plugins/elastic-search/directives/col-select/col-select-containers.html'
+		templateUrl: 'plugins/elasticsearch/directives/col-select/col-select-containers.html'
 	}
 };
 

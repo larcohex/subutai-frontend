@@ -69,15 +69,20 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		});
 	}
 
-	environmentService.getPeers().success(function (data) {
-		vm.peers = data;
-		environmentService.getStrategies().success(function (strategie) {
-			for(var i in vm.peers) {
-				var resources = vm.peers[i];
-				vm.peers[i] = {"strategie": strategie, "resources": resources};
-			}
+	function getPeers() {
+		LOADING_SCREEN();
+		environmentService.getPeers().success(function (data) {
+			vm.peers = data;
+			LOADING_SCREEN('none');
+			environmentService.getStrategies().success(function (strategie) {
+				for(var i in vm.peers) {
+					var resources = vm.peers[i];
+					vm.peers[i] = {"strategie": strategie, "resources": resources};
+				}
+			});
 		});
-	});
+	}
+	getPeers();
 
 	function buildPopup() {
 

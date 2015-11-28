@@ -70,6 +70,7 @@
 						<th>Template</th>
 						<th>IP</th>
 						<th>Tags</th>
+						<th>Domain</th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -102,6 +103,11 @@
 							</span>
 						</td>
 						<td>{{ container.hostname }}</td>
+						<td class="b-main-table__empty-item">
+							<input type="checkbox" 
+								ng-click="containerViewCtrl.addToDomain(container)" 
+								ng-model="container.onDomain">
+						</td>
 						<td>
 							<button ng-show="container.state == 'RUNNING'" class="b-btn b-btn_red subt_button__container-stop" 
 							ng-click="containerViewCtrl.containerAction(key)">

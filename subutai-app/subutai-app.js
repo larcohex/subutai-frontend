@@ -433,18 +433,18 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
-		.state('elastic-search', {
-			url: '/plugins/elastic-search',
-			templateUrl: 'plugins/elastic-search/partials/view.html',
+		.state('elasticsearch', {
+			url: '/plugins/elasticsearch',
+			templateUrl: 'plugins/elasticsearch/partials/view.html',
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
 							name: 'subutai.plugins.elastic-search',
 							files: [
-								'plugins/elastic-search/elastic-search.js',
-								'plugins/elastic-search/controller.js',
-								'plugins/elastic-search/service.js',
+								'plugins/elasticsearch/elastic-search.js',
+								'plugins/elasticsearch/controller.js',
+								'plugins/elasticsearch/service.js',
 								'subutai-app/environment/service.js'
 							]
 						}
@@ -575,7 +575,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.204:8080/';
+var SERVER_URL = 'http://172.16.131.205:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;

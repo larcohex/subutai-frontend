@@ -42,6 +42,7 @@
 			<table class="b-main-table b-main-table_with-header">
 				<tr>
 					<th>Status</th>
+					<th>Type</th>
 					<th>Hostname</th>
 					<th>IP</th>
 					<th></th>
@@ -55,6 +56,7 @@
 							tooltip-title="{{ hadoopCtrl.currentCluster.nameNode.status }}">
 						</div>
 					</td>
+					<td>Name Node</td>
 					<td>{{ hadoopCtrl.currentCluster.nameNode.hostname }}</td>
 					<td>{{ hadoopCtrl.currentCluster.nameNode.ip }}</td>
 					<td>
@@ -79,6 +81,7 @@
 							tooltip-title="{{ hadoopCtrl.currentCluster.jobTracker.status }}">
 						</div>
 					</td>
+					<td>Job Tracker</td>
 					<td>{{ hadoopCtrl.currentCluster.jobTracker.hostname }}</td>
 					<td>{{ hadoopCtrl.currentCluster.jobTracker.ip }}</td>
 					<td>
@@ -103,6 +106,7 @@
 							tooltip-title="{{ hadoopCtrl.currentCluster.secondaryNameNode.status }}">
 						</div>
 					</td>
+					<td>Secondary Name Node</td>
 					<td>{{ hadoopCtrl.currentCluster.secondaryNameNode.hostname }}</td>
 					<td>{{ hadoopCtrl.currentCluster.secondaryNameNode.ip }}</td>
 					<td>

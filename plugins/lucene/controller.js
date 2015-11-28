@@ -192,7 +192,7 @@ function LuceneCtrl($scope, luceneSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			if (isConfirm) {
 				luceneSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
 				});
 			}
 		});
