@@ -47,13 +47,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="clusterNode in oozieCtrl.currentCluster.nodes">
-					<td>{{ clusterNode.hostname }}</td>
-					<td>{{ clusterNode.ip }}</td>
-					<td><!-- TODO: status --></td>
+				<tr ng-repeat = "temp in oozieCtrl.temp"> <!-- wtf -->
+					<td>{{ oozieCtrl.currentCluster.server.hostname }}</td>
+					<td>{{ oozieCtrl.currentCluster.server.ip }}</td>
 					<td>
-						<a href ng-click="mongoCtrl.startNodes()" class="b-btn b-btn_green">Start</a>
-						<a href ng-click="mongoCtrl.stopNodes()" class="b-btn b-btn_red">Stop</a>
+						<div
+							class="b-status-icon b-status-icon_{{ oozieCtrl.currentCluster.server.status }}"
+							title="{{ oozieCtrl.currentCluster.server.status }}">
+						</div>
+					</td>
+					<td>
+						<a href ng-click="oozieCtrl.startServer()" class="b-btn b-btn_green">Start</a>
+						<a href ng-click="oozieCtrl.stopServer()" class="b-btn b-btn_red">Stop</a>
 					</td>
 				</tr>
 			</tbody>
@@ -77,11 +82,11 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr ng-repeat="clusterNode in oozieCtrl.currentCluster.nodes">
+			<tr ng-repeat="clusterNode in oozieCtrl.currentCluster.clients">
 				<td>{{ clusterNode.hostname }}</td>
 				<td>{{ clusterNode.ip }}</td>
 				<td>
-					<a href ng-click="oozieCtrl.deleteNode(clusterNode.id)" class="b-icon b-icon_remove"></a>
+					<a href ng-click="oozieCtrl.deleteNode (clusterNode.hostname)" class="b-icon b-icon_remove"></a>
 				</td>
 			</tr>
 			</tbody>
