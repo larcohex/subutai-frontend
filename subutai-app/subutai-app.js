@@ -453,6 +453,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('mongo', {
+			url: '/plugins/mongo',
+			templateUrl: 'plugins/mongo/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.mongo',
+							files: [
+								'plugins/mongo/mongo.js',
+								'plugins/mongo/controller.js',
+								'plugins/mongo/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -461,7 +481,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMjhmYmQxMC00OTlhLTQ0ZWYtOTA5ZC0wMjM1OTZkNWNkOGQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.r7GA1E8W6a4rl9OCc6WUMiy7nZwfNvk6pf3p3dGihRA';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ODQ2ZWMzNS02YmYzLTQ2N2UtOTVkYi00ZjU3N2YxMzBjMGMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.Qf7uR0ghzOmATodXhzHW2imcyYDP8WjyjYLByiSE1JM';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
