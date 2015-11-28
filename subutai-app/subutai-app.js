@@ -492,6 +492,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('hive', {
+			url: '/plugins/hive',
+			templateUrl: 'plugins/hive/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.hive',
+							files: [
+								'plugins/hive/hive.js',
+								'plugins/hive/controller.js',
+								'plugins/hive/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -575,7 +595,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8080/';
+var SERVER_URL = 'http://172.16.131.204:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
