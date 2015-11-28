@@ -34,6 +34,8 @@
 				</label>
 			</div>
 		</div>
+	</div>
+	<div class="b-data-table">
 
 		<div class="b-workspace-content__row">
 			<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
@@ -45,9 +47,8 @@
 				<a href ng-click="cassandraCtrl.startNodes()" class="b-btn b-btn_green">Start</a>
 				<a href ng-click="cassandraCtrl.stopNodes()" class="b-btn b-btn_red">Stop</a>
 			</div>
-		</div>
-	</div>
-	<div class="b-data-table">
+		</div>		
+
 		<table datatable="ng" 
 			dt-options="hadoopCtrl.dtOptions" 
 			dt-column-defs="hadoopCtrl.dtColumnDefs" 

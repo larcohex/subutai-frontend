@@ -22,7 +22,7 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	vm.sshKey = sshKey;
 	vm.addSshKey = addSshKey;
 	vm.removeSshKey = removeSshKey;
-	vm.getEnvironments = getEnvironments;
+	//vm.getEnvironments = getEnvironments;
 	vm.showContainersList = showContainersList;
 	vm.destroyContainer = destroyContainer;
 	vm.setSSHKey = setSSHKey;
@@ -31,17 +31,9 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 	vm.setDomain = setDomain;
 	vm.removeDomain = removeDomain;
 
-	function getEnvironments() {
-		environmentService.getEnvironments().success(function (data) {
-			vm.environments = data;
-		});
-	}
-
 	environmentService.getDomainStrategies().success(function (data) {
 		vm.domainStrategies = data;
 	});
-
-	getEnvironments();
 
 	vm.dtInstance = {};
 	vm.users = {};

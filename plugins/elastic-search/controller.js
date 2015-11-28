@@ -23,12 +23,13 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 	vm.addContainer = addContainer;	
 	vm.createElasticSearch = createElasticSearch;	
 	vm.deleteNode = deleteNode;
-	vm.addNodeForm = addNodeForm;
 	vm.addNode = addNode;
 	vm.pushNode = pushNode;
 	vm.deleteCluster = deleteCluster;
 	vm.showContainers = showContainers;
 	vm.changeClusterScaling = changeClusterScaling;
+	vm.startNodes = startNodes;
+	vm.stopNodes = stopNodes;
 
 	elasticSearchSrv.getEnvironments().success(function (data) {
 		vm.environments = data;
@@ -92,7 +93,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 	function startNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
-		elasticSearchSrv.startNodes(vm.currentCluster.name, JSON.stringify(vm.nodes2Action)).success(function (data) {
+		elasticSearchSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
@@ -103,7 +104,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 	function stopNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.name === undefined) return;
-		elasticSearchSrv.stopNodes(vm.currentCluster.name, JSON.stringify(vm.nodes2Action)).success(function (data) {
+		elasticSearchSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
@@ -119,24 +120,11 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		}
 	}
 
-	function addNodeForm() {
-		if(vm.currentCluster.clusterName === undefined) return;
-		elasticSearchSrv.getAvailableNodes(vm.currentCluster.clusterName).success(function (data) {
-			vm.availableNodes = data;
-			console.log(vm.availableNodes);
-		});
-		ngDialog.open({
-			template: 'plugins/elastic-search/partials/addNodesForm.html',
-			scope: $scope
-		});
-	}
-
-	function addNode(chosenNode) {
-		if(chosenNode === undefined) return;
+	function addNode() {
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal("Success!", "Adding node action started.", "success");
 		ngDialog.closeAll();
-		elasticSearchSrv.addNode(vm.currentCluster.clusterName, chosenNode).success(function (data) {
+		elasticSearchSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
 				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
