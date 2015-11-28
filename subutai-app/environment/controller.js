@@ -56,8 +56,8 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 
 	vm.dtColumns = [
 		//DTColumnBuilder.newColumn('id').withTitle('ID'),
-		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(statusHTML),
-		DTColumnBuilder.newColumn('name').withTitle('Environment name'),
+		DTColumnBuilder.newColumn('status').withTitle('').notSortable().renderWith(statusHTML),
+		DTColumnBuilder.newColumn(null).withTitle('Environment name').renderWith(environmentNameTooltip),
 		DTColumnBuilder.newColumn(null).withTitle('Key SSH').renderWith(sshKeyLinks),
 		DTColumnBuilder.newColumn(null).withTitle('Domains').renderWith(domainsTag),
 		DTColumnBuilder.newColumn(null).withTitle('').renderWith(containersTags),
@@ -77,9 +77,13 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 		$compile(angular.element(row).contents())($scope);
 	}
 
-	function statusHTML(data, type, full, meta) {
+	function statusHTML(environmentStatus, type, full, meta) {
+		return '<div class="b-status-icon b-status-icon_' + environmentStatus + '" tooltips tooltip-title="' + environmentStatus + '"></div>';
+	}
+
+	function environmentNameTooltip(data, type, full, meta) {
 		vm.users[data.id] = data;
-		return '<div class="b-status-icon b-status-icon_' + data.status + '" tooltips tooltip-title="' + data.status + '"></div>';
+		return '<span tooltips tooltip-content="ID: <b>' + data.id + '</b>">' + data.name + '</span>';
 	}
 
 	function sshKeyLinks(data, type, full, meta) {

@@ -61,6 +61,9 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 		pigSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Call cluster error: ' + error, "error");
+			LOADING_SCREEN('none');
 		});
 	}
 
@@ -192,7 +195,7 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 			if (isConfirm) {
 				pigSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
 				});
 			}
 		});

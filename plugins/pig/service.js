@@ -53,10 +53,9 @@ function pigSrv($http, hadoopSrv) {
 	}
 
 	function createPig(pigObj) {
-		console.log(pigObj);
 		var postData = 'clusterName=' + pigObj.clusterName + '&hadoopClusterName=' + pigObj.hadoopClusterName + '&nodes=' + JSON.stringify(pigObj.nodes);
 		return $http.post(
-			CLUSTER_URL + 'install',
+			BASE_URL,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);

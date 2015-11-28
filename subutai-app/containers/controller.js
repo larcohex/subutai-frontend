@@ -17,6 +17,7 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 	vm.getContainers = getContainers;
 	vm.containerAction = containerAction;
 	vm.destroyContainer = destroyContainer;
+	vm.addToDomain = addToDomain;
 
 	environmentService.getContainersType().success(function (data) {
 		vm.containersType = data;
@@ -26,6 +27,10 @@ function ContainerViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuil
 		environmentService.getEnvironments().success(function (data) {
 			vm.environments = data;
 		});
+	}
+
+	function addToDomain(container) {
+		console.log(container);
 	}
 
 	function getContainers() {

@@ -17,6 +17,9 @@ function elasticSearchSrv($http, environmentService) {
 		getAvailableNodes: getAvailableNodes,
 		addNode: addNode,
 		deleteCluster: deleteCluster,
+		changeClusterScaling: changeClusterScaling,
+		startNodes: startNodes,
+		stopNodes: stopNodes,
 	};
 
 	return elasticSearchSrv;
@@ -27,6 +30,24 @@ function elasticSearchSrv($http, environmentService) {
 
 	function getEnvironments() {
 		return environmentService.getEnvironments();
+	}
+
+	function startNodes(clusterName, nodesArray) {
+		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
+		return $http.post(
+			CLUSTER_URL + 'nodes/start',
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function stopNodes(clusterName, nodesArray) {
+		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
+		return $http.post(
+			CLUSTER_URL + 'nodes/stop',
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
 	}
 
 	function getClusters(clusterName) {
@@ -44,8 +65,12 @@ function elasticSearchSrv($http, environmentService) {
 		);
 	}
 
+	function changeClusterScaling(clusterName, scale) {
+		return $http.post(CLUSTER_URL + clusterName + '/auto_scale/' + scale);
+	}
+
 	function deleteCluster(clusterName) {
-		return $http.delete(CLUSTER_URL + 'destroy/' + clusterName);
+		return $http.delete(CLUSTER_URL + 'remove/' + clusterName);
 	}
 
 	function deleteNode(clusterName, nodeId) {
