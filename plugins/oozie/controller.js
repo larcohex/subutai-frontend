@@ -13,7 +13,7 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	vm.clusters = [];
 	vm.hadoopClusters = [];
 	vm.currentClusterNodes = [];
-	vm.currentCluster = {};
+	//vm.currentCluster = {};
 	vm.availableNodes = [];
 	vm.otherNodes = [];
 	vm.temp = [];
@@ -64,7 +64,6 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function getClustersInfo(selectedCluster) {
 		LOADING_SCREEN();
 		oozieSrv.getClusters(selectedCluster).success(function (data) {
-			vm.temp = [1];
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
 		});
@@ -216,13 +215,10 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	}
 
 
-	function changeDirective() {
+	function changeDirective(server) {
 		vm.otherNodes = [];
-		console.log (vm.currentClusterNodes);
-		var temp = JSON.parse (vm.oozieInstall.server);
-		console.log (temp);
 		for (var i = 0; i < vm.currentClusterNodes.length; ++i) {
-			if (vm.currentClusterNodes[i].hostname !== temp.hostname) {
+			if (vm.currentClusterNodes[i].hostname !== server) {
 				vm.otherNodes.push (vm.currentClusterNodes[i]);
 			}
 		}

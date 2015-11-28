@@ -35,9 +35,9 @@
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<select class="b-form-input b-form-input_full"
 									ng-model="oozieCtrl.oozieInstall.server"
-									ng-change="oozieCtrl.changeDirective (oozieCtrl.oozieInstall.server.hostname)">
+									ng-change="oozieCtrl.changeDirective(oozieCtrl.oozieInstall.server)">
 								<option value="">Select server</option>
-								<option ng-repeat="node in oozieCtrl.currentClusterNodes" value="{{ node }}">
+								<option ng-repeat="node in oozieCtrl.currentClusterNodes" value="{{ node.hostname }}">
 									{{ node.hostname }}
 								</option>
 							</select>

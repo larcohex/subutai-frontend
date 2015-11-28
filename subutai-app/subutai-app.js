@@ -451,7 +451,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 					]);
 				}]
 			}
-		})		
+		})
 		.state('oozie', {
 			url: '/plugins/oozie',
 			templateUrl: 'plugins/oozie/partials/view.html',

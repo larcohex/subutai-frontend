@@ -32,28 +32,26 @@
 		<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
 			Server nodes
 		</h2>
-	</div>
-	<div class="b-data-table">
-		<table datatable="ng" 
-			dt-options="oozieCtrl.dtOptions" 
-			dt-column-defs="oozieCtrl.dtColumnDefs" 
-			class="row-border hover">
-			<thead>
+		<div class="b-main-table-border">
+			<table class="b-main-table b-main-table_with-header">
 				<tr>
 					<th>Host</th>
 					<th>IP List</th>
 					<th>Status</th>
-					<th>Available operations</th>
+					<th></th>
 				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat = "temp in oozieCtrl.temp"> <!-- wtf -->
+				<td colspan="4" class="b-main-table__empty-item" ng-if="oozieCtrl.currentCluster === undefined">
+					No data available in table
+				</td>
+				<tr ng-if="oozieCtrl.currentCluster == {}">
 					<td>{{ oozieCtrl.currentCluster.server.hostname }}</td>
 					<td>{{ oozieCtrl.currentCluster.server.ip }}</td>
-					<td>
+					<td class="b-main-table__container-status">
 						<div
+							tooltips 
+							tooltip-title="{{ oozieCtrl.currentCluster.server.status }}" 
 							class="b-status-icon b-status-icon_{{ oozieCtrl.currentCluster.server.status }}"
-							title="{{ oozieCtrl.currentCluster.server.status }}">
+						>
 						</div>
 					</td>
 					<td>
@@ -61,35 +59,36 @@
 						<a href ng-click="oozieCtrl.stopServer()" class="b-btn b-btn_red">Stop</a>
 					</td>
 				</tr>
-			</tbody>
-		</table>
+			</table>
+		</div>
 	</div>
+
 	<div class="b-workspace-content__row">
 		<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
 			Client nodes
 		</h2>
-	</div>
-	<div class="b-data-table">
-		<table datatable="ng"
-			   dt-options="oozieCtrl.dtOptions"
-			   dt-column-defs="oozieCtrl.dtColumnDefs"
-			   class="row-border hover">
-			<thead>
-			<tr>
-				<th>Host</th>
-				<th>IP List</th>
-				<th>Available operations</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr ng-repeat="clusterNode in oozieCtrl.currentCluster.clients">
-				<td>{{ clusterNode.hostname }}</td>
-				<td>{{ clusterNode.ip }}</td>
-				<td>
-					<a href ng-click="oozieCtrl.deleteNode (clusterNode.hostname)" class="b-icon b-icon_remove"></a>
-				</td>
-			</tr>
-			</tbody>
-		</table>
+		<div class="b-data-table">
+			<table datatable="ng"
+				dt-options="oozieCtrl.dtOptions"
+				dt-column-defs="oozieCtrl.dtColumnDefs"
+				class="row-border hover">
+				<thead>
+					<tr>
+						<th>Host</th>
+						<th>IP List</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="clusterNode in oozieCtrl.currentCluster.clients">
+						<td>{{ clusterNode.hostname }}</td>
+						<td>{{ clusterNode.ip }}</td>
+						<td>
+							<a href ng-click="oozieCtrl.deleteNode (clusterNode.hostname)" class="b-icon b-icon_remove"></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
