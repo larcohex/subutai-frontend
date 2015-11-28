@@ -64,15 +64,15 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 	}
 	setDefaultValues();
 
-
 	function createMongo() {
 		console.log (vm.mongoInstall.configNodes.length);
 		if (vm.mongoInstall.configNodes.length % 2 !== 1) {
 			SweetAlert.swal ("ERROR!", "Number of configuration node servers must be odd");
 		}
 		else {
+			SweetAlert.swal("Success!", "Mongo cluster creating started.", "success");
 			mongoSrv.createMongo(JSON.stringify(vm.mongoInstall)).success(function (data) {
-				SweetAlert.swal("Success!", "Your Mongo cluster started creating.", "success");
+				SweetAlert.swal("Success!", "Mongo cluster created.", "success");
 			}).error(function (error) {
 				SweetAlert.swal("ERROR!", 'Mongo cluster create error: ' + error.ERROR, "error");
 			});
@@ -243,8 +243,11 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 
 
 	function sendRouter() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal("Success!", "Your Mongo cluster started to add additional router.", "success");
 		mongoSrv.sendRouter(vm.currentCluster.clusterName).success (function (data) {
-			SweetAlert.swal("Success!", "Your Mongo cluster started to add additional router.", "success");
+			SweetAlert.swal("Success!", "Router added.", "success");
+			getClustersInfo(vm.currentCluster.clusterName);
 		}).error (function (error) {
 			SweetAlert.swal("ERROR!", 'Cluster error while adding router: ' + error.ERROR, "error");
 		});
@@ -252,8 +255,11 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 
 
 	function sendDataNode() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal("Success!", "Mongo cluster started to add additional data node.", "success");
 		mongoSrv.sendDataNode(vm.currentCluster.clusterName).success (function (data) {
-			SweetAlert.swal("Success!", "Your Mongo cluster started to add additional data node.", "success");
+			SweetAlert.swal("Success!", "Data node added.", "success");
+			getClustersInfo(vm.currentCluster.clusterName);
 		}).error (function (error) {
 			SweetAlert.swal("ERROR!", 'Cluster error while adding data node: ' + error.ERROR, "error");
 		});

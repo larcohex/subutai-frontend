@@ -56,7 +56,7 @@ function nutchSrv($http, hadoopSrv) {
 		console.log(nutchObj);
 		var postData = 'clusterName=' + nutchObj.clusterName + '&hadoopClusterName=' + nutchObj.hadoopClusterName + '&nodes=' + JSON.stringify(nutchObj.nodes);
 		return $http.post(
-			CLUSTER_URL + 'install',
+			BASE_URL,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);

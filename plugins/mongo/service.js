@@ -26,7 +26,8 @@ function mongoSrv($http, environmentService) {
 		startNodes: startNodes,
 		stopNodes: stopNodes,
 		sendRouter: sendRouter,
-		sendDataNode: sendDataNode
+		sendDataNode: sendDataNode,
+		changeClusterScaling: changeClusterScaling
 	};
 
 	return mongoSrv;
@@ -107,6 +108,7 @@ function mongoSrv($http, environmentService) {
 	}
 
 	function changeClusterScaling(clusterName, scale) {
+		console.log(scale);
 		return $http.post(CLUSTER_URL + clusterName + '/auto_scale/' + scale);
 	}
 
