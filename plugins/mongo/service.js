@@ -45,7 +45,7 @@ function mongoSrv($http, environmentService) {
 	}
 
 	function destroyCluster (clusterName) {
-		return $http.delete (CLUSTER_URL + clusterName);
+		return $http.delete (CLUSTER_URL + "destroy/" + clusterName);
 	}
 
 
@@ -54,7 +54,7 @@ function mongoSrv($http, environmentService) {
 	}
 
 	function startNodes(clusterName, nodesArray) {
-		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
+		var postData = 'clusterName=' + clusterName + '&lxcHostNames=' + nodesArray;
 		return $http.post(
 			CLUSTER_URL + 'nodes/start',
 			postData,
@@ -70,7 +70,7 @@ function mongoSrv($http, environmentService) {
 
 
 	function stopNodes(clusterName, nodesArray) {
-		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
+		var postData = 'clusterName=' + clusterName + '&lxcHostNames=' + nodesArray;
 		return $http.post(
 			CLUSTER_URL + 'nodes/stop',
 			postData,

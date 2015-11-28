@@ -66,11 +66,17 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 
 
 	function createMongo() {
-		mongoSrv.createMongo(JSON.stringify(vm.mongoInstall)).success(function (data) {
-			SweetAlert.swal("Success!", "Your Mongo cluster started creating.", "success");
-		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Mongo cluster create error: ' + error.ERROR, "error");
-		});
+		console.log (vm.mongoInstall.configNodes.length);
+		if (vm.mongoInstall.configNodes.length % 2 !== 1) {
+			SweetAlert.swal ("ERROR!", "Number of configuration node servers must be odd");
+		}
+		else {
+			mongoSrv.createMongo(JSON.stringify(vm.mongoInstall)).success(function (data) {
+				SweetAlert.swal("Success!", "Your Mongo cluster started creating.", "success");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", 'Mongo cluster create error: ' + error.ERROR, "error");
+			});
+		}
 	}
 
 
@@ -126,11 +132,10 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		mongoSrv.listClusters(selectedCluster).success(function (data) {
 			vm.loading = false;
 			vm.currentCluster = data;
-			console.log(vm.currentCluster);
 		});
 	}
 
-	function startNodes() {
+	function startNodes() { // TODO
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
 		mongoSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
@@ -142,7 +147,9 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 	}
 
 
-	function stopNodes() {
+	function stopNodes() { // TODO
+		console.log (vm.nodes2Action);
+		console.log (vm.currentCluster);
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
 		mongoSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
@@ -153,11 +160,11 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		});
 	}
 
-	function pushNode(id) {
+	function pushNode(id, type) {
 		if(vm.nodes2Action.indexOf(id) >= 0) {
 			vm.nodes2Action.splice(vm.nodes2Action.indexOf(id), 1);
 		} else {
-			vm.nodes2Action.push(id);
+			vm.nodes2Action.push({name: id, type: type});
 		}
 	}
 
@@ -174,7 +181,9 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		});
 	}
 
-	function deleteNode(nodeId, nodeType) {
+	function deleteNode(nodeId, nodeType) { // TODO
+		console.log (nodeId);
+		console.log (nodeType);
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 				title: "Are you sure?",
@@ -192,7 +201,7 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 				if (isConfirm) {
 					mongoSrv.destroyNode(vm.currentCluster.clusterName, nodeId, nodeType).success(function (data) {
 						SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-						vm.currentCluster = {};
+						getClustersInfo(vm.currentCluster.clusterName);
 					});
 				}
 			}
