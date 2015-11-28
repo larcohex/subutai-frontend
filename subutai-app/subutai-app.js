@@ -433,6 +433,25 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('elastic-search', {
+			url: '/plugins/elastic-search',
+			templateUrl: 'plugins/elastic-search/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.elastic-search',
+							files: [
+								'plugins/elastic-search/elastic-search.js',
+								'plugins/elastic-search/controller.js',
+								'plugins/elastic-search/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})		
 		.state('oozie', {
 			url: '/plugins/oozie',
 			templateUrl: 'plugins/oozie/partials/view.html',

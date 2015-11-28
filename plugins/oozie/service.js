@@ -63,6 +63,6 @@ function oozieSrv($http, hadoopSrv) {
 	}
 
 	function startNode (lxcHostName) {
-		$http.
+		//$http.
 	}
 }
