@@ -45,18 +45,18 @@ function mahoutSrv($http, hadoopSrv) {
 	}
 
 	function deleteCluster(clusterName) {
-		return $http.delete(CLUSTER_URL + 'destroy/' + clusterName);
+		return $http.delete(CLUSTER_URL + 'remove/' + clusterName);
 	}
 
 	function deleteNode(clusterName, nodeId) {
-		return $http.delete(CLUSTER_URL + clusterName + '/destroy/node/' + nodeId);
+		return $http.delete(CLUSTER_URL + clusterName + '/remove/node/' + nodeId);
 	}
 
 	function createMahout(mahoutObj) {
 		console.log(mahoutObj);
 		var postData = 'clusterName=' + mahoutObj.clusterName + '&hadoopClusterName=' + mahoutObj.hadoopClusterName + '&nodes=' + JSON.stringify(mahoutObj.nodes);
 		return $http.post(
-			CLUSTER_URL + 'install',
+			BASE_URL,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
