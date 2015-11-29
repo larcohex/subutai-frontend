@@ -512,6 +512,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('presto', {
+			url: '/plugins/presto',
+			templateUrl: 'plugins/presto/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.presto',
+							files: [
+								'plugins/presto/presto.js',
+								'plugins/presto/controller.js',
+								'plugins/presto/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -520,7 +540,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ODQ2ZWMzNS02YmYzLTQ2N2UtOTVkYi00ZjU3N2YxMzBjMGMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.Qf7uR0ghzOmATodXhzHW2imcyYDP8WjyjYLByiSE1JM';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYmQ2YmQ1NC04OGZkLTQxMzEtYTU5Zi0yNGM1OTFmM2JkOGQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.wZmqFBKV8TZjAGF-yOzskZgy80DZvyjLx84nI5FYuus';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -595,7 +615,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8080/';
+var SERVER_URL = 'http://172.16.131.204:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
@@ -715,3 +735,11 @@ var permissionsDefault = [
 		'selected': false
 	}
 ];
+
+
+function toggle (source, name) {
+	checkboxes = document.getElementsByName (name);
+    for (var i = 0; i < checkboxes.length; i++) {
+    	checkboxes[i].checked = source.checked;
+    }
+}

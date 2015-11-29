@@ -140,7 +140,7 @@ function OozieCtrl($scope, oozieSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.oozieInstall.hadoopClusterName === undefined || vm.oozieInstall.hadoopClusterName.length == 0) return;
 		SweetAlert.swal("Success!", "Oozie cluster start creating.", "success");
 		oozieSrv.createOozie(vm.oozieInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Oozie cluster start creating.", "success");
+			SweetAlert.swal("Success!", "Your Oozie cluster successfully created.", "success");
 			getClusters();
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Oozie cluster create error: ' + error, "error");
