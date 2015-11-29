@@ -32,8 +32,8 @@ function HipiCtrl($scope, hipiSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 		if(vm.hadoopClusters.length == 0) {
 			SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! Create Hadoop cluster first.', "error");
 		}
-	}).error(function(data){
-		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + data, "error");
+	}).error(function(error){
+		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
 	});
 	setDefaultValues();
 
@@ -89,7 +89,7 @@ function HipiCtrl($scope, hipiSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function(error){
-			SweetAlert.swal("ERROR!", 'Adding node error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Adding node error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -140,10 +140,10 @@ function HipiCtrl($scope, hipiSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 
 		SweetAlert.swal("Success!", "Hipi cluster start creating.", "success");
 		hipiSrv.createHipi(vm.hipiInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Hipi cluster start creating. LOG: " + data, "success");
+			SweetAlert.swal("Success!", "Your Hipi cluster start creating. LOG: " + data.replace(/\\n/g, ' '), "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Hipi cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Hipi cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -169,8 +169,8 @@ function HipiCtrl($scope, hipiSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 					SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 					vm.currentCluster = {};
 					getClusters();
-				}).error(function(data){
-					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + data, "error");
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -193,10 +193,10 @@ function HipiCtrl($scope, hipiSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 		function (isConfirm) {
 			if (isConfirm) {
 				hipiSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
-					SweetAlert.swal("Deleted!", "Node has been deleted. LOG: " + data, "success");
+					SweetAlert.swal("Deleted!", "Node has been deleted. LOG: " + data.replace(/\\n/g, ' '), "success");
 					getClustersInfo(vm.currentCluster.clusterName);
-				}).error(function(){
-					SweetAlert.swal("ERROR!", 'Delete node error: ' + data, "error");
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete node error: ' + data.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});

@@ -75,11 +75,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		if(vm.currentCluster.clusterName === undefined) return;
 		node.status = 'STARTING';
 		hadoopSrv.startNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes started successfully. LOG: " + data.replace('\\n', "<br>"), "success");
+			SweetAlert.swal("Success!", "Your cluster nodes started successfully. LOG: " + data.replace(/\\n/g, ' '), "success");
 			node.status = 'RUNNING';
 			//getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace('\\n', "<br>"), "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
 			node.status = 'ERROR';
 		});
 	}
@@ -88,11 +88,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		if(vm.currentCluster.clusterName === undefined) return;
 		node.status = 'STOPPING';
 		hadoopSrv.stopNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully. LOG: " + data.replace('\\n', "<br>"), "success");
+			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully. LOG: " + data.replace(/\\n/g, ' '), "success");
 			//getClustersInfo(vm.currentCluster.name);
 			node.status = 'STOPPED';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace('\\n', "<br>"), "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
 			node.status = 'ERROR';
 		});
 	}
@@ -126,10 +126,10 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		SweetAlert.swal("Success!", "Hadoop cluster start creating.", "success");
 		vm.activeTab = 'manage';
 		hadoopSrv.createHadoop(JSON.stringify(vm.hadoopInstall)).success(function (data) {
-			SweetAlert.swal("Success!", "Hadoop cluster create message:" + data.replace('\\n', "<br>"), "success");
+			SweetAlert.swal("Success!", "Hadoop cluster create message:" + data.replace(/\\n/g, ' '), "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Hadoop cluster create error: ' + error.replace('\\n', "<br>"), "error");
+			SweetAlert.swal("ERROR!", 'Hadoop cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 			getClusters();
 		});
 		setDefaultValues();

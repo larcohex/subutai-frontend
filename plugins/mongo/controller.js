@@ -72,7 +72,7 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			mongoSrv.createMongo(JSON.stringify(vm.mongoInstall)).success(function (data) {
 				SweetAlert.swal("Success!", "Mongo cluster created.", "success");
 			}).error(function (error) {
-				SweetAlert.swal("ERROR!", 'Mongo cluster create error: ' + error.ERROR, "error");
+				SweetAlert.swal("ERROR!", 'Mongo cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 			});
 		}
 	}
@@ -135,7 +135,7 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -147,7 +147,7 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			SweetAlert.swal("Success!", "Your cluster nodes stopped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -193,6 +193,8 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 					mongoSrv.destroyNode(vm.currentCluster.clusterName, nodeId, nodeType).success(function (data) {
 						SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
 						getClustersInfo(vm.currentCluster.clusterName);
+					}).error(function(error){
+						SweetAlert.swal("ERROR!", 'Cluster node delete error: ' + error.replace(/\\n/g, ' '), "error");
 					});
 				}
 			}
@@ -218,6 +220,8 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 					mongoSrv.destroyCluster(vm.currentCluster.clusterName).success(function (data) {
 						SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 						vm.currentCluster = {};
+					}).error(function(error){
+						SweetAlert.swal("ERROR!", 'Cluster delete error: ' + error.replace(/\\n/g, ' '), "error");
 					});
 				}
 			}
@@ -240,7 +244,7 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			SweetAlert.swal("Success!", "Router added.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error (function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster error while adding router: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster error while adding router: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
