@@ -32,7 +32,8 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	vm.pushNode = pushNode;
 	vm.startNodes = startNodes;
 	vm.stopNodes = stopNodes;
-	
+	vm.pushAll = pushAll;
+
 	setDefaultValues();
 	cassandraSrv.getEnvironments().success(function (data) {
 		vm.environments = data;
@@ -228,6 +229,21 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		vm.cassandraInstall.cacheDir = '/var/lib/cassandra/saved_caches';
 		vm.cassandraInstall.containers = [];
 		vm.cassandraInstall.seeds = [];
+	}
+
+
+	function pushAll() {
+		if (vm.currentCluster.clusterName !== undefined) {
+			if (vm.nodes2Action.length === vm.currentCluster.containers.length) {
+				vm.nodes2Action = [];
+			}
+			else {
+				for (var i = 0; i < vm.currentCluster.containers.length; ++i) {
+					vm.nodes2Action.push (vm.currentCluster.containers[i]);
+				}
+				console.log (vm.nodes2Action);
+			}
+		}
 	}
 }
 

@@ -559,6 +559,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('storm', {
+        			url: '/plugins/storm',
+        			templateUrl: 'plugins/storm/partials/view.html',
+        			resolve: {
+        				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+        					return $ocLazyLoad.load([
+        						{
+        							name: 'subutai.plugins.storm',
+        							files: [
+        								'plugins/storm/storm.js',
+        								'plugins/storm/controller.js',
+        								'plugins/storm/service.js',
+        								'plugins/hadoop/service.js',
+        								'subutai-app/environment/service.js'
+        							]
+        						}
+        					]);
+        				}]
+        			}
+        		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -628,6 +648,7 @@ app.directive('checkbox-list-dropdown', function() {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attr) {
+			console.log('lololo');
 			$('.b-form-input_dropdown').click(function () {
 				$(this).toggleClass('is-active');
 			});
@@ -763,8 +784,8 @@ var permissionsDefault = [
 ];
 
 
-function toggle(source, name) {
-	checkboxes = document.getElementsByName(name);
+function toggle (source, name) {
+	checkboxes = document.getElementsByName (name);
     for (var i = 0; i < checkboxes.length; i++) {
     	checkboxes[i].checked = source.checked;
     }
