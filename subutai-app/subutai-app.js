@@ -621,7 +621,6 @@ app.directive('checkbox-list-dropdown', function() {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attr) {
-			console.log('lololo');
 			$('.b-form-input_dropdown').click(function () {
 				$(this).toggleClass('is-active');
 			});
@@ -757,8 +756,8 @@ var permissionsDefault = [
 ];
 
 
-function toggle (source, name) {
-	checkboxes = document.getElementsByName (name);
+function toggle(source, name) {
+	checkboxes = document.getElementsByName(name);
     for (var i = 0; i < checkboxes.length; i++) {
     	checkboxes[i].checked = source.checked;
     }
