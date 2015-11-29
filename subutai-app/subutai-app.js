@@ -512,6 +512,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('spark', {
+			url: '/plugins/spark',
+			templateUrl: 'plugins/spark/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.spark',
+							files: [
+								'plugins/spark/spark.js',
+								'plugins/spark/controller.js',
+								'plugins/spark/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -520,7 +540,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ODQ2ZWMzNS02YmYzLTQ2N2UtOTVkYi00ZjU3N2YxMzBjMGMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.Qf7uR0ghzOmATodXhzHW2imcyYDP8WjyjYLByiSE1JM';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhOGIxNTA0OC1lMTc4LTQzNDYtOWVjZS0wNDNlMDEzYjcwZTQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ZJadShVBjVpbn86At-eec4_lnGjV6sa9HG7RPe-Jfr8';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;

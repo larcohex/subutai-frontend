@@ -97,7 +97,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error, "error");
 		});
 	}
 
@@ -108,9 +108,9 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error, "error");
 		});
-	}	
+	}
 
 	function pushNode(id) {
 		if(vm.nodes2Action.indexOf(id) >= 0) {

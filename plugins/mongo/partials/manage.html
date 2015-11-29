@@ -75,6 +75,8 @@
 					<td>{{ clusterNode.ip }}</td>
 					<td class="b-main-table__container-status">
 						<div
+							tooltips 
+							tooltip-title="{{ clusterNode.status }}" 
 							class="b-status-icon b-status-icon_{{ clusterNode.status }}"
 							title="{{ clusterNode.status }}">
 						</div>
@@ -105,8 +107,10 @@
 					</td>
 					<td>{{ clusterNode.hostname }}</td>
 					<td>{{ clusterNode.ip }}</td>
-					<td>
+					<td class="b-main-table__container-status">
 						<div
+							tooltips 
+							tooltip-title="{{ clusterNode.status }}" 
 							class="b-status-icon b-status-icon_{{ clusterNode.status }}"
 							title="{{ clusterNode.status }}">
 						</div>
@@ -141,6 +145,8 @@
 					<td>{{ clusterNode.ip }}</td>
 					<td class="b-main-table__container-status">
 						<div
+							tooltips 
+							tooltip-title="{{ clusterNode.status }}" 
 							class="b-status-icon b-status-icon_{{ clusterNode.status }}"
 							title="{{ clusterNode.status }}">
 						</div>
