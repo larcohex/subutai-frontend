@@ -339,6 +339,10 @@ body {
 	text-transform: capitalize;
 }
 
+.b-main-table__tags {
+	width: 250px;
+}
+
 .b-main-table__empty-item {
 	text-align: center!important;
 }

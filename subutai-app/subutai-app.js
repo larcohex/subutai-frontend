@@ -114,6 +114,13 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
+							name: 'ngTagsInput',
+							files: [
+								'css/libs/ng-tags-input.min.css',
+								'assets/js/plugins/ng-tags-input.min.js'
+							]
+						},
+						{
 							name: 'subutai.containers',
 							files: [
 								'subutai-app/containers/containers.js',
@@ -560,7 +567,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhOGIxNTA0OC1lMTc4LTQzNDYtOWVjZS0wNDNlMDEzYjcwZTQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ZJadShVBjVpbn86At-eec4_lnGjV6sa9HG7RPe-Jfr8';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMjVhMjFlZC05NzMyLTQyMGUtYmJlMS1mN2IwODVlZDIzYTgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.KqOiQntcl96pm70fXTDW3wo-E_K8GJan5XLIpFijsO4';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
