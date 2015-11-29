@@ -512,6 +512,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('presto', {
+			url: '/plugins/presto',
+			templateUrl: 'plugins/presto/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.presto',
+							files: [
+								'plugins/presto/presto.js',
+								'plugins/presto/controller.js',
+								'plugins/presto/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('spark', {
 			url: '/plugins/spark',
 			templateUrl: 'plugins/spark/partials/view.html',
@@ -735,3 +755,11 @@ var permissionsDefault = [
 		'selected': false
 	}
 ];
+
+
+function toggle (source, name) {
+	checkboxes = document.getElementsByName (name);
+    for (var i = 0; i < checkboxes.length; i++) {
+    	checkboxes[i].checked = source.checked;
+    }
+}
