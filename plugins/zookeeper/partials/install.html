@@ -1,0 +1,63 @@
+<form ng-submit="zookeeperCtrl.createZookeeper()">
+	<div class="b-workspace-content b-workspace-content_border">
+		<div class="b-workspace-content__row">
+			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+				<div class="b-form">
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Cluster name</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<input class="b-form-input b-form-input_full" type="text"
+							placeholder="Enter cluster name" 
+							ng-model="zookeeperCtrl.zookeeperInstall.clusterName" 
+							required>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Domain name</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<input class="b-form-input b-form-input_full" type="text"
+								   placeholder="Enter domain name"
+								   ng-model="zookeeperCtrl.zookeeperInstall.domainName"
+								   required>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Environment</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<select class="b-form-input b-form-input_full" 
+								ng-model="zookeeperCtrl.zookeeperInstall.environmentId"
+								ng-change="zookeeperCtrl.getEnvironmentNodes(zookeeperCtrl.zookeeperInstall.environmentId)">
+								<option value="">Select environment</option>
+								<option ng-repeat="hadoopCluster in zookeeperCtrl.environments" value="{{ hadoopCluster.id }}">
+									{{ hadoopCluster.name }}
+								</option>
+							</select>						
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="b-workspace-content__row">
+			<h2 class="b-workspace-content-row-h2">
+				Nodes
+			</h2>
+
+			<col-select-zookeeper-nodes></col-select-zookeeper-nodes>
+
+			<div class="clear"></div>
+		</div>
+
+	</div>
+
+	<div class="b-workspace__button-group b-workspace__button-group_right">
+		<button type="submit" class="b-btn b-btn_green g-right">Create</button>
+	</div>
+</form>
+
