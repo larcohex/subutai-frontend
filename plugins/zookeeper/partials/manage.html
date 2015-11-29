@@ -11,7 +11,7 @@
 				</select>
 				<a href
 					class="b-btn b-btn_light-grey b-btn_margin-r"
-					ng-click="zookeeperCtrl.addNode()">
+					ng-click="zookeeperCtrl.addNodeForm()">
 					Add
 					<span class="b-btn-light-grey-icon b-btn-light-grey-icon_green">
 						<i class="fa fa-plus"></i>
@@ -27,8 +27,8 @@
 				</a>
 				<label class="b-form-label">
 					<input type="checkbox"
-						   ng-change="zookeeperCtrl.changeClusterScaling(zookeeperCtrl.currentCluster.autoScaling)"
-						   ng-model="zookeeperCtrl.currentCluster.autoScaling">
+					ng-change="zookeeperCtrl.changeClusterScaling(zookeeperCtrl.currentCluster.autoScaling)"
+					ng-model="zookeeperCtrl.currentCluster.autoScaling">
 					Auto scale
 				</label>
 			</div>
@@ -45,58 +45,36 @@
 		</div>
 		<div class="b-data-table">
 			<table datatable="ng"
-				   dt-options="zookeeperCtrl.dtOptions"
-				   dt-column-defs="zookeeperCtrl.dtColumnDefs"
-				   class="row-border hover">
+				dt-options="zookeeperCtrl.dtOptions"
+				dt-column-defs="zookeeperCtrl.dtColumnDefs"
+				class="row-border hover">
 				<thead>
-				<tr>
-					<th><input type="checkbox" onClick="toggle(this, 'zookeeperChk')" ng-click = "zookeeperCtrl.pushAll()"></th>
-					<th>Host</th>
-					<th>IP List</th>
-					<th>Node Type</th>
-					<th>Status</th>
-					<th></th>
-				</tr>
+					<tr>
+						<th><input type="checkbox" onClick="toggle(this, 'zookeeperChk')" ng-click = "zookeeperCtrl.pushAll()"></th>
+						<th>Host</th>
+						<th>IP</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
 				</thead>
 				<tbody>
-				<td colspan="4" class="b-main-table__empty-item" ng-show="zookeeperCtrl.currentCluster.clusterName === undefined">
-					No data available in table
-				</td>
-				<tr ng-show = "zookeeperCtrl.currentCluster.nimbus !== undefined">
-					<td class="b-main-table__edit-icon">
-						<input name = "zookeeperChk" type="checkbox" ng-click="zookeeperCtrl.pushNode(zookeeperCtrl.currentCluster.nimbus.hostname, 'nimbus')">
-					</td>
-					<td>{{ zookeeperCtrl.currentCluster.nimbus.hostname }}</td>
-					<td>{{ zookeeperCtrl.currentCluster.nimbus.ip }}</td>
-					<td>Nimbus</td>
-					<td>
-						<div
-								tooltips
-								tooltip-title="{{ zookeeperCtrl.currentCluster.nimbus.status }}"
-								class="b-status-icon b-status-icon_{{ zookeeperCtrl.currentCluster.nimbus.status }}"
-						>
-						</div>
-					</td>
-				</tr>
-				<tr ng-repeat="clusterNode in zookeeperCtrl.currentCluster.supervisors">
-					<td class="b-main-table__edit-icon">
-						<input name = "zookeeperChk" type="checkbox" ng-click="zookeeperCtrl.pushNode(clusterNode.hostname, 'supervisor')">
-					</td>
-					<td>{{ clusterNode.hostname }}</td>
-					<td>{{ clusterNode.ip }}</td>
-					<td>Supervisor</td>
-					<td>
-						<div
-								tooltips
-								tooltip-title="{{ clusterNode.status }}"
-								class="b-status-icon b-status-icon_{{ clusterNode.status }}"
-						>
-						</div>
-					</td>
-					<td>
-						<a href ng-click="zookeeperCtrl.deleteNode (clusterNode.hostname)" class="b-icon b-icon_remove"></a>
-					</td>
-				</tr>
+					<tr ng-repeat="clusterNode in zookeeperCtrl.currentCluster.nodes">
+						<td class="b-main-table__edit-icon">
+							<input name="zookeeperChk" type="checkbox" ng-click="zookeeperCtrl.pushNode(clusterNode.hostname)">
+						</td>
+						<td>{{ clusterNode.hostname }}</td>
+						<td>{{ clusterNode.ip }}</td>
+						<td class="b-main-table__container-status">
+							<div
+								tooltips 
+								tooltip-title="{{ clusterNode.status }}" 
+								class="b-status-icon b-status-icon_{{ clusterNode.status }}">
+							</div>
+						</td>
+						<td>
+							<a href ng-click="zookeeperCtrl.deleteNode(clusterNode.hostname)" class="b-icon b-icon_remove"></a>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

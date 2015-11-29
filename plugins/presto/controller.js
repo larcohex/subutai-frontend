@@ -202,6 +202,8 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 				prestoSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
 					getClustersInfo(vm.currentCluster.clusterName);
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -268,7 +270,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 
 
 	function pushNode(id, type) {
-		var index = checkIfPushed (id);
+		var index = checkIfPushed(id);
 		console.log (index);
 		if(index !== -1) {
 			vm.nodes2Action.splice(index, 1);

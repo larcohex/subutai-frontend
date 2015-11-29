@@ -3,10 +3,9 @@
 angular.module('subutai.plugins.zookeeper.service',[])
 	.factory('zookeeperSrv', zookeeperSrv);
 
-zookeeperSrv.$inject = ['$http', 'environmentService'];
+zookeeperSrv.$inject = ['$http', 'environmentService', 'hadoopSrv'];
 
-
-function zookeeperSrv($http, environmentService) {
+function zookeeperSrv($http, environmentService, hadoopSrv) {
 	var BASE_URL = SERVER_URL + 'rest/zookeeper/';
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
@@ -18,21 +17,24 @@ function zookeeperSrv($http, environmentService) {
 		getAvailableNodes: getAvailableNodes,
 		addNode: addNode,
 		deleteCluster: deleteCluster,
-		startNode: startNode,
-		stopNode: stopNode,
 		changeClusterScaling: changeClusterScaling,
 		startNodes: startNodes,
-		stopNodes: stopNodes
+		stopNodes: stopNodes,
+		getHadoopClusters: getHadoopClusters
 	};
 
 	return zookeeperSrv;
 
-	function addNode(clusterName) {
-		return $http.post(CLUSTER_URL + clusterName + '/add/');
+	function addNode(clusterName, lxcHostname) {
+		return $http.post(CLUSTER_URL + clusterName + '/add/node/' + lxcHostname);
 	}
 
 	function getEnvironments() {
 		return environmentService.getEnvironments();
+	}
+
+	function getHadoopClusters(clusterName) {
+		return hadoopSrv.getClusters(clusterName);
 	}
 
 	function getClusters(clusterName) {
@@ -58,26 +60,20 @@ function zookeeperSrv($http, environmentService) {
 		return $http.delete(CLUSTER_URL + clusterName + '/destroy/node/' + nodeId);
 	}
 
-	function createZookeeper(zookeeperObj) {
+	function createZookeeper(zookeeperObj, installType) {
 		var postData = 'clusterName=' + zookeeperObj.clusterName 
 			+ '&environmentId=' + zookeeperObj.environmentId
-			+ '&nimbus=' + zookeeperObj.server
-			+ "&supervisors=" + JSON.stringify (zookeeperObj.nodes);
-		console.log (zookeeperObj);
-		console.log (postData);
+			+ "&nodes=" + JSON.stringify (zookeeperObj.nodes);
+		var url = BASE_URL + 'configure_environment';
+		if(installType == 'hadoop') {
+			url = CLUSTER_URL + 'install';
+			postData += '&hadoopClusterName=' + zookeeperObj.hadoopClusterName;
+		}
 		return $http.post(
-			CLUSTER_URL + 'install',
+			url,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
-	}
-
-	function startNode (clusterName, lxcHostName) {
-		return $http.put (CLUSTER_URL + clusterName + "/start/node/" + lxcHostName);
-	}
-
-	function stopNode (clusterName, lxcHostName) {
-		return $http.put (CLUSTER_URL + clusterName + "/stop/node/" + lxcHostName);
 	}
 
 	function changeClusterScaling (clusterName, val) {
@@ -95,11 +91,17 @@ function zookeeperSrv($http, environmentService) {
 
 	function stopNodes(clusterName, nodesArray) {
 		var postData = 'clusterName=' + clusterName + '&lxcHostNames=' + nodesArray;
-		console.log (postData);
 		return $http.post(
 			CLUSTER_URL + 'nodes/stop',
 			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function getAvailableNodes(clusterName) {
+		return $http.get(
+			CLUSTER_URL + clusterName + '/available/nodes',
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
 		);
 	}
 }

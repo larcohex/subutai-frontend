@@ -6,7 +6,8 @@ var app = angular.module('subutai-app', [
 		'oitozero.ngSweetAlert',
 		'ngDialog',
 		'datatables',
-		'720kb.tooltips'
+		'720kb.tooltips',
+		'ngTagsInput'
 	])
 	.config(routesConf)
 	.run(startup);
@@ -113,13 +114,6 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
-						{
-							name: 'ngTagsInput',
-							files: [
-								'css/libs/ng-tags-input.min.css',
-								'assets/js/plugins/ng-tags-input.min.js'
-							]
-						},
 						{
 							name: 'subutai.containers',
 							files: [
@@ -590,6 +584,27 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'plugins/zookeeper/zookeeper.js',
 								'plugins/zookeeper/controller.js',
 								'plugins/zookeeper/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('flume', {
+			url: '/plugins/flume',
+			templateUrl: 'plugins/flume/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.flume',
+							files: [
+								'plugins/flume/flume.js',
+								'plugins/flume/controller.js',
+								'plugins/flume/service.js',
+								'plugins/hadoop/service.js',
 								'subutai-app/environment/service.js'
 							]
 						}
@@ -605,7 +620,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxY2FmMTRkMS1jYzE4LTQwM2YtOWMzYy0xOTVhZDZlMzRjNzciLCJpc3MiOiJpby5zdWJ1dGFpIn0.O7lM2cQpHG65kwY2HTv5sQ3frlpKp4WYf0l691WTiBs';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlYzk0MjI3OC1jOTNjLTRhNWMtOTU4Ni02NzhlZGIzYmUxZTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.dwEPdcO_gcgOXwXbzo9xAeb9KRyIICIw1NTzu_0AEgI';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
