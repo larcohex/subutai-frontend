@@ -2,5 +2,6 @@
 
 angular.module('subutai.plugins.zookeeper', [
     'subutai.plugins.zookeeper.controller',
-    'subutai.plugins.zookeeper.service'
+    'subutai.plugins.zookeeper.service',
+    'subutai.environment.service'
 ])

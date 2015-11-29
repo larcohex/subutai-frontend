@@ -553,25 +553,43 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('storm', {
-        			url: '/plugins/storm',
-        			templateUrl: 'plugins/storm/partials/view.html',
-        			resolve: {
-        				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-        					return $ocLazyLoad.load([
-        						{
-        							name: 'subutai.plugins.storm',
-        							files: [
-        								'plugins/storm/storm.js',
-        								'plugins/storm/controller.js',
-        								'plugins/storm/service.js',
-        								'plugins/hadoop/service.js',
-        								'subutai-app/environment/service.js'
-        							]
-        						}
-        					]);
-        				}]
-        			}
-        		})
+			url: '/plugins/storm',
+			templateUrl: 'plugins/storm/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.storm',
+							files: [
+								'plugins/storm/storm.js',
+								'plugins/storm/controller.js',
+								'plugins/storm/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('zookeeper', {
+			url: '/plugins/zookeeper',
+			templateUrl: 'plugins/zookeeper/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.zookeeper',
+							files: [
+								'plugins/zookeeper/zookeeper.js',
+								'plugins/zookeeper/controller.js',
+								'plugins/zookeeper/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
