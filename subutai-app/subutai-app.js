@@ -532,6 +532,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('spark', {
+			url: '/plugins/spark',
+			templateUrl: 'plugins/spark/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.spark',
+							files: [
+								'plugins/spark/spark.js',
+								'plugins/spark/controller.js',
+								'plugins/spark/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('storm', {
         			url: '/plugins/storm',
         			templateUrl: 'plugins/storm/partials/view.html',

@@ -27,8 +27,8 @@
 				</a>
 				<label class="b-form-label">
 					<input type="checkbox"
-						   ng-change="prestoCtrl.changeClusterScaling(prestoCtrl.currentCluster.autoScaling)"
-						   ng-model="prestoCtrl.currentCluster.autoScaling">
+					ng-change="prestoCtrl.changeClusterScaling(prestoCtrl.currentCluster.autoScaling)"
+					ng-model="prestoCtrl.currentCluster.autoScaling">
 					Auto scale
 				</label>
 			</div>
@@ -45,18 +45,18 @@
 		</div>
 		<div class="b-data-table">
 			<table datatable="ng"
-				   dt-options="prestoCtrl.dtOptions"
-				   dt-column-defs="prestoCtrl.dtColumnDefs"
-				   class="row-border hover">
+				dt-options="prestoCtrl.dtOptions"
+				dt-column-defs="prestoCtrl.dtColumnDefs"
+				class="row-border hover">
 				<thead>
-				<tr>
-					<th><input type="checkbox" onClick="toggle(this, 'prestoChk')" ng-click = "prestoCtrl.pushAll()"></th>
-					<th>Host</th>
-					<th>IP List</th>
-					<th>Node Type</th>
-					<th>Status</th>
-					<th></th>
-				</tr>
+					<tr>
+						<th><input type="checkbox" onClick="toggle(this, 'prestoChk')" ng-click = "prestoCtrl.pushAll()"></th>
+						<th>Host</th>
+						<th>IP List</th>
+						<th>Node Type</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
 				</thead>
 				<tbody>
 				<td colspan="4" class="b-main-table__empty-item" ng-show="prestoCtrl.currentCluster.coordinator === undefined">
@@ -71,12 +71,13 @@
 					<td>Coordinator</td>
 					<td>
 						<div
-								tooltips
-								tooltip-title="{{ prestoCtrl.currentCluster.coordinator.status }}"
-								class="b-status-icon b-status-icon_{{ prestoCtrl.currentCluster.coordinator.status }}"
-						>
+							tooltips
+							tooltip-title="{{ prestoCtrl.currentCluster.coordinator.status }}"
+							class="b-status-icon b-status-icon_{{ prestoCtrl.currentCluster.coordinator.status }}"
+							>
 						</div>
 					</td>
+					<td></td>
 				</tr>
 				<tr ng-repeat="clusterNode in prestoCtrl.currentCluster.workers">
 					<td class="b-main-table__edit-icon">
@@ -87,14 +88,14 @@
 					<td>Worker</td>
 					<td>
 						<div
-								tooltips
-								tooltip-title="{{ clusterNode.status }}"
-								class="b-status-icon b-status-icon_{{ clusterNode.status }}"
-						>
+							tooltips
+							tooltip-title="{{ clusterNode.status }}"
+							class="b-status-icon b-status-icon_{{ clusterNode.status }}"
+							>
 						</div>
 					</td>
 					<td>
-						<a href ng-click="prestoCtrl.deleteNode (clusterNode.hostname)" class="b-icon b-icon_remove"></a>
+						<a href ng-click="prestoCtrl.deleteNode(clusterNode.hostname)" class="b-icon b-icon_remove"></a>
 					</td>
 				</tr>
 				</tbody>

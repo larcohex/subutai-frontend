@@ -44,14 +44,12 @@ function MongoCtrl(mongoSrv, SweetAlert) {
     	vm.environments = data;
     });
 
-
 	mongoSrv.listClusters().success(function (data) {
 		vm.clusters = data;
 	});
 
 
 	// Install
-
 	function setDefaultValues() {
 		vm.mongoInstall.domainName = 'intra.lan';
 		vm.mongoInstall.repl = 'repl';
@@ -79,7 +77,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		}
 	}
 
-
 	function addConfigNode (containerId) {
 		if(vm.mongoInstall.configNodes.indexOf(containerId) > -1) {
 			vm.mongoInstall.configNodes.splice(vm.mongoInstall.configNodes.indexOf(containerId), 1);
@@ -87,7 +84,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			vm.mongoInstall.configNodes.push(containerId);
 		}
 	}
-
 
 	function addRouteNode (containerId) {
 		if(vm.mongoInstall.routeNodes.indexOf(containerId) > -1) {
@@ -106,8 +102,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		}
 	}
 
-
-
 	function showContainers(environmentId) {
 		vm.containers = [];
 		for(var i in vm.environments) {
@@ -123,7 +117,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			}
 		}
 	}
-
 
 	// Manage
 
@@ -148,8 +141,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 
 
 	function stopNodes() { // TODO
-		console.log (vm.nodes2Action);
-		console.log (vm.currentCluster);
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
 		mongoSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {

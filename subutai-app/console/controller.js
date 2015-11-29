@@ -30,6 +30,13 @@ function ConsoleViewCtrl($scope, consoleService, peerRegistrationService, $state
 
 	peerRegistrationService.getResourceHosts().success(function (data) {
 		vm.hosts = data;
+		for(var i = 0; i < vm.hosts.length; i++) {
+			if(vm.hosts[i].hostname == 'management') {
+				var temp = angular.copy(vm.hosts[0]);
+				vm.hosts[0] = angular.copy(vm.hosts[i]);
+				vm.hosts[i] = temp;
+			}
+		}
 	});
 
 	consoleService.getEnvironments().success(function (data) {
