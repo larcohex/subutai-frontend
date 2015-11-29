@@ -116,7 +116,11 @@ function ConsoleViewCtrl($scope, consoleService, peerRegistrationService, $state
 
 				var checkCommand = cmd.command.split(' ');
 				if (checkCommand[0] == 'cd' && data.status == 'SUCCEEDED') {
-					var pathArray = ($scope.prompt.path() + checkCommand[1]).split('/');
+					var currentPath = $scope.prompt.path();
+					if(checkCommand[1].substring(0, 1) == '/') {
+						currentPath = '';
+					}
+					var pathArray = (currentPath + checkCommand[1]).split('/');
 					var totalPath = [];
 					for(var i = 0; i < pathArray.length; i++) {
 						if(pathArray[i].length > 0 && pathArray[i] != '&&') {

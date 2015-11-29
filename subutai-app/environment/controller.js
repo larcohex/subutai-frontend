@@ -267,11 +267,11 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 		var file = fileUploder;
 		environmentService.setDomain(domain, vm.environmentForDomain, file).success(function (data) {
 			SweetAlert.swal("Success!", "You successfully add domain for " + vm.environmentForDomain + " environment!", "success");
-			//ngDialog.closeAll();
+			ngDialog.closeAll();
 			console.log(data);
 		}).error(function (data) {
 			SweetAlert.swal("Cancelled", "Error: " + data.ERROR, "error");
-			//ngDialog.closeAll();
+			ngDialog.closeAll();
 		});
 	}
 

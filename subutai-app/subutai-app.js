@@ -114,6 +114,13 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
+							name: 'ngTagsInput',
+							files: [
+								'css/libs/ng-tags-input.min.css',
+								'assets/js/plugins/ng-tags-input.min.js'
+							]
+						},
+						{
 							name: 'subutai.containers',
 							files: [
 								'subutai-app/containers/containers.js',
@@ -598,7 +605,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYmQ2YmQ1NC04OGZkLTQxMzEtYTU5Zi0yNGM1OTFmM2JkOGQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.wZmqFBKV8TZjAGF-yOzskZgy80DZvyjLx84nI5FYuus';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMjVhMjFlZC05NzMyLTQyMGUtYmJlMS1mN2IwODVlZDIzYTgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.KqOiQntcl96pm70fXTDW3wo-E_K8GJan5XLIpFijsO4';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -673,7 +680,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.204:8080/';
+var SERVER_URL = 'http://172.16.131.205:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
