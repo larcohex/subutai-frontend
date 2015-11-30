@@ -25,6 +25,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 	vm.deleteNode = deleteNode;
 	vm.addNode = addNode;
 	vm.pushNode = pushNode;
+	vm.pushAll = pushAll;
 	vm.deleteCluster = deleteCluster;
 	vm.showContainers = showContainers;
 	vm.changeClusterScaling = changeClusterScaling;
@@ -60,7 +61,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 
 	vm.dtOptions = DTOptionsBuilder
 		.newOptions()
-		.withOption('order', [[0, "asc" ]])
+		.withOption('order', [[2, "asc" ]])
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 
@@ -74,6 +75,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 
 	function getClustersInfo(selectedCluster) {
 		LOADING_SCREEN();
+		vm.nodes2Action = [];
 		elasticSearchSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
@@ -93,6 +95,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 	function startNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal("Success!", "Request successfully sent.", "success");
 		elasticSearchSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -104,6 +107,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 	function stopNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal("Success!", "Request successfully sent.", "success");
 		elasticSearchSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -117,6 +121,17 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			vm.nodes2Action.splice(vm.nodes2Action.indexOf(id), 1);
 		} else {
 			vm.nodes2Action.push(id);
+		}
+	}
+
+	function pushAll() {
+		vm.nodes2Action = [];
+		if (vm.currentCluster.containers !== undefined) {
+			if (vm.nodes2Action.length < vm.currentCluster.containers.length) {
+				for (var i = 0; i < vm.currentCluster.containers.length; ++i) {
+					vm.nodes2Action.push(vm.currentCluster.containers[i].id);
+				}
+			}
 		}
 	}
 

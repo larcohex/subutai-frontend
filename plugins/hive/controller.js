@@ -51,8 +51,7 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 	vm.dtOptions = DTOptionsBuilder
 		.newOptions()
 		.withOption('order', [[0, "asc" ]])
-		.withOption('stateSave', true)
-		.withPaginationType('full_numbers');
+		.withOption('stateSave', true);
 
 	vm.dtColumnDefs = [
 		DTColumnDefBuilder.newColumnDef(0),

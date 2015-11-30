@@ -612,6 +612,48 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('accumulo', {
+			url: '/plugins/accumulo',
+			templateUrl: 'plugins/accumulo/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.accumulo',
+							files: [
+								'plugins/accumulo/accumulo.js',
+								'plugins/accumulo/controller.js',
+								'plugins/accumulo/service.js',
+								'plugins/hadoop/service.js',
+								'plugins/zookeeper/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('shark', {
+			url: '/plugins/shark',
+			templateUrl: 'plugins/shark/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.shark',
+							files: [
+								'plugins/shark/shark.js',
+								'plugins/shark/controller.js',
+								'plugins/shark/service.js',
+								'plugins/hadoop/service.js',
+								'plugins/spark/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -620,7 +662,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiNDQwMDhhMi01NjA4LTRkMzItOGU3Yi05MzUyNDBhNjdhOGMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.xDkWXuh287I75QTQiHZ4PP6dfLQ6f_ULukHmBDZ3Sto';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ZDI1NmYwYS05ZjNiLTRlMTAtYjE0OS05NjhhNDA0MTQ4ZWEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.qQ5Hi85US1s14GBeJTbb3_kDUrA4ortzvD9Pufm0OqA';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
