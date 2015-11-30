@@ -223,7 +223,7 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 	function startServer() {
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STARTING';
-		hiveSrv.startNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
+		hiveSrv.startNode(vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
 			SweetAlert.swal("Success!", "Your server started.", "success");
 			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
@@ -236,7 +236,7 @@ function HiveCtrl($scope, hiveSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
 	function stopServer() {
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STOPPING';
-		hiveSrv.stopNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
+		hiveSrv.stopNode(vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
 			SweetAlert.swal("Success!", "Your server stopped.", "success");
 			vm.currentCluster.server.status = 'STOPPED';
 		}).error(function (error) {
