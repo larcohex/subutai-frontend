@@ -118,7 +118,7 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 	function deleteRole(roleId) {
 		SweetAlert.swal({
 			title: "Are you sure?",
-			text: "Your will not be able to recover this role!",
+			text: "You will not be able to recover this Role!",
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#ff3f3c",

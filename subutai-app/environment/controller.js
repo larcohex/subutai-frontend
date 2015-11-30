@@ -157,7 +157,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	function destroyContainer(containerId) {
 		SweetAlert.swal({
 			title: "Are you sure?",
-			text: "Your will not be able to recover this Container!",
+			text: "You will not be able to recover this Container!",
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#ff3f3c",
@@ -182,7 +182,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	function destroyEnvironment(environmentId) {
 		SweetAlert.swal({
 				title: "Are you sure?",
-				text: "Your will not be able to recover this Environment!",
+				text: "You will not be able to recover this Environment!",
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#ff3f3c",
@@ -194,7 +194,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 			},
 			function (isConfirm) {
 				if (isConfirm) {
-					SweetAlert.swal("Delete!", "Your environment start deleting!", "success");
+					SweetAlert.swal("Delete!", "Your environment is being deleted!", "success");
 					environmentService.destroyEnvironment(environmentId).success(function (data) {
 						SweetAlert.swal("Destroyed!", "Your environment has been destroyed.", "success");
 						vm.dtInstance.reloadData(null, false);
