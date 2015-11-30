@@ -272,7 +272,7 @@ function StormCtrl($scope, stormSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 			title : 'Success!',
-			text : 'Request successfully sent.',
+			text : 'Your request is in progress. Please waite.',
 			timer: VARS_TOOLTIP_TIMEOUT,
 			showConfirmButton: false
 		});
@@ -290,7 +290,7 @@ function StormCtrl($scope, stormSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 			title : 'Success!',
-			text : 'Request successfully sent.',
+			text : 'Your request is in progress. Please wait.',
 			timer: VARS_TOOLTIP_TIMEOUT,
 			showConfirmButton: false
 		});

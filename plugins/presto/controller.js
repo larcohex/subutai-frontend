@@ -313,7 +313,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 			title : 'Success!',
-			text : 'Request successfully sent.',
+			text : 'Your request is in progress. Please waite.',
 			timer: VARS_TOOLTIP_TIMEOUT,
 			showConfirmButton: false
 		});
@@ -331,7 +331,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 			title : 'Success!',
-			text : 'Request successfully sent.',
+			text : 'Your request is in progress. Please waite.',
 			timer: VARS_TOOLTIP_TIMEOUT,
 			showConfirmButton: false
 		});
