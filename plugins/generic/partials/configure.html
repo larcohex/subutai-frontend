@@ -5,10 +5,10 @@
 				<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
 					<div class="b-form">
 						<div class="b-form__wrapper b-form__wrapper_margin-bottom">
-							<label class="b-form-label b-form-label_fix-size-1 g-left">Choose profile</label>
+							<label class="b-form-label b-form-label_fix-size-1 g-left">Profile</label>
 
 							<div class="b-form-wrapper b-form-wrapper_margin-size-1">
-								<select class="b-form-input b-form-input_full" ng-model = "genericCtrl.currentProfile" ng-change="genericCtrl.getOperations()"> <!-- TODO: show operations -->
+								<select class="b-form-input b-form-input_full" ng-model = "genericCtrl.currentProfile" ng-change="genericCtrl.getOperations()" style = "color: black">
 									<option ng-selected = "genericCtrl.currentProfile === profile" value="{{ profile }}" ng-repeat = "profile in genericCtrl.profiles">{{ profile }}</option>
 								</select>
 							</div>
@@ -17,7 +17,7 @@
 					</div>
 				</div>
 				<div class="b-workspace-content-row_col-2 g-right">
-					<a href class="b-btn b-btn_green" ng-click = "genericCtrl.addOperationWindow()">Add operation</a> <!-- TODO: ng.Dialog (window) -->
+					<a href class="b-btn b-btn_green" ng-click = "genericCtrl.addOperationWindow()">Add operation</a>
 				</div>
 				<div class="clear"></div>
 			</div>
@@ -35,11 +35,10 @@
 							<th></th>
 						</tr>
 						<tr ng-repeat = "operation in genericCtrl.operations">
-							<td></td><!-- TODO: operation name -->
-							<td><a href></a></td>
-							<!-- TODO: icon for view -->
-							<td class="b-main-table__edit-icon"><a href class="b-icon b-icon_edit"></a></td> <!-- TODO: fix invis -->
-							<td class="b-main-table__container-status"><a href class="b-icon b-icon_remove"></a>
+							<td>{{ operation.operationName }}</td>
+							<td class="b-main-table__controls"><a href class="b-btn b-btn_blue" ng-click="genericCtrl.operationInfo (operation)">View</a></td>
+							<td class="b-main-table__container-status"><a href class="b-icon b-icon_edit" ng-click="genericCtrl.editOperation (operation)"></a></td>
+							<td class="b-main-table__container-status"><a href class="b-icon b-icon_remove" ng-click="genericCtrl.deleteOperation (operation.operationId)"></a>
 							</td>
 						</tr>
 					</table>
