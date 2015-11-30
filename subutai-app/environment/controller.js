@@ -51,7 +51,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		//DTColumnBuilder.newColumn('id').withTitle('ID'),
 		DTColumnBuilder.newColumn('status').withTitle('').notSortable().renderWith(statusHTML),
 		DTColumnBuilder.newColumn(null).withTitle('Environment name').renderWith(environmentNameTooltip),
-		DTColumnBuilder.newColumn(null).withTitle('Key SSH').renderWith(sshKeyLinks),
+		DTColumnBuilder.newColumn(null).withTitle('SSH Key').renderWith(sshKeyLinks),
 		DTColumnBuilder.newColumn(null).withTitle('Domains').renderWith(domainsTag),
 		DTColumnBuilder.newColumn(null).withTitle('').renderWith(containersTags),
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionDelete)

@@ -64,6 +64,12 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		console.log(vm.nodes2Action);
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		sparkSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster slaves started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -75,6 +81,12 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function stopNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		sparkSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster slaves stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -85,7 +97,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 
 	vm.dtOptions = DTOptionsBuilder
 		.newOptions()
-		.withOption('order', [[0, "asc" ]])
+		.withOption('order', [[2, "asc" ]])
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 
@@ -174,9 +186,9 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function createSpark() {
 		if(vm.sparkInstall.clusterName === undefined || vm.sparkInstall.clusterName.length == 0) return;
 		if(vm.sparkInstall.hadoopClusterName === undefined || vm.sparkInstall.hadoopClusterName.length == 0) return;
-		SweetAlert.swal("Success!", "Spark cluster start creating.", "success");
+		SweetAlert.swal("Success!", "Spark cluster is being created.", "success");
 		sparkSrv.createSpark(vm.sparkInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Spark cluster start creating.", "success");
+			SweetAlert.swal("Success!", "Your Spark cluster is being created.", "success");
 			getClusters();
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Spark cluster create error: ' + error.replace(/\\n/g, ' '), "error");
@@ -267,7 +279,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STARTING';
 		sparkSrv.startMasterNode(vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
-			SweetAlert.swal("Success!", "Your server started.", "success");
+			SweetAlert.swal("Success!", "Your server has been started.", "success");
 			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Spark server start error: ' + error.replace(/\\n/g, ' '), "error");
@@ -280,7 +292,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STOPPING';
 		sparkSrv.stopMasterNode(vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
-			SweetAlert.swal("Success!", "Your server stopped.", "success");
+			SweetAlert.swal("Success!", "Your server has been stopped.", "success");
 			vm.currentCluster.server.status = 'STOPPED';
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Spark server stop error: ' + error.replace(/\\n/g, ' '), "error");
