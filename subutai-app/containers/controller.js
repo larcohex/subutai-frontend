@@ -57,12 +57,6 @@ function ContainerViewCtrl($scope, $rootScope, environmentService, SweetAlert, D
 		ngDialog.closeAll();
 	}
 
-	function getEnvironments() {
-		environmentService.getEnvironments().success(function (data) {
-			vm.environments = data;
-		});
-	}
-
 	function addTagForm(container) {
 		vm.tags2Container = container;
 		vm.currentTags = [];
@@ -96,18 +90,34 @@ function ContainerViewCtrl($scope, $rootScope, environmentService, SweetAlert, D
 	}
 
 	function getContainers() {
-		vm.containers = [];
 		environmentService.getEnvironments().success(function (data) {
-			if(JSON.stringify(vm.environments) != JSON.stringify(data)) {
-				vm.environments = data;
+
+			var serverArray = angular.copy(data);
+			for(var i = 0; i < serverArray.length; i++) {
+				serverArray[i].containers.sort(compare);
+			}
+			serverArray.sort(compare);
+
+			var currentArrayString = JSON.stringify(vm.environments);
+			var serverArrayString = JSON.stringify(serverArray);
+
+			if(currentArrayString != serverArrayString) {
+				vm.environments = serverArray;
 				filterContainersList();
 			}
 		});
 	}
 	getContainers();
 
+	function compare(a,b) {
+		if (a.id < b.id) return -1;
+		if (a.id > b.id) return 1;
+		return 0;
+	}
+
 	function filterContainersList() {
 		vm.allTags = [];
+		vm.containers = [];
 		for(var i in vm.environments) {
 			if(
 				vm.environmentId == vm.environments[i].id || 
@@ -151,8 +161,8 @@ function ContainerViewCtrl($scope, $rootScope, environmentService, SweetAlert, D
 	var reloadTableData = function() {
 		refreshTable = $timeout(function myFunction() {
 			getContainers();
-			refreshTable = $timeout(reloadTableData, 30000);
-		}, 30000);
+			refreshTable = $timeout(reloadTableData, 3000);
+		}, 3000);
 	};
 	reloadTableData();
 
