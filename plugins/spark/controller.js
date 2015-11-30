@@ -279,7 +279,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STARTING';
 		sparkSrv.startMasterNode(vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
-			SweetAlert.swal("Success!", "Your server started.", "success");
+			SweetAlert.swal("Success!", "Your server has been started.", "success");
 			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Spark server start error: ' + error.replace(/\\n/g, ' '), "error");
