@@ -2,7 +2,7 @@
 
 angular.module('subutai.plugins.pig.controller', [])
     .controller('PigCtrl', PigCtrl)
-	.directive('colSelectContainers', colSelectContainers);
+	.directive('colSelectPigNodes', colSelectPigNodes);
 
 PigCtrl.$inject = ['$scope', 'pigSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
 
@@ -32,8 +32,8 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 		if(vm.hadoopClusters.length == 0) {
 			SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! Create Hadoop cluster first.', "error");
 		}
-	}).error(function(data){
-		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + data, "error");
+	}).error(function(error){
+		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
 	});
 	setDefaultValues();
 
@@ -60,6 +60,9 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 		LOADING_SCREEN();
 		pigSrv.getClusters(selectedCluster).success(function (data) {
 			vm.currentCluster = data;
+			LOADING_SCREEN('none');
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Call cluster error: ' + error.replace(/\\n/g, ' '), "error");
 			LOADING_SCREEN('none');
 		});
 	}
@@ -95,6 +98,7 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 		LOADING_SCREEN();
 		pigSrv.getHadoopClusters(selectedCluster).success(function (data) {
 			vm.currentClusterNodes = data.dataNodes;
+			var tempArray = [];
 
 			var nameNodeFound = false;
 			var jobTrackerFound = false;
@@ -105,16 +109,26 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 				if(node.hostname === data.jobTracker.hostname) jobTrackerFound = true;
 				if(node.hostname === data.secondaryNameNode.hostname) secondaryNameNodeFound = true;
 			}
-
 			if(!nameNodeFound) {
-				vm.currentClusterNodes.push(data.nameNode);
+				tempArray.push(data.nameNode);
 			}
 			if(!jobTrackerFound) {
-				vm.currentClusterNodes.push(data.jobTracker);
+				if(tempArray[0].hostname != data.jobTracker.hostname) {
+					tempArray.push(data.jobTracker);
+				}
 			}
 			if(!secondaryNameNodeFound) {
-				vm.currentClusterNodes.push(data.secondaryNameNode);
+				var checker = 0;
+				for(var i = 0; i < tempArray.length; i++) {
+					if(tempArray[i].hostname != data.secondaryNameNode.hostname) {
+						checker++;
+					}
+				}
+				if(checker == tempArray.length) {
+					tempArray.push(data.secondaryNameNode);
+				}
 			}
+			vm.currentClusterNodes = vm.currentClusterNodes.concat(tempArray);
 
 			LOADING_SCREEN('none');
 			console.log(vm.currentClusterNodes);
@@ -130,7 +144,7 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 			SweetAlert.swal("Success!", "Your pig cluster start creating.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Pig cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Pig cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -156,8 +170,8 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 					SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 					vm.currentCluster = {};
 					getClusters();
-				}).error(function(data){
-					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + data, "error");
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + data.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -181,7 +195,7 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 			if (isConfirm) {
 				pigSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
 				});
 			}
 		});
@@ -202,7 +216,7 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 
 }
 
-function colSelectContainers() {
+function colSelectPigNodes() {
 	return {
 		restrict: 'E',
 		templateUrl: 'plugins/pig/directives/col-select/col-select-containers.html'

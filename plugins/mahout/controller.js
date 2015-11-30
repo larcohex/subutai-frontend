@@ -2,7 +2,7 @@
 
 angular.module('subutai.plugins.mahout.controller', [])
     .controller('MahoutCtrl', MahoutCtrl)
-	.directive('colSelectContainers', colSelectContainers);
+	.directive('colSelectMahoutNodes', colSelectMahoutNodes);
 
 MahoutCtrl.$inject = ['$scope', 'mahoutSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
 
@@ -32,8 +32,8 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.hadoopClusters.length == 0) {
 			SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! Create Hadoop cluster first.', "error");
 		}
-	}).error(function(data){
-		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + data, "error");
+	}).error(function(error){
+		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
 	});
 	setDefaultValues();
 
@@ -88,6 +88,8 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 				"success"
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Mahout add node error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -95,6 +97,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		LOADING_SCREEN();
 		mahoutSrv.getHadoopClusters(selectedCluster).success(function (data) {
 			vm.currentClusterNodes = data.dataNodes;
+			var tempArray = [];
 
 			var nameNodeFound = false;
 			var jobTrackerFound = false;
@@ -105,16 +108,26 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 				if(node.hostname === data.jobTracker.hostname) jobTrackerFound = true;
 				if(node.hostname === data.secondaryNameNode.hostname) secondaryNameNodeFound = true;
 			}
-
 			if(!nameNodeFound) {
-				vm.currentClusterNodes.push(data.nameNode);
+				tempArray.push(data.nameNode);
 			}
 			if(!jobTrackerFound) {
-				vm.currentClusterNodes.push(data.jobTracker);
+				if(tempArray[0].hostname != data.jobTracker.hostname) {
+					tempArray.push(data.jobTracker);
+				}
 			}
 			if(!secondaryNameNodeFound) {
-				vm.currentClusterNodes.push(data.secondaryNameNode);
+				var checker = 0;
+				for(var i = 0; i < tempArray.length; i++) {
+					if(tempArray[i].hostname != data.secondaryNameNode.hostname) {
+						checker++;
+					}
+				}
+				if(checker == tempArray.length) {
+					tempArray.push(data.secondaryNameNode);
+				}
 			}
+			vm.currentClusterNodes = vm.currentClusterNodes.concat(tempArray);
 
 			LOADING_SCREEN('none');
 			console.log(vm.currentClusterNodes);
@@ -130,7 +143,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			SweetAlert.swal("Success!", "Your Mahout cluster start creating.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Mahout cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Mahout cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -156,8 +169,8 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 					SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 					vm.currentCluster = {};
 					getClusters();
-				}).error(function(data){
-					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + data, "error");
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -181,7 +194,9 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			if (isConfirm) {
 				mahoutSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					vm.currentCluster = {};
+					getClustersInfo(vm.currentCluster.clusterName);
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete node error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -202,7 +217,7 @@ function MahoutCtrl($scope, mahoutSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 
 }
 
-function colSelectContainers() {
+function colSelectMahoutNodes() {
 	return {
 		restrict: 'E',
 		templateUrl: 'plugins/mahout/directives/col-select/col-select-containers.html'

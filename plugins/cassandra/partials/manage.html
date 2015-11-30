@@ -34,6 +34,8 @@
 				</label>
 			</div>
 		</div>
+	</div>
+	<div class="b-data-table">
 
 		<div class="b-workspace-content__row">
 			<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
@@ -45,16 +47,15 @@
 				<a href ng-click="cassandraCtrl.startNodes()" class="b-btn b-btn_green">Start</a>
 				<a href ng-click="cassandraCtrl.stopNodes()" class="b-btn b-btn_red">Stop</a>
 			</div>
-		</div>
-	</div>
-	<div class="b-data-table">
+		</div>		
+
 		<table datatable="ng" 
 			dt-options="hadoopCtrl.dtOptions" 
 			dt-column-defs="hadoopCtrl.dtColumnDefs" 
 			class="row-border hover">
 			<thead>
 				<tr>
-					<th><input type="checkbox"></th>
+					<th><input type="checkbox" onClick="toggle(this, 'cassandraChk')" ng-click = "cassandraCtrl.pushAll()"></th>
 					<th>Host</th>
 					<th>IP List</th>
 					<th>Node role</th>
@@ -65,7 +66,7 @@
 			<tbody>
 				<tr ng-repeat="clusterNode in cassandraCtrl.currentCluster.containers">
 					<td class="b-main-table__edit-icon">
-						<input type="checkbox" ng-click="cassandraCtrl.pushNode(clusterNode)">
+						<input name = "cassandraChk" type="checkbox" ng-click="cassandraCtrl.pushNode(clusterNode)">
 					</td>
 					<td>{{ clusterNode }}</td>
 					<td>{{ cassandraCtrl.currentCluster.containersStatuses[clusterNode].ip }}</td>

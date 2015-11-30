@@ -51,8 +51,8 @@ function SolrCtrl(solrSrv, SweetAlert) {
 			console.log(data);
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
-		}).error(function(data){
-			SweetAlert.swal("ERROR!", 'Cluster info error: ' + data, "error");
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Cluster info error: ' + error.replace(/\\n/g, ' '), "error");
 			LOADING_SCREEN('none');
 		});
 	}
@@ -64,7 +64,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -75,7 +75,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -162,12 +162,9 @@ function SolrCtrl(solrSrv, SweetAlert) {
 		
 		solrSrv.createSolr(vm.solrInstall).success(function (data) {
 			SweetAlert.swal("Success!", "Your Solr cluster start creating.", "success");
-			console.log('---FIRST LINE---');
-			console.log(data);
-			console.log('---END LINE---');
 			switchTab('manager');
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Solr cluster create error: ' + error, "error");
+			SweetAlert.swal("ERROR!", 'Solr cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 		console.log('solr created');
 	}

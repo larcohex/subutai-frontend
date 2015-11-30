@@ -32,7 +32,8 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	vm.pushNode = pushNode;
 	vm.startNodes = startNodes;
 	vm.stopNodes = stopNodes;
-	
+	vm.pushAll = pushAll;
+
 	setDefaultValues();
 	cassandraSrv.getEnvironments().success(function (data) {
 		vm.environments = data;
@@ -87,7 +88,7 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -98,7 +99,7 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -178,7 +179,7 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		cassandraSrv.createCassandra(JSON.stringify(vm.cassandraInstall)).success(function (data) {
 			SweetAlert.swal("Success!", "Your Cassandra cluster start creating.", "success");
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cassandra cluster create error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cassandra cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -228,6 +229,21 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		vm.cassandraInstall.cacheDir = '/var/lib/cassandra/saved_caches';
 		vm.cassandraInstall.containers = [];
 		vm.cassandraInstall.seeds = [];
+	}
+
+
+	function pushAll() {
+		if (vm.currentCluster.clusterName !== undefined) {
+			if (vm.nodes2Action.length === vm.currentCluster.containers.length) {
+				vm.nodes2Action = [];
+			}
+			else {
+				for (var i = 0; i < vm.currentCluster.containers.length; ++i) {
+					vm.nodes2Action.push (vm.currentCluster.containers[i]);
+				}
+				console.log (vm.nodes2Action);
+			}
+		}
 	}
 }
 

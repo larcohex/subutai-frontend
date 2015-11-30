@@ -9,8 +9,8 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Enter cluster name" 
-							ng-model="cassandraCtrl.cassandraInstall.name" 
+							placeholder="Enter cluster name"
+							ng-model="cassandraCtrl.cassandraInstall.name"
 							required>
 						</div>
 						<div class="clear"></div>
@@ -20,8 +20,8 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Enter domain name" 
-							ng-model="cassandraCtrl.cassandraInstall.domainName" 
+							placeholder="Enter domain name"
+							ng-model="cassandraCtrl.cassandraInstall.domainName"
 							required>
 						</div>
 						<div class="clear"></div>
@@ -31,8 +31,8 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Data directory" 
-							ng-model="cassandraCtrl.cassandraInstall.dataDir" 
+							placeholder="Data directory"
+							ng-model="cassandraCtrl.cassandraInstall.dataDir"
 							required>
 						</div>
 
@@ -47,8 +47,8 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Commit log directory" 
-							ng-model="cassandraCtrl.cassandraInstall.commitDir" 
+							placeholder="Commit log directory"
+							ng-model="cassandraCtrl.cassandraInstall.commitDir"
 							required>
 						</div>
 
@@ -61,8 +61,8 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
-							placeholder="Saved caches directory" 
-							ng-model="cassandraCtrl.cassandraInstall.cacheDir" 
+							placeholder="Saved caches directory"
+							ng-model="cassandraCtrl.cassandraInstall.cacheDir"
 							required>
 						</div>
 
@@ -72,8 +72,8 @@
 						<label class="b-form-label b-form-label_fix-size-1 g-left">Choose Environment</label>
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
-							<select class="b-form-input b-form-input_full" 
-								ng-model="cassandraCtrl.cassandraInstall.environmentId" 
+							<select class="b-form-input b-form-input_full"
+								ng-model="cassandraCtrl.cassandraInstall.environmentId"
 								ng-change="cassandraCtrl.showContainers(cassandraCtrl.cassandraInstall.environmentId)">
 								<option value="">Select environment</option>
 								<option ng-repeat="environment in cassandraCtrl.environments" value="{{ environment.id }}">
