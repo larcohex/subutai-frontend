@@ -612,6 +612,48 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('accumulo', {
+			url: '/plugins/accumulo',
+			templateUrl: 'plugins/accumulo/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.accumulo',
+							files: [
+								'plugins/accumulo/accumulo.js',
+								'plugins/accumulo/controller.js',
+								'plugins/accumulo/service.js',
+								'plugins/hadoop/service.js',
+								'plugins/zookeeper/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('shark', {
+			url: '/plugins/shark',
+			templateUrl: 'plugins/shark/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.shark',
+							files: [
+								'plugins/shark/shark.js',
+								'plugins/shark/controller.js',
+								'plugins/shark/service.js',
+								'plugins/hadoop/service.js',
+								'plugins/spark/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -620,7 +662,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlYzk0MjI3OC1jOTNjLTRhNWMtOTU4Ni02NzhlZGIzYmUxZTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.dwEPdcO_gcgOXwXbzo9xAeb9KRyIICIw1NTzu_0AEgI';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYWI4MDIxZS0yNGQ3LTRiMGQtYTRkMy1kYzU2YWIxOTBiOTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.VJWp8vHEi3CdXyrxIjqDPmCn1c1kudCicCoPyqSTnRE';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -695,7 +737,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8080/';
+var SERVER_URL = 'http://172.16.131.204:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
