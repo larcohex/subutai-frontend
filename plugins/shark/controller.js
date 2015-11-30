@@ -108,7 +108,7 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		console.log (vm.sharkInstall);
 		if(vm.sharkInstall.clusterName === undefined || vm.sharkInstall.clusterName.length == 0) return;
 		if(vm.sharkInstall.sparkClusterName === undefined || vm.sharkInstall.sparkClusterName.length == 0) return;
-		SweetAlert.swal("Success!", "Shark cluster started being creating.", "success");
+		SweetAlert.swal("Success!", "Shark cluster is being created.", "success");
 		sharkSrv.createShark(vm.sharkInstall).success(function (data) {
 			SweetAlert.swal("Success!", "Your Shark cluster was successfully created.", "success");
 			getClusters();

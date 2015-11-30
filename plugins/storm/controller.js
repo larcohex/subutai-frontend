@@ -47,6 +47,7 @@ function StormCtrl($scope, stormSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	setDefaultValues();
 
 	function getClusters() {
+		vm.clusters = [];
 		stormSrv.getClusters().success(function (data) {
 			console.log (data);
 			vm.clusters = data;
@@ -56,14 +57,17 @@ function StormCtrl($scope, stormSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 
 	vm.dtOptions = DTOptionsBuilder
 		.newOptions()
-		.withOption('order', [[0, "asc" ]])
+		.withOption('order', [[2, "asc" ]])
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 
 	vm.dtColumnDefs = [
-		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		DTColumnDefBuilder.newColumnDef(1),
-		DTColumnDefBuilder.newColumnDef(2).notSortable()
+		DTColumnDefBuilder.newColumnDef(2),
+		DTColumnDefBuilder.newColumnDef(3),
+		DTColumnDefBuilder.newColumnDef(4),
+		DTColumnDefBuilder.newColumnDef(5).notSortable(),
 	];
 
 	function getClustersInfo(selectedCluster) {
@@ -266,6 +270,12 @@ function StormCtrl($scope, stormSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		console.log (vm.nodes2Action);
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		stormSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
@@ -278,6 +288,12 @@ function StormCtrl($scope, stormSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function stopNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		stormSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
