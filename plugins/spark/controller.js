@@ -38,10 +38,10 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	sparkSrv.getHadoopClusters().success(function(data){
 		vm.hadoopClusters = data;
 		if(vm.hadoopClusters.length == 0) {
-			SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! Create Hadoop cluster first.', "error");
+			SweetAlert.swal("ERROR!", 'No Hadoop clusters were found! Create Hadoop cluster first.', "error");
 		}
 	}).error(function(error){
-		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
+		SweetAlert.swal("ERROR!", 'No Hadoop clusters were found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
 	});
 	setDefaultValues();
 
@@ -88,10 +88,10 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			showConfirmButton: false
 		});
 		sparkSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster slaves stoped successfully.", "success");
+			SweetAlert.swal("Success!", "Your cluster slaves have stopped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster slaves stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to stop cluster slaves error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -131,12 +131,12 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function addNode(chosenNode) {
 		if(chosenNode === undefined) return;
 		if(vm.currentCluster.clusterName === undefined) return;
-		SweetAlert.swal("Success!", "Adding node action started.", "success");
+		SweetAlert.swal("Success!", "Node is being added.", "success");
 		ngDialog.closeAll();
 		sparkSrv.addNode(vm.currentCluster.clusterName, chosenNode).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
-				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
+				"Node has been added to cluster " + vm.currentCluster.clusterName + ".",
 				"success"
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -191,7 +191,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			SweetAlert.swal("Success!", "Your Spark cluster is being created.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Spark cluster create error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Spark cluster creation error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -218,7 +218,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 					vm.currentCluster = {};
 					getClusters();
 				}).error(function(error){
-					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
+					SweetAlert.swal("ERROR!", 'Failed to delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -244,7 +244,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
 					getClustersInfo(vm.currentCluster.clusterName);
 				}).error(function(error){
-					SweetAlert.swal("ERROR!", 'Delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
+					SweetAlert.swal("ERROR!", 'Failed to delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -282,7 +282,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			SweetAlert.swal("Success!", "Your server has been started.", "success");
 			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Spark server start error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to start Spark server error: ' + error.replace(/\\n/g, ' '), "error");
 			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
@@ -295,7 +295,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			SweetAlert.swal("Success!", "Your server has been stopped.", "success");
 			vm.currentCluster.server.status = 'STOPPED';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Spark server stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to stop Spark server error: ' + error.replace(/\\n/g, ' '), "error");
 			vm.currentCluster.server.status = 'ERROR';
 		});
 	}

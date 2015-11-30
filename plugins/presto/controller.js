@@ -40,10 +40,10 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 	prestoSrv.getHadoopClusters().success(function(data){
 		vm.hadoopClusters = data;
 		if(vm.hadoopClusters.length == 0) {
-			SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! Create Hadoop cluster first.', "error");
+			SweetAlert.swal("ERROR!", 'No Hadoop clusters were found! Create Hadoop cluster first.', "error");
 		}
 	}).error(function(error){
-		SweetAlert.swal("ERROR!", 'No Hadoop clusters was found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
+		SweetAlert.swal("ERROR!", 'No Hadoop clusters were found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
 	});
 	setDefaultValues();
 
@@ -77,7 +77,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster get info error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Cluster getting info error: ' + error.replace(/\\n/g, ' '), "error");
 			LOADING_SCREEN('none');
 		});
 	}
@@ -96,12 +96,12 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 	function addNode(chosenNode) {
 		if(chosenNode === undefined) return;
 		if(vm.currentCluster.clusterName === undefined) return;
-		SweetAlert.swal("Success!", "Adding node action started.", "success");
+		SweetAlert.swal("Success!", "Node is being added.", "success");
 		ngDialog.closeAll();
 		prestoSrv.addNode(vm.currentCluster.clusterName, chosenNode).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
-				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
+				"Node has been added to cluster " + vm.currentCluster.clusterName + ".",
 				"success"
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -153,10 +153,10 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.prestoInstall.hadoopClusterName === undefined || vm.prestoInstall.hadoopClusterName.length == 0) return;
 		SweetAlert.swal("Success!", "Presto cluster is being created.", "success");
 		prestoSrv.createPresto(vm.prestoInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Presto cluster successfully created.", "success");
+			SweetAlert.swal("Success!", "Your Presto cluster has been successfully created.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Presto cluster create error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Presto cluster creation error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -183,7 +183,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 					vm.currentCluster = {};
 					getClusters();
 				}).error(function(error){
-					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
+					SweetAlert.swal("ERROR!", 'Failed to delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -209,7 +209,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
 					getClustersInfo(vm.currentCluster.clusterName);
 				}).error(function(error){
-					SweetAlert.swal("ERROR!", 'Delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
+					SweetAlert.swal("ERROR!", 'failed to delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -243,10 +243,10 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STARTING';
 		prestoSrv.startNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
-			SweetAlert.swal("Success!", "Your server started.", "success");
+			SweetAlert.swal("Success!", "Your server has been started.", "success");
 			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Presto server start error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to start Presto server error: ' + error.replace(/\\n/g, ' '), "error");
 			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
@@ -256,10 +256,10 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STOPPING';
 		prestoSrv.stopNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
-			SweetAlert.swal("Success!", "Your server stopped.", "success");
+			SweetAlert.swal("Success!", "Your server has been stopped.", "success");
 			vm.currentCluster.server.status = 'STOPPED';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Presto server stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to stop Presto server error: ' + error.replace(/\\n/g, ' '), "error");
 			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
@@ -318,10 +318,10 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			showConfirmButton: false
 		});
 		prestoSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
+			SweetAlert.swal("Success!", "Your cluster nodes has been started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to run Cluster error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -336,10 +336,10 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			showConfirmButton: false
 		});
 		prestoSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
+			SweetAlert.swal("Success!", "Your cluster nodes have been stopped successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to stop cluster error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 }
