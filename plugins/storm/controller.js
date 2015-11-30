@@ -47,6 +47,7 @@ function StormCtrl($scope, stormSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	setDefaultValues();
 
 	function getClusters() {
+		vm.clusters = [];
 		stormSrv.getClusters().success(function (data) {
 			console.log (data);
 			vm.clusters = data;
