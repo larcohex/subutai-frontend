@@ -165,6 +165,8 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 				sharkSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
 					getClustersInfo(vm.currentCluster.clusterName);
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});

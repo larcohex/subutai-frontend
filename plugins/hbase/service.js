@@ -17,12 +17,27 @@ function hbaseSrv($http, hadoopSrv) {
 		getAvailableNodes: getAvailableNodes,
 		addNode: addNode,
 		deleteCluster: deleteCluster,
+		changeClusterScaling: changeClusterScaling,
+		startNodes: startNodes,
+		stopNodes: stopNodes,
 	};
 
 	return hbaseSrv;
 
 	function addNode(clusterName, lxcHostname) {
 		return $http.post(CLUSTER_URL + clusterName + '/add/node/' + lxcHostname);
+	}
+
+	function startNodes(clusterName) {
+		return $http.put(CLUSTER_URL + clusterName + '/start');
+	}
+
+	function stopNodes(clusterName) {
+		return $http.put(CLUSTER_URL + clusterName + '/stop');
+	}
+
+	function changeClusterScaling(clusterName, scale) {
+		return $http.post(CLUSTER_URL + clusterName + '/auto_scale/' + scale);
 	}
 
 	function getHadoopClusters(clusterName) {
@@ -55,7 +70,7 @@ function hbaseSrv($http, hadoopSrv) {
 	function createHbase(hbaseJson) {
 		var postData = 'config=' + hbaseJson;
 		return $http.post(
-			BASE_URL,
+			CLUSTER_URL,
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);

@@ -319,7 +319,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		});
 		prestoSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes have been started successfully.", "success");
-			getClustersInfo(vm.currentCluster.name);
+			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Failed to run Cluster error: ' + error.replace(/\\n/g, ' '), "error");
 		});
@@ -337,7 +337,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		});
 		prestoSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes have been stopped successfully.", "success");
-			getClustersInfo(vm.currentCluster.name);
+			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Failed to stop cluster error: ' + error.replace(/\\n/g, ' '), "error");
 		});

@@ -5,7 +5,7 @@
 			<img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
 		</a>
 	</div>
-	<form ng-submit="hipiCtrl.addNode(chosenNode)">
+	<form ng-submit="hbaseCtrl.addNode(chosenNode)">
 		<div class="b-popup__body">
 
 			<div class="popup-body-box">
@@ -13,7 +13,7 @@
 				<select class="b-popup-body-input b-popup-body-input_box" 
 					ng-model="chosenNode">
 					<option 
-						ng-repeat="availableNode in hipiCtrl.availableNodes" 
+						ng-repeat="availableNode in hbaseCtrl.availableNodes" 
 						value="{{ availableNode }}">
 						{{ availableNode }}
 					</option>
