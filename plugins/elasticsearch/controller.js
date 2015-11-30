@@ -80,7 +80,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster get info error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Cluster getting info error: ' + error.replace(/\\n/g, ' '), "error");
 			LOADING_SCREEN('none');
 		});
 	}
@@ -102,10 +102,10 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			showConfirmButton: false
 		});
 		elasticSearchSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
+			SweetAlert.swal("Success!", "Your cluster nodes have been started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Cluster starting error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -119,10 +119,10 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			showConfirmButton: false
 		});
 		elasticSearchSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
+			SweetAlert.swal("Success!", "Your cluster nodes have been stopped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to stop cluster error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -147,12 +147,12 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 
 	function addNode() {
 		if(vm.currentCluster.clusterName === undefined) return;
-		SweetAlert.swal("Success!", "Adding node action started.", "success");
+		SweetAlert.swal("Success!", "Node is being added.", "success");
 		ngDialog.closeAll();
 		elasticSearchSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
-				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
+				"Node has been added to cluster " + vm.currentCluster.clusterName + ".",
 				"success"
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -163,12 +163,12 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		if(vm.elasticSearchInstall.clusterName === undefined || vm.elasticSearchInstall.clusterName.length == 0) return;
 		if(vm.elasticSearchInstall.environmentId === undefined) return;
 
-		SweetAlert.swal("Success!", "Elastic Search cluster start creating.", "success");
+		SweetAlert.swal("Success!", "Elastic Search cluster is being created.", "success");
 		elasticSearchSrv.createElasticSearch(vm.elasticSearchInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Elastic Search cluster created.", "success");
+			SweetAlert.swal("Success!", "Your Elastic Search cluster has been created.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Elastic Search cluster create error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Elastic Search cluster creation error: ' + error.replace(/\\n/g, ' '), "error");
 			getClusters();
 		});
 		setDefaultValues();
@@ -196,7 +196,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 					vm.currentCluster = {};
 					getClusters();
 				}).error(function(error){
-					SweetAlert.swal("ERROR!", 'Delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
+					SweetAlert.swal("ERROR!", 'Failed to delete cluster error: ' + error.replace(/\\n/g, ' '), "error");
 					vm.currentCluster = {};
 					getClusters();
 				});
