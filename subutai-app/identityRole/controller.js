@@ -46,7 +46,7 @@ function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder
 
 	vm.dtColumns = [
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEdit),
-		DTColumnBuilder.newColumn('name').withTitle('Role'),
+		DTColumnBuilder.newColumn('name').withTitle('Roles'),
 		DTColumnBuilder.newColumn(null).withTitle('Role permissions').renderWith(permissionsTags),
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionDelete)
 	];
