@@ -6,8 +6,7 @@ var app = angular.module('subutai-app', [
 		'oitozero.ngSweetAlert',
 		'ngDialog',
 		'datatables',
-		'720kb.tooltips',
-		'ngTagsInput'
+		'720kb.tooltips'
 	])
 	.config(routesConf)
 	.run(startup);
@@ -363,10 +362,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 						{
 							name: 'subutai.plugins.pig',
 							files: [
-								'plugins/pig/pig.js',
+								'plugins/pig/mahout.js',
 								'plugins/pig/controller.js',
 								'plugins/pig/service.js',
-								'plugins/hadoop/service.js',
+								'plugins/pig/service.js',
 								'subutai-app/environment/service.js'
 							]
 						}
@@ -414,204 +413,6 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
-		.state('nutch', {
-			url: '/plugins/nutch',
-			templateUrl: 'plugins/nutch/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.nutch',
-							files: [
-								'plugins/nutch/nutch.js',
-								'plugins/nutch/controller.js',
-								'plugins/nutch/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('elasticsearch', {
-			url: '/plugins/elasticsearch',
-			templateUrl: 'plugins/elasticsearch/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.elastic-search',
-							files: [
-								'plugins/elasticsearch/elastic-search.js',
-								'plugins/elasticsearch/controller.js',
-								'plugins/elasticsearch/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('oozie', {
-			url: '/plugins/oozie',
-			templateUrl: 'plugins/oozie/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.oozie',
-							files: [
-								'plugins/oozie/oozie.js',
-								'plugins/oozie/controller.js',
-								'plugins/oozie/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('mongo', {
-			url: '/plugins/mongo',
-			templateUrl: 'plugins/mongo/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.mongo',
-							files: [
-								'plugins/mongo/mongo.js',
-								'plugins/mongo/controller.js',
-								'plugins/mongo/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('hive', {
-			url: '/plugins/hive',
-			templateUrl: 'plugins/hive/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.hive',
-							files: [
-								'plugins/hive/hive.js',
-								'plugins/hive/controller.js',
-								'plugins/hive/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('presto', {
-			url: '/plugins/presto',
-			templateUrl: 'plugins/presto/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.presto',
-							files: [
-								'plugins/presto/presto.js',
-								'plugins/presto/controller.js',
-								'plugins/presto/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('spark', {
-			url: '/plugins/spark',
-			templateUrl: 'plugins/spark/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.spark',
-							files: [
-								'plugins/spark/spark.js',
-								'plugins/spark/controller.js',
-								'plugins/spark/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('storm', {
-			url: '/plugins/storm',
-			templateUrl: 'plugins/storm/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.storm',
-							files: [
-								'plugins/storm/storm.js',
-								'plugins/storm/controller.js',
-								'plugins/storm/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('zookeeper', {
-			url: '/plugins/zookeeper',
-			templateUrl: 'plugins/zookeeper/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.zookeeper',
-							files: [
-								'plugins/zookeeper/zookeeper.js',
-								'plugins/zookeeper/controller.js',
-								'plugins/zookeeper/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('flume', {
-			url: '/plugins/flume',
-			templateUrl: 'plugins/flume/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.flume',
-							files: [
-								'plugins/flume/flume.js',
-								'plugins/flume/controller.js',
-								'plugins/flume/service.js',
-								'plugins/hadoop/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -620,7 +421,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiNDQwMDhhMi01NjA4LTRkMzItOGU3Yi05MzUyNDBhNjdhOGMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.xDkWXuh287I75QTQiHZ4PP6dfLQ6f_ULukHmBDZ3Sto';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlN2Y0MjMwYi03OWZjLTRhZDQtOTg5YS01YTJiY2YxN2VmNTQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.bCsVVaDLxRPhjrzEiRf6avzMos5JJN-kC8PCpTriWv8';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -815,11 +616,3 @@ var permissionsDefault = [
 		'selected': false
 	}
 ];
-
-
-function toggle (source, name) {
-	checkboxes = document.getElementsByName (name);
-    for (var i = 0; i < checkboxes.length; i++) {
-    	checkboxes[i].checked = source.checked;
-    }
-}
