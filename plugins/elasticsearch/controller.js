@@ -97,7 +97,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 			title : 'Success!',
-			text : 'Your request is in progress. Please waite.',
+			text : 'Your request is in progress. You will be notified shortly.',
 			timer: VARS_TOOLTIP_TIMEOUT,
 			showConfirmButton: false
 		});
@@ -114,7 +114,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 			title : 'Success!',
-			text : 'Your request is in progress. Please waite.',
+			text : 'Your request is in progress. You will be notified shortly.',
 			timer: VARS_TOOLTIP_TIMEOUT,
 			showConfirmButton: false
 		});
