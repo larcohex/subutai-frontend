@@ -60,7 +60,7 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 
 	function addNode() {
 		if(vm.currentCluster.clusterName === undefined) return;
-		SweetAlert.swal("Success!", "Adding node action started.", "success");
+		SweetAlert.swal("Success!", "Node adding is in progress.", "success");
 		hadoopSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
@@ -123,7 +123,7 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 	}
 
 	function createHadoop() {
-		SweetAlert.swal("Success!", "Hadoop cluster start creating.", "success");
+		SweetAlert.swal("Success!", "Hadoop cluster is being created.", "success");
 		vm.activeTab = 'manage';
 		hadoopSrv.createHadoop(JSON.stringify(vm.hadoopInstall)).success(function (data) {
 			SweetAlert.swal("Success!", "Hadoop cluster create message:" + data.replace(/\\n/g, ' '), "success");

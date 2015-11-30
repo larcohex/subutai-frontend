@@ -97,7 +97,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 
 	vm.dtOptions = DTOptionsBuilder
 		.newOptions()
-		.withOption('order', [[0, "asc" ]])
+		.withOption('order', [[2, "asc" ]])
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 

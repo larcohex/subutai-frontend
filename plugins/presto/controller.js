@@ -151,7 +151,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 	function createPresto() {
 		if(vm.prestoInstall.clusterName === undefined || vm.prestoInstall.clusterName.length == 0) return;
 		if(vm.prestoInstall.hadoopClusterName === undefined || vm.prestoInstall.hadoopClusterName.length == 0) return;
-		SweetAlert.swal("Success!", "Presto cluster start creating.", "success");
+		SweetAlert.swal("Success!", "Presto cluster is being created.", "success");
 		prestoSrv.createPresto(vm.prestoInstall).success(function (data) {
 			SweetAlert.swal("Success!", "Your Presto cluster successfully created.", "success");
 			getClusters();
