@@ -52,52 +52,49 @@
 					<tr>
 						<th><input type="checkbox" onClick="toggle(this, 'prestoChk')" ng-click = "prestoCtrl.pushAll()"></th>
 						<th>Host</th>
-						<th>IP List</th>
+						<th>IP</th>
 						<th>Node Type</th>
 						<th>Status</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-				<td colspan="4" class="b-main-table__empty-item" ng-show="prestoCtrl.currentCluster.coordinator === undefined">
-					No data available in table
-				</td>
-				<tr ng-show = "prestoCtrl.currentCluster.coordinator !== undefined">
-					<td class="b-main-table__edit-icon">
-						<input name = "prestoChk" type="checkbox" ng-click="prestoCtrl.pushNode(prestoCtrl.currentCluster.coordinator.hostname, 'coordinator')">
-					</td>
-					<td>{{ prestoCtrl.currentCluster.coordinator.hostname }}</td>
-					<td>{{ prestoCtrl.currentCluster.coordinator.ip }}</td>
-					<td>Coordinator</td>
-					<td>
-						<div
-							tooltips
-							tooltip-title="{{ prestoCtrl.currentCluster.coordinator.status }}"
-							class="b-status-icon b-status-icon_{{ prestoCtrl.currentCluster.coordinator.status }}"
-							>
-						</div>
-					</td>
-					<td></td>
-				</tr>
-				<tr ng-repeat="clusterNode in prestoCtrl.currentCluster.workers">
-					<td class="b-main-table__edit-icon">
-						<input name = "prestoChk" type="checkbox" ng-click="prestoCtrl.pushNode(clusterNode.hostname, 'worker')">
-					</td>
-					<td>{{ clusterNode.hostname }}</td>
-					<td>{{ clusterNode.ip }}</td>
-					<td>Worker</td>
-					<td>
-						<div
-							tooltips
-							tooltip-title="{{ clusterNode.status }}"
-							class="b-status-icon b-status-icon_{{ clusterNode.status }}"
-							>
-						</div>
-					</td>
-					<td>
-						<a href ng-click="prestoCtrl.deleteNode(clusterNode.hostname)" class="b-icon b-icon_remove"></a>
-					</td>
-				</tr>
+					<tr ng-if="prestoCtrl.currentCluster.coordinator !== undefined">
+						<td class="b-main-table__edit-icon">
+							<input name = "prestoChk" type="checkbox" ng-click="prestoCtrl.pushNode(prestoCtrl.currentCluster.coordinator.hostname, 'coordinator')">
+						</td>
+						<td>{{ prestoCtrl.currentCluster.coordinator.hostname }}</td>
+						<td>{{ prestoCtrl.currentCluster.coordinator.ip }}</td>
+						<td>Coordinator</td>
+						<td>
+							<div
+								tooltips
+								tooltip-title="{{ prestoCtrl.currentCluster.coordinator.status }}"
+								class="b-status-icon b-status-icon_{{ prestoCtrl.currentCluster.coordinator.status }}"
+								>
+							</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr ng-repeat="clusterNode in prestoCtrl.currentCluster.workers">
+						<td class="b-main-table__edit-icon">
+							<input name = "prestoChk" type="checkbox" ng-click="prestoCtrl.pushNode(clusterNode.hostname, 'worker')">
+						</td>
+						<td>{{ clusterNode.hostname }}</td>
+						<td>{{ clusterNode.ip }}</td>
+						<td>Worker</td>
+						<td>
+							<div
+								tooltips
+								tooltip-title="{{ clusterNode.status }}"
+								class="b-status-icon b-status-icon_{{ clusterNode.status }}"
+								>
+							</div>
+						</td>
+						<td>
+							<a href ng-click="prestoCtrl.deleteNode(clusterNode.hostname)" class="b-icon b-icon_remove"></a>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
