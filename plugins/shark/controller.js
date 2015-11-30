@@ -30,10 +30,10 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	sharkSrv.getSparkClusters().success(function(data){
 		vm.sparkClusters = data;
 		if(vm.sparkClusters.length == 0) {
-			SweetAlert.swal("ERROR!", 'No Spark clusters was found! Create Spark cluster first.', "error");
+			SweetAlert.swal("ERROR!", 'No Spark clusters were found! Create Spark cluster first.', "error");
 		}
 	}).error(function(error){
-		SweetAlert.swal("ERROR!", 'No Spark clusters was found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
+		SweetAlert.swal("ERROR!", 'No Spark clusters ware found! ERROR: ' + error.replace(/\\n/g, ' '), "error");
 	});
 	setDefaultValues();
 
@@ -79,12 +79,12 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function addNode(chosenNode) {
 		if(chosenNode === undefined) return;
 		if(vm.currentCluster.clusterName === undefined) return;
-		SweetAlert.swal("Success!", "Adding node action started.", "success");
+		SweetAlert.swal("Success!", "Node is being added.", "success");
 		ngDialog.closeAll();
 		sharkSrv.addNode(vm.currentCluster.clusterName, chosenNode).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
-				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
+				"Node has been added to cluster " + vm.currentCluster.clusterName + ".",
 				"success"
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -110,10 +110,10 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.sharkInstall.sparkClusterName === undefined || vm.sharkInstall.sparkClusterName.length == 0) return;
 		SweetAlert.swal("Success!", "Shark cluster is being created.", "success");
 		sharkSrv.createShark(vm.sharkInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Shark cluster was successfully created.", "success");
+			SweetAlert.swal("Success!", "Your Shark cluster has been successfully created.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Shark cluster create error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Shark cluster creation error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 		setDefaultValues();
 		vm.activeTab = 'manage';
@@ -165,6 +165,8 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 				sharkSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
 					getClustersInfo(vm.currentCluster.clusterName);
+				}).error(function(error){
+					SweetAlert.swal("ERROR!", 'Delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -181,10 +183,10 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STARTING';
 		sharkSrv.startNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
-			SweetAlert.swal("Success!", "Your server started.", "success");
+			SweetAlert.swal("Success!", "Your server has been started.", "success");
 			vm.currentCluster.server.status = 'RUNNING';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Shark server start error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Shark server failed to run cluster! error: ' + error.replace(/\\n/g, ' '), "error");
 			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
@@ -194,10 +196,10 @@ function SharkCtrl($scope, sharkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.currentCluster.clusterName === undefined) return;
 		vm.currentCluster.server.status = 'STOPPING';
 		sharkSrv.stopNode (vm.currentCluster.clusterName, vm.currentCluster.server.hostname).success (function (data) {
-			SweetAlert.swal("Success!", "Your server stopped.", "success");
+			SweetAlert.swal("Success!", "Your server has been stopped.", "success");
 			vm.currentCluster.server.status = 'STOPPED';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Shark server stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Shark server failed to stop cluster error: ' + error.replace(/\\n/g, ' '), "error");
 			vm.currentCluster.server.status = 'ERROR';
 		});
 	}

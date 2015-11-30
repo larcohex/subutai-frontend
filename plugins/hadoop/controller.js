@@ -64,7 +64,7 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		hadoopSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
-				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
+				"Node has been added to cluster " + vm.currentCluster.clusterName + ".",
 				"success"
 			);
 			getClustersInfo(vm.currentCluster.clusterName);
@@ -75,11 +75,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		if(vm.currentCluster.clusterName === undefined) return;
 		node.status = 'STARTING';
 		hadoopSrv.startNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes started successfully. LOG: " + data.replace(/\\n/g, ' '), "success");
+			SweetAlert.swal("Success!", "Your cluster nodes have been started successfully. LOG: " + data.replace(/\\n/g, ' '), "success");
 			node.status = 'RUNNING';
 			//getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to start cluster error: ' + error.replace(/\\n/g, ' '), "error");
 			node.status = 'ERROR';
 		});
 	}
@@ -88,11 +88,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		if(vm.currentCluster.clusterName === undefined) return;
 		node.status = 'STOPPING';
 		hadoopSrv.stopNode(vm.currentCluster.clusterName, nodeType).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully. LOG: " + data.replace(/\\n/g, ' '), "success");
+			SweetAlert.swal("Success!", "Your cluster nodes have stopped successfully. LOG: " + data.replace(/\\n/g, ' '), "success");
 			//getClustersInfo(vm.currentCluster.name);
 			node.status = 'STOPPED';
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Failed to stop cluster error: ' + error.replace(/\\n/g, ' '), "error");
 			node.status = 'ERROR';
 		});
 	}
@@ -126,10 +126,10 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		SweetAlert.swal("Success!", "Hadoop cluster is being created.", "success");
 		vm.activeTab = 'manage';
 		hadoopSrv.createHadoop(JSON.stringify(vm.hadoopInstall)).success(function (data) {
-			SweetAlert.swal("Success!", "Hadoop cluster create message:" + data.replace(/\\n/g, ' '), "success");
+			SweetAlert.swal("Success!", "Hadoop cluster creation message:" + data.replace(/\\n/g, ' '), "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Hadoop cluster create error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Hadoop cluster creation error: ' + error.replace(/\\n/g, ' '), "error");
 			getClusters();
 		});
 		setDefaultValues();
