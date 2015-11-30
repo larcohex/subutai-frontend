@@ -165,10 +165,10 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 
 		SweetAlert.swal("Success!", "Elastic Search cluster start creating.", "success");
 		elasticSearchSrv.createElasticSearch(vm.elasticSearchInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Elastic Search cluster created.", "success");
+			SweetAlert.swal("Success!", "Your Elastic Search cluster has been created.", "success");
 			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Elastic Search cluster create error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Elastic Search cluster creation error: ' + error.replace(/\\n/g, ' '), "error");
 			getClusters();
 		});
 		setDefaultValues();
