@@ -154,6 +154,7 @@ function HbaseCtrl($scope, hbaseSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		if(vm.hbaseInstall.hadoopClusterName === undefined || vm.hbaseInstall.hadoopClusterName.length == 0) return;
 
 		vm.hbaseInstall.environmentId = vm.hadoopFullInfo.environmentId;
+		vm.hbaseInstall.domainName = 'intra.lan';
 
 		SweetAlert.swal("Success!", "Hbase cluster start creating.", "success");
 		hbaseSrv.createHbase(JSON.stringify(vm.hbaseInstall)).success(function (data) {

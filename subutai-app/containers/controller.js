@@ -92,17 +92,26 @@ function ContainerViewCtrl($scope, $rootScope, environmentService, SweetAlert, D
 	function getContainers() {
 		environmentService.getEnvironments().success(function (data) {
 
-			var serverArray = angular.copy(data);
-			for(var i = 0; i < serverArray.length; i++) {
-				serverArray[i].containers.sort(compare);
+			for(var i = 0; i < data.length; i++) {
+				data[i].containers.sort(compare);
 			}
-			serverArray.sort(compare);
+			data.sort(compare);
 
-			var currentArrayString = JSON.stringify(vm.environments);
-			var serverArrayString = JSON.stringify(serverArray);
+			var currentArrayString = JSON.stringify(vm.environments, function( key, value ) {
+				if( key === "$$hashKey" ) {
+					return undefined;
+				}
+				return value;
+			});
+			var serverArrayString = JSON.stringify(data, function( key, value ) {
+				if( key === "$$hashKey" ) {
+					return undefined;
+				}
+				return value;
+			});
 
 			if(currentArrayString != serverArrayString) {
-				vm.environments = serverArray;
+				vm.environments = data;
 				filterContainersList();
 			}
 		});
@@ -161,8 +170,8 @@ function ContainerViewCtrl($scope, $rootScope, environmentService, SweetAlert, D
 	var reloadTableData = function() {
 		refreshTable = $timeout(function myFunction() {
 			getContainers();
-			refreshTable = $timeout(reloadTableData, 3000);
-		}, 3000);
+			refreshTable = $timeout(reloadTableData, 30000);
+		}, 30000);
 	};
 	reloadTableData();
 
