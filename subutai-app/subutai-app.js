@@ -769,11 +769,11 @@ function VARS_MODAL_CONFIRMATION( object, title, text, func )
 function VARS_MODAL_ERROR( object, text )
 {
 	object.swal({
-			title: "ERROR!",
-			text: text,
-			type: "error",
-			confirmButtonColor: "#ff3f3c"
-		});
+		title: "ERROR!",
+		text: text,
+		type: "error",
+		confirmButtonColor: "#ff3f3c"
+	});
 }
 
 quotaColors = [];
@@ -861,7 +861,7 @@ var permissionsDefault = [
 
 function toggle (source, name) {
 	checkboxes = document.getElementsByName (name);
-    for (var i = 0; i < checkboxes.length; i++) {
-    	checkboxes[i].checked = source.checked;
-    }
+	for (var i = 0; i < checkboxes.length; i++) {
+		checkboxes[i].checked = source.checked;
+	}
 }
