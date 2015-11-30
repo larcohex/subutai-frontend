@@ -4,12 +4,12 @@ angular.module('subutai.environment.controller', [])
 	.controller('EnvironmentViewCtrl', EnvironmentViewCtrl)
 	.directive('fileModel', fileModel);
 
-EnvironmentViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', '$timeout'];
+EnvironmentViewCtrl.$inject = ['$scope', '$rootScope', 'environmentService', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', '$timeout'];
 fileModel.$inject = ['$parse'];
 
 var fileUploder = {};
 
-function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, $timeout) {
+function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, $timeout) {
 
 	var vm = this;
 	vm.environments = [];
@@ -57,14 +57,19 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionDelete)
 	];
 
-	/*vm.reloadTableData = function() {
-		vm.refreshTable = $timeout(function myFunction() {
+	var refreshTable;
+	var reloadTableData = function() {
+		refreshTable = $timeout(function myFunction() {
 			vm.dtInstance.reloadData(null, false);
-			console.log('lololo');
-			vm.refreshTable = $timeout(vm.reloadTableData, 3000);
-		}, 3000);
+			refreshTable = $timeout(reloadTableData, 30000);
+		}, 30000);
 	};
-	vm.reloadTableData();*/
+	reloadTableData();
+
+	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+		console.log('cancel');
+		$timeout.cancel(refreshTable);
+	});
 
 	function createdRow(row, data, dataIndex) {
 		$compile(angular.element(row).contents())($scope);
@@ -270,13 +275,15 @@ function EnvironmentViewCtrl($scope, environmentService, SweetAlert, DTOptionsBu
 
 	function setDomain(domain) {
 		var file = fileUploder;
+		LOADING_SCREEN();
 		environmentService.setDomain(domain, vm.environmentForDomain, file).success(function (data) {
 			SweetAlert.swal("Success!", "You successfully add domain for " + vm.environmentForDomain + " environment!", "success");
 			ngDialog.closeAll();
-			console.log(data);
+			LOADING_SCREEN('none');
 		}).error(function (data) {
 			SweetAlert.swal("Cancelled", "Error: " + data.ERROR, "error");
 			ngDialog.closeAll();
+			LOADING_SCREEN('none');
 		});
 	}
 
