@@ -318,7 +318,7 @@ function PrestoCtrl($scope, prestoSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 			showConfirmButton: false
 		});
 		prestoSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
-			SweetAlert.swal("Success!", "Your cluster nodes has been started successfully.", "success");
+			SweetAlert.swal("Success!", "Your cluster nodes have been started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Failed to run Cluster error: ' + error.replace(/\\n/g, ' '), "error");
