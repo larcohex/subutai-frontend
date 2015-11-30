@@ -620,7 +620,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlYzk0MjI3OC1jOTNjLTRhNWMtOTU4Ni02NzhlZGIzYmUxZTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.dwEPdcO_gcgOXwXbzo9xAeb9KRyIICIw1NTzu_0AEgI';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiNDQwMDhhMi01NjA4LTRkMzItOGU3Yi05MzUyNDBhNjdhOGMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.xDkWXuh287I75QTQiHZ4PP6dfLQ6f_ULukHmBDZ3Sto';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
