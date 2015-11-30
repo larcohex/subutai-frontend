@@ -105,7 +105,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Cluster starting error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -122,7 +122,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
+			SweetAlert.swal("ERROR!", 'Cluster stopping error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -147,7 +147,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 
 	function addNode() {
 		if(vm.currentCluster.clusterName === undefined) return;
-		SweetAlert.swal("Success!", "Adding node action started.", "success");
+		SweetAlert.swal("Success!", "Node is being added.", "success");
 		ngDialog.closeAll();
 		elasticSearchSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
 			SweetAlert.swal(
@@ -163,7 +163,7 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		if(vm.elasticSearchInstall.clusterName === undefined || vm.elasticSearchInstall.clusterName.length == 0) return;
 		if(vm.elasticSearchInstall.environmentId === undefined) return;
 
-		SweetAlert.swal("Success!", "Elastic Search cluster start creating.", "success");
+		SweetAlert.swal("Success!", "Elastic Search cluster is being created.", "success");
 		elasticSearchSrv.createElasticSearch(vm.elasticSearchInstall).success(function (data) {
 			SweetAlert.swal("Success!", "Your Elastic Search cluster has been created.", "success");
 			getClusters();
