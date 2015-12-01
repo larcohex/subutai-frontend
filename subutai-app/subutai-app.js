@@ -725,7 +725,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDIxMmVjMy0yMThmLTQ3MDYtOTliMC00MmRiYjVjMTMzYzMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.7RQjLVL-6guu6HnE8tjKe8XQm1MOUm3Ddl7IVL2t0vU';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYmFlMjAxNS04MGZiLTRmMWQtOGRhMy02NjFkNmFlYTljYzEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.hSh8ZDObBPeg_uYYVtP36bCXnF-zYlnyVKX0OBf-8k4			';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -763,6 +763,8 @@ app.directive('dropdownMenu', function() {
 			//colEqualHeight();
 
 			$('.b-nav-menu-link').on('click', function(){
+				$('.b-nav-menu_active').removeClass('b-nav-menu_active')
+				$('.b-nav-menu__sub').slideUp(200);
 				if($(this).next('.b-nav-menu__sub').length > 0) {
 					if($(this).parent().hasClass('b-nav-menu_active')) {
 						$(this).parent().removeClass('b-nav-menu_active');
@@ -799,8 +801,8 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-
-var SERVER_URL = 'http://172.16.131.204:8080/';
+var SERVER_URL = 'http://172.16.193.90:8080/';
+//var SERVER_URL = 'http://172.16.131.205:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
