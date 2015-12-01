@@ -26,7 +26,7 @@
 								<th></th>
 							</tr>
 							<tr ng-repeat="profile in genericCtrl.profiles">
-								<td>{{ profile }}</td>
+								<td>{{ profile.name }}</td>
 								<td><a href class="b-btn b-btn_blue" ng-click="genericCtrl.changeToConfigure(profile)">Configure operations</a></td>
 								<td>
 									<a href class="b-icon b-icon_remove" ng-click = "genericCtrl.deleteProfile (profile)">

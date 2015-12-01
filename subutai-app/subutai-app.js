@@ -696,24 +696,27 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('generic', {
-        			url: '/plugins/generic',
-        			templateUrl: 'plugins/generic/partials/view.html',
-        			resolve: {
-        				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-        					return $ocLazyLoad.load([
-        						{
-        							name: 'subutai.plugins.generic',
-        							files: [
-        								'plugins/generic/generic.js',
-        								'plugins/generic/controller.js',
-        								'plugins/generic/service.js',
-        								'subutai-app/environment/service.js'
-        							]
-        						}
-        					]);
-        				}]
-        			}
-        		})
+			url: '/plugins/generic',
+			templateUrl: 'plugins/generic/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'vtortola.ng-terminal'
+						},
+						{
+							name: 'subutai.plugins.generic',
+							files: [
+								'plugins/generic/generic.js',
+								'plugins/generic/controller.js',
+								'plugins/generic/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
