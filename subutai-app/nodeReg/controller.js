@@ -32,9 +32,10 @@ function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 
 
 	function approveNode(nodeId) {
+
 		if(nodeId === undefined) return;
 
-		SweetAlert.swal("Success!", "Node is being added.", "success");
+		SweetAlert.swal("Success!", "Node is being approved.", "success");
 
 		nodeRegSrv.nodeApprove( nodeId ).success(function (data) {
 			SweetAlert.swal(
