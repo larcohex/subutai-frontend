@@ -1,17 +1,18 @@
 "use strict";
-
 angular.module("subutai.plugins.generic.controller", [])
     .controller("GenericCtrl", GenericCtrl)
+    .config(['terminalConfigurationProvider', function (terminalConfigurationProvider) {
+		terminalConfigurationProvider.config('modern').allowTypingWriteDisplaying = false;
+		terminalConfigurationProvider.config('modern').outputDelay = 0;
+	}]);
 
 GenericCtrl.$inject = ["$scope", "genericSrv", "SweetAlert", "DTOptionsBuilder", "DTColumnDefBuilder", "ngDialog"];
 
-fileModel.$inject = ["$parse"];
-var fileUploader = {};
 function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, ngDialog) {
     var vm = this;
 	vm.activeTab = "create";
 	vm.profiles = [];
-	vm.currentProfile = "";
+	vm.currentProfile = {};
 	vm.operations = [];
 	vm.newProfile = "";
 	vm.newOperation = {
@@ -27,6 +28,9 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 	vm.currentTemplate = "";
 	vm.currentOperationName = "";
 	vm.previousName = "";
+
+	vm.updateProfiles = updateProfiles;
+
 
 	vm.createProfile = createProfile;
 	vm.deleteProfile = deleteProfile;
@@ -44,19 +48,48 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 	vm.updateEnvironment = updateEnvironment;
 	vm.output = "";
 
+	vm.listOfOperations = [];
+
+	$scope.session = {
+		commands: [],
+		output: [],
+		$scope:$scope
+	};
+
+
 	// Init
 
-	genericSrv.listProfiles().success (function (data) {
-		vm.profiles = data;
-		vm.currentProfile = vm.profiles[0];
-		genericSrv.listOperations (vm.currentProfile).success (function (data) {
-			vm.operations = data;
-			for (var i = 0; i < vm.operations.length; ++i) {
-				vm.operations[i].commandName = window.atob (vm.operations[i].commandName);
-			}
-			vm.currentOperation = vm.operations[0];
+	function updateProfiles() {
+		genericSrv.listProfiles().success (function (data) {
+			vm.profiles = data;
+			vm.currentProfile = vm.profiles[0];
+			genericSrv.listOperations (vm.currentProfile).success (function (data) {
+				vm.operations = data;
+				for (var i = 0; i < vm.operations.length; ++i) {
+					vm.operations[i].commandName = window.atob (vm.operations[i].commandName);
+				}
+				vm.currentOperation = vm.operations[0];
+				genericSrv.getEnvironments().success (function (data) {
+					vm.environments = data;
+					vm.currentEnvironment = vm.environments[0];
+					for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
+						vm.listOfOperations.push ({
+							container: vm.currentEnvironment.containers[i].id,
+							operation: vm.operations[0].operationName
+						});
+					}
+					getTemplates();
+					if (vm.environments.length === 0) {
+						SweetAlert.swal ("ERROR!", "Please create environment first", "error");
+					}
+				}).error (function (error) {
+					SweetAlert.swal ("ERROR!", "Environments error: " + error.replace(/\\n/g, " "), "error");
+				});
+			});
 		});
-	});
+	}
+	updateProfiles();
+
 
 	var getTemplates = function() {
 		vm.templates = [];
@@ -65,21 +98,9 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 				vm.templates.push (vm.currentEnvironment.containers[i].templateName);
 			}
 		}
-		console.log (vm.templates);
 		vm.currentTemplate = vm.templates[0];
 	};
 
-	genericSrv.getEnvironments().success (function (data) {
-		vm.environments = data;
-		console.log (vm.environments);
-		vm.currentEnvironment = vm.environments[0];
-		getTemplates();
-		if (vm.environments.length === 0) {
-			SweetAlert.swal ("ERROR!", "Please create environment first", "error");
-		}
-	}).error (function (error) {
-		SweetAlert.swal ("ERROR!", "Environments error: " + error.replace(/\\n/g, " "), "error");
-	});
 
 	// Create
 
@@ -87,10 +108,13 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 		if (vm.profiles.indexOf (vm.newProfile) > -1) {
 			SweetAlert.swal ("ERROR!", "Profile already exists", "error");
 		}
+		else if (vm.newProfile === "") {
+			SweetAlert.swal ("ERROR!", "Please enter profile name", "error");
+		}
 		else {
 			genericSrv.saveProfile (vm.newProfile).success (function (data) {
 				SweetAlert.swal ("Success!", "Your profile was created.", "success");
-				vm.profiles.push (vm.newProfile);
+				vm.updateProfiles();
 				vm.newProfile = "";
 			}).error (function (error) {
 				SweetAlert.swal ("ERROR!", "Profile create error: " + error.replace(/\\n/g, " "), "error");
@@ -116,7 +140,7 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			if (isConfirm) {
 				genericSrv.deleteProfile (profile).success (function (data) {
 					SweetAlert.swal ("Success!", "Your profile was deleted.", "success");
-					vm.profiles.splice (vm.profiles.indexOf (vm.currentProfile), 1);
+					vm.updateProfiles();
 				}).error (function (error) {
 					SweetAlert.swal ("ERROR!", "Profile delete error: " + error.replace(/\\n/g, " "), "error");
 				});
@@ -126,7 +150,12 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 
 
 	function changeToConfigure (profile) {
+		if (typeof (profile) == "string") {
+			profile = JSON.parse (vm.currentProfile);
+		}
 		vm.currentProfile = profile;
+		vm.getOperations();
+		console.log (vm.currentProfile);
 		vm.activeTab = "configure";
 	}
 
@@ -134,10 +163,13 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 	// Configure
 
 	function getOperations() {
-		if (vm.currentProfile === "") {
+		if (vm.currentProfile === {} || vm.currentProfile === "" || vm.currentProfile === undefined) {
 			SweetAlert.swal ("ERROR!", "Please select profile", "error");
 		}
 		else {
+			if (typeof (vm.currentProfile) == "string") {
+				vm.currentProfile = JSON.parse (vm.currentProfile);
+			}
 			genericSrv.listOperations (vm.currentProfile).success (function (data) {
 				vm.operations = data;
 				getTemplates();
@@ -145,6 +177,14 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 					vm.operations[i].commandName = window.atob (vm.operations[i].commandName);
 				}
 				vm.currentOperation = vm.operations[0];
+				vm.listOfOperations = [];
+				for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
+					vm.listOfOperations.push ({
+						container: vm.currentEnvironment.containers[i].id,
+						operation: vm.operations[0].operationName
+					});
+				}
+				console.log (vm.listOfOperations);
 			});
 		}
 	}
@@ -155,12 +195,12 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			template: "plugins/generic/partials/addOperation.html",
 			scope: $scope
 		}).id;
-/*		$scope.$on('ngDialog.opened', function (e, $dialog) {;
+		$scope.$on('ngDialog.opened', function (e, $dialog) {;
             document.getElementById ("upload").addEventListener ("change", readScript, false);
-        });*/
+        });
 	}
 
-
+/*d 10 k 18*/
 	function operationInfo (operation) {
 		vm.currentOperation = operation;
 		ngDialog.open ({
@@ -186,11 +226,19 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 		if (checkIfExists (vm.newOperation)) {
 			SweetAlert.swal ("ERROR!", "Operation already exists", "error");
 		}
+		else if (vm.newOperation.operationName === "" || vm.newOperation.operationName === undefined) {
+			SweetAlert.swal ("ERROR!", "Please enter operation name", "error");
+		}
+		else if (vm.newOperation.cwd === "" || vm.newOperation.cwd === undefined) {
+			SweetAlert.swal ("ERROR!", "Please enter CWD", "error");
+		}
+		else if (vm.newOperation.timeout === "" || vm.newOperation.timeout === undefined) {
+			SweetAlert.swal ("ERROR!", "Please enter timeout", "error");
+		}
 		else {
-			var file = fileUploader;
-			genericSrv.saveOperation (vm.currentProfile, vm.newOperation, file).success (function (data) {
+			genericSrv.saveOperation (vm.currentProfile, vm.newOperation).success (function (data) {
 				SweetAlert.swal ("Success!", "Your operation was created.", "success");
-				vm.operations.push (vm.newOperation);
+				vm.getOperations();
 				vm.newOperation = {
 					cwd: "/",
 					timeout: "30",
@@ -212,9 +260,9 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			template: "plugins/generic/partials/editOperation.html",
 			scope: $scope
 		});
-/*		$scope.$on('ngDialog.opened', function (e, $dialog) {
+		$scope.$on('ngDialog.opened', function (e, $dialog) {
 			document.getElementById ("upload").addEventListener ("change", readScript, false);
-		});*/
+		});
 	}
 
 	function updateOperation() {
@@ -224,15 +272,18 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 				return;
 			}
 		}
+		if (vm.currentOperation.operationName === "" || vm.currentOperation.operationName === undefined) {
+			SweetAlert.swal ("ERROR!", "Please enter operation name", "error");
+		}
+		else if (vm.currentOperation.cwd === "" || vm.currentOperation.cwd === undefined) {
+			SweetAlert.swal ("ERROR!", "Please enter CWD", "error");
+		}
+		else if (vm.currentOperation.timeout === "" || vm.currentOperation.timeout === undefined) {
+			SweetAlert.swal ("ERROR!", "Please enter timeout", "error");
+		}
 		genericSrv.updateOperation (vm.currentOperation).success (function (data) {
 			SweetAlert.swal ("Success!", "Your operation was updated.", "success");
-			for (var i = 0; i < vm.operations.length; ++i) {
-				if (vm.operations[i].operationName === vm.previousName) {
-					vm.operations.splice (i, 1);
-					vm.operations.push (vm.currentOperation, i);
-					break;
-				}
-			}
+			vm.getOperations();
 			ngDialog.closeAll();
 		}).error (function (error) {
 			SweetAlert.swal ("ERROR!", "Operation update error: " + error.replace(/\\n/g, " "), "error");
@@ -256,7 +307,7 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			if (isConfirm) {
 				genericSrv.deleteOperation (operationId).success (function (data) {
 					SweetAlert.swal ("Success!", "Your operation was deleted.", "success");
-					vm.operations.splice (vm.profiles.indexOf (vm.currentOperation), 1);
+					vm.getOperations();
 					ngDialog.closeAll();
 				}).error (function (error) {
 					SweetAlert.swal ("ERROR!", "Operation delete error: " + error.replace(/\\n/g, " "), "error");
@@ -286,47 +337,38 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 
 	function executeOperation (container) {
 		vm.output = "";
-		for (var i = 0; i < vm.operations.length; ++i) {
-			if (vm.operations[i].operationName === vm.currentOperationName) {
-				vm.currentOperation = vm.operations[i];
-				break;
+		console.log (vm.listOfOperations);
+		for (var i = 0; i < vm.listOfOperations.length; ++i) {
+			if (vm.listOfOperations[i].container === container.id) {
+				for (var j = 0; j < vm.operations.length; ++j) {
+					if (vm.operations[j].operationName === vm.listOfOperations[i].operation) {
+						vm.currentOperation = vm.operations[j];
+						break;
+					}
+				}
 			}
 		}
-		genericSrv.executeOperation (vm.currentOperation.operationName, container.hostname, vm.currentEnvironment.id).success (function (data) {
-			console.log ("!");
+		genericSrv.executeOperation (vm.currentOperation.operationId, container.hostname, vm.currentEnvironment.id).success (function (data) {
 			vm.output = data;
+			$scope.$broadcast('terminal-output', {
+				output: true,
+				text: [vm.output],
+				breakLine: true
+			});
 		}).error (function (error) {
 			SweetAlert.swal ("ERROR!", "Operation execute error: " + error.replace(/\\n/g, " "), "error");
 		});
 	}
 
 
-	function updateEnvironment(environmentId) {
-		console.log ("!");
+	function updateEnvironment() {
+		vm.currentEnvironment = JSON.parse (vm.currentEnvironment);
 		for (var i = 0; i < vm.environments.length; ++i) {
-			if (vm.environments[i].environmentId === environmentId) {
+			if (vm.environments[i].id === vm.currentEnvironment.id) {
 				vm.currentEnvironment = vm.environments[i];
 				vm.getOperations();
 				break;
 			}
 		}
 	}
-}
-
-function fileModel($parse) {
-	return {
-		restrict: 'A',
-		link: function(scope, element, attrs) {
-			var model = $parse(attrs.fileModel);
-			var modelSetter = model.assign;
-
-			element.bind('change', function(){
-				document.getElementById("upload").value = element[0].files[0].name;
-				scope.$apply(function(){
-					modelSetter(scope, element[0].files[0]);
-					fileUploader = element[0].files[0];
-				});
-			});
-		}
-	};
 }

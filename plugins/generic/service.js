@@ -38,37 +38,47 @@ function genericSrv($http, environmentService) {
 
 
 	function deleteProfile (profile) {
-		var deleteData = "profileName=" + profile;
-		return $http.delete (BASE_URL + "profiles/" + profile);
+		return $http.delete (BASE_URL + "profiles/" + profile.id);
 	}
 
 
 	// Manage
 
 	function listOperations (profile) {
-		return $http.get (BASE_URL + "operations/" + profile);
+		return $http.get (BASE_URL + "operations/" + profile.name);
 	}
 
 
-	function saveOperation (profile, operation, file) {
+	function saveOperation (profile, operation) {
 		var fd = new FormData();
-		fd.append('profileName', profile);
+		fd.append('profileName', profile.name);
 		fd.append('operationName', operation.operationName);
-		fd.append('file', file);
+		fd.append('file', operation.commandName);
 		fd.append('cwd', operation.cwd);
 		fd.append('timeout', operation.timeout);
 		fd.append('daemon', operation.daemon);
 		fd.append('script', operation.script);
 		return $http.post(
-			BASE_URL + 'operations/create',
+			BASE_URL + 'operations/script/create',
 			fd,
 			{transformRequest: angular.identity, headers: {'Content-Type': undefined}}
 		);
 	}
 
-	function updateOperation (operation) {
-		var postData = "operationId=" + operation.operationId + "&commandName=" + operation.commandName + "&cwd=" + operation.cwd + "&timeout=" + operation.timeout + "&daemon=" + operation.daemon + "&script=" + operation.script + "&operationName=" + operation.operationName;
-		return $http.post (BASE_URL + "operations/update", postData, {withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+	function updateOperation (operation, file) {
+		var fd = new FormData();
+		fd.append('operationId', operation.operationId);
+		fd.append('file', operation.commandName);
+		fd.append('cwd', operation.cwd);
+		fd.append('timeout', operation.timeout);
+		fd.append('daemon', operation.daemon);
+		fd.append('script', operation.script);
+		fd.append('operationName', operation.operationName);
+		return $http.post(
+			BASE_URL + 'operations/script/update',
+			fd,
+			{transformRequest: angular.identity, headers: {'Content-Type': undefined}}
+		);
 	}
 
 	function deleteOperation (operationId) {
@@ -80,8 +90,8 @@ function genericSrv($http, environmentService) {
 	}
 
 
-	function executeOperation (operationName, lxcHostName, environmentId) {
-		var putData = "operationName=" + operationName + "&lxcHostName=" + lxcHostName + "&environmentId=" + environmentId;
+	function executeOperation (operationId, lxcHostName, environmentId) {
+		var putData = "operationId=" + operationId + "&lxcHostName=" + lxcHostName + "&environmentId=" + environmentId;
 		console.log (putData);
 		return $http.put (BASE_URL + "execute", putData, {withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
 	}

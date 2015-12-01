@@ -696,24 +696,27 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('generic', {
-        			url: '/plugins/generic',
-        			templateUrl: 'plugins/generic/partials/view.html',
-        			resolve: {
-        				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-        					return $ocLazyLoad.load([
-        						{
-        							name: 'subutai.plugins.generic',
-        							files: [
-        								'plugins/generic/generic.js',
-        								'plugins/generic/controller.js',
-        								'plugins/generic/service.js',
-        								'subutai-app/environment/service.js'
-        							]
-        						}
-        					]);
-        				}]
-        			}
-        		})
+			url: '/plugins/generic',
+			templateUrl: 'plugins/generic/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'vtortola.ng-terminal'
+						},
+						{
+							name: 'subutai.plugins.generic',
+							files: [
+								'plugins/generic/generic.js',
+								'plugins/generic/controller.js',
+								'plugins/generic/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			template: 'Not found'
@@ -722,7 +725,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYmFlMjAxNS04MGZiLTRmMWQtOGRhMy02NjFkNmFlYTljYzEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.hSh8ZDObBPeg_uYYVtP36bCXnF-zYlnyVKX0OBf-8k4';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYmFlMjAxNS04MGZiLTRmMWQtOGRhMy02NjFkNmFlYTljYzEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.hSh8ZDObBPeg_uYYVtP36bCXnF-zYlnyVKX0OBf-8k4			';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -795,7 +798,7 @@ app.directive('checkbox-list-dropdown', function() {
 });
 
 //Global variables
-//var SERVER_URL = '/';
+
 var SERVER_URL = 'http://172.16.193.90:8080/';
 //var SERVER_URL = 'http://172.16.131.205:8080/';
 
