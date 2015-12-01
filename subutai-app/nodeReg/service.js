@@ -22,7 +22,7 @@ function nodeRegSrv($http) {
 	}
 
 	function approveNode(nodeId) {
-		return $http.delete(NODES_URL + nodeId + '/approve');
+		return $http.post(NODES_URL + nodeId + '/approve');
 	}
 
 }
