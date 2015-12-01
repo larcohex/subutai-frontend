@@ -52,8 +52,8 @@
 						<tr ng-repeat = "container in genericCtrl.currentEnvironment.containers" ng-show = "container.templateName === genericCtrl.currentTemplate && container.environmentId === genericCtrl.currentEnvironment.id">
 							<td>{{ container.hostname }}</td>
 							<td>
-								<select class="b-form-input b-form-input_full" ng-model = "genericCtrl.listOfOperations[$index].operation" style = "color: black">
-									<option ng-selected = "operation.operationName === genericCtrl.listOfOperations[$index].operation" ng-repeat = "operation in genericCtrl.operations" value="{{ operation.operationName }}">{{ operation.operationName }}</option>
+								<select class="b-form-input b-form-input_full" ng-model = "container.operation" style = "color: black">
+									<option ng-selected = "operation.operationName === container.operation.operationName" ng-repeat = "operation in genericCtrl.operations" value="{{ operation.operationName }}">{{ operation.operationName }}</option>
 								</select></td>
 							<td><a href class="b-btn b-btn_blue b-btn_margin-r g-right" ng-click = "genericCtrl.executeOperation (container)">Execute</a></td>
 						</tr>
