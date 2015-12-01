@@ -43,12 +43,11 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 	vm.editOperation = editOperation;
 	vm.updateOperation = updateOperation;
 	vm.deleteOperation = deleteOperation;
+	vm.uploadHelper = uploadHelper;
 
 	vm.executeOperation = executeOperation;
 	vm.updateEnvironment = updateEnvironment;
 	vm.output = "";
-
-	vm.listOfOperations = [];
 
 	$scope.session = {
 		commands: [],
@@ -56,6 +55,11 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 		$scope:$scope
 	};
 
+
+	$scope.command = "";
+	$scope.$watch ("command", function() {
+		console.log ("AAA");
+	});
 
 	// Init
 
@@ -73,10 +77,7 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 					vm.environments = data;
 					vm.currentEnvironment = vm.environments[0];
 					for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
-						vm.listOfOperations.push ({
-							container: vm.currentEnvironment.containers[i].id,
-							operation: vm.operations[0].operationName
-						});
+						vm.currentEnvironment.containers[i].operation = vm.operations[0];
 					}
 					getTemplates();
 					if (vm.environments.length === 0) {
@@ -172,18 +173,10 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			}
 			genericSrv.listOperations (vm.currentProfile).success (function (data) {
 				vm.operations = data;
-				getTemplates();
 				for (var i = 0; i < vm.operations.length; ++i) {
 					vm.operations[i].commandName = window.atob (vm.operations[i].commandName);
 				}
 				vm.currentOperation = vm.operations[0];
-				vm.listOfOperations = [];
-				for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
-					vm.listOfOperations.push ({
-						container: vm.currentEnvironment.containers[i].id,
-						operation: vm.operations[0].operationName
-					});
-				}
 				console.log (vm.listOfOperations);
 			});
 		}
@@ -196,7 +189,7 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			scope: $scope
 		}).id;
 		$scope.$on('ngDialog.opened', function (e, $dialog) {;
-            document.getElementById ("upload").addEventListener ("change", readScript, false);
+            document.getElementById ("uploadBtn").addEventListener ("change", readScript, false);
         });
 	}
 
@@ -223,11 +216,11 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 
 
 	function saveOperation() {
-		if (checkIfExists (vm.newOperation)) {
-			SweetAlert.swal ("ERROR!", "Operation already exists", "error");
-		}
-		else if (vm.newOperation.operationName === "" || vm.newOperation.operationName === undefined) {
+		if (vm.newOperation.operationName === "" || vm.newOperation.operationName === undefined) {
 			SweetAlert.swal ("ERROR!", "Please enter operation name", "error");
+		}
+		else if (checkIfExists (vm.newOperation)) {
+			SweetAlert.swal ("ERROR!", "Operation already exists", "error");
 		}
 		else if (vm.newOperation.cwd === "" || vm.newOperation.cwd === undefined) {
 			SweetAlert.swal ("ERROR!", "Please enter CWD", "error");
@@ -261,7 +254,7 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			scope: $scope
 		});
 		$scope.$on('ngDialog.opened', function (e, $dialog) {
-			document.getElementById ("upload").addEventListener ("change", readScript, false);
+			document.getElementById ("uploadBtn").addEventListener ("change", readScript, false);
 		});
 	}
 
@@ -320,16 +313,21 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 	function readScript (e) {
     	var file = e.target.files[0];
     	if (!file) {
-    		vm.newOperation.commandName = "";
+    		return;
     	}
     	var reader = new FileReader();
     	reader.onload = function (e) {
-    		vm.newOperation.commandName = e.target.result;
-    		vm.newOperation.script = true;
+    		var content = e.target.result;
+    		vm.uploadHelper (content);
     	};
     	reader.readAsText (file);
     }
 
+
+	function uploadHelper (content) {
+		vm.newOperation.commandName = content;
+		vm.newOperation.script = true;
+	}
 
 
 	// Manage
@@ -337,17 +335,17 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 
 	function executeOperation (container) {
 		vm.output = "";
-		console.log (vm.listOfOperations);
-		for (var i = 0; i < vm.listOfOperations.length; ++i) {
-			if (vm.listOfOperations[i].container === container.id) {
+		for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
+			if (vm.currentEnvironment.containers[i].id === container.id) {
 				for (var j = 0; j < vm.operations.length; ++j) {
-					if (vm.operations[j].operationName === vm.listOfOperations[i].operation) {
+					if (vm.operations[j].operationName === vm.currentEnvironment.containers[i].operation) {
 						vm.currentOperation = vm.operations[j];
 						break;
 					}
 				}
 			}
 		}
+		console.log (vm.currentOperation);
 		genericSrv.executeOperation (vm.currentOperation.operationId, container.hostname, vm.currentEnvironment.id).success (function (data) {
 			vm.output = data;
 			$scope.$broadcast('terminal-output', {
@@ -363,12 +361,10 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 
 	function updateEnvironment() {
 		vm.currentEnvironment = JSON.parse (vm.currentEnvironment);
-		for (var i = 0; i < vm.environments.length; ++i) {
-			if (vm.environments[i].id === vm.currentEnvironment.id) {
-				vm.currentEnvironment = vm.environments[i];
-				vm.getOperations();
-				break;
-			}
+		getTemplates();
+		for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
+			vm.currentEnvironment.containers[i].operation = vm.operations[0];
 		}
+		vm.getOperations();
 	}
 }
