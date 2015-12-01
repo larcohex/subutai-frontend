@@ -37,7 +37,7 @@ function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 
 		SweetAlert.swal("Success!", "Node is being approved.", "success");
 
-		nodeRegSrv.nodeApprove( nodeId ).success(function (data) {
+		nodeRegSrv.approveNode( nodeId ).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
 				"Node has been added to cluster.",
