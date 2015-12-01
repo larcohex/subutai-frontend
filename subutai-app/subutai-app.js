@@ -43,7 +43,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('home', {
-			url: '',
+			url: '/',
 			templateUrl: 'subutai-app/monitoring/partials/view.html',
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -722,7 +722,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTI3NGU2NS0yOTE1LTQ3NDYtYTZiNC03MDRmYjg4ZGQzZWQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.rdqiaPuQG75MHuGA9HXkgOjIhT-Z6u4Cy6-1SXPgtzc';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMzc2YWJmZC1kY2Y0LTRhZTQtOTc2Yy00NjQ2YjYzODdiNDMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.i-y8FmREqLNsTc0Hwub2j9XQd9D6r8NuHd8twmykPoY';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -796,7 +796,8 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.193.126:8080/';
+//var SERVER_URL = 'http://172.16.193.90:8080/';
+var SERVER_URL = 'http://172.16.131.205:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;

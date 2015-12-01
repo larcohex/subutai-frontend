@@ -1798,26 +1798,41 @@ td.b-main-table__status-col {
 	vertical-align: middle;
 }
 
-.chart-block {
+.b-chart-block {
     border: 1px solid #dcdcdc;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    display: inline-block;
+    border-radius: 5px 5px 0 0;
     margin: 0 15px;
-    width: 46%;
 }
 
-.chart-block .line-chart-legend {
+.b-chart-block__title {
     background-color: #F0F4F8;
     border-bottom: 1px solid #dcdcdc;
-    height: 25px;
-    margin-top: 0;
+    height: 24px;
+	line-height: 24px;
     text-align: center;
-}
-.chart-block .chart-legend li {
-    float: left;
+	font-size: 12px;
+	text-transform: uppercase;
 }
 
-.chart-graph {
-    margin: 20px;
+.b-chart-block__body {
+	padding: 10px 17px 20px;
 }
+
+.b-chart-block-list {
+	font-size: 0;
+	line-height: 0;
+}
+
+.b-chart-block-list__item {
+	width: 50%;
+	display: inline-block;
+}
+
+.b-chart-block-list__item:nth-child(even) .b-chart-block {
+	margin-right: 0;
+}
+
+.b-chart-block-list__item:nth-child(odd) .b-chart-block {
+	margin-left: 0;
+}
+
