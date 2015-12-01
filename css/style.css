@@ -1798,3 +1798,41 @@ td.b-main-table__status-col {
 	vertical-align: middle;
 }
 
+.b-chart-block {
+    border: 1px solid #dcdcdc;
+    border-radius: 5px 5px 0 0;
+    margin: 0 15px;
+}
+
+.b-chart-block__title {
+    background-color: #F0F4F8;
+    border-bottom: 1px solid #dcdcdc;
+    height: 24px;
+	line-height: 24px;
+    text-align: center;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+.b-chart-block__body {
+	padding: 10px 17px 20px;
+}
+
+.b-chart-block-list {
+	font-size: 0;
+	line-height: 0;
+}
+
+.b-chart-block-list__item {
+	width: 50%;
+	display: inline-block;
+}
+
+.b-chart-block-list__item:nth-child(even) .b-chart-block {
+	margin-right: 0;
+}
+
+.b-chart-block-list__item:nth-child(odd) .b-chart-block {
+	margin-left: 0;
+}
+
