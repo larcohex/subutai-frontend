@@ -1,5 +1,4 @@
 "use strict";
-//TODO: update from server
 angular.module("subutai.plugins.generic.controller", [])
     .controller("GenericCtrl", GenericCtrl)
     .config(['terminalConfigurationProvider', function (terminalConfigurationProvider) {
@@ -70,6 +69,22 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 					vm.operations[i].commandName = window.atob (vm.operations[i].commandName);
 				}
 				vm.currentOperation = vm.operations[0];
+				genericSrv.getEnvironments().success (function (data) {
+					vm.environments = data;
+					vm.currentEnvironment = vm.environments[0];
+					for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
+						vm.listOfOperations.push ({
+							container: vm.currentEnvironment.containers[i].id,
+							operation: vm.operations[0].operationName
+						});
+					}
+					getTemplates();
+					if (vm.environments.length === 0) {
+						SweetAlert.swal ("ERROR!", "Please create environment first", "error");
+					}
+				}).error (function (error) {
+					SweetAlert.swal ("ERROR!", "Environments error: " + error.replace(/\\n/g, " "), "error");
+				});
 			});
 		});
 	}
@@ -86,17 +101,6 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 		vm.currentTemplate = vm.templates[0];
 	};
 
-	genericSrv.getEnvironments().success (function (data) {
-		vm.environments = data;
-		vm.currentEnvironment = vm.environments[0];
-		// TODO: update listOfOperations
-		getTemplates();
-		if (vm.environments.length === 0) {
-			SweetAlert.swal ("ERROR!", "Please create environment first", "error");
-		}
-	}).error (function (error) {
-		SweetAlert.swal ("ERROR!", "Environments error: " + error.replace(/\\n/g, " "), "error");
-	});
 
 	// Create
 
@@ -150,7 +154,7 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			profile = JSON.parse (vm.currentProfile);
 		}
 		vm.currentProfile = profile;
-		vm.getOperations()
+		vm.getOperations();
 		console.log (vm.currentProfile);
 		vm.activeTab = "configure";
 	}
@@ -168,12 +172,19 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 			}
 			genericSrv.listOperations (vm.currentProfile).success (function (data) {
 				vm.operations = data;
-				console.log (vm.operations);
 				getTemplates();
 				for (var i = 0; i < vm.operations.length; ++i) {
 					vm.operations[i].commandName = window.atob (vm.operations[i].commandName);
 				}
 				vm.currentOperation = vm.operations[0];
+				vm.listOfOperations = [];
+				for (var i = 0; i < vm.currentEnvironment.containers.length; ++i) {
+					vm.listOfOperations.push ({
+						container: vm.currentEnvironment.containers[i].id,
+						operation: vm.operations[0].operationName
+					});
+				}
+				console.log (vm.listOfOperations);
 			});
 		}
 	}
@@ -326,13 +337,18 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 
 	function executeOperation (container) {
 		vm.output = "";
-		for (var i = 0; i < vm.operations.length; ++i) {
-			if (vm.operations[i].operationName === vm.currentOperationName) {
-				vm.currentOperation = vm.operations[i];
-				break;
+		console.log (vm.listOfOperations);
+		for (var i = 0; i < vm.listOfOperations.length; ++i) {
+			if (vm.listOfOperations[i].container === container.id) {
+				for (var j = 0; j < vm.operations.length; ++j) {
+					if (vm.operations[j].operationName === vm.listOfOperations[i].operation) {
+						vm.currentOperation = vm.operations[j];
+						break;
+					}
+				}
 			}
 		}
-		genericSrv.executeOperation (vm.currentOperation.operationName, container.hostname, vm.currentEnvironment.id).success (function (data) {
+		genericSrv.executeOperation (vm.currentOperation.operationId, container.hostname, vm.currentEnvironment.id).success (function (data) {
 			vm.output = data;
 			$scope.$broadcast('terminal-output', {
 				output: true,

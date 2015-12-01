@@ -90,8 +90,8 @@ function genericSrv($http, environmentService) {
 	}
 
 
-	function executeOperation (operationName, lxcHostName, environmentId) {
-		var putData = "operationName=" + operationName + "&lxcHostName=" + lxcHostName + "&environmentId=" + environmentId;
+	function executeOperation (operationId, lxcHostName, environmentId) {
+		var putData = "operationId=" + operationId + "&lxcHostName=" + lxcHostName + "&environmentId=" + environmentId;
 		console.log (putData);
 		return $http.put (BASE_URL + "execute", putData, {withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
 	}
