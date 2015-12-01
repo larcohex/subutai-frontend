@@ -2,72 +2,48 @@
 angular.module('subutai.nodeReg.controller', [])
     .controller('NodeRegCtrl', NodeRegCtrl);
 
-NodeRegCtrl.$inject = ['$scope', 'nodeRegSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngDialog'];
+NodeRegCtrl.$inject = [ 'nodeRegSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder' ];
 
-function NodeRegCtrl($scope, nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, ngDialog) {
+function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder) {
     var vm = this;
 	vm.action = 'install';
-	vm.availableNodes = [];
+	vm.nodes = [];
+
 	//functions
-	vm.deleteNode = deleteNode;
-	vm.addNode = addNode;
+	vm.approveNode = approveNode;
 
 	vm.dtOptions = DTOptionsBuilder
 			.newOptions()
-			.withOption('order', [[0, "asc" ]])
+			.withOption('order', [[1, "asc" ]])
 			.withOption('stateSave', true)
 			.withPaginationType('full_numbers');
 
 	vm.dtColumnDefs = [
-		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		DTColumnDefBuilder.newColumnDef(1),
-		DTColumnDefBuilder.newColumnDef(2).notSortable()
+		DTColumnDefBuilder.newColumnDef(2)
 	];
 
 
-	nodeRegSrv.getData(nodeName).success(function(data){
+	nodeRegSrv.getData().success(function(data){
 		console.log(data,"<<<<<<<<<<<<<<<<<look here");
 		vm.nodes = data;
 	});
-	setDefaultValues();
 
-	function addNode(nodeName) {
-		if(nodeName === undefined) return;
+
+	function approveNode(nodeId) {
+		if(nodeId === undefined) return;
+
 		SweetAlert.swal("Success!", "Node is being added.", "success");
-		ngDialog.closeAll();
-		nodeRegSrv.addNode(vm.currentCluster.clusterName, nodeName).success(function (data) {
+
+		nodeRegSrv.nodeApprove( nodeId ).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
-				"Node has been added to cluster " + vm.currentCluster.clusterName + ".",
+				"Node has been added to cluster.",
 				"success"
 			);
-			getClustersInfo(vm.currentCluster.clusterName);
-		});
-	}
 
-	function deleteNode(nodeId) {
-		if(vm.currentCluster.clusterName === undefined) return;
-		SweetAlert.swal({
-			title: "Are you sure?",
-			text: "Your will not be able to recover this node!",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#ff3f3c",
-			confirmButtonText: "Delete",
-			cancelButtonText: "Cancel",
-			closeOnConfirm: false,
-			closeOnCancel: true,
-			showLoaderOnConfirm: true
-		},
-		function (isConfirm) {
-			if (isConfirm) {
-				nodeRegSrv.deleteNode(vm.currentCluster.clusterName, nodeId).success(function (data) {
-					SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-					getClustersInfo(vm.currentCluster.clusterName);
-				}).error(function(error){
-					SweetAlert.swal("ERROR!", 'Failed to delete cluster node error: ' + error.replace(/\\n/g, ' '), "error");
-				});
-			}
+			// @todo add refresh table
 		});
 	}
 };

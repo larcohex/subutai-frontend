@@ -3,24 +3,26 @@
 angular.module('subutai.nodeReg.service',[])
 	.factory('nodeRegSrv', nodeRegSrv);
 
-nodeRegSrv.$inject = ['$http', 'hadoopSrv'];
+nodeRegSrv.$inject = ['$http'];
 
 
-function nodeRegSrv($http, hadoopSrv) {
-	var BASE_URL = SERVER_URL + 'rest/v1/registration';
+function nodeRegSrv($http) {
+	var BASE_URL = SERVER_URL + 'rest/v1/registration/';
+	var NODES_URL = BASE_URL + "requests/";
 
 	var nodeRegSrv = {
-		getData: getData
+		getData : getData,
+		approveNode : approveNode
 	};
 
 	return nodeRegSrv;
 
-	function getData(nodeName) {
-		return $http.get(BASE_URL);
+	function getData() {
+		return $http.get(NODES_URL);
 	}
 
-	function deleteNode(nodeId) {
-		return $http.delete(CLUSTER_URL + '/destroy/node/' + nodeId);
+	function approveNode(nodeId) {
+		return $http.delete(NODES_URL + nodeId + '/approve');
 	}
 
 }
