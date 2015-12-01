@@ -1803,6 +1803,8 @@ td.b-main-table__status-col {
     border: 1px solid #dcdcdc;
     border-radius: 5px 5px 0 0;
     margin: 0 15px;
+	/*height: 100px;*/
+	overflow: hidden;
 }
 
 .b-chart-block__title {
