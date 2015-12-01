@@ -10,48 +10,6 @@
 			<div class="clear"></div>
 		</div>
 		<div class="b-main-table-border">
-			<!--<table class="b-main-table b-main-table_with-header">-->
-				<!--<tr>-->
-					<!--<th>-->
-						<!--<input type="text" placeholder="Node name"-->
-						   <!--class="b-popup-body-input b-popup-body-input_full b-popup-body-input_margin-bttm ng-pristine ng-invalid ng-invalid-required ng-touched"-->
-						   <!--ng-model="nodeRegCtrl.nodeName"-->
-						   <!--required="">-->
-					<!--</th>-->
-					<!--<th>Name</th>-->
-					<!--<th>Approve/Disapprove</th>-->
-					<!--<th>Status</th>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td class="b-main-table__edit-icon"><input type="checkbox"></td>-->
-					<!--<td>{{name}}</td>-->
-					<!--<td>-->
-						<!--<a href="#" class="b-btn b-btn_green g-left"-->
-							<!--ng-click="nodeRegCtrl.action = 'approve'"-->
-							<!--ng-class="nodeRegCtrl.action == 'disapprove'"-->
-							<!--ng-if="nodeRegCtrl.action == 'approve'">-->
-							<!--{{nodeRegCtrl.action}}</a>-->
-						<!--<a href="#" class="b-btn b-btn_red g-left"-->
-						   <!--ng-click="nodeRegCtrl.action = 'disapprove'"-->
-						   <!--ng-class="nodeRegCtrl.action == 'approve'"-->
-						   <!--ng-if="nodeRegCtrl.action == 'disapprove'">-->
-							<!--{{nodeRegCtrl.action}}</a>-->
-					<!--</td>-->
-					<!--<td class="b-main-table__container-status">-->
-						<!--<div class="b-status-icon b-status-icon_RUNNING" title="RUNNING"></div>-->
-					<!--</td>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td class="b-main-table__edit-icon"><input type="checkbox"></td>-->
-					<!--<td>bankai</td>-->
-					<!--<td>-->
-						<!--<a href="#" class="b-btn b-btn_blue g-left">Approve</a>-->
-					<!--</td>-->
-					<!--<td class="b-main-table__container-status">-->
-						<!--<div class="b-status-icon b-status-icon_RUNNING" title="RUNNING"></div>-->
-					<!--</td>-->
-				<!--</tr>-->
-			<!--</table>-->
 			<div class="b-data-table">
 				<table datatable="ng"
 					   dt-options="nodeRegCtrl.dtOptions"
@@ -59,26 +17,23 @@
 					   class="row-border hover">
 					<thead>
 					<tr>
-						<th><input type="checkbox"></th>
-						<th>Name</th>
-						<th>Approve/Disapprove</th>
 						<th>Status</th>
+						<th>Name</th>
+						<th>Action</th>
 					</tr>
 					</thead>
 					<tbody>
 					<tr ng-repeat="clusterNode in nodeRegCtrl.nodes">
-						<td class="b-main-table__edit-icon">
-							<input type="checkbox" ng-click="nodeRegCtrl.pushNode(clusterNode.uuid)">
-						</td>
-						<td>{{ clusterNode.hostname }}</td>
-						<td>{{ clusterNode.ip }}</td>
 						<td class="b-main-table__container-status">
 							<div
 									tooltips
 									tooltip-title="{{ clusterNode.status }}"
-									class="b-status-icon b-status-icon_{{ clusterNode.status }}"
-									title="{{ clusterNode.status }}">
+									class="b-status-icon b-status-icon_{{ clusterNode.status }}">
 							</div>
+						</td>
+						<td>{{ clusterNode.hostname }}</td>
+						<td>
+							<button ng-if="clusterNode.status == 'APPROVED'" class="b-btn b-btn_green" ng-click="clusterNode.approveNode( clusterNode.id )">Approve</button>
 						</td>
 					</tr>
 					</tbody>
