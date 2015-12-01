@@ -682,7 +682,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMzAyMmQyZi1mYTQ1LTQ1NmYtYmU3My02ZjMzOGU2N2RmYjIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.kFS5mWT9_-cwSYutZkHejVcElAgk6rQMqz2GqMULM1s';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTI3NGU2NS0yOTE1LTQ3NDYtYTZiNC03MDRmYjg4ZGQzZWQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.rdqiaPuQG75MHuGA9HXkgOjIhT-Z6u4Cy6-1SXPgtzc';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -743,7 +743,6 @@ app.directive('checkbox-list-dropdown', function() {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attr) {
-			console.log('lololo');
 			$('.b-form-input_dropdown').click(function () {
 				$(this).toggleClass('is-active');
 			});
@@ -757,7 +756,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 //var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.205:8080/';
+var SERVER_URL = 'http://172.16.193.126:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 900;
