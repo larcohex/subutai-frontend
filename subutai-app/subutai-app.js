@@ -44,7 +44,28 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		})
 		.state('home', {
 			url: '',
-			templateUrl: 'subutai-app/home/partials/view.html'
+			templateUrl: 'subutai-app/monitoring/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'chart.js',
+							files: [
+								'css/libs/angular-chart.min.css',
+								'assets/js/plugins/angular-chart.min.js'
+							]
+						},
+						{
+							name: 'subutai.monitoring',
+							files: [
+								'subutai-app/monitoring/monitoring.js',
+								'subutai-app/monitoring/controller.js',
+								'subutai-app/monitoring/service.js'
+							]
+						}
+					]);
+				}]
+			}
 		})
 		.state('blueprints', {
 			url: '/blueprints',
