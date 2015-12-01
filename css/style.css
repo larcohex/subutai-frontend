@@ -1798,3 +1798,26 @@ td.b-main-table__status-col {
 	vertical-align: middle;
 }
 
+.chart-block {
+    border: 1px solid #dcdcdc;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    display: inline-block;
+    margin: 0 15px;
+    width: 46%;
+}
+
+.chart-block .line-chart-legend {
+    background-color: #F0F4F8;
+    border-bottom: 1px solid #dcdcdc;
+    height: 25px;
+    margin-top: 0;
+    text-align: center;
+}
+.chart-block .chart-legend li {
+    float: left;
+}
+
+.chart-graph {
+    margin: 20px;
+}

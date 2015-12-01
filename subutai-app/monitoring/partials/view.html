@@ -1,14 +1,32 @@
 <div ng-controller="MonitoringCtrl as monitoringCtrl">
 
-	<div class="b-workspace__header">
-		<h1 class="b-title">Monitoring</h1>
-	</div>
+    <div class="b-workspace__header">
+        <h1 class="b-title">Monitoring</h1>
+    </div>
 
-	<div class="b-workspace__content">
-		<canvas id="line" class="chart chart-line" chart-data="monitoringCtrl.data"
-			chart-labels="monitoringCtrl.labels" chart-legend="true" chart-series="monitoringCtrl.series"
-			chart-click="monitoringCtrl.onClick">
-		</canvas>
-	</div>
+    <div class="b-workspace__content">
+        <div class="chart-block">
+            <div class="line-chart-legend">
+                <div>RX</div>
+            </div>
+            <div class="chart-graph">
+                <canvas id="line1" class="chart chart-line" chart-data="monitoringCtrl.data"
+                        chart-labels="monitoringCtrl.labels" chart-legend="true" chart-series="monitoringCtrl.series"
+                        chart-click="monitoringCtrl.onClick">
+                </canvas>
+            </div>
+        </div>
+        <div class="chart-block">
+            <div class="line-chart-legend">
+                <div>RX</div>
+            </div>
+            <div class="chart-graph">
+                <canvas id="line2" class="chart chart-line" chart-data="monitoringCtrl.data"
+                        chart-labels="monitoringCtrl.labels" chart-legend="true" chart-series="monitoringCtrl.series"
+                        chart-click="monitoringCtrl.onClick">
+                </canvas>
+            </div>
+        </div>
+    </div>
 
 </div>

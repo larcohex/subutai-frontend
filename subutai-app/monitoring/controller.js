@@ -10,11 +10,11 @@ function MonitoringCtrl($scope, monitoringSrv) {
 	var vm = this;
 
 	//functions
-	vm.labels = ["January", "February", "March", "April", "May", "June", "July"];
+	vm.labels = ["12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
 	vm.series = ['Series A', 'Series B'];
 	vm.data = [
-		[65, 59, 80, 81, 56, 55, 40],
-		[28, 48, 40, 19, 86, 27, 90]
+		[3, 2, 5, 1, 3, 5, 1],
+		[2, 4, 4, 3, 3, 1, 4]
 	];
 	vm.onClick = function (points, evt) {
 		console.log(points, evt);
