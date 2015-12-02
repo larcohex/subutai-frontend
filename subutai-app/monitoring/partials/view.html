@@ -86,13 +86,13 @@
 		<div class="b-chart-block-list">
 			<div class="b-chart-block-list__item" ng-repeat="chart in monitoringCtrl.charts">
 				<div class="b-chart-block">
-					<div class="b-chart-block__title">{{ chart.name }}</div>
+					<div class="b-chart-block__title">{{ chart.name }}({{chart.unit}})</div>
 					<div class="b-chart-block__body">
-						<canvas id="line2" class="chart chart-line" chart-data="chart.values" 
+						<canvas id="line{{$index}}" class="chart chart-line" chart-data="chart.values"
 							chart-options="chart.options" 
 							chart-labels="chart.labels" 
-							chart-legend="true" 
-							chart-series="chart.series" 
+							chart-legend="false"
+							chart-series="chart.series"
 							chart-click="monitoringCtrl.onClick">
 						</canvas>
 					</div>
