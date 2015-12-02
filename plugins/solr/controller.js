@@ -28,6 +28,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	vm.addNode = addNode;
 	vm.deleteNode = deleteNode;
 	vm.pushNode = pushNode;
+	vm.pushAll = pushAll;
 	vm.startNodes = startNodes;
 	vm.stopNodes = stopNodes;
 	
@@ -44,11 +45,9 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	getClusters();
 
 	function getClustersInfo(selectedCluster) {
-		console.log(selectedCluster);
 		LOADING_SCREEN();
+		vm.nodes2Action = [];
 		solrSrv.getClusters(selectedCluster).success(function (data){
-			console.log('RESULT: ');
-			console.log(data);
 			vm.currentCluster = data;
 			LOADING_SCREEN('none');
 		}).error(function(error){
@@ -60,6 +59,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	function startNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.name === undefined) return;
+		vm.globalChecker = false;
 		SweetAlert.swal({
 			title : 'Success!',
 			text : 'Your request is in progress. You will be notified shortly.',
@@ -75,8 +75,10 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	}
 
 	function stopNodes() {
+		console.log(vm.nodes2Action);
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.name === undefined) return;
+		vm.globalChecker = false;
 		SweetAlert.swal({
 			title : 'Success!',
 			text : 'Your request is in progress. You will be notified shortly.',
@@ -96,6 +98,19 @@ function SolrCtrl(solrSrv, SweetAlert) {
 			vm.nodes2Action.splice(vm.nodes2Action.indexOf(id), 1);
 		} else {
 			vm.nodes2Action.push(id);
+		}
+	}
+
+	function pushAll(check) {
+		if (vm.currentCluster.containers !== undefined) {
+			if (check) {
+				for (var i = 0; i < vm.currentCluster.containers.length; ++i) {
+					vm.nodes2Action.push(vm.currentCluster.containers[i].id);
+				}
+			}
+			else {
+				vm.nodes2Action = [];
+			}
 		}
 	}
 
@@ -171,14 +186,14 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	}
 
 	function createSolr() {
-		
+		SweetAlert.swal("Success!", "Solr cluster is being created.", "success");
+		switchTab('manager');
 		solrSrv.createSolr(vm.solrInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Solr cluster start creating.", "success");
-			switchTab('manager');
+			SweetAlert.swal("Success!", "Solr cluster creation message:" + data.replace(/\\n/g, ' '), "success");
+			getClusters();
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Solr cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 		});
-		console.log('solr created');
 	}
 
 	function changeClusterScaling(scale) {
