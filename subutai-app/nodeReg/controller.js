@@ -26,7 +26,6 @@ function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 
 
 	nodeRegSrv.getData().success(function(data){
-		console.log(data,"<<<<<<<<<<<<<<<<<look here");
 		vm.nodes = data;
 	});
 
