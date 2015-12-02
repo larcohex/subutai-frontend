@@ -42,7 +42,7 @@
 						ng-model="monitoringCtrl.currentHost" 
 						ng-change="monitoringCtrl.getServerData()">
 						<option ng-repeat="host in monitoringCtrl.hosts" value="{{ host.id }}">
-							{{ host.hostname }}
+							{{ host.hostname }} ({{ host.instance }}, {{ host.arch }})
 						</option>
 					</select>
 					<div class="clear"></div>
