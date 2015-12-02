@@ -41,7 +41,6 @@
 					<select class="b-popup-body-input" 
 						ng-model="monitoringCtrl.currentHost" 
 						ng-change="monitoringCtrl.getServerData()">
-						<option value="">Select peer</option>
 						<option ng-repeat="host in monitoringCtrl.hosts" value="{{ host.id }}">
 							{{ host.hostname }}
 						</option>
