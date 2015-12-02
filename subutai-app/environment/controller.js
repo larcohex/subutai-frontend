@@ -264,12 +264,14 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	function showDomainForm(environmentId) {
 		vm.environmentForDomain = environmentId;
 		vm.currentDomain = {};
+		LOADING_SCREEN();
 		environmentService.getDomain(environmentId).success(function (data) {
 			vm.currentDomain = data;
-		});
-		ngDialog.open({
-			template: 'subutai-app/environment/partials/domainForm.html',
-			scope: $scope
+			ngDialog.open({
+				template: 'subutai-app/environment/partials/domainForm.html',
+				scope: $scope
+			});
+			LOADING_SCREEN('none');
 		});
 	}
 

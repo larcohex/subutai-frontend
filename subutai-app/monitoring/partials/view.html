@@ -64,11 +64,11 @@
 					</li>
 				</ul>
 
-				<div class="b-console-selects__item b-main-form__wrapper">
+				<div class="b-main-form__wrapper b-main-form__wrapper_min">
+					<label class="b-popup-body-label b-popup-body-label_inline">Period (hourse)</label>
 					<select class="b-popup-body-input" 
 						ng-model="monitoringCtrl.period" 
 						ng-change="monitoringCtrl.getServerData()">
-						<option value="">Choose period</option>
 						<option value="1">1</option>
 						<option value="6">6</option>
 						<option value="12">12</option>
