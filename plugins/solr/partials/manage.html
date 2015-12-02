@@ -35,14 +35,19 @@
 	<div class="b-main-table-border">
 		<table class="b-main-table b-main-table_with-header">
 			<tr>
-				<th><input type="checkbox"></th>
+				<th>
+					<input type="checkbox" onClick="toggle(this, 'solrChk')" ng-model="solrCtrl.globalChecker" ng-click="solrCtrl.pushAll(solrCtrl.globalChecker)">
+				</th>
 				<th>Status</th>
 				<th>Host</th>
 				<th>IP</th>
 			</tr>
-			<tr ng-repeat="clusterNode in solrCtrl.currentCluster.containerInfos">
+			<td colspan="4" class="b-main-table__empty-item" ng-if="solrCtrl.currentCluster.containers === undefined || solrCtrl.currentCluster.containers.length == 0">
+				No data available in table
+			</td>
+			<tr ng-repeat="clusterNode in solrCtrl.currentCluster.containers">
 				<td class="b-main-table__edit-icon">
-					<input type="checkbox" ng-click="solrCtrl.pushNode(clusterNode.id)">
+					<input type="checkbox" ng-click="solrCtrl.pushNode(clusterNode.id)" name="solrChk">
 				</td>
 				<td class="b-main-table__container-status">
 					<div 

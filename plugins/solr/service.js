@@ -29,11 +29,8 @@ function solrSrv($http, environmentService) {
 	}
 
 	function startNodes(clusterName, nodesArray) {
-		console.log('starting');
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
-		console.log(postData);
 		var url = CLUSTER_URL +  'nodes/start';
-		console.log(url);
 		
 		return $http.post(
 			url,
@@ -49,9 +46,7 @@ function solrSrv($http, environmentService) {
 	}
 
 	function stopNodes(clusterName, nodesArray) {
-	console.log('stopping');
 		var postData = 'clusterName=' + clusterName + '&lxcHosts=' + nodesArray;
-		console.log(postData);
 		return $http.post(
 			CLUSTER_URL + 'nodes/stop',
 			postData, 
@@ -86,7 +81,6 @@ function solrSrv($http, environmentService) {
 	function createSolr(solrJson) {
 	
 		var postData = 'clusterName=' + solrJson.clusterName + '&environmentId=' + solrJson.environmentId + '&nodes=' + solrJson.containers.join();
-		console.log(postData);
 		return $http.post(
 			CLUSTER_URL + 'install',
 			postData, 
