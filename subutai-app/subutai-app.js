@@ -825,7 +825,7 @@ var SERVER_URL = 'http://172.16.193.63:8080/';
 //var SERVER_URL = 'http://172.16.131.205:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
-var VARS_TOOLTIP_TIMEOUT = 900;
+var VARS_TOOLTIP_TIMEOUT = 1600;
 
 function LOADING_SCREEN(displayStatus) {
 	if(displayStatus === undefined || displayStatus === null) displayStatus = 'block';
