@@ -9,7 +9,7 @@ function MonitoringCtrl($scope, monitoringSrv) {
 
 	var vm = this;
 	vm.currentType = 'peer';
-	vm.charts = [{values: [], labels: []}, {}, {}, {}];
+	vm.charts = [{}, {}, {}, {}];
 	vm.environments = [];
 	vm.containers = [];
 	vm.hosts = [];
