@@ -745,7 +745,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMDM2Y2JkNS0xZTNkLTQzZWEtYmU4Ni1jNjVhOTM1MjEwZGEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.XLclzVG34A4kE0Oj3vewN88cUdn3FAlaByD_QfvhZ04';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ODBmODExYy1hNTY3LTQ5ZGEtOThjYS0xMDU4NTI1NTJkNTYiLCJpc3MiOiJpby5zdWJ1dGFpIn0.xDrcJegN2G92L4U1X8LiwY1W4PpdEW9XJ3-lGEkssY4';
 
 	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -879,7 +879,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 2,
@@ -889,7 +888,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 3,
@@ -899,7 +897,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 4,
@@ -909,7 +906,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 5,
@@ -919,7 +915,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 6,
@@ -929,7 +924,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 7,
@@ -939,7 +933,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	}
 ];
 
