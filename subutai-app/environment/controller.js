@@ -194,7 +194,15 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 			},
 			function (isConfirm) {
 				if (isConfirm) {
-					SweetAlert.swal("Delete!", "Your environment is being deleted!", "success");
+					SweetAlert.swal(
+							{
+								title : 'Delete!',
+								text : 'Your environment is being deleted!!',
+								timer: VARS_TOOLTIP_TIMEOUT,
+								showConfirmButton: false
+							}
+					);
+
 					environmentService.destroyEnvironment(environmentId).success(function (data) {
 						SweetAlert.swal("Destroyed!", "Your environment has been destroyed.", "success");
 						vm.dtInstance.reloadData(null, false);
@@ -306,17 +314,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		function (isConfirm) {
 			if (isConfirm) {
 				environmentService.removeDomain(environmentId).success(function (data) {
-
-
-					SweetAlert.swal(
-							{
-								title : 'Deleted!',
-								text : 'Your environment has been deleted!',
-								timer: VARS_TOOLTIP_TIMEOUT,
-								showConfirmButton: false
-							}
-					);
-
+					SweetAlert.swal("Deleted!", "Your domain has been deleted.", "success");
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "Your domain is safe. Error: " + data.ERROR, "error");
 				});
