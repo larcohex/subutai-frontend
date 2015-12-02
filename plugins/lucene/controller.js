@@ -136,9 +136,16 @@ function LuceneCtrl($scope, luceneSrv, SweetAlert, DTOptionsBuilder, DTColumnDef
 		if(vm.luceneInstall.clusterName === undefined || vm.luceneInstall.clusterName.length == 0) return;
 		if(vm.luceneInstall.hadoopClusterName === undefined || vm.luceneInstall.hadoopClusterName.length == 0) return;
 
-		SweetAlert.swal("Success!", "Lucene cluster start creating.", "success");
+		SweetAlert.swal(
+			{
+				title : 'In progress',
+				text : 'Your Lucene cluster creation is started!',
+				timer: VARS_TOOLTIP_TIMEOUT,
+				showConfirmButton: false
+			}
+		);
 		luceneSrv.createLucene(vm.luceneInstall).success(function (data) {
-			SweetAlert.swal("Success!", "Your Lucene cluster start creating.", "success");
+			SweetAlert.swal("Success!", "Your Lucene cluster has been created.", "success");
 			getClusters();
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Lucene cluster create error: ' + error.replace(/\\n/g, ' '), "error");
