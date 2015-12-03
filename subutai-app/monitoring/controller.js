@@ -93,6 +93,19 @@ function MonitoringCtrl($scope, monitoringSrv) {
 
         var setLabels = true;
         if (obj.series !== undefined) {
+            var timeInterval = null;
+            switch (parseInt( vm.period )) {
+                case 6:
+                    timeInterval = "1h";
+                    break;
+                case 12:
+                    timeInterval = "2h";
+                    break;
+                default:
+                case 1:
+                    timeInterval = "10m";
+                    break;
+            }
 
             result.name = obj.series[0].name;
             if (obj.series[0].name.indexOf('cpu') > -1) {
@@ -103,14 +116,14 @@ function MonitoringCtrl($scope, monitoringSrv) {
                     scaleStartValue: 0,
                     scaleStepWidth: 20,
                     scaleSteps: 5,
-                    showXLabelseByEveryMinutes: 10,
+                    showXLabelseByEveryMinutes: timeInterval,
                     animation: false
                 };
             } else {
                 result.options = {
                     pointDot: false,
                     scaleShowVerticalLines: false,
-                    showXLabelseByEveryMinutes: 10,
+                    showXLabelseByEveryMinutes: timeInterval,
                     animation: false
                 };
             }
@@ -147,7 +160,20 @@ function MonitoringCtrl($scope, monitoringSrv) {
                 }
                 setLabels = false;
                 result.values.push(currentValues);
-                result.series.push(obj.series[i].tags.type);
+
+                var seriesLabel = obj.series[i].tags.type;
+
+                if( obj.series[0].name.indexOf( "disk" ) > 0 )
+                {
+                    seriesLabel = obj.series[i].tags.mount;
+                }
+
+                if( obj.series[0].name.indexOf( "host_net" ) >= 0 )
+                {
+                    seriesLabel = obj.series[i].tags.iface + " " + seriesLabel;
+                }
+
+                result.series.push(seriesLabel);
             }
             if(obj.series[0].name == 'host_cpu' || obj.series[0].name == 'lxc_cpu') {
                 result.unit = "%";
