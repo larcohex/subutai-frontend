@@ -25,9 +25,11 @@ function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 	];
 
 
-	nodeRegSrv.getData().success(function(data){
-		vm.nodes = data;
-	});
+	function getNodes() {
+		nodeRegSrv.getData().success(function(data){
+			vm.nodes = data;
+		});
+	}
 
 
 	function approveNode(nodeId) {
@@ -44,7 +46,7 @@ function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 				"success"
 			);
 			LOADING_SCREEN('none');
-			vm.dtInstance.reloadData(null, false);
+			getNodes();
 		}).error(function(error){
 			SweetAlert.swal("ERROR!", error, "error");
 			LOADING_SCREEN('none');
