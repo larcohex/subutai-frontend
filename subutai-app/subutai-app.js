@@ -10,10 +10,30 @@ var app = angular.module('subutai-app', [
 		'ngTagsInput'
 	])
 	.config(routesConf)
+	.controller('CurrentUserCtrl', CurrentUserCtrl)
 	.run(startup);
 
+CurrentUserCtrl.$inject = ['$location'];
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 startup.$inject = ['$rootScope', '$state', '$location', '$http'];
+
+function CurrentUserCtrl($location) {
+	var vm = this;
+	vm.currentUser = false;
+
+	//function
+	vm.logout = logout;
+
+	function logout() {
+		removeCookie('sptoken');
+		sessionStorage.removeItem('currentUser');
+		$location.path('login');
+	}
+
+	if(localStorage.getItem('currentUser') !== undefined) {
+		vm.currentUser = sessionStorage.getItem('currentUser');
+	}
+}
 
 function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
@@ -747,13 +767,14 @@ function startup($rootScope, $state, $location, $http) {
 
 	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjNTFiYjliYi03ZjZiLTRiYTQtOTdjMy03Mjk2MzEzODE4NmMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.G6bD_HtnzgkBLSTiEFq26JBtxkoa3qh76zsgFGciT-0';
 
-	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
-	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-	//	if (restrictedPage && !getCookie('sptoken')) {
-	//		$location.path('/login');
-	//	}
-	//});
-	//$http.defaults.headers.common['sptoken'] = getCookie('sptoken');
+	/*$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+		if (restrictedPage && !getCookie('sptoken')) {
+			sessionStorage.removeItem('currentUser');
+			$location.path('/login');
+		}
+	});
+	$http.defaults.headers.common['sptoken'] = getCookie('sptoken');*/
 
 	$rootScope.$state = $state;
 }
@@ -767,6 +788,10 @@ function getCookie(cname) {
 		if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
 	}
 	return false;
+}
+
+function removeCookie( name ) {
+	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 app.directive('dropdownMenu', function() {

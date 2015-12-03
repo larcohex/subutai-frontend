@@ -17,6 +17,7 @@ function LoginCtrl( loginSrv, $http, $location )
 
 	function login() {
 		loginSrv.login( vm.name, vm.pass ).success(function(data){
+			sessionStorage.setItem('currentUser', vm.name);
 			$http.defaults.headers.common['sptoken']= getCookie('sptoken');
 			$location.path('/');
 		});
