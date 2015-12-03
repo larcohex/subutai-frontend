@@ -1724,7 +1724,6 @@
 						}
 					}
 					var timeInterval = this.showXLabelseByEveryMinutes;
-                    console.log(timeInterval);
 					if(timeInterval){
                         var timeFormat = timeInterval.indexOf('m') > -1 ? "m" : "h";
                         var currentLabelDate = label.split(':');
