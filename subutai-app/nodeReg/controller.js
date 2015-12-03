@@ -30,6 +30,7 @@ function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 			vm.nodes = data;
 		});
 	}
+	getNodes();
 
 
 	function approveNode(nodeId) {
