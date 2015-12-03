@@ -13,13 +13,13 @@ var app = angular.module('subutai-app', [
 	.controller('CurrentUserCtrl', CurrentUserCtrl)
 	.run(startup);
 
-CurrentUserCtrl.$inject = ['$location'];
+CurrentUserCtrl.$inject = ['$location', '$rootScope'];
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 startup.$inject = ['$rootScope', '$state', '$location', '$http'];
 
-function CurrentUserCtrl($location) {
+function CurrentUserCtrl($location, $rootScope) {
 	var vm = this;
-	vm.currentUser = false;
+	vm.currentUser = $rootScope.currentUser;
 
 	//function
 	vm.logout = logout;
@@ -30,9 +30,13 @@ function CurrentUserCtrl($location) {
 		$location.path('login');
 	}
 
-	if(localStorage.getItem('currentUser') !== undefined) {
-		vm.currentUser = sessionStorage.getItem('currentUser');
-	}
+	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+		if(localStorage.getItem('currentUser') !== undefined) {
+			vm.currentUser = sessionStorage.getItem('currentUser');
+		} else if($rootScope.currentUser !== undefined) {
+			vm.currentUser = $rootScope.currentUser;
+		}
+	});	
 }
 
 function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
@@ -765,7 +769,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjNTFiYjliYi03ZjZiLTRiYTQtOTdjMy03Mjk2MzEzODE4NmMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.G6bD_HtnzgkBLSTiEFq26JBtxkoa3qh76zsgFGciT-0';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MzRjYWIxNy1mNDc5LTQ3NGYtYTZlOC0yNDE2ZTMzMzJkOTQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.85OJjj0ShRr0MNVQtC55tnUdhpdkrEYDv7trXrRhgJQ';
 
 	/*$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
