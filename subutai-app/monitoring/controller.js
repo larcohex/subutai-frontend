@@ -126,19 +126,19 @@ function MonitoringCtrl($scope, monitoringSrv) {
 
                     switch (obj.series[0].name) {
                         case 'lxc_net':
-                            result.unit = "MB";
+                        case 'host_net':
                             currentValues.push(Math.round((obj.series[i].values[j][1] / 70)  * 100) / 100);
                             break;
                         case 'lxc_memory':
-                            result.unit = "MB";
+                        case 'host_memory':
                             currentValues.push(Math.round(obj.series[i].values[j][1] / Math.pow(10, 6)  * 100) / 100);
                             break;
                         case 'lxc_disk':
-                            result.unit = "MB";
+                        case 'host_disk':
                             currentValues.push(Math.round(obj.series[i].values[j][1] / Math.pow(10, 6) * 100) / 100);
                             break;
                         case 'lxc_cpu':
-                            result.unit = "%";
+                        case 'host_cpu':
                             currentValues.push(Math.round(obj.series[i].values[j][1] * 100) / 100);
                             break;
                         default:
@@ -148,6 +148,11 @@ function MonitoringCtrl($scope, monitoringSrv) {
                 setLabels = false;
                 result.values.push(currentValues);
                 result.series.push(obj.series[i].tags.type);
+            }
+            if(obj.series[0].name == 'host_cpu' || obj.series[0].name == 'lxc_cpu') {
+                result.unit = "%";
+            } else {
+                result.unit = "MB";
             }
         }
         return result;
