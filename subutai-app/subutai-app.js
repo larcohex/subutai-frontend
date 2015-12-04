@@ -850,7 +850,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'https://172.16.131.81:8443/';
+var SERVER_URL = 'https://172.16.193.163:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
