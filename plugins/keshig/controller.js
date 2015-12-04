@@ -51,6 +51,9 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	vm.runProfile = runProfile;
 	vm.runOptionForm = runOptionForm;
 
+	vm.exportBuild = exportBuild;
+	vm.getTPR = getTPR;
+
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
 	});
@@ -69,6 +72,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	keshigSrv.getPlaybooks().success(function (data) {
 		vm.playbooks = data;
 	});
+
+	function exportBuild(build) {
+		keshigSrv.exportBuild(build).success(function (data) {
+			SweetAlert.swal("Success!", 'Build "' + deploy.buildName + '" start export.', "success");
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Error: ' + error.replace(/\\n/g, ' '), 'error');
+		});
+	}
 
 	function getProfileValues() {
 		vm.serversByType = [];
@@ -114,7 +125,17 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			profilesTable();
 		} else if(vm.activeTab == 'history') {
 			historyTable();
+		} else if(vm.activeTab == 'export') {
+			getProfileValues();
 		}
+	}
+
+	function getTPR() {
+		keshigSrv.getTPR().success(function (data) {
+			SweetAlert.swal("Success!", 'Request has been sent successfully.', "success");
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Error: ' + error.replace(/\\n/g, ' '), 'error');
+		});
 	}
 
 	function changeOptionsType() {

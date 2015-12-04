@@ -769,7 +769,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NTcxZTFjOS1kMGJmLTRjZGQtYTYyMS0xMmMxZjk4Y2I2MDIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.oOmVbvBw5Atf-KfX_p6PzLd30vSdMWOo2dNLKYjhJqA';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ZjdlZWFhMy1jOGZjLTQxYmYtOTFmMy1hNGVmZTkwMTkyMTIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.w-FYe8QWHRv_RAkzBuWSE9SbAEA6ZXpnF25jpE8YRSk';
 
 	/*$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
@@ -850,7 +850,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://172.16.193.138:8080/';
+var SERVER_URL = 'https://172.16.131.81:8443/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
