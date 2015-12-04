@@ -32,6 +32,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	vm.startMaster = startMaster;
 	vm.stopMaster = stopMaster;
 	vm.pushNode = pushNode;
+	vm.pushAll = pushAll;
 	vm.startNodes = startNodes;
 	vm.stopNodes = stopNodes;
 
@@ -60,10 +61,24 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		}
 	}
 
+	function pushAll(check) {
+		if (vm.currentCluster.clients !== undefined) {
+			if (check) {
+				for (var i = 0; i < vm.currentCluster.clients.length; ++i) {
+					vm.nodes2Action.push(vm.currentCluster.clients[i].uuid);
+				}
+			}
+			else {
+				vm.nodes2Action = [];
+			}
+		}
+	}
+
 	function startNodes() {
 		console.log(vm.nodes2Action);
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		vm.globalChecker = false;
 		SweetAlert.swal({
 			title : 'Success!',
 			text : 'Your request is in progress. You will be notified shortly.',
@@ -81,6 +96,7 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 	function stopNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		vm.globalChecker = false;
 		SweetAlert.swal({
 			title : 'Success!',
 			text : 'Your request is in progress. You will be notified shortly.',
