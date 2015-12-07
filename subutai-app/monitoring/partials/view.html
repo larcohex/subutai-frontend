@@ -86,15 +86,9 @@
 		<div class="b-chart-block-list">
 			<div class="b-chart-block-list__item" ng-repeat="chart in monitoringCtrl.charts">
 				<div class="b-chart-block">
-					<div class="b-chart-block__title">{{ chart.name }}({{chart.unit}})</div>
+					<div class="b-chart-block__title">{{ chart.name }}</div>
 					<div class="b-chart-block__body">
-						<canvas id="line{{$index}}" class="chart chart-line" chart-data="chart.values"
-							chart-options="chart.options" 
-							chart-labels="chart.labels" 
-							chart-legend="false"
-							chart-series="chart.series"
-							chart-click="monitoringCtrl.onClick">
-						</canvas>
+						<nvd3 options="chart.options" data="chart.data"></nvd3>
 					</div>
 				</div>
 			</div>

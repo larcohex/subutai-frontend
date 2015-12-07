@@ -1839,6 +1839,10 @@ td.b-main-table__status-col {
     line-height: 0;
 }
 
+.b-chart-block-list .nvtooltip {
+    line-height: 1;
+}
+
 .b-chart-block-list__item {
     width: 50%;
     display: inline-block;
