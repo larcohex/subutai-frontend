@@ -1830,6 +1830,14 @@ td.b-main-table__status-col {
     text-transform: uppercase;
 }
 
+.b-chart-block__series-title {
+    font-size: 10pt;
+    font-weight: bold;
+    height: 15px;
+    line-height: 2;
+    text-align: center;
+}
+
 .b-chart-block__body {
     padding: 10px 17px 20px;
 }
