@@ -96,11 +96,11 @@ function MonitoringCtrl($scope, monitoringSrv) {
         var chartOptions = {
             chart: {
                 type: 'lineChart',
-                height: 300,
+                height: 350,
                 margin: {
                     top: 20,
                     right: 20,
-                    bottom: 50,
+                    bottom: 70,
                     left: 60
                 },
                 x: function (d) {
@@ -109,8 +109,25 @@ function MonitoringCtrl($scope, monitoringSrv) {
                 y: function (d) {
                     return d.y;
                 },
+                legend: {
+                    key: function (d) {
+                        return;
+                    },
+                    dispatch: {
+                        legendMouseover: function (t, u) {
+                            chartSeries.legend = t.key;
+                            $scope.$apply();
+                            return;
+                        },
+                        legendMouseout: function (t, u) {
+                            chartSeries.legend = "";
+                            $scope.$apply();
+                            return;
+                        }
+                    },
+                    padding: 20
+                },
                 useInteractiveGuideline: true,
-                showLegend: false,
                 yAxis: {
                     showMaxMin: false,
                     tickFormat: function (d) {
@@ -126,8 +143,7 @@ function MonitoringCtrl($scope, monitoringSrv) {
                     tickValues: [],
                     tickFormat: function (d) {
                         return d3.time.format("%H:%M")(new Date(d));
-                    },
-                    rotateLabels: -90
+                    }
                 },
                 interpolate: 'monotone',
                 callback: function (chart) {
@@ -138,7 +154,8 @@ function MonitoringCtrl($scope, monitoringSrv) {
             name: seriesName,
             unit: null,
             data: [],
-            options: chartOptions
+            options: chartOptions,
+            legend: ""
         };
         var maxValue = 0, unitCoefficient = 1;
         var minutes, start, end, diff, leftLimit, duration;
@@ -266,10 +283,10 @@ function MonitoringCtrl($scope, monitoringSrv) {
 
                 switch (seriesName) {
                     case 'host_net':
-                        chartSerie.key = series[item].tags.iface + ' ' + '<b>' + series[item].tags.type + '</b>';
+                        chartSerie.key = series[item].tags.iface + ' ' + series[item].tags.type;
                         break;
                     case 'host_disk':
-                        chartSerie.key = series[item].tags.mount + ' ' + '<b>' + series[item].tags.type + '</b>';
+                        chartSerie.key = series[item].tags.mount + ' ' + series[item].tags.type;
                         break;
                     case 'lxc_disk':
                         chartSerie.key = series[item].tags.mount;
