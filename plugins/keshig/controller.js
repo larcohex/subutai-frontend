@@ -48,6 +48,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	vm.addOption2From = addOption2From;
 	vm.runOption = runOption;
 	vm.pushPlaybook = pushPlaybook;
+	vm.addAllPlaybooks = addAllPlaybooks;
 	vm.runProfile = runProfile;
 	vm.runOptionForm = runOptionForm;
 
@@ -113,6 +114,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		}
 	}
 
+	function addAllPlaybooks(push) {
+		if(push) {
+			vm.option2Add.playbooks = angular.copy(vm.playbooks);
+		} else {
+			vm.option2Add.playbooks = [];
+		}
+	}
+
 	function changeTab(tab) {
 		vm.activeTab = tab;
 		if(vm.activeTab == 'servers') {
@@ -130,9 +139,9 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		}
 	}
 
-	function getTPR() {
-		keshigSrv.getTPR().success(function (data) {
-			SweetAlert.swal("Success!", 'Request has been sent successfully.', "success");
+	function getTPR(serverId) {
+		keshigSrv.getTPR(serverId).success(function (data) {
+			SweetAlert.swal("Success!", 'Generating TPR... Link for the file will appear in History tab.', "success");
 		}).error(function(error){
 			SweetAlert.swal("ERROR!", 'Error: ' + error.replace(/\\n/g, ' '), 'error');
 		});
@@ -193,10 +202,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtColumns = [
 			//DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEditProfile),
 			DTColumnBuilder.newColumn('name').withTitle('Name'),
-			DTColumnBuilder.newColumn('cloneOption').withTitle('Clone').notSortable().renderWith(profileCloneButton),
-			DTColumnBuilder.newColumn('buildOption').withTitle('Build').notSortable().renderWith(profileBuildButton),
-			DTColumnBuilder.newColumn('testOption').withTitle('Test').notSortable().renderWith(profileTestButton),
-			DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable().renderWith(profileDeployButton),
+			//DTColumnBuilder.newColumn('cloneOption').withTitle('Clone').notSortable().renderWith(profileCloneButton),
+			//DTColumnBuilder.newColumn('buildOption').withTitle('Build').notSortable().renderWith(profileBuildButton),
+			//DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable().renderWith(profileDeployButton),
+			//DTColumnBuilder.newColumn('testOption').withTitle('Test').notSortable().renderWith(profileTestButton),
+			DTColumnBuilder.newColumn('cloneOption').withTitle('Clone').notSortable(),
+			DTColumnBuilder.newColumn('buildOption').withTitle('Build').notSortable(),
+			DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable(),
+			DTColumnBuilder.newColumn('testOption').withTitle('Test').notSortable(),
 			DTColumnBuilder.newColumn('name').withTitle('').notSortable().renderWith(runProfileButton),
 			DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(deleteAction)
 		];
@@ -246,7 +259,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		if(data.stdOut === undefined || data.stdOut == null || data.stdOut.length < 1) {
 			contentOutput = data.stdErr;
 		} else {
-			if(data.type == 'TEST') {
+			if(data.type == 'TEST' || data.type == 'TPR') {
 				contentOutput = '<a href="' + getBaseUrl() + ':80' + data.stdOut + '" target="_blank">' + data.stdOut + '</a>';
 			} else {
 				contentOutput = data.stdOut;
