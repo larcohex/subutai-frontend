@@ -1,0 +1,40 @@
+<div ng-controller="LiveTrackerCtrl as liveTrackerCtrl">
+	<script>
+		$(document).ready(function(){
+			$('#js-show-tracker').click(function(){
+				if($('.b-live-tracker').hasClass('b-live-tracker_open')) {
+					$('.b-live-tracker').stop().animate({'bottom': '-20%'}, 300);
+					$('.b-live-tracker').removeClass('b-live-tracker_open');
+				} else {
+					$('.b-live-tracker').stop().animate({'bottom': 0}, 300);
+					$('.b-live-tracker').addClass('b-live-tracker_open');
+				}
+			});
+		});
+	</script>
+	<div class="b-live-tracker">
+		<div class="b-live-tracker__icon" id="js-show-tracker">
+			<span class="b-icon b-icon_settings"></span>
+		</div>
+		<div class="b-live-tracker__tabs">
+			<ul class="b-live-tracker-tabs">
+				<li class="b-live-tracker-tabs__item b-live-tracker-tabs__item_active">
+					Test option
+				</li>
+				<li class="b-live-tracker-tabs__item">
+					Test option
+				</li>
+				<li class="b-live-tracker-tabs__item">
+					Test option
+				</li>
+				<li class="b-live-tracker-tabs__item">
+					Test option
+				</li>
+			</ul>
+		</div>
+		<div class="b-live-tracker__content">
+			
+		</div>
+	</div>
+</div>
+
