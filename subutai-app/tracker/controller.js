@@ -5,19 +5,17 @@ angular.module('subutai.tracker.controller', [])
 	.controller('TrackerPopupCtrl', TrackerPopupCtrl);
 
 
-TrackerCtrl.$inject = ['trackerSrv', '$scope', '$rootScope', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', '$timeout', 'ngProgressFactory'];
+TrackerCtrl.$inject = ['trackerSrv', '$scope', '$rootScope', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', '$timeout', 'cfpLoadingBar'];
 TrackerPopupCtrl.$inject = ['trackerSrv', '$scope', '$sce'];
 
 
-function TrackerCtrl(trackerSrv, $scope, $rootScope, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, $timeout, ngProgressFactory) {
+function TrackerCtrl(trackerSrv, $scope, $rootScope, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, $timeout, cfpLoadingBar) {
 
 	var vm = this;
 
-	vm.progressbar = ngProgressFactory.createInstance();
-	vm.progressbar.start();
-
+	cfpLoadingBar.start();
 	angular.element(document).ready(function () {
-		vm.progressbar.complete();
+		cfpLoadingBar.complete();
 	});
 
 	vm.loadOperations = loadOperations;

@@ -4,18 +4,16 @@ angular.module('subutai.tokens.controller', [])
 	.controller('TokensCtrl', TokensCtrl);
 
 
-TokensCtrl.$inject = ['identitySrv', '$scope', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', 'SweetAlert', 'ngProgressFactory'];
+TokensCtrl.$inject = ['identitySrv', '$scope', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', 'SweetAlert', 'cfpLoadingBar'];
 
 
-function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, SweetAlert, ngProgressFactory) {
+function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, SweetAlert, cfpLoadingBar) {
 
 	var vm = this;
 
-	vm.progressbar = ngProgressFactory.createInstance();
-	vm.progressbar.start();
-
+	cfpLoadingBar.start();
 	angular.element(document).ready(function () {
-		vm.progressbar.complete();
+		cfpLoadingBar.complete();
 	});
 
 	vm.tokens = {};

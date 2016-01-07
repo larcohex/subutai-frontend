@@ -4,18 +4,16 @@ angular.module('subutai.identity-role.controller', [])
 	.controller('IdentityRoleCtrl', IdentityRoleCtrl)
 	.controller('IdentityRoleFormCtrl', IdentityRoleFormCtrl);
 
-IdentityRoleCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'ngDialog', 'ngProgressFactory'];
+IdentityRoleCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'ngDialog', 'cfpLoadingBar'];
 IdentityRoleFormCtrl.$inject = ['$scope', 'identitySrv', 'SweetAlert', 'ngDialog'];
 
-function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, ngDialog, ngProgressFactory) {
+function IdentityRoleCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, ngDialog, cfpLoadingBar) {
 
 	var vm = this;
 
-	vm.progressbar = ngProgressFactory.createInstance();
-	vm.progressbar.start();
-
+	cfpLoadingBar.start();
 	angular.element(document).ready(function () {
-		vm.progressbar.complete();
+		cfpLoadingBar.complete();
 	});
 
 	vm.permissions2Add = angular.copy(permissionsDefault);

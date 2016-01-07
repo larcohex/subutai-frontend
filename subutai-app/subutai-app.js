@@ -9,7 +9,7 @@ var app = angular.module('subutai-app', [
 		'720kb.tooltips',
 		'ngTagsInput',
 		'nvd3',
-		'ngProgress'
+		'cfp.loadingBar'
 	])
 	.config(routesConf)
 

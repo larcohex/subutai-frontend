@@ -4,18 +4,16 @@ angular.module('subutai.blueprints.controller', [])
 	.controller('BlueprintsViewCtrl', BlueprintsViewCtrl)
 	.controller('CreateBlueprintCtrl', CreateBlueprintCtrl);
 
-BlueprintsViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog', 'ngProgressFactory'];
+BlueprintsViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog', 'cfpLoadingBar'];
 CreateBlueprintCtrl.$inject = ['$scope', 'environmentService', 'ngDialog'];
 
-function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog, ngProgressFactory) {
+function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog, cfpLoadingBar) {
 
 	var vm = this;
 
-	vm.progressbar = ngProgressFactory.createInstance();
-	vm.progressbar.start();
-
+	cfpLoadingBar.start();
 	angular.element(document).ready(function () {
-        vm.progressbar.complete();
+		cfpLoadingBar.complete();
 	});
 
 	vm.blueprints = [];

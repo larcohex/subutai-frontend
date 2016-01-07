@@ -3,17 +3,15 @@
 angular.module('subutai.monitoring.controller', [])
     .controller('MonitoringCtrl', MonitoringCtrl);
 
-MonitoringCtrl.$inject = ['$scope', '$timeout', 'monitoringSrv', 'ngProgressFactory'];
+MonitoringCtrl.$inject = ['$scope', '$timeout', 'monitoringSrv', 'cfpLoadingBar'];
 
-function MonitoringCtrl($scope, $timeout, monitoringSrv, ngProgressFactory) {
+function MonitoringCtrl($scope, $timeout, monitoringSrv, cfpLoadingBar) {
 
     var vm = this;
 
-    vm.progressbar = ngProgressFactory.createInstance();
-    vm.progressbar.start();
-
+    cfpLoadingBar.start();
     angular.element(document).ready(function () {
-        vm.progressbar.complete();
+        cfpLoadingBar.complete();
     });
 
     vm.currentType = 'peer';

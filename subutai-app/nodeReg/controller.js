@@ -3,16 +3,14 @@
 angular.module('subutai.nodeReg.controller', [])
     .controller('NodeRegCtrl', NodeRegCtrl);
 
-NodeRegCtrl.$inject = [ 'nodeRegSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngProgressFactory'];
+NodeRegCtrl.$inject = [ 'nodeRegSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'cfpLoadingBar'];
 
-function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, ngProgressFactory) {
+function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, cfpLoadingBar) {
     var vm = this;
 
-	vm.progressbar = ngProgressFactory.createInstance();
-	vm.progressbar.start();
-
+	cfpLoadingBar.start();
 	angular.element(document).ready(function () {
-		vm.progressbar.complete();
+		cfpLoadingBar.complete();
 	});
 
 	vm.action = 'install';

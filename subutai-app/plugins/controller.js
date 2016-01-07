@@ -3,16 +3,14 @@
 angular.module('subutai.plugins.controller', [])
 	.controller('PluginsCtrl', PluginsCtrl);
 
-PluginsCtrl.$inject = ['PluginsSrv', 'ngProgressFactory'];
-function PluginsCtrl(PluginsSrv, ngProgressFactory) {
+PluginsCtrl.$inject = ['PluginsSrv', 'cfpLoadingBar'];
+function PluginsCtrl(PluginsSrv, cfpLoadingBar) {
 
 	var vm = this;
 
-	vm.progressbar = ngProgressFactory.createInstance();
-	vm.progressbar.start();
-
+	cfpLoadingBar.start();
 	angular.element(document).ready(function () {
-		vm.progressbar.complete();
+		cfpLoadingBar.complete();
 	});
 
 	vm.plugins = [];
