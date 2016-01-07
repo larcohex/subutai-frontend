@@ -3,10 +3,18 @@
 angular.module('subutai.plugins.controller', [])
 	.controller('PluginsCtrl', PluginsCtrl);
 
-PluginsCtrl.$inject = ['PluginsSrv'];
-function PluginsCtrl(PluginsSrv) {
+PluginsCtrl.$inject = ['PluginsSrv', 'ngProgressFactory'];
+function PluginsCtrl(PluginsSrv, ngProgressFactory) {
 
 	var vm = this;
+
+	vm.progressbar = ngProgressFactory.createInstance();
+	vm.progressbar.start();
+
+	angular.element(document).ready(function () {
+		vm.progressbar.complete();
+	});
+
 	vm.plugins = [];
 
 	function getPlugins() {

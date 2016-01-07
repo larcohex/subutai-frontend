@@ -3,11 +3,19 @@
 angular.module('subutai.containers.controller', ['ngTagsInput'])
 	.controller('ContainerViewCtrl', ContainerViewCtrl);
 
-ContainerViewCtrl.$inject = ['$scope', '$rootScope', 'environmentService', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$stateParams', 'ngDialog', '$timeout'];
+ContainerViewCtrl.$inject = ['$scope', '$rootScope', 'environmentService', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$stateParams', 'ngDialog', '$timeout', 'ngProgressFactory'];
 
-function ContainerViewCtrl($scope, $rootScope, environmentService, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, $stateParams, ngDialog, $timeout) {
+function ContainerViewCtrl($scope, $rootScope, environmentService, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, $stateParams, ngDialog, $timeout, ngProgressFactory) {
 
 	var vm = this;
+
+	vm.progressbar = ngProgressFactory.createInstance();
+	vm.progressbar.start();
+
+	angular.element(document).ready(function () {
+		vm.progressbar.complete();
+	});
+
 	vm.environments = [];
 	vm.containers = [];
 	vm.containersType = [];

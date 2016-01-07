@@ -84,29 +84,6 @@ input[type=checkbox] {
     text-decoration: underline;
 }
 
-/*Progress loader page*/
-#nprogress .bar {
-    background: #078DD0;
-    height: 3px;
-    position: absolute;
-    left: 0;
-    top: 57px;
-}
-
-#nprogress .peg {
-    display: none;
-}
-
-#nprogress .spinner {
-    top: 21px;
-    left: 285px;
-    position: absolute;
-}
-
-#nprogress .spinner-icon {
-    border-top-color: #078DD0;
-    border-left-color: #078DD0;
-}
 
 .b-content {
     padding: 15px 30px 0 30px;

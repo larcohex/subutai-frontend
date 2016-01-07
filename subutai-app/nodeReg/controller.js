@@ -1,11 +1,20 @@
 'use strict';
+
 angular.module('subutai.nodeReg.controller', [])
     .controller('NodeRegCtrl', NodeRegCtrl);
 
-NodeRegCtrl.$inject = [ 'nodeRegSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder' ];
+NodeRegCtrl.$inject = [ 'nodeRegSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'ngProgressFactory'];
 
-function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder) {
+function NodeRegCtrl(nodeRegSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, ngProgressFactory) {
     var vm = this;
+
+	vm.progressbar = ngProgressFactory.createInstance();
+	vm.progressbar.start();
+
+	angular.element(document).ready(function () {
+		vm.progressbar.complete();
+	});
+
 	vm.action = 'install';
 	vm.nodes = [];
 

@@ -3,11 +3,19 @@
 angular.module('subutai.monitoring.controller', [])
     .controller('MonitoringCtrl', MonitoringCtrl);
 
-MonitoringCtrl.$inject = ['$scope', 'monitoringSrv'];
+MonitoringCtrl.$inject = ['$scope', '$timeout', 'monitoringSrv', 'ngProgressFactory'];
 
-function MonitoringCtrl($scope, monitoringSrv) {
+function MonitoringCtrl($scope, $timeout, monitoringSrv, ngProgressFactory) {
 
     var vm = this;
+
+    vm.progressbar = ngProgressFactory.createInstance();
+    vm.progressbar.start();
+
+    angular.element(document).ready(function () {
+        vm.progressbar.complete();
+    });
+
     vm.currentType = 'peer';
     vm.charts = [{}, {}, {}, {}];
     vm.environments = [];
@@ -33,23 +41,23 @@ function MonitoringCtrl($scope, monitoringSrv) {
         vm.environments = data;
     });
 
-	monitoringSrv.getResourceHosts().success(function (data) {
-		vm.hosts = data;
-		for(var i = 0; i < vm.hosts.length; i++) {
-			if(vm.hosts[i].hostname == 'management') {
+    monitoringSrv.getResourceHosts().success(function (data) {
+        vm.hosts = data;
+        for (var i = 0; i < vm.hosts.length; i++) {
+            if (vm.hosts[i].hostname == 'management') {
 
-				vm.hosts[i].id = '';
+                vm.hosts[i].id = '';
 
-				var temp = angular.copy(vm.hosts[0]);
-				vm.hosts[0] = angular.copy(vm.hosts[i]);
-				vm.currentHost = vm.hosts[i].id;
-				vm.hosts[i] = temp;
+                var temp = angular.copy(vm.hosts[0]);
+                vm.hosts[0] = angular.copy(vm.hosts[i]);
+                vm.currentHost = vm.hosts[i].id;
+                vm.hosts[i] = temp;
 
-				getServerData();
-				break;
-			}
-		}
-	});
+                getServerData();
+                break;
+            }
+        }
+    });
 
     function setCurrentType(type) {
         vm.containers = [];
@@ -67,22 +75,22 @@ function MonitoringCtrl($scope, monitoringSrv) {
         }
     }
 
-	function getServerData() {
-		if(vm.period > 0) {
-			LOADING_SCREEN();
-			monitoringSrv.getInfo(vm.selectedEnvironment, vm.currentHost, vm.period).success(function (data) {
-				vm.charts = [];
-				for(var i = 0; i < data.metrics.length; i++) {
-					vm.charts.push(getChartData(data.metrics[i]));
-				}
-				//getServerData();
-				LOADING_SCREEN('none');
-			}).error(function(error){
-				console.log(error);
-				LOADING_SCREEN('none');
-			});
-		}
-	}
+    function getServerData() {
+        if (vm.period > 0) {
+            LOADING_SCREEN();
+            monitoringSrv.getInfo(vm.selectedEnvironment, vm.currentHost, vm.period).success(function (data) {
+                vm.charts = [];
+                for (var i = 0; i < data.metrics.length; i++) {
+                    vm.charts.push(getChartData(data.metrics[i]));
+                }
+                //getServerData();
+                LOADING_SCREEN('none');
+            }).error(function (error) {
+                console.log(error);
+                LOADING_SCREEN('none');
+            });
+        }
+    }
 
     vm.onClick = function (points, evt) {
         console.log(points, evt);

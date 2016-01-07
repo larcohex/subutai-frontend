@@ -6,7 +6,7 @@ angular.module('subutai.identity-user.controller', [])
 	.directive('pwCheck', pwCheck)
 	.directive('colSelect', colSelect);	
 
-IdentityUserCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'ngDialog'];
+IdentityUserCtrl.$inject = ['$scope', 'identitySrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'ngDialog', 'ngProgressFactory'];
 IdentityUserFormCtrl.$inject = ['$scope', 'identitySrv', 'ngDialog'];
 
 function userPostData(user) {
@@ -27,9 +27,16 @@ function userPostData(user) {
 	return postData;
 }
 
-function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, ngDialog) {
+function IdentityUserCtrl($scope, identitySrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, ngDialog, ngProgressFactory) {
 
 	var vm = this;
+
+	vm.progressbar = ngProgressFactory.createInstance();
+	vm.progressbar.start();
+
+	angular.element(document).ready(function () {
+		vm.progressbar.complete();
+	});
 
 	//functions
 	vm.userForm = userForm;

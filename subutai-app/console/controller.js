@@ -10,11 +10,19 @@ angular.module('subutai.console.controller', [])
 		//terminalConfigurationProvider.config('vintage').startSoundUrl ='example/content/start.wav';
 	}]);
 
-ConsoleViewCtrl.$inject = ['$scope', 'consoleService', 'peerRegistrationService', '$stateParams', 'ngDialog'];
+ConsoleViewCtrl.$inject = ['$scope', 'consoleService', 'peerRegistrationService', '$stateParams', 'ngDialog', 'ngProgressFactory'];
 
-function ConsoleViewCtrl($scope, consoleService, peerRegistrationService, $stateParams, ngDialog) {
+function ConsoleViewCtrl($scope, consoleService, peerRegistrationService, $stateParams, ngDialog, ngProgressFactory) {
 
-	var vm = this;	
+	var vm = this;
+
+	vm.progressbar = ngProgressFactory.createInstance();
+	vm.progressbar.start();
+
+	angular.element(document).ready(function () {
+		vm.progressbar.complete();
+	});
+
 	vm.currentType = 'peer';
 	vm.activeConsole = false;
 	vm.hosts = [];
