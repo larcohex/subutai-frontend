@@ -1,8 +1,8 @@
-NProgress.start();
-setTimeout(function() {
-	NProgress.done();
-	$('.fade').removeClass('out');
-}, 1000);
+//NProgress.start();
+//setTimeout(function() {
+//	NProgress.done();
+//	$('.fade').removeClass('out');
+//}, 1000);
 
 $(document).ready(function() {
 	$('.b-nav-menu-link').on('click', function(){

@@ -8,10 +8,12 @@ var app = angular.module('subutai-app', [
 		'datatables',
 		'720kb.tooltips',
 		'ngTagsInput',
-		'nvd3'
+		'nvd3',
+		'ngProgress'
 	])
 	.config(routesConf)
 
+	.controller('SubutaiController', SubutaiController)
 	.controller('CurrentUserCtrl', CurrentUserCtrl)
 	.controller('LiveTrackerCtrl', LiveTrackerCtrl)
 	.factory('liveTrackerSrv', liveTrackerSrv)
@@ -45,6 +47,21 @@ function CurrentUserCtrl($location, $rootScope) {
 	});	
 }
 
+function SubutaiController($rootScope) {
+	var vm = this;
+	vm.bodyClass = '';
+
+	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+		vm.layoutType = 'subutai-app/common/layouts/' + toState.data.layout + '.html';
+		if (angular.isDefined(toState.data.bodyClass)) {
+			vm.bodyClass = toState.data.bodyClass;
+			return;
+		}
+
+		vm.bodyClass = '';
+	});
+}
+
 function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 	$urlRouterProvider.otherwise('/404');
@@ -57,6 +74,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('login', {
 			url: '/login',
 			templateUrl: 'subutai-app/login/partials/view.html',
+			data: {
+				bodyClass: 'b-body',
+				layout: 'fullpage'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -75,6 +96,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('home', {
 			url: '/',
 			templateUrl: 'subutai-app/monitoring/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -102,6 +127,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('blueprints', {
 			url: '/blueprints',
 			templateUrl: 'subutai-app/blueprints/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -120,6 +149,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('blueprintsActions', {
 			url: '/blueprints/{blueprintId}/{action}/',
 			templateUrl: 'subutai-app/blueprintsBuild/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -146,6 +179,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('environments', {
 			url: '/environments',
 			templateUrl: 'subutai-app/environment/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -164,6 +201,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('containers', {
 			url: '/containers/{environmentId}',
 			templateUrl: 'subutai-app/containers/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -182,6 +223,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('identity-user', {
 			url: '/identity-user',
 			templateUrl: 'subutai-app/identityUser/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -200,6 +245,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('identity-role', {
 			url: '/identity-role',
 			templateUrl: 'subutai-app/identityRole/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -218,6 +267,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('nodeReg', {
 			url: '/nodeReg',
 			templateUrl: 'subutai-app/nodeReg/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load(
@@ -236,6 +289,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('tracker', {
 			url: '/tracker',
 			templateUrl: 'subutai-app/tracker/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -254,6 +311,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('peer-registration', {
 			url: '/peer-registration',
 			templateUrl: 'subutai-app/peerRegistration/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -272,6 +333,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('tokens', {
 			url: '/tokens',
 			templateUrl: 'subutai-app/tokens/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -290,6 +355,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('console', {
 			url: '/console/{containerId}',
 			templateUrl: 'subutai-app/console/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -313,6 +382,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('plugins', {
 			url: '/plugins',
 			templateUrl: 'subutai-app/plugins/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -331,6 +404,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('cassandra', {
 			url: '/plugins/cassandra',
 			templateUrl: 'plugins/cassandra/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -351,6 +428,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('keshig', {
 			url: '/plugins/keshig',
 			templateUrl: 'plugins/keshig/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -370,6 +451,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('hadoop', {
 			url: '/plugins/hadoop',
 			templateUrl: 'plugins/hadoop/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -389,6 +474,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('solr', {
 			url: '/plugins/solr',
 			templateUrl: 'plugins/solr/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -408,6 +497,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('mahout', {
 			url: '/plugins/mahout',
 			templateUrl: 'plugins/mahout/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -428,6 +521,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('pig', {
 			url: '/plugins/pig',
 			templateUrl: 'plugins/pig/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -448,6 +545,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('hipi', {
 			url: '/plugins/hipi',
 			templateUrl: 'plugins/hipi/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -468,6 +569,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('lucene', {
 			url: '/plugins/lucene',
 			templateUrl: 'plugins/lucene/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -488,6 +593,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('nutch', {
 			url: '/plugins/nutch',
 			templateUrl: 'plugins/nutch/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -508,6 +617,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('elasticsearch', {
 			url: '/plugins/elasticsearch',
 			templateUrl: 'plugins/elasticsearch/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -527,6 +640,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('oozie', {
 			url: '/plugins/oozie',
 			templateUrl: 'plugins/oozie/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -547,6 +664,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('mongo', {
 			url: '/plugins/mongo',
 			templateUrl: 'plugins/mongo/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -567,6 +688,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('hive', {
 			url: '/plugins/hive',
 			templateUrl: 'plugins/hive/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -587,6 +712,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('presto', {
 			url: '/plugins/presto',
 			templateUrl: 'plugins/presto/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -607,6 +736,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('spark', {
 			url: '/plugins/spark',
 			templateUrl: 'plugins/spark/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -627,6 +760,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('storm', {
 			url: '/plugins/storm',
 			templateUrl: 'plugins/storm/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -646,6 +783,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('zookeeper', {
 			url: '/plugins/zookeeper',
 			templateUrl: 'plugins/zookeeper/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -666,6 +807,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('flume', {
 			url: '/plugins/flume',
 			templateUrl: 'plugins/flume/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -686,6 +831,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('accumulo', {
 			url: '/plugins/accumulo',
 			templateUrl: 'plugins/accumulo/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -707,6 +856,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('shark', {
 			url: '/plugins/shark',
 			templateUrl: 'plugins/shark/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -728,6 +881,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('hbase', {
 			url: '/plugins/hbase',
 			templateUrl: 'plugins/hbase/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -748,6 +905,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('generic', {
 			url: '/plugins/generic',
 			templateUrl: 'plugins/generic/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([

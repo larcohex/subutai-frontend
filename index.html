@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="subutai-app">
+<html ng-app="subutai-app" ng-controller="SubutaiController as subutaiController">
 
 <head>
     <meta charset="utf-8">
@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="css/libs/vtortola.ng-terminal.css">
 	<link rel="stylesheet" href="css/libs/ng-tags-input.min.css">
 	<link rel="stylesheet" href="css/libs/nv.d3.css">
+	<link rel="stylesheet" href="css/libs/ngProgress.css">
 	<!--CSS-->
 
 	<link rel="stylesheet" href="css/style.css"/>
@@ -27,55 +28,8 @@
     <!-- END DIRS -->
 </head>
 
-<body>
-
-<header class="b-header">
-	<div class="b-header__logo b-header__logo_left">
-		<div class="b-header-logo">
-			<a href="/">
-				<img src="assets/elements/logo.svg" alt="" height="30px"/>
-			</a>
-		</div>
-	</div>
-	<div class="b-header__userbar b-header__userbar_right" ng-controller="CurrentUserCtrl as currentUserCtrl">
-		<div class="b-header-userbar">
-			<div class="b-header-userbar__name">
-				<a href ng-click="currentUserCtrl.logout()" 
-					class="b-header-userbar-name" 
-					ng-if="currentUserCtrl.currentUser">
-					{{ currentUserCtrl.currentUser }} / Logout
-				</a>
-				<a href ui-sref="login" 
-					class="b-header-userbar-name" 
-					ng-if="!currentUserCtrl.currentUser">
-					Login
-				</a>
-			</div>
-			<div class="b-header-userbar__avatar">
-				<img src="" alt="" class="b-header-userbar-avatar"
-				onerror="this.onerror=null;this.src='assets/elements/avatar-empty.svg';"/>
-			</div>
-		</div>
-	</div>
-</header>
-
-<div class="b-content">
-
-    <div ng-include="'subutai-app/common/partials/nav-menu.html'"></div>
-
-	<div class="b-workspace">
-		<div class="b-loading-screen js-loading-screen">
-			<div class="b-load-icon"></div>
-		</div>
-
-		<div ui-view></div>
-		
-	</div>
-
-	<div class="clear"></div>
-</div>
-
-<div ng-include="'subutai-app/live-tracker/partials/view.html'"></div>
+<body class="{{ subutaiController.bodyClass }}">
+<ng-include src="subutaiController.layoutType"></ng-include>
 
 <!-- BASE -->
 <script src="assets/js/jquery/jquery-2.1.1.min.js"></script>
@@ -101,6 +55,7 @@
 <script src="assets/js/plugins/ng-tags-input.min.js"></script>
 <script src="assets/js/plugins/angular-nvd3.min.js"></script>
 <script src="assets/js/plugins/nv.d3.min.js"></script>
+<script src="assets/js/plugins/ngprogress.min.js"></script>
 
 <script src="subutai-app/live-tracker/service.js"></script>
 <script src="subutai-app/live-tracker/controller.js"></script>
