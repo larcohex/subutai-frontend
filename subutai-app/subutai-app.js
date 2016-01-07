@@ -11,7 +11,11 @@ var app = angular.module('subutai-app', [
 		'nvd3'
 	])
 	.config(routesConf)
+
 	.controller('CurrentUserCtrl', CurrentUserCtrl)
+	.controller('LiveTrackerCtrl', LiveTrackerCtrl)
+	.factory('liveTrackerSrv', liveTrackerSrv)
+
 	.run(startup);
 
 CurrentUserCtrl.$inject = ['$location', '$rootScope'];
@@ -28,7 +32,8 @@ function CurrentUserCtrl($location, $rootScope) {
 	function logout() {
 		removeCookie('sptoken');
 		sessionStorage.removeItem('currentUser');
-		$location.path('login');
+		//$location.path('login');
+		window.location.href = '/login-page.html';
 	}
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
@@ -776,7 +781,8 @@ function startup($rootScope, $state, $location, $http) {
 		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
 		if (restrictedPage && !getCookie('sptoken')) {
 			sessionStorage.removeItem('currentUser');
-			$location.path('/login');
+			//$location.path('/login');
+			window.location.href = '/login-page.html';
 		}
 	});
 	$http.defaults.headers.common['sptoken'] = getCookie('sptoken');*/
