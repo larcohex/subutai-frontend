@@ -22,6 +22,10 @@ body {
     background-color: #f0f0f0;
     position: relative;
 }
+input[type=checkbox] {
+    margin: 0;
+    vertical-align: middle;
+}
 
 .clear {
     clear: both;
@@ -177,7 +181,7 @@ body {
     -moz-transition: all .4s ease-in-out;
     -o-transition: all .4s ease-in-out;
     -ms-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
+    transition: all .4s ease-in-gout;
     cursor: pointer;
 }
 
@@ -1921,3 +1925,29 @@ td.b-main-table__status-col {
 	font-weight: bold;
 }
 
+.b-login__form_error {
+    text-align: center;
+    width: auto;
+    margin-top: -96px;
+}
+.b-error_h1 {
+    margin: 0;
+    font-size: 90px;
+    font-weight: 700;
+    color: #04346e;
+    line-height: 90px;
+}
+.b-error-h2 {
+    margin: 0 0 15px;;
+    font-size: 23px;
+    font-weight: 400;
+    color: #04346e;
+    line-height: 23px;
+}
+.b-error-h3 {
+    margin: 0 0 25px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #5a5a5a;
+    line-height: 13px;
+}
