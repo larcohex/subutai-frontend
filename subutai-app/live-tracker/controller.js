@@ -13,6 +13,7 @@ function LiveTrackerCtrl(liveTrackerSrv, $scope, $rootScope, $timeout) {
 	vm.endDate = new Date("2015-12-31");
 
 	liveTrackerSrv.getModules().success(function (data) {
+		console.log(data);
 		vm.modules = data;
 	});
 

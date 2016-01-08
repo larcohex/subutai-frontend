@@ -62,9 +62,7 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 
 	/*function reloadTableData() {
 		vm.refreshTable = $timeout(function myFunction() {
-			//console.log(vm.dtInstance);
-			if(vm.dtInstance !== undefined) {
-				console.log('good');
+			if(typeof(vm.dtInstance.reloadData) == 'function') {
 				vm.dtInstance.reloadData(null, false);
 			}
 			vm.refreshTable = $timeout(reloadTableData, 3000);

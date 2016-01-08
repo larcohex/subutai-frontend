@@ -32,7 +32,7 @@
   transition: width 350ms;
 
   background: #078DD0;
-  position: fixed;
+  position: absolute;
   z-index: 10002;
   top: 57px;
   left: 0;

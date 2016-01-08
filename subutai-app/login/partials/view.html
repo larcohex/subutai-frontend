@@ -11,6 +11,9 @@
 
 			<div class="b-workspace__content" ng-controller="LoginCtrl as loginCtrl">
 				<div class="b-form">
+					<div class="b-form__error-message" ng-if="loginCtrl.errorMessage">
+						{{ loginCtrl.errorMessage }}
+					</div>
 					<form ng-submit="loginCtrl.login()">
 						<div class="b-form__wrapper b-form__wrapper_margin-bottom">
 							<label class="b-form-label">Username</label>

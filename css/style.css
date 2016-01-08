@@ -920,7 +920,7 @@ input[type=checkbox] {
     width: 100%;
 }
 
-.b-popup-body-checkbox {
+input.b-popup-body-checkbox {
     margin: 9px 0 0 0;
     float: right;
 }
@@ -1270,6 +1270,14 @@ td.b-main-table__status-col {
     padding: 15px;
     border-radius: 5px;
     overflow: hidden;
+}
+
+.b-form__error-message {
+	padding: 15px;
+	background-color: #f2dede;
+	border-radius: 5px;
+	font-size: 14px;
+	margin-bottom: 10px;
 }
 
 .b-form_border_tabs,
