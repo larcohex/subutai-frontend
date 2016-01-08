@@ -13,8 +13,8 @@
 			});
 
 			var h = $('#js-resize-line');
+			var windowHeight = $(window).height() - 2;
 			var liveTrackerBlock = $('.b-live-tracker');
-			var w = $('body').height() - 2;
 
 			var isDragging = false;
 
@@ -24,10 +24,12 @@
 			});
 			$(document).mouseup(function(){
 				isDragging = false;
+				$('body').css({cursor: 'default'});
 			}).mousemove(function(e){
 				if(isDragging){
-					var newHeight = w - e.pageY;
+					var newHeight = windowHeight - e.clientY;
 					liveTrackerBlock.css('height', newHeight);
+					$('body').css({cursor: 'n-resize'});
 				}
 			});
 		});
