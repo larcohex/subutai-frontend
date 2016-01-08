@@ -4,12 +4,18 @@ angular.module('subutai.blueprints.controller', [])
 	.controller('BlueprintsViewCtrl', BlueprintsViewCtrl)
 	.controller('CreateBlueprintCtrl', CreateBlueprintCtrl);
 
-BlueprintsViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog'];
+BlueprintsViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog', 'cfpLoadingBar'];
 CreateBlueprintCtrl.$inject = ['$scope', 'environmentService', 'ngDialog'];
 
-function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
+function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog, cfpLoadingBar) {
 
 	var vm = this;
+
+	cfpLoadingBar.start();
+	angular.element(document).ready(function () {
+		cfpLoadingBar.complete();
+	});
+
 	vm.blueprints = [];
 	vm.hasEnvironments = false;
 
@@ -150,7 +156,7 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog) {
 }
 
 function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
-	
+
 	var vm = this;
 
 	vm.actionName = "Create";
@@ -158,7 +164,7 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 
 	vm.blueprintFrom = {};
 	vm.blueprintFrom.currentNode = getDefaultValues();
-	vm.nodeList = [];	
+	vm.nodeList = [];
 	vm.templates = [];
 	vm.containersType = [];
 
@@ -188,7 +194,7 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 	}
 
 	vm.nodeStatus = 'Add to';
-	vm.addBlueprintType = 'build';	
+	vm.addBlueprintType = 'build';
 
 	//functions
 	vm.addBlueprint = addBlueprint;
@@ -225,7 +231,7 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
 	function setNodeData(key) {
 		vm.nodeStatus = 'Update in';
 		vm.blueprintFrom.currentNode = vm.nodeList[key];
-	}	
+	}
 
 	function addBlueprint() {
 		if(vm.blueprintFrom.name === undefined) return;

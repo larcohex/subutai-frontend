@@ -9,7 +9,7 @@ var app = angular.module('subutai-app', [
 		'720kb.tooltips',
 		'ngTagsInput',
 		'nvd3',
-		'ngProgress'
+		'cfp.loadingBar'
 	])
 	.config(routesConf)
 
@@ -22,6 +22,7 @@ var app = angular.module('subutai-app', [
 
 CurrentUserCtrl.$inject = ['$location', '$rootScope'];
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
+startup.$inject = ['$rootScope', '$state', '$location', '$http'];
 startup.$inject = ['$rootScope', '$state', '$location', '$http'];
 
 function CurrentUserCtrl($location, $rootScope) {
@@ -929,7 +930,11 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		})
 		.state('404', {
 			url: '/404',
-			template: 'Not found'
+			templateUrl: 'subutai-app/common/partials/404.html',
+			data: {
+				bodyClass: 'b-body',
+				layout: 'fullpage'
+			}
 		})
 }
 

@@ -84,29 +84,6 @@ input[type=checkbox] {
     text-decoration: underline;
 }
 
-/*Progress loader page*/
-#nprogress .bar {
-    background: #078DD0;
-    height: 3px;
-    position: absolute;
-    left: 0;
-    top: 57px;
-}
-
-#nprogress .peg {
-    display: none;
-}
-
-#nprogress .spinner {
-    top: 21px;
-    left: 285px;
-    position: absolute;
-}
-
-#nprogress .spinner-icon {
-    border-top-color: #078DD0;
-    border-left-color: #078DD0;
-}
 
 .b-content {
     padding: 15px 30px 0 30px;
@@ -1955,8 +1932,7 @@ td.b-main-table__status-col {
 .b-live-tracker-tabs__item {
 	display: inline-block;
 	line-height: 30px;
-	padding: 0 20px 0 0;
-	margin: 0 0 0 0;
+	margin: 0 20px 0 0;
 	font-size: 12px;
 	color: #19286e;
 	font-weight: 500;
