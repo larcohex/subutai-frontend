@@ -931,7 +931,11 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		})
 		.state('404', {
 			url: '/404',
-			template: 'Not found'
+			templateUrl: 'subutai-app/common/partials/404.html',
+			data: {
+				bodyClass: 'b-body',
+				layout: 'fullpage'
+			}
 		})
 }
 
