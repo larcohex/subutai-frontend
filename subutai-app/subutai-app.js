@@ -34,8 +34,7 @@ function CurrentUserCtrl($location, $rootScope) {
 	function logout() {
 		removeCookie('sptoken');
 		sessionStorage.removeItem('currentUser');
-		//$location.path('login');
-		window.location.href = '/login-page.html';
+		$location.path('login');
 	}
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
@@ -942,8 +941,7 @@ function startup($rootScope, $state, $location, $http) {
 		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
 		if (restrictedPage && !getCookie('sptoken')) {
 			sessionStorage.removeItem('currentUser');
-			//$location.path('/login');
-			window.location.href = '/login-page.html';
+			$location.path('/login');
 		}
 	});
 	$http.defaults.headers.common['sptoken'] = getCookie('sptoken');*/
