@@ -3,32 +3,49 @@
 		$(document).ready(function(){
 			$('#js-show-tracker').click(function(){
 				if($('.b-live-tracker').hasClass('b-live-tracker_open')) {
-					$('.b-live-tracker').stop().animate({'bottom': '-20%'}, 300);
+					var trackerHeight = $('.b-live-tracker').height();
+					$('.b-live-tracker').stop().animate({'bottom': -trackerHeight + 'px'}, 300);
 					$('.b-live-tracker').removeClass('b-live-tracker_open');
 				} else {
 					$('.b-live-tracker').stop().animate({'bottom': 0}, 300);
 					$('.b-live-tracker').addClass('b-live-tracker_open');
 				}
 			});
+
+			var h = $('#js-resize-line');
+			var liveTrackerBlock = $('.b-live-tracker');
+			var w = $('body').height() - 2;
+
+			var isDragging = false;
+
+			h.mousedown(function(e){
+				isDragging = true;
+				e.preventDefault();
+			});
+			$(document).mouseup(function(){
+				isDragging = false;
+			}).mousemove(function(e){
+				if(isDragging){
+					var newHeight = w - e.pageY;
+					liveTrackerBlock.css('height', newHeight);
+				}
+			});
 		});
 	</script>
+	<!--<div class="b-live-tracker" ng-if="liveTrackerCtrl.modules.lenght > 0">-->
 	<div class="b-live-tracker">
 		<div class="b-live-tracker__icon" id="js-show-tracker">
 			<span class="b-icon b-icon_settings"></span>
 		</div>
 		<div class="b-live-tracker__tabs">
+			<div class="b-resize-line" id="js-resize-line"></div>
 			<ul class="b-live-tracker-tabs">
 				<li class="b-live-tracker-tabs__item b-live-tracker-tabs__item_active">
 					Test option
-				</li>
-				<li class="b-live-tracker-tabs__item">
-					Test option
-				</li>
-				<li class="b-live-tracker-tabs__item">
-					Test option
-				</li>
-				<li class="b-live-tracker-tabs__item">
-					Test option
+				</li>				
+				<li class="b-live-tracker-tabs__item" 
+					ng-repeat="module in liveTrackerCtrl.modules" value="{{ module }}">
+					{{ module }}
 				</li>
 			</ul>
 		</div>
