@@ -28,7 +28,9 @@
 			}).mousemove(function(e){
 				if(isDragging){
 					var newHeight = windowHeight - e.clientY;
-					liveTrackerBlock.css('height', newHeight);
+					if(newHeight <= (windowHeight - 28)) {
+						liveTrackerBlock.css('height', newHeight);
+					}
 					$('body').css({cursor: 'n-resize'});
 				}
 			});
