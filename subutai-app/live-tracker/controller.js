@@ -36,8 +36,8 @@ function LiveTrackerCtrl(liveTrackerSrv, $scope, $rootScope, $timeout, $sce) {
 			if(vm.selectedModule) {
 				loadOperations();
 			}
-			refreshCurrentOperations = $timeout(reloadCurrentOperations, 5000);
-		}, 5000);
+			refreshCurrentOperations = $timeout(reloadCurrentOperations, 3000);
+		}, 3000);
 	};
 	reloadCurrentOperations();
 
@@ -69,8 +69,8 @@ function LiveTrackerCtrl(liveTrackerSrv, $scope, $rootScope, $timeout, $sce) {
 			if(vm.currentOperattion) {
 				getLogs(vm.currentOperattion);
 			}
-			refreshCurrentLog = $timeout(reloadCurrentLog, 3000);
-		}, 3000);
+			refreshCurrentLog = $timeout(reloadCurrentLog, 1000);
+		}, 1000);
 	};
 	reloadCurrentLog();
 
