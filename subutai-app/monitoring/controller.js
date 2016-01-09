@@ -79,9 +79,10 @@ function MonitoringCtrl($scope, $timeout, monitoringSrv, cfpLoadingBar) {
             monitoringSrv.getInfo(vm.selectedEnvironment, vm.currentHost, vm.period).success(function (data) {
                 vm.charts = [];
                 for (var i = 0; i < data.metrics.length; i++) {
-                    vm.charts.push(getChartData(data.metrics[i]));
+                    angular.equals(data.metrics[i], {}) ?
+                        vm.charts.push({data: [], name: "NO DATA"}) :
+                        vm.charts.push(getChartData(data.metrics[i]));
                 }
-                //getServerData();
                 LOADING_SCREEN('none');
             }).error(function (error) {
                 console.log(error);
@@ -169,12 +170,12 @@ function MonitoringCtrl($scope, $timeout, monitoringSrv, cfpLoadingBar) {
 
         /** Calculate amount of incomplete data received form rest **/
         start = moment(obj.series[0].values[0][0]);
-        end = moment(obj.series[0].values[obj.series[0].values.length - 1][0]);
+        end = moment(getEndDate(obj));
         duration = moment.duration(end.diff(start)).asMinutes();
         diff = vm.period * 60 - duration;
         leftLimit = moment(obj.series[0].values[0][0]).subtract(diff, 'minutes');
 
-        /** Generate stub values if data is incomplete **/
+        /** Generate stub values if data is incomplete at the begining **/
         if (diff > 0) {
             var startPoint = moment(obj.series[0].values[0][0]);
             while (startPoint.subtract(1, "minutes") >= leftLimit) {
@@ -182,6 +183,20 @@ function MonitoringCtrl($scope, $timeout, monitoringSrv, cfpLoadingBar) {
                     x: startPoint.valueOf(),
                     y: 0
                 });
+            }
+        }
+
+        /** Generate stub values if data is incomplete at the end **/
+        for(var item in series) {
+            if(moment(series[item].values[series[item].values.length - 1][0]).valueOf() < moment(getEndDate(obj)).valueOf()) {
+                var from = moment(series[item].values[series[item].values.length - 1][0]);
+                var to = moment(getEndDate(obj)).valueOf();
+
+                from.add(1, "minutes");
+                while(from.valueOf() <= to) {
+                    series[item].values.push([from.valueOf(), 0]);
+                    from.add(1, "minutes");
+                }
             }
         }
 
@@ -394,6 +409,19 @@ function MonitoringCtrl($scope, $timeout, monitoringSrv, cfpLoadingBar) {
             dataMap[data[index].x] = data[index].y;
         }
         return dataMap;
+    }
+
+    /** Get max timestamp of series **/
+    function getEndDate(data) {
+        var maxValue = 0;
+        for (var serie in data.series) {
+            if(moment(data.series[serie].values[data.series[serie].values.length - 1][0]).valueOf() > maxValue) {
+                maxValue = moment(data.series[serie].values[data.series[serie].values.length - 1][0]).valueOf();
+            } else {
+                continue;
+            }
+        }
+        return maxValue;
     }
 };
 
