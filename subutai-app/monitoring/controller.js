@@ -309,7 +309,7 @@ function MonitoringCtrl($scope, $timeout, monitoringSrv, cfpLoadingBar) {
                 }
                 chartSerie.values.push({
                     x: moment(values[value].x).valueOf(),
-                    y: (values[value].y / unitCoefficient).toFixed(2)
+                    y: values[value].y == undefined ? 0 : parseFloat((values[value].y / unitCoefficient).toFixed(2))
                 });
             }
             chartSeries.data.push(chartSerie);
