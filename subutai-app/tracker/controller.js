@@ -80,7 +80,10 @@ function TrackerCtrl(trackerSrv, $scope, $rootScope, DTOptionsBuilder, DTColumnB
 	}
 
 	function loadOperations() {
-		vm.dtInstance.reloadData(null, false);
+		var logsDates = getDateInStringFormat();
+		if(logsDates) {
+			vm.dtInstance.reloadData(null, false);
+		}
 	}
 
 	function viewLogs(id) {
@@ -94,8 +97,8 @@ function TrackerCtrl(trackerSrv, $scope, $rootScope, DTOptionsBuilder, DTColumnB
 
 	function getDateInStringFormat() {
 		var result = {};
-		if(vm.startDate === null) return;
-		if(vm.endDate === null) return;
+		if(vm.startDate === null || isNaN(Date.parse(vm.startDate))) return;
+		if(vm.endDate === null || isNaN(Date.parse(vm.endDate))) return;
 
 		result.startDateString = vm.startDate.getFullYear() + '-' 
 			+ vm.startDate.getMonthFormatted() + '-' 
