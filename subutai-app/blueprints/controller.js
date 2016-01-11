@@ -173,7 +173,7 @@ function CreateBlueprintCtrl($scope, environmentService, ngDialog, SweetAlert) {
 			vm.templates = data;
 		})
 		.error(function (data) {
-			VARS_MODAL_ERROR( SweetAlert, data );
+			VARS_MODAL_ERROR( SweetAlert, 'Error on getting templates ' + data );
 		});
 
 	environmentService.getContainersType()
