@@ -49,7 +49,7 @@
 					<td class="b-main-table__container-status">
 						<div
 							tooltips 
-							tooltip-title="{{ sparkCtrl.currentCluster.server.status }}"
+							tooltip-template="{{ sparkCtrl.currentCluster.server.status }}"
 							class="b-status-icon b-status-icon_{{ sparkCtrl.currentCluster.server.status }}"
 						>
 						</div>
@@ -108,7 +108,7 @@
 						<td class="b-main-table__container-status">
 							<div 
 								tooltips 
-								tooltip-title="{{ clusterNode.status }}" 
+								tooltip-template="{{ clusterNode.status }}" 
 								class="b-status-icon b-status-icon_{{ clusterNode.status }}" 
 								title="{{ clusterNode.status }}">
 							</div>

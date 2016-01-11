@@ -45,7 +45,14 @@
 						ng-model="cbl.blueprintFrom.currentNode.numberOfContainers" required>
 					<div class="clear"></div>
 				</div>
-				<div class="popup-body-box">
+				<div class="popup-body-box"
+					tooltips 
+					tooltip-template='
+						<span class="b-nowrap">Containers can ssh into each other</span><br>
+						<span class="b-nowrap">Similar id applies to all of the containers across these groups</span>
+					' 
+					tooltip-smart="true" 
+				>
 					<label class="b-popup-body-label">Enter SSH Group ID </label>
 					<input type="number" 
 						id="subt-input__blueprint-ssh-group-id" 
@@ -53,7 +60,14 @@
 						ng-model="cbl.blueprintFrom.currentNode.sshGroupId" required>
 					<div class="clear"></div>
 				</div>
-				<div class="popup-body-box">
+				<div class="popup-body-box"
+					tooltips 
+					tooltip-template='
+						<span class="b-nowrap">Container can address each other by hostname</span><br>
+						<span class="b-nowrap">Similar id applies to all of the containers across these groups</span>
+					' 
+					tooltip-smart="true" 
+				>
 					<label class="b-popup-body-label">Enter host Group ID </label>
 					<input type="number" 
 						id="subt-input__blueprint-host-group-id" 

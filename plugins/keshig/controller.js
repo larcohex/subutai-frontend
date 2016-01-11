@@ -283,7 +283,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function optionStatusIcon(data, type, full, meta) {
-		return '<div style="width: 100%; text-align: center;"><div class="b-status-icon b-status-icon_' + data + '" tooltips tooltip-title="' + data + '"></div></div>';
+		return '<div style="width: 100%; text-align: center;"><div class="b-status-icon b-status-icon_' + data + '" tooltips tooltip-template="' + data + '"></div></div>';
 	}
 
 	function runOptionButton(data, type, full, meta) {
