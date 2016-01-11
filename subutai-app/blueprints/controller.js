@@ -5,7 +5,7 @@ angular.module('subutai.blueprints.controller', [])
 	.controller('CreateBlueprintCtrl', CreateBlueprintCtrl);
 
 BlueprintsViewCtrl.$inject = ['$scope', 'environmentService', 'SweetAlert', 'ngDialog', 'cfpLoadingBar'];
-CreateBlueprintCtrl.$inject = ['$scope', 'environmentService', 'ngDialog'];
+CreateBlueprintCtrl.$inject = ['$scope', 'environmentService', 'ngDialog', 'SweetAlert'];
 
 function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog, cfpLoadingBar) {
 
@@ -155,7 +155,7 @@ function BlueprintsViewCtrl($scope, environmentService, SweetAlert, ngDialog, cf
 	}
 }
 
-function CreateBlueprintCtrl($scope, environmentService, ngDialog) {
+function CreateBlueprintCtrl($scope, environmentService, ngDialog, SweetAlert) {
 
 	var vm = this;
 
