@@ -16,7 +16,9 @@
 
 tooltip {
   display: inline-block;
-  position: relative; }
+  position: relative;
+  font-size: 14px;
+}
 
 @-webkit-keyframes animate-tooltip {
   0% {
@@ -88,7 +90,8 @@ tooltip {
     position: absolute;
     text-align: center;
     width: auto;
-    will-change: top, left, bottom, right; }
+    /*will-change: top, left, bottom, right;*/
+  }
     tooltip tip._hidden {
       display: block;
       visibility: hidden; }
