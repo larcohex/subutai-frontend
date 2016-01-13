@@ -35,6 +35,9 @@ function keshigSrv($http) {
 		getPlaybooks: getPlaybooks,
 		updateOption : updateOption,
 
+		exportBuild : exportBuild,
+		getTPR : getTPR,
+
 
 		getServersUrl : function(){ return SERVERS_URL; },
 		getOptionsUrl : function(){ return OPTIONS_URL; },
@@ -50,6 +53,18 @@ function keshigSrv($http) {
 
 	function getBuilds() {
 		return $http.get(BASE_URL + 'build', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function exportBuild(build) {
+		return $http.get(BASE_URL + 'export/' + build.serverId + '/' + build.buildName + '/start', {
+			withCredentials: true
+		});
+	}
+
+	function getTPR(serverId) {
+		return $http.get(BASE_URL + 'tpr/' + serverId, {
+			withCredentials: true
+		});
 	}
 
 	function getPlaybooks() {
@@ -151,8 +166,8 @@ function keshigSrv($http) {
 		});
 	}
 
-	function startOption(type, optionName) {
-		return $http.get(OPTIONS_URL + type.toLowerCase() + '/' + optionName + '/' + 'start', {
+	function startOption(type, optionName, server) {
+		return $http.get(OPTIONS_URL + type.toLowerCase() + '/' + optionName + '/' + 'start/' + server, {
 			withCredentials: true
 		});
 	}

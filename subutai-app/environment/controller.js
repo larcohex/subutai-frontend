@@ -342,17 +342,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 				}
 			}
 		}
-		/*var containersHTML = '';
-		for(var i = 0; i < data.containers.length; i++) {
-			var tooltipContent = 'IP: <b>' + data.containers[i].ip + '</b><br> Quota: <div class="b-quota-type-round b-quota-type-round_' + quotaColors[data.containers[i].type] + '"></div> <b>' + data.containers[i].type + '</b><br>State: <b>' + data.containers[i].state + '</b>';
-			containersHTML += '<span '
-				+ ' class="b-tags b-tags_' + quotaColors[data.containers[i].type] + '" '
-				+ 'tooltips tooltip-content=\'' + tooltipContent + '\' '
-				+ '>'
-				+ '<a ui-sref="containers({environmentId:\'' + data.id + '\'})">' + data.containers[i].templateName + '</a>'
-				+ ' <a href ng-click="environmentViewCtrl.destroyContainer(\'' + data.containers[i].id + '\')"><i class="fa fa-times"></i></a>'
-			+ '</span>';
-		}*/
+
 		return containersHTML;
 	}
 
@@ -584,3 +574,4 @@ function fileModel($parse) {
 		}
 	};
 }
+

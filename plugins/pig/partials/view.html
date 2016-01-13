@@ -1,61 +1,34 @@
-<div ng-include="'subutai-app/plugins/partials/top.html'"></div>
+<div ng-controller="PigCtrl as pigCtrl">
 
-<div ng-controller="pigCtrl as pigCtrl"  class="ibox float-e-margins animated fadeInLeft">
-    <label>
-        Enter cluster name
-        </br>
-        <input type="text" name="userName" ng-model="pigCtrl.cluster.name" required>
-    </label>
-    <label>
-        Enter domain name
-        </br>
-        <input type="text" name="userName" ng-model="pigCtrl.domain.name" required>
-    </label>
-    <label>
-        Data directory
-        </br>
-        <input type="text" name="userName" ng-model="pigCtrl.data.directory" required>
-    </label>
-    <label>
-        Commit log directory
-        </br>
-        <input type="text" name="userName" ng-model="pigCtrl.commit.directory" required>
-    </label>
-    <label>
-        Saved caches directory
-        </br>
-        <input type="text" name="userName" ng-model="pigCtrl.saved.cash.directory" required>
-    </label>
-    <label>
-        Choose environment
-        </br>
-        <input type="text" name="userName" ng-model="pigCtrl.environment" required>
-    </label>
-    <div>
-        <select class="v-select-twincol-options" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
-        <button tabindex="0" role="button" class="btn btn-primary"><span class="v-button-wrap"><span class="v-button-caption">&lt;&lt;</span></span></button>
-        <button class="btn btn-primary">&gt;&gt;</button>
-        <select class="v-select-twincol-selections" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
-        <select class="v-select-twincol-options" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
-        <button tabindex="0" role="button" class="btn btn-primary"><span class="v-button-wrap"><span class="v-button-caption">&lt;&lt;</span></span></button>
-        <button class="btn btn-primary">&gt;&gt;</button>
-        <select class="v-select-twincol-selections" size="4" multiple="" tabindex="0" style="width: 521px;"></select>
-    </div>
-    <div>
-        <button  ng-click="pigCtrl.do()" class="btn btn-primary" >
-            next
-        </button>
-        <button  ng-click="pigCtrl.do()" class="btn btn-primary" >
-        back
-    </button>
-        <div>
-            <div ng-repeat="row in pigCtrl.rows">
+	<div class="b-workspace__header">
+		<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Pig</span></h1>
+	</div>
 
-                <input type="text" placeholder="{{row.fnPlaceholder}}" ng-model="row.question">
-                <input ng-class="{'blockInput': !row.pick}" placeholder="{{row.lnPlaceholder}}" type="text" ng-model="  row.text">
-                <button class="btn btn-primary" ng-click="pigCtrl.removeRow($index)">Remove</button>
+	<div class="b-workspace__content">
+		<div class="b-tabs-menu">
+			<ul>
+				<li class="b-tabs-menu__item" 
+				ng-click="pigCtrl.activeTab = 'install'" 
+				ng-class="pigCtrl.activeTab == 'install' ? 'b-tabs-menu__item_active' : ''">
+					Install
+				</li>
+				<li class="b-tabs-menu__item" 
+				ng-click="pigCtrl.activeTab = 'manage'" 
+				ng-class="pigCtrl.activeTab == 'manage' ? 'b-tabs-menu__item_active' : ''">
+					Manage
+				</li>
+			</ul>
+		</div>
+		<div 
+			ng-if="pigCtrl.activeTab == 'install'" 
+			ng-include="'plugins/pig/partials/install.html'">
+		</div>
 
-            </div>
-        </div>
-    </div>
+		<div 
+			ng-if="pigCtrl.activeTab == 'manage'" 
+			ng-include="'plugins/pig/partials/manage.html'">
+		</div>
+
+	</div>
+
 </div>

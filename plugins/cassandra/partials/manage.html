@@ -34,6 +34,8 @@
 				</label>
 			</div>
 		</div>
+	</div>
+	<div class="b-data-table">
 
 		<div class="b-workspace-content__row">
 			<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
@@ -45,42 +47,48 @@
 				<a href ng-click="cassandraCtrl.startNodes()" class="b-btn b-btn_green">Start</a>
 				<a href ng-click="cassandraCtrl.stopNodes()" class="b-btn b-btn_red">Stop</a>
 			</div>
-		</div>
-	</div>
-	<div class="b-main-table-border">
-		<table class="b-main-table b-main-table_with-header">
-			<tr>
-				<th><input type="checkbox"></th>
-				<th>Host</th>
-				<th>IP List</th>
-				<th>Node role</th>
-				<th>Status</th>
-				<th></th>
-			</tr>
-			<tr ng-repeat="clusterNode in cassandraCtrl.currentCluster.containers">
-				<td class="b-main-table__edit-icon">
-					<input type="checkbox" ng-click="cassandraCtrl.pushNode(clusterNode)">
-				</td>
-				<td>{{ clusterNode }}</td>
-				<td>{{ cassandraCtrl.currentCluster.containersStatuses[clusterNode].ip }}</td>
-				<td>
-					<span ng-if="cassandraCtrl.currentCluster.seeds.indexOf(clusterNode) >= 0">
-						Seed+Data
-					</span>
-					<span ng-if="cassandraCtrl.currentCluster.seeds.indexOf(clusterNode) == -1">
-						Data
-					</span>
-				</td>
-				<td class="b-main-table__container-status">
-					<div 
-						class="b-status-icon b-status-icon_{{ cassandraCtrl.currentCluster.containersStatuses[clusterNode].status }}" 
-						title="{{ cassandraCtrl.currentCluster.containersStatuses[clusterNode].status }}">
-					</div>
-				</td>
-				<td>
-					<a href ng-click="cassandraCtrl.deleteNode(clusterNode)" class="b-icon b-icon_remove"></a>
-				</td>
-			</tr>
+		</div>		
+
+		<table datatable="ng" 
+			dt-options="hadoopCtrl.dtOptions" 
+			dt-column-defs="hadoopCtrl.dtColumnDefs" 
+			class="row-border hover">
+			<thead>
+				<tr>
+					<th><input type="checkbox" onClick="toggle(this, 'cassandraChk')" ng-click = "cassandraCtrl.pushAll()"></th>
+					<th>Host</th>
+					<th>IP List</th>
+					<th>Node role</th>
+					<th>Status</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="clusterNode in cassandraCtrl.currentCluster.containers">
+					<td class="b-main-table__edit-icon">
+						<input name = "cassandraChk" type="checkbox" ng-click="cassandraCtrl.pushNode(clusterNode)">
+					</td>
+					<td>{{ clusterNode }}</td>
+					<td>{{ cassandraCtrl.currentCluster.containersStatuses[clusterNode].ip }}</td>
+					<td>
+						<span ng-if="cassandraCtrl.currentCluster.seeds.indexOf(clusterNode) >= 0">
+							Seed+Data
+						</span>
+						<span ng-if="cassandraCtrl.currentCluster.seeds.indexOf(clusterNode) == -1">
+							Data
+						</span>
+					</td>
+					<td class="b-main-table__container-status">
+						<div 
+							class="b-status-icon b-status-icon_{{ cassandraCtrl.currentCluster.containersStatuses[clusterNode].status }}" 
+							title="{{ cassandraCtrl.currentCluster.containersStatuses[clusterNode].status }}">
+						</div>
+					</td>
+					<td>
+						<a href ng-click="cassandraCtrl.deleteNode(clusterNode)" class="b-icon b-icon_remove"></a>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </div>

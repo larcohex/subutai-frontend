@@ -72,6 +72,8 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		debug: false
 	});
 
+	//$locationProvider.html5Mode(true);
+
 	$stateProvider
 		.state('login', {
 			url: '/login',
@@ -96,7 +98,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('home', {
-			url: '/',
+			url: '',
 			templateUrl: 'subutai-app/monitoring/partials/view.html',
 			data: {
 				bodyClass: '',
@@ -105,13 +107,6 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
-						{
-							name: 'chart.js',
-							files: [
-								'css/libs/angular-chart.min.css',
-								'assets/js/plugins/angular-chart.min.js'
-							]
-						},
 						{
 							name: 'subutai.monitoring',
 							files: [
@@ -216,6 +211,28 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'subutai-app/containers/containers.js',
 								'subutai-app/containers/controller.js',
 								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('kurjun', {
+			url: '/kurjun',
+			templateUrl: 'subutai-app/kurjun/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.kurjun',
+							files: [
+								'subutai-app/kurjun/kurjun.js',
+								'subutai-app/kurjun/controller.js',
+								'subutai-app/kurjun/service.js'
 							]
 						}
 					]);
@@ -403,6 +420,533 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('cassandra', {
+			url: '/plugins/cassandra',
+			templateUrl: 'plugins/cassandra/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.cassandra',
+							files: [
+								'plugins/cassandra/cassandra.js',
+								'plugins/cassandra/controller.js',
+								'plugins/cassandra/service.js',
+								'subutai-app/environment/service.js',
+								'subutai-app/peerRegistration/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('keshig', {
+			url: '/plugins/keshig',
+			templateUrl: 'plugins/keshig/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.keshig',
+							files: [
+								'plugins/keshig/keshig.js',
+								'plugins/keshig/controller.js',
+								'plugins/keshig/service.js',
+								'subutai-app/peerRegistration/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('hadoop', {
+			url: '/plugins/hadoop',
+			templateUrl: 'plugins/hadoop/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.hadoop',
+							files: [
+								'plugins/hadoop/hadoop.js',
+								'plugins/hadoop/controller.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js',
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('solr', {
+			url: '/plugins/solr',
+			templateUrl: 'plugins/solr/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.solr',
+							files: [
+								'plugins/solr/solr.js',
+								'plugins/solr/controller.js',
+								'plugins/solr/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('mahout', {
+			url: '/plugins/mahout',
+			templateUrl: 'plugins/mahout/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.mahout',
+							files: [
+								'plugins/mahout/mahout.js',
+								'plugins/mahout/controller.js',
+								'plugins/mahout/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('pig', {
+			url: '/plugins/pig',
+			templateUrl: 'plugins/pig/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.pig',
+							files: [
+								'plugins/pig/pig.js',
+								'plugins/pig/controller.js',
+								'plugins/pig/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('hipi', {
+			url: '/plugins/hipi',
+			templateUrl: 'plugins/hipi/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.hipi',
+							files: [
+								'plugins/hipi/hipi.js',
+								'plugins/hipi/controller.js',
+								'plugins/hipi/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('lucene', {
+			url: '/plugins/lucene',
+			templateUrl: 'plugins/lucene/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.lucene',
+							files: [
+								'plugins/lucene/lucene.js',
+								'plugins/lucene/controller.js',
+								'plugins/lucene/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('nutch', {
+			url: '/plugins/nutch',
+			templateUrl: 'plugins/nutch/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.nutch',
+							files: [
+								'plugins/nutch/nutch.js',
+								'plugins/nutch/controller.js',
+								'plugins/nutch/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('elasticsearch', {
+			url: '/plugins/elasticsearch',
+			templateUrl: 'plugins/elasticsearch/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.elastic-search',
+							files: [
+								'plugins/elasticsearch/elastic-search.js',
+								'plugins/elasticsearch/controller.js',
+								'plugins/elasticsearch/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('oozie', {
+			url: '/plugins/oozie',
+			templateUrl: 'plugins/oozie/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.oozie',
+							files: [
+								'plugins/oozie/oozie.js',
+								'plugins/oozie/controller.js',
+								'plugins/oozie/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('mongo', {
+			url: '/plugins/mongo',
+			templateUrl: 'plugins/mongo/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.mongo',
+							files: [
+								'plugins/mongo/mongo.js',
+								'plugins/mongo/controller.js',
+								'plugins/mongo/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('hive', {
+			url: '/plugins/hive',
+			templateUrl: 'plugins/hive/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.hive',
+							files: [
+								'plugins/hive/hive.js',
+								'plugins/hive/controller.js',
+								'plugins/hive/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('presto', {
+			url: '/plugins/presto',
+			templateUrl: 'plugins/presto/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.presto',
+							files: [
+								'plugins/presto/presto.js',
+								'plugins/presto/controller.js',
+								'plugins/presto/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('spark', {
+			url: '/plugins/spark',
+			templateUrl: 'plugins/spark/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.spark',
+							files: [
+								'plugins/spark/spark.js',
+								'plugins/spark/controller.js',
+								'plugins/spark/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('storm', {
+			url: '/plugins/storm',
+			templateUrl: 'plugins/storm/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.storm',
+							files: [
+								'plugins/storm/storm.js',
+								'plugins/storm/controller.js',
+								'plugins/storm/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('zookeeper', {
+			url: '/plugins/zookeeper',
+			templateUrl: 'plugins/zookeeper/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.zookeeper',
+							files: [
+								'plugins/zookeeper/zookeeper.js',
+								'plugins/zookeeper/controller.js',
+								'plugins/zookeeper/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('flume', {
+			url: '/plugins/flume',
+			templateUrl: 'plugins/flume/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.flume',
+							files: [
+								'plugins/flume/flume.js',
+								'plugins/flume/controller.js',
+								'plugins/flume/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('accumulo', {
+			url: '/plugins/accumulo',
+			templateUrl: 'plugins/accumulo/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.accumulo',
+							files: [
+								'plugins/accumulo/accumulo.js',
+								'plugins/accumulo/controller.js',
+								'plugins/accumulo/service.js',
+								'plugins/hadoop/service.js',
+								'plugins/zookeeper/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('shark', {
+			url: '/plugins/shark',
+			templateUrl: 'plugins/shark/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.shark',
+							files: [
+								'plugins/shark/shark.js',
+								'plugins/shark/controller.js',
+								'plugins/shark/service.js',
+								'plugins/hadoop/service.js',
+								'plugins/spark/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('hbase', {
+			url: '/plugins/hbase',
+			templateUrl: 'plugins/hbase/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.hbase',
+							files: [
+								'plugins/hbase/hbase.js',
+								'plugins/hbase/controller.js',
+								'plugins/hbase/service.js',
+								'plugins/hadoop/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('generic', {
+			url: '/plugins/generic',
+			templateUrl: 'plugins/generic/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'vtortola.ng-terminal'
+						},
+						{
+							name: 'subutai.plugins.generic',
+							files: [
+								'plugins/generic/generic.js',
+								'plugins/generic/controller.js',
+								'plugins/generic/service.js',
+								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			templateUrl: 'subutai-app/common/partials/404.html',
@@ -411,18 +955,32 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				layout: 'fullpage'
 			}
 		});
+
+	$httpProvider.interceptors.push(function($q, $location) {
+		return {
+			'responseError': function(rejection) {
+				if (rejection.status == 401 && $.inArray($location.path(), ['/login']) === -1) {
+					$location.path('/login');
+				}
+				return $q.reject(rejection);
+			}
+		};
+	});
 }
 
 function startup($rootScope, $state, $location, $http) {
 
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxYWVjYzFlMi01NmM1LTRlNjktYmUyOS04ZGMwOTljYTQ2OTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ZI7KpG0ewPTvC1JckFCx-d5rSB0p_CmhdHkp9Qpewp';
+
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
-		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+		/*var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
 		if (restrictedPage && !getCookie('sptoken')) {
 			sessionStorage.removeItem('currentUser');
 			$location.path('/login');
-		}
+		}*/
 	});
+	//$http.defaults.headers.common['sptoken'] = getCookie('sptoken');
 
 	$rootScope.$state = $state;
 }
@@ -494,7 +1052,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = '/';
+var SERVER_URL = 'http://10.10.12.163:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;

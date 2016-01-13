@@ -8,11 +8,11 @@
 
 					<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 						<select class="b-form-input b-form-input_full"
-								ng-model="mongoCtrl.mongoInstall.environmentId"
-								ng-change="mongoCtrl.showContainers(mongoCtrl.mongoInstall.environmentId)">
+							ng-model="mongoCtrl.mongoInstall.environmentId"
+							ng-change="mongoCtrl.showContainers(mongoCtrl.mongoInstall.environmentId)">
 							<option value="">Select environment</option>
 							<option ng-repeat="environment in mongoCtrl.environments" value="{{ environment.id }}">
-								{{ environment.name }}
+							{{ environment.name }}
 							</option>
 						</select>
 					</div>
@@ -91,9 +91,9 @@
 
 						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
 							<input class="b-form-input b-form-input_full" type="text"
-								   placeholder="Enter port for data nodes"
-								   ng-model="mongoCtrl.mongoInstall.dataPort"
-								   required>
+							placeholder="Enter port for data nodes"
+							ng-model="mongoCtrl.mongoInstall.dataPort"
+							required>
 						</div>
 
 						<div class="clear"></div>

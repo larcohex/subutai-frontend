@@ -5,67 +5,60 @@ angular.module('subutai.plugins.nutch.service',[])
 
 nutchSrv.$inject = ['$http', 'hadoopSrv'];
 
-function nutchSrv($http, environmentService) {
-
+function nutchSrv($http, hadoopSrv) {
 	var BASE_URL = SERVER_URL + 'rest/nutch/';
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var nutchSrv = {
-		listClusters: listClusters,
-		installCluster: installCluster,
-		destroyCluster: destroyCluster,
+		getHadoopClusters: getHadoopClusters,
+		createNutch: createNutch,
+		getClusters: getClusters,
+		deleteNode: deleteNode,
+		getAvailableNodes: getAvailableNodes,
 		addNode: addNode,
-		destroyNode: destroyNode,
-		getAvailableNodes: getAvailableNodes
+		deleteCluster: deleteCluster,
 	};
 
 	return nutchSrv;
 
-
-	function listClusters (clusterName) { //
-		if (clusterName === undefined || clusterName === null) {
-			clusterName = "";
-		}
-		return $http.get (CLUSTER_URL + clusterName, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	function addNode(clusterName, lxcHostname) {
+		return $http.post(CLUSTER_URL + clusterName + '/add/node/' + lxcHostname);
 	}
 
+	function getHadoopClusters(clusterName) {
+		return hadoopSrv.getClusters(clusterName);
+	}
 
-	function installCluster (clusterName, hadoopClusterName, nodes) {
-		var postData = 'clusterName=' + nutchJson + "&hadoopClusterName=" + hadoopClusterName + "&nodes=" + nodes;
-		return $http.post(
-			CLUSTER_URL + 'install',
-			postData,
-			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+	function getClusters(clusterName) {
+		if(clusterName === undefined || clusterName === null) clusterName = '';
+		return $http.get(
+			CLUSTER_URL + clusterName,
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
 		);
 	}
 
-
-	function destroyCluster (clusterName) {
-		return $http.delete (CLUSTER_URL + clusterName);
+	function getAvailableNodes(clusterName) {
+		return $http.get(
+			CLUSTER_URL + clusterName + '/available/nodes',
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
 	}
 
-
-	function addNode (clusterName, lxcHostName) {
-		return $http.post (CLUSTER_URL + clusterName + "/add/node/" + lxcHostName);
+	function deleteCluster(clusterName) {
+		return $http.delete(CLUSTER_URL + 'destroy/' + clusterName);
 	}
 
-
-	function destroyNode (clusterName, lxcHostName) {
-		return $http.delete (CLUSTER_URL + clusterName + "/destroy/node/" + lxcHostName);
+	function deleteNode(clusterName, nodeId) {
+		return $http.delete(CLUSTER_URL + clusterName + '/destroy/node/' + nodeId);
 	}
 
-
-	function getAvailableNodes (clusterName) {
-		return $http.get (CLUSTER_URL + clusterName + "/available/nodes");
-	}
-
-
-	function getHadoopClusters() {
-		return hadoopSrv.getClusters();
-	}
-
-
-	function getHadoopClusterInfo (clusterName) {
-		return $http.get (SERVER_URL + "rest/hadoop/clusters/" + clusterName);
+	function createNutch(nutchObj) {
+		console.log(nutchObj);
+		var postData = 'clusterName=' + nutchObj.clusterName + '&hadoopClusterName=' + nutchObj.hadoopClusterName + '&nodes=' + JSON.stringify(nutchObj.nodes);
+		return $http.post(
+			BASE_URL,
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
 	}
 }

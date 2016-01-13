@@ -44,14 +44,12 @@ function MongoCtrl(mongoSrv, SweetAlert) {
     	vm.environments = data;
     });
 
-
 	mongoSrv.listClusters().success(function (data) {
 		vm.clusters = data;
 	});
 
 
 	// Install
-
 	function setDefaultValues() {
 		vm.mongoInstall.domainName = 'intra.lan';
 		vm.mongoInstall.repl = 'repl';
@@ -64,15 +62,20 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 	}
 	setDefaultValues();
 
-
 	function createMongo() {
-		mongoSrv.createMongo(JSON.stringify(vm.mongoInstall)).success(function (data) {
-			SweetAlert.swal("Success!", "Your Mongo cluster started creating.", "success");
-		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Mongo cluster create error: ' + error.ERROR, "error");
-		});
+		console.log (vm.mongoInstall.configNodes.length);
+		if (vm.mongoInstall.configNodes.length % 2 !== 1) {
+			SweetAlert.swal ("ERROR!", "Number of configuration node servers must be odd");
+		}
+		else {
+			SweetAlert.swal("Success!", "Mongo cluster creating started.", "success");
+			mongoSrv.createMongo(JSON.stringify(vm.mongoInstall)).success(function (data) {
+				SweetAlert.swal("Success!", "Mongo cluster created.", "success");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", 'Mongo cluster create error: ' + error.replace(/\\n/g, ' '), "error");
+			});
+		}
 	}
-
 
 	function addConfigNode (containerId) {
 		if(vm.mongoInstall.configNodes.indexOf(containerId) > -1) {
@@ -81,7 +84,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			vm.mongoInstall.configNodes.push(containerId);
 		}
 	}
-
 
 	function addRouteNode (containerId) {
 		if(vm.mongoInstall.routeNodes.indexOf(containerId) > -1) {
@@ -100,8 +102,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		}
 	}
 
-
-
 	function showContainers(environmentId) {
 		vm.containers = [];
 		for(var i in vm.environments) {
@@ -118,7 +118,6 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		}
 	}
 
-
 	// Manage
 
 	function getClustersInfo(selectedCluster) {
@@ -126,38 +125,49 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		mongoSrv.listClusters(selectedCluster).success(function (data) {
 			vm.loading = false;
 			vm.currentCluster = data;
-			console.log(vm.currentCluster);
 		});
 	}
 
-	function startNodes() {
+	function startNodes() { // TODO
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		mongoSrv.startNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
 
-	function stopNodes() {
+	function stopNodes() { // TODO
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		mongoSrv.stopNodes(vm.currentCluster.clusterName, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes stopped successfully.", "success");
 			getClustersInfo(vm.currentCluster.clusterName);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
-	function pushNode(id) {
+	function pushNode(id, type) {
 		if(vm.nodes2Action.indexOf(id) >= 0) {
 			vm.nodes2Action.splice(vm.nodes2Action.indexOf(id), 1);
 		} else {
-			vm.nodes2Action.push(id);
+			vm.nodes2Action.push({name: id, type: type});
 		}
 	}
 
@@ -174,7 +184,9 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 		});
 	}
 
-	function deleteNode(nodeId, nodeType) {
+	function deleteNode(nodeId, nodeType) { // TODO
+		console.log (nodeId);
+		console.log (nodeType);
 		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal({
 				title: "Are you sure?",
@@ -192,7 +204,9 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 				if (isConfirm) {
 					mongoSrv.destroyNode(vm.currentCluster.clusterName, nodeId, nodeType).success(function (data) {
 						SweetAlert.swal("Deleted!", "Node has been deleted.", "success");
-						vm.currentCluster = {};
+						getClustersInfo(vm.currentCluster.clusterName);
+					}).error(function(error){
+						SweetAlert.swal("ERROR!", 'Cluster node delete error: ' + error.replace(/\\n/g, ' '), "error");
 					});
 				}
 			}
@@ -218,6 +232,8 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 					mongoSrv.destroyCluster(vm.currentCluster.clusterName).success(function (data) {
 						SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 						vm.currentCluster = {};
+					}).error(function(error){
+						SweetAlert.swal("ERROR!", 'Cluster delete error: ' + error.replace(/\\n/g, ' '), "error");
 					});
 				}
 			}
@@ -234,17 +250,23 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 
 
 	function sendRouter() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal("Success!", "Your Mongo cluster started to add additional router.", "success");
 		mongoSrv.sendRouter(vm.currentCluster.clusterName).success (function (data) {
-			SweetAlert.swal("Success!", "Your Mongo cluster started to add additional router.", "success");
+			SweetAlert.swal("Success!", "Router added.", "success");
+			getClustersInfo(vm.currentCluster.clusterName);
 		}).error (function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster error while adding router: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster error while adding router: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
 
 	function sendDataNode() {
+		if(vm.currentCluster.clusterName === undefined) return;
+		SweetAlert.swal("Success!", "Mongo cluster started to add additional data node.", "success");
 		mongoSrv.sendDataNode(vm.currentCluster.clusterName).success (function (data) {
-			SweetAlert.swal("Success!", "Your Mongo cluster started to add additional data node.", "success");
+			SweetAlert.swal("Success!", "Data node added.", "success");
+			getClustersInfo(vm.currentCluster.clusterName);
 		}).error (function (error) {
 			SweetAlert.swal("ERROR!", 'Cluster error while adding data node: ' + error.ERROR, "error");
 		});

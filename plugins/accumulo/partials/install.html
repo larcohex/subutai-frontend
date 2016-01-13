@@ -1,0 +1,139 @@
+<form ng-submit="accumuloCtrl.createAccumulo()">
+	<div class="b-workspace-content b-workspace-content_border">
+		<div class="b-workspace-content__row">
+			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+				<div class="b-form">
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Cluster name</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<input class="b-form-input b-form-input_full" type="text"
+								   placeholder="Enter cluster name"
+								   ng-model="accumuloCtrl.accumuloInstall.name"
+								   required>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Instance name</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<input class="b-form-input b-form-input_full" type="text"
+								   placeholder="Enter instance name"
+								   ng-model="accumuloCtrl.accumuloInstall.instanceName"
+								   required>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Password</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<input class="b-form-input b-form-input_full" type="text"
+								   placeholder="Enter password"
+								   ng-model="accumuloCtrl.accumuloInstall.password"
+								   required>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
+				<div class="b-form">
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Hadoop cluster</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<select class="b-form-input b-form-input_full"
+									ng-model="accumuloCtrl.accumuloInstall.hadoopCluster"
+									ng-change="accumuloCtrl.getHadoopClusterNodes(accumuloCtrl.accumuloInstall.hadoopCluster)">
+								<option value="">Select hadoop cluster</option>
+								<option ng-repeat="cluster in accumuloCtrl.hadoopClusters" value="{{ cluster }}">
+									{{ cluster }}
+								</option>
+							</select>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Zookeeper cluster</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<select class="b-form-input b-form-input_full"
+									ng-model="accumuloCtrl.accumuloInstall.zookeeperCluster"
+									ng-change="accumuloCtrl.getZookeperClusterNodes(accumuloCtrl.accumuloInstall.zookeeperCluster.clusterName)">
+								<option value="">Select zookeeper cluster</option>
+								<option ng-repeat="cluster in accumuloCtrl.zookeeperClusters" value="{{ cluster }}">
+									{{ cluster.name }}
+								</option>
+							</select>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">Master node</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<select class="b-form-input b-form-input_full"
+									ng-model="accumuloCtrl.accumuloInstall.masterNode"
+									ng-change=""> <!-- TODO: add ng-change -->
+								<option value="">Select master node</option>
+								<option ng-repeat="cluster in {}" value="{{ cluster }}">
+									{{ cluster.name }}
+								</option>
+							</select>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+					<div class="b-form__wrapper b-form__wrapper_margin-bottom">
+						<label class="b-form-label b-form-label_fix-size-1 g-left">GC node</label>
+
+						<div class="b-form-wrapper b-form-wrapper_margin-size-1">
+							<select class="b-form-input b-form-input_full"
+									ng-model="accumuloCtrl.accumuloInstall.gcNode"
+									ng-change="">
+								<option value="">Select GC node</option>
+								<option ng-repeat="cluster in {}" value="{{ cluster }}">
+									{{ cluster.name }}
+								</option>
+							</select>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="b-workspace-content__row">
+			<h2 class="b-workspace-content-row-h2">
+				Tracers
+			</h2>
+
+			<col-select-tracers></col-select-tracers>
+
+			<div class="clear"></div>
+		</div>
+
+		<div class="b-workspace-content__row">
+			<h2 class="b-workspace-content-row-h2">
+				Slaves
+			</h2>
+
+			<col-select-slaves></col-select-slaves>
+
+			<div class="clear"></div>
+		</div>
+
+	</div>
+
+	<div class="b-workspace__button-group b-workspace__button-group_right">
+		<button type="submit" class="b-btn b-btn_green g-right">Create</button>
+	</div>
+</form>
+

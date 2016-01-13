@@ -4,8 +4,8 @@ angular.module('subutai.plugins.keshig.controller', [])
     .controller('KeshigCtrl', KeshigCtrl)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
-KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService'];
-function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService) {
+KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService', 'ngDialog'];
+function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService, ngDialog) {
     var vm = this;
 
 	vm.activeTab = 'servers';
@@ -22,6 +22,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	vm.optionsType = [];
 	vm.optionsDeployBuilds = [];
 	vm.option2Add = {};
+	vm.option2Run = '';
 	vm.options = {};
 	vm.optionFormUpdate = false;
 
@@ -47,7 +48,12 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	vm.addOption2From = addOption2From;
 	vm.runOption = runOption;
 	vm.pushPlaybook = pushPlaybook;
+	vm.addAllPlaybooks = addAllPlaybooks;
 	vm.runProfile = runProfile;
+	vm.runOptionForm = runOptionForm;
+
+	vm.exportBuild = exportBuild;
+	vm.getTPR = getTPR;
 
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
@@ -59,8 +65,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	keshigSrv.getBuilds().success(function (data) {
 		for(var i = 0; i < data.length; i++) {
-			var buildDate = new Date(data[i].date);
-			data[i].dateFormated = buildDate.getMonth() + '/' + buildDate.getDate();
+			data[i].dateFormated = dateToFormat(data[i].date);
 		}
 		vm.optionsDeployBuilds = data;
 	});
@@ -68,6 +73,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	keshigSrv.getPlaybooks().success(function (data) {
 		vm.playbooks = data;
 	});
+
+	function exportBuild(build) {
+		keshigSrv.exportBuild(build).success(function (data) {
+			SweetAlert.swal("Success!", 'Build "' + deploy.buildName + '" start export.', "success");
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Error: ' + error.replace(/\\n/g, ' '), 'error');
+		});
+	}
 
 	function getProfileValues() {
 		vm.serversByType = [];
@@ -101,18 +114,37 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		}
 	}
 
+	function addAllPlaybooks(push) {
+		if(push) {
+			vm.option2Add.playbooks = angular.copy(vm.playbooks);
+		} else {
+			vm.option2Add.playbooks = [];
+		}
+	}
+
 	function changeTab(tab) {
 		vm.activeTab = tab;
 		if(vm.activeTab == 'servers') {
 			serversTable();
 		} else if(vm.activeTab == 'options') {
+			getProfileValues();
 			changeOptionsType();
 		} else if(vm.activeTab == 'profiles') {
 			getProfileValues();
 			profilesTable();
 		} else if(vm.activeTab == 'history') {
 			historyTable();
+		} else if(vm.activeTab == 'export') {
+			getProfileValues();
 		}
+	}
+
+	function getTPR(serverId) {
+		keshigSrv.getTPR(serverId).success(function (data) {
+			SweetAlert.swal("Success!", 'Generating TPR... Link for the file will appear in History tab.', "success");
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Error: ' + error.replace(/\\n/g, ' '), 'error');
+		});
 	}
 
 	function changeOptionsType() {
@@ -170,10 +202,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.dtColumns = [
 			//DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEditProfile),
 			DTColumnBuilder.newColumn('name').withTitle('Name'),
-			DTColumnBuilder.newColumn('cloneOption').withTitle('Clone').notSortable().renderWith(profileCloneButton),
-			DTColumnBuilder.newColumn('buildOption').withTitle('Build').notSortable().renderWith(profileBuildButton),
-			DTColumnBuilder.newColumn('testOption').withTitle('Test').notSortable().renderWith(profileTestButton),
-			DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable().renderWith(profileDeployButton),
+			//DTColumnBuilder.newColumn('cloneOption').withTitle('Clone').notSortable().renderWith(profileCloneButton),
+			//DTColumnBuilder.newColumn('buildOption').withTitle('Build').notSortable().renderWith(profileBuildButton),
+			//DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable().renderWith(profileDeployButton),
+			//DTColumnBuilder.newColumn('testOption').withTitle('Test').notSortable().renderWith(profileTestButton),
+			DTColumnBuilder.newColumn('cloneOption').withTitle('Clone').notSortable(),
+			DTColumnBuilder.newColumn('buildOption').withTitle('Build').notSortable(),
+			DTColumnBuilder.newColumn('deployOption').withTitle('Deploy').notSortable(),
+			DTColumnBuilder.newColumn('testOption').withTitle('Test').notSortable(),
 			DTColumnBuilder.newColumn('name').withTitle('').notSortable().renderWith(runProfileButton),
 			DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(deleteAction)
 		];
@@ -187,7 +223,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			})
 			.withPaginationType('full_numbers')
 			.withOption('stateSave', true)
-			.withOption('order', [[ 0, "asc" ]])
+			.withOption('order', [[ 2, "desc" ]])
 			.withOption('createdRow', createdRow);
 
 		vm.dtColumns = [
@@ -223,8 +259,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		if(data.stdOut === undefined || data.stdOut == null || data.stdOut.length < 1) {
 			contentOutput = data.stdErr;
 		} else {
-			if(data.type == 'TEST') {
-				contentOutput = '<a href="' + data.stdOut + '" target="_blank">' + data.stdOut + '</a>';
+			if(data.type == 'TEST' || data.type == 'TPR') {
+				contentOutput = '<a href="' + getBaseUrl() + ':80' + data.stdOut + '" target="_blank">' + data.stdOut + '</a>';
 			} else {
 				contentOutput = data.stdOut;
 			}
@@ -233,43 +269,57 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function dateToFormat(data, type, full, meta) {
-		var historyDate = new Date(data);
-		return historyDate.getMonth() + '/' 
-			+ historyDate.getDate() + '/' 
-			+ historyDate.getFullYear() + ' ' 
-			+ historyDate.getHours() + ':' + historyDate.getMinutes() + ':' + historyDate.getSeconds();
+		return dateToFormat(data);
 	}
 
 	function playbooksTags(data, type, full, meta) {
 		var playbooksHTML = '';
-		for(var i = 0; i < data.length; i++) {
-			playbooksHTML += '<span class="b-tags">' + data[i] + '</span>';
+		if(data !== undefined && data !== null && data.length > 0) {
+			for(var i = 0; i < data.length; i++) {
+				playbooksHTML += '<span class="b-tags">' + data[i] + '</span>';
+			}
 		}
 		return playbooksHTML;
 	}
 
 	function optionStatusIcon(data, type, full, meta) {
-		return '<div style="width: 100%; text-align: center;"><div class="b-status-icon b-status-icon_' + data + '" tooltips tooltip-title="' + data + '"></div></div>';
+		return '<div style="width: 100%; text-align: center;"><div class="b-status-icon b-status-icon_' + data + '" tooltips tooltip-template="' + data + '"></div></div>';
 	}
 
 	function runOptionButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_green" ng-click="keshigCtrl.runOption(\'' + data.name + '\')">Run</a>';
+		return '<a href class="b-btn b-btn_green" ng-click="keshigCtrl.runOptionForm(\'' + data.name + '\')">Run</a>';
 	}
 
 	function profileBuildButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'build\')">Build</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'build\')">Build</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function profileTestButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'test\')">Test</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'test\')">Test</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function profileDeployButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'deploy\')">Deploy</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'deploy\')">Deploy</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function profileCloneButton(data, type, full, meta) {
-		return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'clone\')">Clone</a>';
+		if(data !== undefined && data !== null) {
+			return '<a href class="b-btn b-btn_blue" ng-click="keshigCtrl.runOption(\'' + data + '\', \'clone\')">Clone</a>';
+		} else {
+			return 'Empty';
+		}
 	}
 
 	function runProfileButton(data, type, full, meta) {
@@ -294,8 +344,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	function runProfile(profileName) {
 		keshigSrv.startProfile( profileName ).success(function(data){
 			SweetAlert.swal("Success!", '"' + profileName + '" profile start running.', "success");
-		}).error(function (data) {
-			SweetAlert.swal("ERROR!", '"' + profileName + '" profile run error. Error: ' + data.ERROR, 'error');
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", '"' + profileName + '" profile run error. Error: ' + error.replace(/\\n/g, ' '), 'error');
 		});
 	}
 
@@ -315,21 +365,40 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 		vm.profilesFormUpdate = true;
 	}
 
-	function runOption(optionName, customOptionType) {
+	function runOptionForm(optionName) {
+		vm.servers2Test = [];		
+		if(vm.optionType == 'DEPLOY') {
+			vm.servers2Test = vm.serversByType['DEPLOY_SERVER'];
+		} else if(vm.optionType == 'TEST') {
+			vm.servers2Test = vm.serversByType['TEST_SERVER'];
+		} else {
+			vm.servers2Test = vm.serversByType['BUILD_SERVER'];
+		}
+		vm.option2Run = optionName;
+
+		ngDialog.open({
+			template: 'plugins/keshig/partials/options/optionServerSelectPopup.html',
+			scope: $scope
+		});
+	}
+
+	function runOption(optionName, customOptionType, server) {
 		if(customOptionType === undefined || customOptionType === null) customOptionType = vm.optionType;
-		keshigSrv.startOption( customOptionType, optionName ).success(function(data){
+		if(server === undefined || server === null) server = '';
+		keshigSrv.startOption( customOptionType, optionName, server ).success(function(data){
 			SweetAlert.swal("Success!", '"' + optionName + '" option start running.', "success");
 			//vm.dtInstance.reloadData(null, false);
-		}).error(function (data) {
-			SweetAlert.swal("ERROR!", '"' + optionName + '" option run error. Error: ' + data.ERROR, 'error');
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", '"' + optionName + '" option run error. Error: ' + error.replace(/\\n/g, ' '), 'error');
 		});
+		ngDialog.closeAll();
 	}
 
 	function updateOption() {
 
 		if(vm.optionType == 'TEST') {
 			if(vm.option2Add.latest === true) {
-				vm.option2Add.targetIps = 'LATEST';
+				vm.option2Add.targetIps = ['LATEST'];
 			} else if(vm.option2Add.targetIps !== undefined) {
 				var targetIps = vm.option2Add.targetIps.split(',');
 				vm.option2Add.targetIps = targetIps;
@@ -341,15 +410,15 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			keshigSrv.updateOption( vm.optionType, JSON.stringify(vm.option2Add) ).success(function(data){
 				SweetAlert.swal("Success!", vm.optionType + " option successfully updated.", "success");
 				vm.dtInstance.reloadData(null, false);
-			}).error(function (data) {
-				SweetAlert.swal("ERROR!", vm.optionType + " option update error. Error: " + data.ERROR, "error");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", vm.optionType + " option update error. Error: " + error.replace(/\\n/g, ' '), "error");
 			});
 		} else {
 			keshigSrv.addOption( vm.optionType, JSON.stringify(vm.option2Add) ).success(function(data){
 				SweetAlert.swal("Success!", vm.optionType + " option successfully added.", "success");
 				vm.dtInstance.reloadData(null, false);
-			}).error(function (data) {
-				SweetAlert.swal("ERROR!", vm.optionType + " option add error. Error: " + data.ERROR, "error");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", vm.optionType + " option add error. Error: " + error.replace(/\\n/g, ' '), "error");
 			});
 		}
 		vm.option2Add = {};
@@ -374,8 +443,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 				keshigSrv.removeProfile(profileName).success(function (data) {
 					SweetAlert.swal("Deleted!", "Your profile has been deleted.", "success");
 					vm.dtInstance.reloadData(null, false);
-				}).error(function (data) {
-					SweetAlert.swal("ERROR!", "Your profile is safe. Error: " + data.ERROR, "error");
+				}).error(function (error) {
+					SweetAlert.swal("ERROR!", "Your profile is safe. Error: " + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -400,8 +469,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 				keshigSrv.deleteOption(vm.optionType, optionName).success(function (data) {
 					SweetAlert.swal("Deleted!", "Your option has been deleted.", "success");
 					vm.dtInstance.reloadData(null, false);
-				}).error(function (data) {
-					SweetAlert.swal("ERROR!", "Your option is safe. Error: " + data.ERROR, "error");
+				}).error(function (error) {
+					SweetAlert.swal("ERROR!", "Your option is safe. Error: " + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -426,8 +495,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 				keshigSrv.removeServer(serverName).success(function (data) {
 					SweetAlert.swal("Deleted!", "Your server has been deleted.", "success");
 					vm.dtInstance.reloadData(null, false);
-				}).error(function (data) {
-					SweetAlert.swal("ERROR!", "Your server is safe. Error: " + data.ERROR, "error");
+				}).error(function (error) {
+					SweetAlert.swal("ERROR!", "Your server is safe. Error: " + error.replace(/\\n/g, ' '), "error");
 				});
 			}
 		});
@@ -443,15 +512,15 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			keshigSrv.updateServer( vm.server2Add ).success(function(data){
 				SweetAlert.swal("Success!", "Keshig server successfully updated.", "success");
 				vm.dtInstance.reloadData(null, false);
-			}).error(function (data) {
-				SweetAlert.swal("ERROR!", "Keshig server update error. Error: " + data.ERROR, "error");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", "Keshig server update error. Error: " + error.replace(/\\n/g, ' '), "error");
 			});
 		} else {
 			keshigSrv.addServer( vm.server2Add ).success(function(data){
 				SweetAlert.swal("Success!", "Keshig server successfully added.", "success");
 				vm.dtInstance.reloadData(null, false);
-			}).error(function (data) {
-				SweetAlert.swal("ERROR!", "Keshig server add error. Error: " + data.ERROR, "error");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", "Keshig server add error. Error: " + error.replace(/\\n/g, ' '), "error");
 			});
 		}
 		vm.server2Add = {};
@@ -464,15 +533,15 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			keshigSrv.updateProfile( JSON.stringify(vm.profiles2Add) ).success(function(data){
 				SweetAlert.swal("Success!", vm.profiles2Add.name + " profile successfully updated.", "success");
 				vm.dtInstance.reloadData(null, false);
-			}).error(function (data) {
-				SweetAlert.swal("ERROR!", vm.profiles2Add.name + " profile update error. Error: " + data.ERROR, "error");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", vm.profiles2Add.name + " profile update error. Error: " + error.replace(/\\n/g, ' '), "error");
 			});
 		} else {
 			keshigSrv.addProfile( JSON.stringify(vm.profiles2Add) ).success(function(data){
 				SweetAlert.swal("Success!", vm.profiles2Add.name + " profile successfully added.", "success");
 				vm.dtInstance.reloadData(null, false);
-			}).error(function (data) {
-				SweetAlert.swal("ERROR!", vm.profiles2Add.name + " profile add error. Error: " + data.ERROR, "error");
+			}).error(function (error) {
+				SweetAlert.swal("ERROR!", vm.profiles2Add.name + " profile add error. Error: " + error.replace(/\\n/g, ' '), "error");
 			});
 		}
 		//vm.profiles2Add = {};
@@ -522,6 +591,25 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 					DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(deleteAction)
 				];
 		}
+	}
+
+	function dateToFormat(date) {
+		if(date === undefined || date === null) return 'In progress';
+		var dateFormat = new Date(date);
+		return (dateFormat.getMonth() + 1) + '/' 
+			+ dateFormat.getDate() + '/' 
+			+ dateFormat.getFullYear() + ' ' 
+			+ dateFormat.getHours() + ':' + dateFormat.getMinutes() + ':' + dateFormat.getSeconds();
+	}
+
+	function getBaseUrl() {
+		var pathArray = location.href.split( '/' );
+		//var protocol = pathArray[0];
+		var protocol = 'http:';
+		var hostWithPort = pathArray[2].split(':');
+		var host = hostWithPort[0];
+		var url = protocol + '//' + host;
+		return url;
 	}
 }
 

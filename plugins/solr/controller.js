@@ -2,17 +2,16 @@
 
 angular.module('subutai.plugins.solr.controller', [])
     .controller('SolrCtrl', SolrCtrl)
-	.directive('colSelectContainers', colSelectContainers)
-	.directive('colSelectSeeds', colSelectSeeds);
+	.directive('colSelectContainers', colSelectContainers);
 
 SolrCtrl.$inject = ['solrSrv', 'SweetAlert'];
 function SolrCtrl(solrSrv, SweetAlert) {
     var vm = this;
 	vm.activeTab = 'install';
-	vm.cassandraInstall = {};
+	vm.selectedOption = {};
+	vm.solrInstall = {};
 	vm.environments = [];
 	vm.containers = [];
-	vm.seeds = [];
 
 	vm.clusters = [];
 	vm.currentCluster = {};
@@ -21,8 +20,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	//functions
 	vm.showContainers = showContainers;
 	vm.addContainer = addContainer;
-	vm.addSeed = addSeed;
-	vm.createCassandra = createCassandra;
+	vm.createSolr = createSolr;
 
 	vm.getClustersInfo = getClustersInfo;
 	vm.changeClusterScaling = changeClusterScaling;
@@ -30,6 +28,7 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	vm.addNode = addNode;
 	vm.deleteNode = deleteNode;
 	vm.pushNode = pushNode;
+	vm.pushAll = pushAll;
 	vm.startNodes = startNodes;
 	vm.stopNodes = stopNodes;
 	
@@ -37,40 +36,59 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	solrSrv.getEnvironments().success(function (data) {
 		vm.environments = data;
 	});
-
 	function getClusters() {
 		solrSrv.getClusters().success(function (data) {
 			vm.clusters = data;
+			//getClustersInfo(data[0]);
 		});
 	}
 	getClusters();
 
 	function getClustersInfo(selectedCluster) {
-		solrSrv.getClusters(selectedCluster).success(function (data) {
+		LOADING_SCREEN();
+		vm.nodes2Action = [];
+		solrSrv.getClusters(selectedCluster).success(function (data){
 			vm.currentCluster = data;
-			console.log(vm.currentCluster);
+			LOADING_SCREEN('none');
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", 'Cluster info error: ' + error.replace(/\\n/g, ' '), "error");
+			LOADING_SCREEN('none');
 		});
 	}
 
 	function startNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.name === undefined) return;
+		vm.globalChecker = false;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		solrSrv.startNodes(vm.currentCluster.name, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes started successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster start error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
 	function stopNodes() {
 		if(vm.nodes2Action.length == 0) return;
 		if(vm.currentCluster.name === undefined) return;
+		vm.globalChecker = false;
+		SweetAlert.swal({
+			title : 'Success!',
+			text : 'Your request is in progress. You will be notified shortly.',
+			timer: VARS_TOOLTIP_TIMEOUT,
+			showConfirmButton: false
+		});
 		solrSrv.stopNodes(vm.currentCluster.name, JSON.stringify(vm.nodes2Action)).success(function (data) {
 			SweetAlert.swal("Success!", "Your cluster nodes stoped successfully.", "success");
 			getClustersInfo(vm.currentCluster.name);
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Cluster stop error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
@@ -82,16 +100,29 @@ function SolrCtrl(solrSrv, SweetAlert) {
 		}
 	}
 
+	function pushAll(check) {
+		if (vm.currentCluster.containers !== undefined) {
+			if (check) {
+				for (var i = 0; i < vm.currentCluster.containers.length; ++i) {
+					vm.nodes2Action.push(vm.currentCluster.containers[i].id);
+				}
+			}
+			else {
+				vm.nodes2Action = [];
+			}
+		}
+	}
+
 	function addNode() {
-		if(vm.currentCluster.name === undefined) return;
+		if(vm.currentCluster.clusterName === undefined) return;
 		SweetAlert.swal("Success!", "Adding node action started.", "success");
-		solrSrv.addNode(vm.currentCluster.name).success(function (data) {
+		solrSrv.addNode(vm.currentCluster.clusterName).success(function (data) {
 			SweetAlert.swal(
 				"Success!",
-				"Node has been added on cluster " + vm.currentCluster.name + ".",
+				"Node has been added on cluster " + vm.currentCluster.clusterName + ".",
 				"success"
 			);
-			getClustersInfo(vm.currentCluster.name);
+			getClustersInfo(vm.currentCluster.clusterName);
 		});
 	}
 
@@ -138,33 +169,46 @@ function SolrCtrl(solrSrv, SweetAlert) {
 				solrSrv.deleteCluster(vm.currentCluster.name).success(function (data) {
 					SweetAlert.swal("Deleted!", "Cluster has been deleted.", "success");
 					vm.currentCluster = {};
+					getClusters();
 				});
 			}
 		});
 	}
+	
+	function switchTab(tab) {
+	
+		if(tab == 'manager')
+		{
+			vm.activeTab = 'manage';
+			getClusters();
+		}
+	}
 
-	function createCassandra() {
-		solrSrv.createCassandra(JSON.stringify(vm.cassandraInstall)).success(function (data) {
-			SweetAlert.swal("Success!", "Your Cassandra cluster start creating.", "success");
+	function createSolr() {
+		SweetAlert.swal("Success!", "Solr cluster is being created.", "success");
+		switchTab('manager');
+		solrSrv.createSolr(vm.solrInstall).success(function (data) {
+			SweetAlert.swal("Success!", "Solr cluster creation message:" + data.replace(/\\n/g, ' '), "success");
+			getClusters();
 		}).error(function (error) {
-			SweetAlert.swal("ERROR!", 'Cassandra cluster create error: ' + error.ERROR, "error");
+			SweetAlert.swal("ERROR!", 'Solr cluster create error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
 
 	function changeClusterScaling(scale) {
-		if(vm.currentCluster.name === undefined) return;
+		if(vm.currentCluster.clusterName === undefined) return;
 		try {
-			solrSrv.changeClusterScaling(vm.currentCluster.name, scale);
+			solrSrv.changeClusterScaling(vm.currentCluster.clusterName, scale);
 		} catch(e) {}
 	}
 
 	function showContainers(environmentId) {
+		
 		vm.containers = [];
-		vm.seeds = [];		
 		for(var i in vm.environments) {
 			if(environmentId == vm.environments[i].id) {
 				for (var j = 0; j < vm.environments[i].containers.length; j++){
-					if(vm.environments[i].containers[j].templateName == 'cassandra') {
+					if(vm.environments[i].containers[j].templateName == 'solr') {
 						vm.containers.push(vm.environments[i].containers[j]);
 					}
 				}
@@ -174,43 +218,23 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	}
 
 	function addContainer(containerId) {
-		if(vm.cassandraInstall.containers.indexOf(containerId) > -1) {
-			vm.cassandraInstall.containers.splice(vm.cassandraInstall.containers.indexOf(containerId), 1);
+		if(vm.solrInstall.containers.indexOf(containerId) > -1) {
+			vm.solrInstall.containers.splice(vm.solrInstall.containers.indexOf(containerId), 1);
 		} else {
-			vm.cassandraInstall.containers.push(containerId);
-		}
-		vm.seeds = angular.copy(vm.cassandraInstall.containers);
-	}
-
-	function addSeed(seedId) {
-		if(vm.cassandraInstall.seeds.indexOf(seedId) > -1) {
-			vm.cassandraInstall.seeds.splice(vm.cassandraInstall.seeds.indexOf(seedId), 1);
-		} else {
-			vm.cassandraInstall.seeds.push(seedId);
+			vm.solrInstall.containers.push(containerId);
 		}
 	}
 	
 	function setDefaultValues() {
-		vm.cassandraInstall.domainName = 'intra.lan';
-		vm.cassandraInstall.dataDir = '/var/lib/cassandra/data';
-		vm.cassandraInstall.commitDir = '/var/lib/cassandra/commitlog';
-		vm.cassandraInstall.cacheDir = '/var/lib/cassandra/saved_caches';
-		vm.cassandraInstall.containers = [];
-		vm.cassandraInstall.seeds = [];
+		vm.solrInstall.containers = [];
 	}
 }
 
 function colSelectContainers() {
 	return {
 		restrict: 'E',
-		templateUrl: 'plugins/cassandra/directives/col-select/col-select-containers.html'
+		templateUrl: 'plugins/solr/directives/col-select/col-select-containers.html'
 	}
 };
 
-function colSelectSeeds() {
-	return {
-		restrict: 'E',
-		templateUrl: 'plugins/cassandra/directives/col-select/col-select-seeds.html'
-	}
-};
 
