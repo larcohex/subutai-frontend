@@ -72,6 +72,14 @@ function environmentService($http) {
 
 		getPeers : getPeers,
 
+		getCurrentUser: getCurrentUser,
+		getUsers: getUsers,
+
+
+		getShared: getShared,
+		share: share,
+
+		revoke: revoke,
 
 		getServerUrl : function getServerUrl() { return ENVIRONMENTS_URL; }
 	};
@@ -155,6 +163,7 @@ function environmentService($http) {
 	function destroyContainer(containerId) {
 		return $http.delete(CONTAINERS_URL + containerId);
 	}
+
 
 
 	function setSshKey(sshKey, environmentId) {
@@ -250,12 +259,39 @@ function environmentService($http) {
 		var postData = 'tags=' + JSON.stringify(tags);
 		return $http.post(
 			ENVIRONMENTS_URL + environmentId + '/containers/' + containerId + '/tags',
-			postData, 
+			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
 
 	function removeTag(environmentId, containerId, tag) {
-		return $http.delete(ENVIRONMENTS_URL + environmentId + '/containers/' + containerId + '/tags/' + tag);		
+		return $http.delete(ENVIRONMENTS_URL + environmentId + '/containers/' + containerId + '/tags/' + tag);
+	}
+
+
+	function getShared (environmentId) {
+		return $http.get (ENVIRONMENTS_URL + "shared/users/" + environmentId);
+	}
+
+	function share (users, environmentId) {
+		var postData = "users=" + users + "&environmentId=" + environmentId;
+		return $http.post(
+			ENVIRONMENTS_URL + "share",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function getUsers() {
+		return $http.get (SERVER_URL + 'rest/ui/identity/', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+
+	function getCurrentUser() {
+		return $http.get (SERVER_URL + 'rest/ui/identity/user');
+	}
+
+	function revoke (environmentId) {
+		return $http.put (ENVIRONMENTS_URL + environmentId + "/revoke");
 	}
 }

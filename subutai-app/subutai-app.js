@@ -21,15 +21,17 @@ var app = angular.module('subutai-app', [
 	.run(startup);
 
 CurrentUserCtrl.$inject = ['$location', '$rootScope'];
-routesConf.$inject = ['$httpProvider', '$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
+routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 startup.$inject = ['$rootScope', '$state', '$location', '$http'];
 
-function CurrentUserCtrl($location, $rootScope) {
+function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
 	var vm = this;
 	vm.currentUser = $rootScope.currentUser;
+	vm.currentUserRoles = [];
 
 	//function
 	vm.logout = logout;
+
 
 	function logout() {
 		removeCookie('sptoken');
@@ -43,7 +45,7 @@ function CurrentUserCtrl($location, $rootScope) {
 		} else if($rootScope.currentUser !== undefined) {
 			vm.currentUser = $rootScope.currentUser;
 		}
-	});	
+	});
 }
 
 function SubutaiController($rootScope) {
@@ -51,19 +53,18 @@ function SubutaiController($rootScope) {
 	vm.bodyClass = '';
 
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-		if(toState.data) {
-			vm.layoutType = 'subutai-app/common/layouts/' + toState.data.layout + '.html';
-			if (angular.isDefined(toState.data.bodyClass)) {
-				vm.bodyClass = toState.data.bodyClass;
-				return;
-			}
-
-			vm.bodyClass = '';
+		vm.layoutType = 'subutai-app/common/layouts/' + toState.data.layout + '.html';
+		if (angular.isDefined(toState.data.bodyClass)) {
+			vm.bodyClass = toState.data.bodyClass;
+			return;
 		}
+
+		vm.bodyClass = '';
 	});
 }
 
-function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+
+function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 	$urlRouterProvider.otherwise('/404');
 
@@ -173,7 +174,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 			}
 		})
 		.state('environments', {
-			url: '/environments',
+			url: '/environments/{activeTab}',
 			templateUrl: 'subutai-app/environment/partials/view.html',
 			data: {
 				bodyClass: '',
