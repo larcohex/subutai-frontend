@@ -4,15 +4,22 @@ angular.module('subutai.tokens.controller', [])
 	.controller('TokensCtrl', TokensCtrl);
 
 
-TokensCtrl.$inject = ['identitySrv', '$scope', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', 'SweetAlert'];
+TokensCtrl.$inject = ['identitySrv', '$scope', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'ngDialog', 'SweetAlert', 'cfpLoadingBar'];
 
 
-function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, SweetAlert) {
+function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, ngDialog, SweetAlert, cfpLoadingBar) {
 
 	var vm = this;
+
+	cfpLoadingBar.start();
+	angular.element(document).ready(function () {
+		cfpLoadingBar.complete();
+	});
+
 	vm.tokens = {};
 	vm.users = [];
 	vm.newToken = {};
+	vm.tokensType = [];
 	vm.token2Edit = {};
 
 	//functions
@@ -26,6 +33,10 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 		vm.users = data;
 	});
 
+	identitySrv.getTokenTypes().success(function (data) {
+		vm.tokensType = data;
+	});
+
 	vm.dtInstance = {};
 	vm.dtOptions = DTOptionsBuilder
 		.fromFnPromise(function() {
@@ -33,7 +44,7 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 		})
 		.withPaginationType('full_numbers')
 		.withOption('createdRow', createdRow)
-		.withOption('order', [[ 3, "asc" ]])
+		.withOption('order', [[ 3, "desc" ]])
 		.withOption('columnDefs', [ {"width": "105px", "targets": [7]} ])
 		.withOption('stateSave', true);
 
@@ -44,7 +55,7 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 		DTColumnBuilder.newColumn(null).withTitle('TTL/Date').renderWith(dateFormat),
 		DTColumnBuilder.newColumn(null).withTitle('Type').renderWith(getTokenType),
 		DTColumnBuilder.newColumn('hashAlgorithm').withTitle('Hash Algorithm'),
-		DTColumnBuilder.newColumn('issuer').withTitle('Issuer'),
+		DTColumnBuilder.newColumn('issuer').withTitle('Issued by'),
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(viewTokenButton),
 		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionDelete)
 	];
@@ -59,26 +70,21 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 	}
 
 	function dateFormat(data, type, full, meta) {
-		var dateFormat = new Date(data.validDate);
+		var currentDate = new Date(data.validDate);
 
-		var day = dateFormat.getDate();
-		var month = dateFormat.getMonth();
-		var year = dateFormat.getFullYear();
+		var day = currentDate.getDate();
+		var month = currentDate.getMonth() + 1;
+		var year = currentDate.getFullYear();
 
-		var houre = dateFormat.getHours();
-		var minutes = dateFormat.getMinutes();
-		var seconds = dateFormat.getSeconds();
+		var houre = currentDate.getHours();
+		var minutes = currentDate.getMinutes();
+		var seconds = currentDate.getSeconds();
 
 		return day + '/' + month + '/' + year + ' ' + houre + ':' + minutes + ':' + seconds;
 	}
 
 	function getTokenType(data, type, full, meta) {
-		var type = '';
-		if(data.type == 1) {
-			type = 'Permanent';
-		} else {
-			type = 'Session';
-		}
+		var type = vm.tokensType[data.type];
 		return type;
 	}
 
@@ -94,9 +100,13 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 		if(vm.newToken.token === undefined || vm.newToken.token.length < 1) return;
 		if(vm.newToken.period === undefined || vm.newToken.period.length < 1) return;
 		if(vm.newToken.userId === undefined) return;
-		identitySrv.addToken(vm.newToken).success(function (data) {
-			vm.dtInstance.reloadData(null, false);
-		});
+		try {
+			identitySrv.addToken(vm.newToken).success(function (data) {
+				vm.dtInstance.reloadData(null, false);
+			});
+		} catch(e) {
+			SweetAlert.swal("ERROR!", "Token creation error. Error: " + e, "error");
+		}
 	}
 
 	function editTokenForm(token) {
@@ -131,11 +141,22 @@ function TokensCtrl(identitySrv, $scope, DTOptionsBuilder, DTColumnBuilder, $res
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				identitySrv.deleteToken(token).success(function (data) {
-					vm.dtInstance.reloadData(null, false);
-				}).error(function (data) {
-					SweetAlert.swal("ERROR!", "User token is safe :). Error: " + data, "error");
-				});
+				try {
+					identitySrv.deleteToken(token).success(function (data) {
+						//SweetAlert.swal("Success!", "Your token has been deleted.", "success");
+						SweetAlert.swal({
+							title : 'Deleted',
+							text : 'User token has been deleted!',
+							timer: VARS_TOOLTIP_TIMEOUT,
+							showConfirmButton: false
+						});
+						vm.dtInstance.reloadData(null, false);
+					}).error(function (data) {
+						SweetAlert.swal("ERROR!", "User token is safe :). Error: " + data, "error");
+					});
+				} catch(e) {
+					SweetAlert.swal("ERROR!", "User token is safe. Error: " + e, "error");
+				}
 			}
 		});		
 	}

@@ -12,9 +12,10 @@
 					Environment
 				</label>
 				<select class="b-popup-body-input b-popup-body-input_min" 
-					ng-change="containerViewCtrl.getContainers()" 
+					ng-change="containerViewCtrl.filterContainersList()" 
 					id="subt_select__containers-environment" 
 					ng-model="containerViewCtrl.environmentId">
+					<option value="">All</option>
 					<option 
 						ng-repeat="environment in containerViewCtrl.environments" 
 						value="{{ environment.id }}"
@@ -27,31 +28,49 @@
 
 			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
 				<label class="b-popup-body-label b-popup-body-label_inline">
-					Containers Type 
+					Container Type
 				</label>
 				<select class="b-popup-body-input b-popup-body-input_min" 
-					ng-change="containerViewCtrl.getContainers()" 
+					ng-change="containerViewCtrl.filterContainersList()" 
 					id="subt_select__containers-type" 
 					ng-model="containerViewCtrl.containersTypeId">
+					<option value="">All</option>
 					<option ng-repeat="type in containerViewCtrl.containersType" value="{{ type }}">
 						{{ type }}
 					</option>
 				</select>
 				<div class="clear"></div>
 			</div>
+
+			<div class="b-main-form__wrapper b-main-form__wrapper_margin-r">
+				<label class="b-popup-body-label b-popup-body-label_inline">
+					Container Status
+				</label>
+				<select class="b-popup-body-input b-popup-body-input_min" 
+					ng-change="containerViewCtrl.filterContainersList()" 
+					id="subt_select__containers-status" 
+					ng-model="containerViewCtrl.containerState">
+					<option value="">All</option>
+					<option value="RUNNING">RUNNING</option>
+					<option value="STOPPED">STOPPED</option>
+				</select>
+				<div class="clear"></div>
+			</div>
 		</div>
 
 		<div class="b-data-table">
+
 			<table datatable="ng" ng-show="containerViewCtrl.containers.length > 0" 
 				dt-options="containerViewCtrl.dtOptions" 
 				dt-column-defs="containerViewCtrl.dtColumnDefs" 
-				class="row-border hover">
+				class="row-border hover subt_table-containers-table">
 				<thead>
 					<tr>
 						<th>Status</th>
 						<th>Template</th>
 						<th>IP</th>
 						<th>Tags</th>
+						<th>Domain</th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -62,12 +81,46 @@
 							<div 
 								class="b-status-icon b-status-icon_{{ container.state }}" 
 								tooltips 
-								tooltip-title="{{ container.state }}">
+								tooltip-template="{{ container.state }}">
 							</div>
 						</td>
-						<td>{{ container.templateName }}</td>
-						<td class="subt_text__container-ip">{{ container.ip }}</td>
-						<td>{{ container.hostname }}</td>
+						<td>
+							<a  ui-sref="console({ containerId: container.id })" 
+								tooltips 
+								tooltip-template='
+									<span class="b-nowrap">EnvironmentId: <b>{{ container.environmentId }}</b></span><br>
+									<span class="b-nowrap">ID: <b>{{ container.id }}</b></span><br>
+									<span class="b-nowrap">Host Name: <b>{{ container.hostname }}</b></span>
+								' 
+								tooltip-side="right">
+								{{ container.templateName }}
+							</a>
+						</td>
+						<td class="subt_text__container-ip">
+							<span 
+								tooltips 
+								tooltip-template='<span class="b-nowrap">mac: <b>{{ container.environmentId }}</b></span>'>
+								{{ container.ip }}
+							</span>
+						</td>
+						<td class="b-main-table__tags">
+							<span class="b-tags b-tags_grey" ng-repeat="(key, tag) in container.tags">
+								{{ tag }} 
+								<a href ng-click="containerViewCtrl.removeTag(container, tag, key)">
+									<i class="fa fa-times"></i>
+								</a>
+							</span>
+							<span class="b-tags b-tags_grey" ng-click="containerViewCtrl.addTagForm(container)">
+								Add 
+								<i class="fa fa-plus"></i>
+							</span>
+						</td>
+						<td>
+							<button class="b-btn b-btn_grey" 
+							ng-click="containerViewCtrl.showDomainForm(container)">
+								Configure
+							</button>
+						</td>
 						<td>
 							<button ng-show="container.state == 'RUNNING'" class="b-btn b-btn_red subt_button__container-stop" 
 							ng-click="containerViewCtrl.containerAction(key)">
@@ -90,6 +143,7 @@
 					</tr>
 				</tbody>
 			</table>
+
 		</div>
 
 		<!--<div class="b-empty-list" ng-show="environmentViewCtrl.environments.length == 0">

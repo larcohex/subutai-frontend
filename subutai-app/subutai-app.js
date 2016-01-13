@@ -6,13 +6,63 @@ var app = angular.module('subutai-app', [
 		'oitozero.ngSweetAlert',
 		'ngDialog',
 		'datatables',
-		'720kb.tooltips'
+		'720kb.tooltips',
+		'ngTagsInput',
+		'nvd3',
+		'cfp.loadingBar'
 	])
 	.config(routesConf)
+
+	.controller('SubutaiController', SubutaiController)
+	.controller('CurrentUserCtrl', CurrentUserCtrl)
+	.controller('LiveTrackerCtrl', LiveTrackerCtrl)
+	.factory('liveTrackerSrv', liveTrackerSrv)
+
 	.run(startup);
 
+CurrentUserCtrl.$inject = ['$location', '$rootScope'];
 routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 startup.$inject = ['$rootScope', '$state', '$location', '$http'];
+
+function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
+	var vm = this;
+	vm.currentUser = $rootScope.currentUser;
+	vm.currentUserRoles = [];
+
+	//function
+	vm.logout = logout;
+
+
+	function logout() {
+		removeCookie('sptoken');
+		sessionStorage.removeItem('currentUser');
+		$location.path('login');
+	}
+
+	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+		if(localStorage.getItem('currentUser') !== undefined) {
+			vm.currentUser = sessionStorage.getItem('currentUser');
+		} else if($rootScope.currentUser !== undefined) {
+			vm.currentUser = $rootScope.currentUser;
+		}
+	});
+}
+
+function SubutaiController($rootScope) {
+	var vm = this;
+	vm.bodyClass = '';
+
+	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+		vm.layoutType = 'subutai-app/common/layouts/' + toState.data.layout + '.html';
+		if (angular.isDefined(toState.data.bodyClass)) {
+			vm.bodyClass = toState.data.bodyClass;
+			return;
+		}
+
+		vm.bodyClass = '';
+	});
+}
+
 
 function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
@@ -26,6 +76,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('login', {
 			url: '/login',
 			templateUrl: 'subutai-app/login/partials/view.html',
+			data: {
+				bodyClass: 'b-body',
+				layout: 'fullpage'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -42,12 +96,43 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('home', {
-			url: '',
-			templateUrl: 'subutai-app/home/partials/view.html'
+			url: '/',
+			templateUrl: 'subutai-app/monitoring/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'chart.js',
+							files: [
+								'css/libs/angular-chart.min.css',
+								'assets/js/plugins/angular-chart.min.js'
+							]
+						},
+						{
+							name: 'subutai.monitoring',
+							files: [
+								'subutai-app/monitoring/monitoring.js',
+								'subutai-app/monitoring/controller.js',
+								'subutai-app/monitoring/service.js',
+								'subutai-app/environment/service.js',
+								'subutai-app/peerRegistration/service.js'
+							]
+						}
+					]);
+				}]
+			}
 		})
 		.state('blueprints', {
 			url: '/blueprints',
 			templateUrl: 'subutai-app/blueprints/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -66,6 +151,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('blueprintsActions', {
 			url: '/blueprints/{blueprintId}/{action}/',
 			templateUrl: 'subutai-app/blueprintsBuild/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -90,8 +179,12 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('environments', {
-			url: '/environments',
+			url: '/environments/{activeTab}',
 			templateUrl: 'subutai-app/environment/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -110,6 +203,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('containers', {
 			url: '/containers/{environmentId}',
 			templateUrl: 'subutai-app/containers/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -128,6 +225,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('identity-user', {
 			url: '/identity-user',
 			templateUrl: 'subutai-app/identityUser/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -146,6 +247,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('identity-role', {
 			url: '/identity-role',
 			templateUrl: 'subutai-app/identityRole/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -161,9 +266,35 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
+		.state('nodeReg', {
+			url: '/nodeReg',
+			templateUrl: 'subutai-app/nodeReg/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load(
+						{
+							name: 'subutai.nodeReg',
+							files: [
+								'subutai-app/nodeReg/nodeReg.js',
+								'subutai-app/nodeReg/controller.js',
+								'subutai-app/nodeReg/service.js',
+								'subutai-app/environment/service.js'
+							]
+						});
+				}]
+			}
+		})
 		.state('tracker', {
 			url: '/tracker',
 			templateUrl: 'subutai-app/tracker/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -182,6 +313,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('peer-registration', {
 			url: '/peer-registration',
 			templateUrl: 'subutai-app/peerRegistration/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -200,6 +335,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('tokens', {
 			url: '/tokens',
 			templateUrl: 'subutai-app/tokens/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -216,8 +355,12 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('console', {
-			url: '/console',
+			url: '/console/{containerId}',
 			templateUrl: 'subutai-app/console/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -241,6 +384,10 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 		.state('plugins', {
 			url: '/plugins',
 			templateUrl: 'subutai-app/plugins/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -256,119 +403,26 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 				}]
 			}
 		})
-		.state('cassandra', {
-			url: '/plugins/cassandra',
-			templateUrl: 'plugins/cassandra/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.cassandra',
-							files: [
-								'plugins/cassandra/cassandra.js',
-								'plugins/cassandra/controller.js',
-								'plugins/cassandra/service.js',
-								'subutai-app/environment/service.js',
-								'subutai-app/peerRegistration/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('keshig', {
-			url: '/plugins/keshig',
-			templateUrl: 'plugins/keshig/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.keshig',
-							files: [
-								'plugins/keshig/keshig.js',
-								'plugins/keshig/controller.js',
-								'plugins/keshig/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('hadoop', {
-			url: '/plugins/hadoop',
-			templateUrl: 'plugins/hadoop/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.hadoop',
-							files: [
-								'plugins/hadoop/hadoop.js',
-								'plugins/hadoop/controller.js',
-								'plugins/hadoop/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('solr', {
-			url: '/plugins/solr',
-			templateUrl: 'plugins/solr/partials/view.html',
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.solr',
-							files: [
-								'plugins/solr/solr.js',
-								'plugins/solr/controller.js',
-								'plugins/solr/service.js',
-								'subutai-app/environment/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
-		.state('mongo', {
-        			url: '/plugins/mongo',
-        			templateUrl: 'plugins/mongo/partials/view.html',
-        			resolve: {
-        				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-        					return $ocLazyLoad.load([
-        						{
-        							name: 'subutai.plugins.mongo',
-        							files: [
-        								'plugins/mongo/mongo.js',
-        								'plugins/mongo/controller.js',
-        								'plugins/mongo/service.js',
-        								'subutai-app/environment/service.js',
-                                        'subutai-app/peerRegistration/service.js'
-        							]
-        						}
-        					]);
-        				}]
-        			}
-        		})
 		.state('404', {
 			url: '/404',
-			template: 'Not found'
-		})
+			templateUrl: 'subutai-app/common/partials/404.html',
+			data: {
+				bodyClass: 'b-body',
+				layout: 'fullpage'
+			}
+		});
 }
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ZmVkYjUyNi05N2IxLTQ1ZTUtOTc0Yi1mOTE4YjlmM2JkM2MiLCJpc3MiOiJpby5zdWJ1dGFpIn0.tt3f8_GAjzmWS0iqKRIKf5H8b7p8Q8uN6dqybHGxS90';
-
-	//$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
-	//	var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-	//	if (restrictedPage && !getCookie('sptoken')) {
-	//		$location.path('/login');
-	//	}
-	//});
-	//$http.defaults.headers.common['sptoken'] = getCookie('sptoken');
+	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+		LOADING_SCREEN('none');
+		var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+		if (restrictedPage && !getCookie('sptoken')) {
+			sessionStorage.removeItem('currentUser');
+			$location.path('/login');
+		}
+	});
 
 	$rootScope.$state = $state;
 }
@@ -382,6 +436,10 @@ function getCookie(cname) {
 		if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
 	}
 	return false;
+}
+
+function removeCookie( name ) {
+	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 app.directive('dropdownMenu', function() {
@@ -405,6 +463,8 @@ app.directive('dropdownMenu', function() {
 							//colEqualHeight();
 						});
 					} else {
+						$('.b-nav-menu_active').removeClass('b-nav-menu_active')
+						$('.b-nav-menu__sub').slideUp(200);
 						$(this).parent().addClass('b-nav-menu_active');
 						$(this).next('.b-nav-menu__sub').slideDown(300, function(){
 							//colEqualHeight();
@@ -421,7 +481,6 @@ app.directive('checkbox-list-dropdown', function() {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attr) {
-			console.log('lololo');
 			$('.b-form-input_dropdown').click(function () {
 				$(this).toggleClass('is-active');
 			});
@@ -434,11 +493,19 @@ app.directive('checkbox-list-dropdown', function() {
 });
 
 //Global variables
-//var SERVER_URL = '/';
-var SERVER_URL = 'http://172.16.131.204:8080/';
+
+var SERVER_URL = '/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
-var VARS_TOOLTIP_TIMEOUT = 900;
+var VARS_TOOLTIP_TIMEOUT = 1600;
+
+function LOADING_SCREEN(displayStatus) {
+	if(displayStatus === undefined || displayStatus === null) displayStatus = 'block';
+	var loadScreen = document.getElementsByClassName('js-loading-screen')[0];
+	if(loadScreen) {
+		loadScreen.style.display = displayStatus;
+	}
+}
 
 function VARS_MODAL_CONFIRMATION( object, title, text, func )
 {
@@ -461,11 +528,11 @@ function VARS_MODAL_CONFIRMATION( object, title, text, func )
 function VARS_MODAL_ERROR( object, text )
 {
 	object.swal({
-			title: "ERROR!",
-			text: text,
-			type: "error",
-			confirmButtonColor: "#ff3f3c"
-		});
+		title: "ERROR!",
+		text: text,
+		type: "error",
+		confirmButtonColor: "#ff3f3c"
+	});
 }
 
 quotaColors = [];
@@ -486,7 +553,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 2,
@@ -496,7 +562,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 3,
@@ -506,7 +571,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 4,
@@ -516,7 +580,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 5,
@@ -526,7 +589,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 6,
@@ -536,7 +598,6 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	},
 	{
 		'object': 7,
@@ -546,6 +607,13 @@ var permissionsDefault = [
 		'write': true,
 		'update': true,
 		'delete': true,
-		'selected': false
 	}
 ];
+
+
+function toggle (source, name) {
+	checkboxes = document.getElementsByName (name);
+	for (var i = 0; i < checkboxes.length; i++) {
+		checkboxes[i].checked = source.checked;
+	}
+}

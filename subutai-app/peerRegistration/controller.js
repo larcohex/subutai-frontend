@@ -4,12 +4,17 @@ angular.module('subutai.peer-registration.controller', [])
 	.controller('PeerRegistrationCtrl', PeerRegistrationCtrl)
 	.controller('PeerRegistrationPopupCtrl', PeerRegistrationPopupCtrl);
 
-PeerRegistrationCtrl.$inject = ['$scope', 'peerRegistrationService', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'ngDialog'];
-PeerRegistrationPopupCtrl.$inject = ['$scope', 'peerRegistrationService', 'ngDialog'];
+PeerRegistrationCtrl.$inject = ['$scope', 'peerRegistrationService', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'ngDialog', 'cfpLoadingBar'];
+PeerRegistrationPopupCtrl.$inject = ['$scope', 'peerRegistrationService', 'ngDialog', 'SweetAlert'];
 
-function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, ngDialog) {
+function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, ngDialog, cfpLoadingBar) {
 
 	var vm = this;
+
+	cfpLoadingBar.start();
+	angular.element(document).ready(function () {
+		cfpLoadingBar.complete();
+	});
 
 	// functions
 	vm.peerFrom = peerFrom;
@@ -110,7 +115,7 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 					SweetAlert.swal("Unregistered!", "Your peer request has been unregistered.", "success");
 					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
-					SweetAlert.swal("ERROR!", "Your peer request is safe :). Error: " + data.ERROR, "error");
+					SweetAlert.swal("ERROR!", data.ERROR, "error");
 				});
 			}
 		});
@@ -135,7 +140,7 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 					SweetAlert.swal("Canceled!", "Your peer request has been canceled.", "success");
 					vm.dtInstance.reloadData(null, false);
 				}).error(function (data) {
-					SweetAlert.swal("ERROR!", "Your peer request is safe :). Error: " + data.ERROR, "error");
+					SweetAlert.swal("ERROR!", data.ERROR, "error");
 				});
 			}
 		});
@@ -143,7 +148,7 @@ function PeerRegistrationCtrl($scope, peerRegistrationService, DTOptionsBuilder,
 
 }
 
-function PeerRegistrationPopupCtrl($scope, peerRegistrationService, ngDialog) {
+function PeerRegistrationPopupCtrl($scope, peerRegistrationService, ngDialog, SweetAlert) {
 
 	var vm = this;
 	vm.peerId = null;
@@ -157,15 +162,18 @@ function PeerRegistrationPopupCtrl($scope, peerRegistrationService, ngDialog) {
 
 	function addPeer(newPeer) {
 		var postData = 'ip=' + newPeer.ip + '&key_phrase=' + newPeer.keyphrase;
-		console.log('lololo');
 		peerRegistrationService.registerRequest(postData).success(function (data) {
 			ngDialog.closeAll();
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", "Peer request error: " + error, "error");
 		});
 	}
 
 	function approvePeerRequest(keyPhrase) {
 		peerRegistrationService.approvePeerRequest(vm.peerId, keyPhrase).success(function (data) {
 			ngDialog.closeAll();
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", "Peer approve error: " + error, "error");
 		});
 	}
 

@@ -23,6 +23,12 @@ function identitySrv($http) {
 		getRoles: getRoles,
 		addRole: addRole,
 		deleteRole: deleteRole,
+		getTokenTypes: getTokenTypes,
+		getPermissionsScops: getPermissionsScops,
+		signUp: signUp,
+		approve: approve,
+		getKey: getKey,
+		getCurrentUser: getCurrentUser,
 
 		getUsersUrl : function(){ return USERS_URL },
 		getRolesUrl : function(){ return ROLES_URL },
@@ -95,4 +101,38 @@ function identitySrv($http) {
 		return $http.delete(ROLES_URL + roleId);
 	}
 
+	function getTokenTypes() {
+		return $http.get(USERS_URL + 'tokens/types', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function getPermissionsScops() {
+		return $http.get(USERS_URL + 'permissions/scopes', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function getCurrentUser() {
+		return $http.get (SERVER_URL + 'rest/ui/identity/user');
+	}
+
+	function signUp (username, fullName, password, email, publicKey) {
+		var postData = "username=" + username + "&full_name=" + fullName + "&password=" + password + "&email=" + email + "&public_key=" + publicKey;
+		return $http.post(
+			USERS_URL + "signup",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function approve (username, roles) {
+		var postData = "username=" + username + "&roles=" + roles;
+		console.log (postData);
+		return $http.post(
+			USERS_URL + "approve",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function getKey (id) {
+		return $http.get (SERVER_URL + "rest/v1/security/keyman/getpublickeyring", {params: {host_id: id}});
+	}
 }

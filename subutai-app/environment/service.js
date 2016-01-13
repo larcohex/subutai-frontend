@@ -10,6 +10,9 @@ function environmentService($http) {
 
 	var ENVIRONMENTS_URL = SERVER_URL + 'rest/ui/environments/';
 
+	var ENVIRONMENT_REQUISITES = ENVIRONMENTS_URL + 'requisites/';
+	var ENVIRONMENT_START_BUILD = ENVIRONMENTS_URL + 'build/';
+
 	var SSH_KEY_URL = ENVIRONMENTS_URL + 'keys/';
 	var CONTAINERS_URL = ENVIRONMENTS_URL + 'containers/';
 	var CONTAINER_TYPES_URL = CONTAINERS_URL + 'types/';
@@ -19,7 +22,7 @@ function environmentService($http) {
 
 	var GROW_BLUEPRINT_URL = ENVIRONMENTS_URL + 'grow/';
 
-	var STRATEGYS_URL = ENVIRONMENTS_URL + 'strategies/';
+	var STRATEGIES_URL = ENVIRONMENTS_URL + 'strategies/';
 
 	var TEMPLATES_URL = ENVIRONMENTS_URL + 'templates/';
 
@@ -34,10 +37,13 @@ function environmentService($http) {
 		getBlueprintById: getBlueprintById,
 		saveBlueprint : saveBlueprint,
 		deleteBlueprint : deleteBlueprint,
+		getStrategies : getStrategies,
 
 
 		getEnvironments : getEnvironments,
 		createEnvironment : createEnvironment,
+		setupRequisites : setupRequisites,
+		startEnvironmentBuild : startEnvironmentBuild,
 		growEnvironment : growEnvironment,
 		destroyEnvironment: destroyEnvironment,
 
@@ -46,7 +52,8 @@ function environmentService($http) {
 		removeSshKey : removeSshKey,
 
 
-		getDomainStrategys : getDomainStrategys,
+		getDomainStrategies : getDomainStrategies,
+		getDomain : getDomain,
 		setDomain : setDomain,
 		removeDomain : removeDomain,
 
@@ -54,9 +61,13 @@ function environmentService($http) {
 		getContainerStatus : getContainerStatus,
 		destroyContainer : destroyContainer,
 		switchContainer : switchContainer,
+		getContainerDomain : getContainerDomain,
+		checkDomain : checkDomain,
 
 
 		getContainersType : getContainersType,
+		setTags : setTags,
+		removeTag : removeTag,
 
 
 		getEnvQuota: getEnvQuota,
@@ -66,6 +77,14 @@ function environmentService($http) {
 
 		getPeers : getPeers,
 
+		getCurrentUser: getCurrentUser,
+		getUsers: getUsers,
+
+
+		getShared: getShared,
+		share: share,
+
+		revoke: revoke,
 
 		getServerUrl : function getServerUrl() { return ENVIRONMENTS_URL; }
 	};
@@ -117,6 +136,24 @@ function environmentService($http) {
 		);
 	}
 
+	function setupRequisites(data) {
+		var postData = 'blueprint_json=' + data;
+		return $http.post(
+			ENVIRONMENT_REQUISITES,
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function startEnvironmentBuild(environmentId, signedMsg) {
+		var postData = 'environmentId=' + environmentId + "&signedMessage=" + signedMsg;
+		return $http.post(
+			ENVIRONMENT_START_BUILD,
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
 	function growEnvironment(environmentId, data) {
 		var postData = 'environmentId=' + environmentId + '&blueprint_json=' + data;
 		return $http.post(
@@ -151,9 +188,8 @@ function environmentService($http) {
 	}
 
 
-
 	function setSshKey(sshKey, environmentId) {
-		var postData = 'environmentId=' + environmentId + '&key=' + sshKey;
+		var postData = 'environmentId=' + environmentId + '&key=' + window.btoa(sshKey);
 		return $http.post(
 			SSH_KEY_URL,
 			postData, 
@@ -166,9 +202,28 @@ function environmentService($http) {
 	}
 
 
-	function getDomainStrategys() {
+	function getDomain(environmentId) {
 		return $http.get(
-			DOMAINS_URL + 'strategys/',
+			ENVIRONMENTS_URL + environmentId + '/domain',
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
+	}
+
+	function getContainerDomain(container) {
+		return $http.get(
+			ENVIRONMENTS_URL + container.environmentId + '/containers/' + container.id + '/domain',
+			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
+		);
+	}
+
+	function checkDomain(container) {
+		return $http.put(ENVIRONMENTS_URL + container.environmentId + '/containers/' + container.id + '/domain');
+	}
+
+
+	function getDomainStrategies() {
+		return $http.get(
+			DOMAINS_URL + 'strategies/',
 			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
 		);
 	}
@@ -213,12 +268,52 @@ function environmentService($http) {
 	}
 
 
-	function getStrategys() {
-		return $http.get(STRATEGYS_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	function getStrategies() {
+		return $http.get(STRATEGIES_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 
 	function getPeers() {
 		return $http.get(PEERS_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function setTags(environmentId, containerId, tags) {
+		var postData = 'tags=' + JSON.stringify(tags);
+		return $http.post(
+			ENVIRONMENTS_URL + environmentId + '/containers/' + containerId + '/tags',
+			postData, 
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function removeTag(environmentId, containerId, tag) {
+		return $http.delete(ENVIRONMENTS_URL + environmentId + '/containers/' + containerId + '/tags/' + tag);		
+	}
+
+
+	function getShared (environmentId) {
+		return $http.get (ENVIRONMENTS_URL + "shared/users/" + environmentId);
+	}
+
+	function share (users, environmentId) {
+		var postData = "users=" + users + "&environmentId=" + environmentId;
+		return $http.post(
+			ENVIRONMENTS_URL + "share",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function getUsers() {
+		return $http.get (SERVER_URL + 'rest/ui/identity/', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+
+	function getCurrentUser() {
+		return $http.get (SERVER_URL + 'rest/ui/identity/user');
+	}
+
+	function revoke (environmentId) {
+		return $http.put (ENVIRONMENTS_URL + environmentId + "/revoke");
 	}
 }

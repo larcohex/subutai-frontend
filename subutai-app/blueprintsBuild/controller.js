@@ -10,9 +10,11 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	var vm = this;
 	vm.blueprint = {};
 	vm.peers = [];
-	vm.strategies = [];
+	vm.buildTypes = [];
 	vm.blueprintAction = $stateParams.action;
 	vm.colors = quotaColors;
+
+	vm.buildWith = 'strategy';
 
 	vm.nodesToCreate = [];
 	vm.transportNodes = [];
@@ -38,13 +40,19 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		vm.blueprint = data;
 
 		for(var i = 0; i < vm.blueprint.nodeGroups.length; i++) {
-			vm.transportNodes[i] = vm.blueprint.nodeGroups[i];
+			vm.transportNodes[i] = angular.copy(vm.blueprint.nodeGroups[i]);
 			vm.transportNodes[i].show = true;
 			vm.transportNodes[i].disabled = true;
+
+			var minSlider = 1;
+			if(vm.transportNodes[i].numberOfContainers == 1) {
+				minSlider = 0;
+			}
+
 			vm.transportNodes[i].options = {
 				start: vm.transportNodes[i].numberOfContainers, 
 				range: {
-					min: 1, 
+					min: minSlider, 
 					max: vm.transportNodes[i].numberOfContainers
 				}, 
 				step: 1,
@@ -67,13 +75,20 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		});
 	}
 
-	environmentService.getPeers().success(function (data) {
-		vm.peers = data;
-	});
-
-	environmentService.getStrategies().success(function (data) {
-		vm.strategies = data;
-	});
+	function getPeers() {
+		LOADING_SCREEN();
+		environmentService.getPeers().success(function (data) {
+			vm.peers = data;
+			LOADING_SCREEN('none');
+			environmentService.getStrategies().success(function (strategy) {
+				for(var i in vm.peers) {
+					var resources = vm.peers[i];
+					vm.peers[i] = {"strategy": strategy, "resources": resources};
+				}
+			});
+		});
+	}
+	getPeers();
 
 	function buildPopup() {
 
@@ -83,7 +98,6 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 				return;
 			}
 		} else {
-			console.log(vm.newEnvironmentName);
 			if(vm.newEnvironmentName === undefined || vm.newEnvironmentName.length < 1) {
 				vm.popupError = true;
 				return;
@@ -100,12 +114,12 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 				if(vm.groupList[currentNode.peer] === undefined) {
 					vm.groupList[currentNode.peer] = {};
 				}
-				if(vm.groupList[currentNode.peer][currentNode.strategyId] === undefined) {
-					vm.groupList[currentNode.peer][currentNode.strategyId] = [];
+				if(vm.groupList[currentNode.peer][currentNode.createOption] === undefined) {
+					vm.groupList[currentNode.peer][currentNode.createOption] = [];
 				}
 
 				currentNode.nodesToCreateKey = i;
-				vm.groupList[currentNode.peer][currentNode.strategyId].push(currentNode);
+				vm.groupList[currentNode.peer][currentNode.createOption].push(currentNode);
 			}
 		}
 
@@ -120,7 +134,7 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 
 	function placeNode(node, parentKey) {
 		if(node.peer === undefined) return;
-		if(node.strategyId === undefined) return;
+		if(node.createOption === undefined) return;
 		if(node.options.start < 1) return;
 
 		var key = findContainer(node);
@@ -130,6 +144,7 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		} else {
 			var temp = angular.copy(node);
 			temp.parentNode = parentKey;
+			temp.placement = angular.copy(vm.buildWith);
 			temp.numberOfContainers = node.options.start;			
 			vm.nodesToCreate.push(temp);
 		}
@@ -159,6 +174,7 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 				if(
 					currentNode.peer == node.peer && 
 					currentNode.name == node.name && 
+					currentNode.createOption == node.createOption && 
 					currentNode.templateName == node.templateName
 				) {
 					return i;
@@ -202,15 +218,21 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 		for(var i = 0; i < vm.nodesToCreate.length; i++) {
 
 			if(vm.nodesToCreate[i] !== null) {
-				var currentNodeGroup = vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode];
-				var containerPlacementStrategy = {"strategyId": vm.nodesToCreate[i].strategyId, "criteria": []};
+				var currentNodeGroup = angular.copy(vm.blueprint.nodeGroups[vm.nodesToCreate[i].parentNode]);
+
+				if(vm.nodesToCreate[i].placement == 'strategy') {
+					var containerPlacementStrategy = {"strategyId": vm.nodesToCreate[i].createOption, "criteria": []};
+					currentNodeGroup.containerPlacementStrategy = containerPlacementStrategy;
+				} else {
+					currentNodeGroup.hostId = vm.nodesToCreate[i].createOption;
+				}
 
 				currentNodeGroup.numberOfContainers = vm.nodesToCreate[i].numberOfContainers;
-				currentNodeGroup.containerPlacementStrategy = containerPlacementStrategy;
 				currentNodeGroup.peerId = vm.nodesToCreate[i].peer;
 				currentNodeGroup.containerDistributionType = 'AUTO';
 
 				nodeGroupsArray.push(currentNodeGroup);
+				currentNodeGroup = {};
 			}
 		}
 		return nodeGroupsArray;
@@ -227,18 +249,26 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	function buildBlueprint(){
 		if(vm.newEnvironmentName === undefined || vm.newEnvironmentName.length < 1) return;
 
-		var postJson = {};
-		postJson.nodeGroups = getNodesGroups();
-		postJson.name = vm.newEnvironmentName;
+		var blueprint = {};
+		blueprint.nodeGroups = getNodesGroups();
+		blueprint.name = vm.newEnvironmentName;
 
-		var postData = JSON.stringify(postJson);
+		var blueprintJson = JSON.stringify(blueprint);
 
-		SweetAlert.swal("Success!", "Your environment start creation.", "success");
+		SweetAlert.swal(
+			{
+				title : 'In progress!',
+				text : 'Your environment is being created!',
+				timer: VARS_TOOLTIP_TIMEOUT,
+				showConfirmButton: false
+			}
+		);
+
 		ngDialog.closeAll();
-		$location.path('/environments');
 
-		environmentService.createEnvironment(encodeURI(postData)).success(function (data) {
+		environmentService.setupRequisites(encodeURI(blueprintJson)).success(function (data) {
 			SweetAlert.swal("Success!", "Your environment has been created.", "success");
+			$location.path('/environments/pending');
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", 'Create environment error: ' + error.ERROR, "error");
 		});
@@ -247,12 +277,18 @@ function BlueprintsBuildCtrl($scope, environmentService, SweetAlert, ngDialog, $
 	function growBlueprint() {
 		if(vm.environmentToGrow === undefined) return;
 		var postJson = {};
-		//postJson.environmentId = vm.environmentToGrow;
 		postJson.name = '';
 		postJson.nodeGroups = getNodesGroups();
-		var postData = JSON.stringify(postJson);		
+		var postData = JSON.stringify(postJson);
 
-		SweetAlert.swal("Success!", "Your environment start growing.", "success");
+		SweetAlert.swal(
+				{
+					title : 'In progress!',
+					text : 'Your environment is being grown!',
+					timer: VARS_TOOLTIP_TIMEOUT,
+					showConfirmButton: false
+				}
+		);
 		ngDialog.closeAll();
 		$location.path('/environments');
 
