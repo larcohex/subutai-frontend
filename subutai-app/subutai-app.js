@@ -94,7 +94,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 			}
 		})
 		.state('home', {
-			url: '/',
+			url: '',
 			templateUrl: 'subutai-app/monitoring/partials/view.html',
 			data: {
 				bodyClass: '',
@@ -214,6 +214,28 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 								'subutai-app/containers/containers.js',
 								'subutai-app/containers/controller.js',
 								'subutai-app/environment/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('kurjun', {
+			url: '/kurjun',
+			templateUrl: 'subutai-app/kurjun/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.kurjun',
+							files: [
+								'subutai-app/kurjun/kurjun.js',
+								'subutai-app/kurjun/controller.js',
+								'subutai-app/kurjun/service.js'
 							]
 						}
 					]);
@@ -940,7 +962,7 @@ function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ZjQ3YzA1MS04ZGQ3LTQ1MmYtYjgwNi1lZWY0MzAyNTE1ZjIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.kcwRdEln_07x09hhAusZ_PeLhl6VpzV3LBqsV-vRHRg';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxYWVjYzFlMi01NmM1LTRlNjktYmUyOS04ZGMwOTljYTQ2OTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ZI7KpG0ewPTvC1JckFCx-d5rSB0p_CmhdHkp9Qpewpc';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
