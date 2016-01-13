@@ -20,7 +20,7 @@
 					<td>{{ environment.name }}</td>
 					<td><a href ng-click = "environmentViewCtrl.showSSHKeyForm(environment.id)">Add</a>/<a href ng-click="environmentViewCtrl.removeSshKey(environment.id)">Remove</a></td>
 					<td><button class="b-btn b-btn_grey" ng-click="environmentViewCtrl.showDomainForm(environment.id)">Configure</button></td>
-					<td ng-repeat = "template in environment.containersTotal">
+					<td>
 						<a ng-repeat = "type in template" ui-sref="containers({environmentId: {{ environment.id }}})" class="b-tags" tooltips tooltip-template="<div class='b-nowrap'>Quota: <div class='b-quota-type-round'></div> <b>{{ type }}</b></div><span class='b-nowrap'>State: <b>RUNNINGs</b></span>">{{ template }}: {{ environment.containersTotal[template][type] }}</a>
 					</td> <!-- TODO: add containers list -->
 					<td>
@@ -32,7 +32,4 @@
 		</div>
 	</div>
 </div>
-
-
-
 

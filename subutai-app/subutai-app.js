@@ -21,7 +21,7 @@ var app = angular.module('subutai-app', [
 	.run(startup);
 
 CurrentUserCtrl.$inject = ['$location', '$rootScope'];
-routesConf.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
+routesConf.$inject = ['$httpProvider', '$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 startup.$inject = ['$rootScope', '$state', '$location', '$http'];
 
 function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
@@ -64,7 +64,7 @@ function SubutaiController($rootScope) {
 }
 
 
-function routesConf($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
 	$urlRouterProvider.otherwise('/404');
 
