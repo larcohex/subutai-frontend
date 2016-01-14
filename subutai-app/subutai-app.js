@@ -947,6 +947,23 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
+		.state('about', {
+			url: '/about',
+			templateUrl: 'subutai-app/about/partials/view.html',
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.about',
+							files: [
+								'subutai-app/about/about.js',
+								'subutai-app/about/controller.js',
+							]
+						}
+					])
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			templateUrl: 'subutai-app/common/partials/404.html',
@@ -960,7 +977,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 		return {
 			'responseError': function(rejection) {
 				if (rejection.status == 401 && $.inArray($location.path(), ['/login']) === -1) {
-					$location.path('/login');
+					//$location.path('/login');
 				}
 				return $q.reject(rejection);
 			}
@@ -970,7 +987,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxYWVjYzFlMi01NmM1LTRlNjktYmUyOS04ZGMwOTljYTQ2OTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ZI7KpG0ewPTvC1JckFCx-d5rSB0p_CmhdHkp9Qpewpc';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YzJmNmNhOC1kYTZmLTQ1OWItOWYzNi01YmJhMTIwMDU2OGYiLCJpc3MiOiJpby5zdWJ1dGFpIn0.1UrDdG1xU29HBs-O9eJvQnjZ4VZyy7uhUFAQftCt7Ik';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1052,7 +1069,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://10.10.12.163:8080/';
+var SERVER_URL = 'http://10.10.12.38:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
