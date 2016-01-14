@@ -106,8 +106,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	vm.addUser2Stack = addUser2Stack;
 	vm.removeUserFromStack = removeUserFromStack;
 	vm.containersTags = containersTags;
-
-
+	vm.installedContainers = null;
 	function addUser2Stack(user) {
 		vm.users2Add.push(angular.copy(user));
 		for (var i = 0; i < vm.listOfUsers.length; ++i) {
@@ -263,10 +262,10 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	}*/
 
 	function containersTags (data) {
-		var containersTotal = [];
+		var containersTotal = {};
 		for(var i = 0; i < data.containers.length; i++) {
 			if(containersTotal[data.containers[i].templateName] === undefined) {
-				containersTotal[data.containers[i].templateName] = [];
+				containersTotal[data.containers[i].templateName] = {};
 			}
 
 			if(containersTotal[data.containers[i].templateName][data.containers[i].type] === undefined) {
@@ -292,17 +291,15 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 					} else {
 						var tooltipContent = 'State: <b>INACTIVE</b>';
 					}
-					containersHTML += '<a href="/#/containers/' + data.id + '" '
-						+ ' class="b-tags b-tags_' + quotaColors[type] + '" '
-						+ 'tooltips tooltip-template=\'' + tooltipContent + '\''
-						+ '>'
-						+ template + ': ' + containersTotal[template][type]
-					+ '</a>';
+					containersTotal[template].color = quotaColors[type];
+					containersTotal[template].counts = containersTotal[template][type];
+					containersTotal[template].type = type;
+					containersTotal[template].tooltip = tooltipContent;
+					containersTotal[template].dataID = data.id;
 				}
 			}
 		}
-
-		return $sce.trustAsHtml(containersHTML);
+		vm.installedContainers = containersTotal;
 	}
 
 /*	function actionDelete(data, type, full, meta) {
