@@ -71,42 +71,32 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		vm.domainStrategies = data;
 	});
 
-//	vm.dtInstance = {};
-//	vm.users = {};
-	vm.dtOptions = DTOptionsBuilder
+	//installed environment table options
+	vm.dtOptionsInstallTable = DTOptionsBuilder
 		.newOptions()
-		.withOption('order', [[ 2, "asc" ]])
+		.withOption('order', [[ 1, "asc" ]])
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
-	vm.dtColumnDefs = [
+	vm.dtColumnDefsInstallTable = [
 		DTColumnDefBuilder.newColumnDef(0),
 		DTColumnDefBuilder.newColumnDef(1),
-		DTColumnDefBuilder.newColumnDef(2),
+		DTColumnDefBuilder.newColumnDef(2).notSortable(),
 		DTColumnDefBuilder.newColumnDef(3).notSortable(),
 		DTColumnDefBuilder.newColumnDef(4).notSortable(),
-		DTColumnDefBuilder.newColumnDef(5).notSortable()
+		DTColumnDefBuilder.newColumnDef(5).notSortable(),
 	];
-/*	vm.dtOptions = DTOptionsBuilder
-		.fromFnPromise(function() {
-			return $resource( environmentService.getServerUrl() ) .query().$promise;
-		}).withPaginationType('full_numbers')
-		.withOption('createdRow', createdRow)
-		.withOption('order', [[ 1, "asc" ]])
-		//.withDisplayLength(2)
-		.withOption('stateSave', true);
 
-	vm.dtColumns = [
-		//DTColumnBuilder.newColumn('id').withTitle('ID'),
-		DTColumnBuilder.newColumn('status').withTitle('').notSortable().renderWith(statusHTML),
-		DTColumnBuilder.newColumn(null).withTitle('Environment name').renderWith(environmentNameTooltip),
-		DTColumnBuilder.newColumn(null).withTitle('SSH Key').renderWith(sshKeyLinks),
-		DTColumnBuilder.newColumn(null).withTitle('Domains').renderWith(domainsTag),
-		DTColumnBuilder.newColumn(null).withTitle('Share').notSortable().renderWith(actionShare),
-		DTColumnBuilder.newColumn(null).withTitle('Containers').renderWith(containersTags),
-		DTColumnBuilder.newColumn(null).withTitle('Actions').notSortable().renderWith(actionStartEnvironmentBuild),
-		//DTColumnBuilder.newColumn(null).withTitle('Revoke').notSortable().renderWith(actionSwitch),
-		DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionDelete)
-	];*/
+	//pending environment table options
+	vm.dtOptionsPendingTable = DTOptionsBuilder
+		.newOptions()
+		.withOption('order', [[ 1, "asc" ]])
+		.withOption('stateSave', true)
+		.withPaginationType('full_numbers');
+	vm.dtColumnDefsPendingTable = [
+		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(1),
+		DTColumnDefBuilder.newColumnDef(2).notSortable(),
+	];
 
 	vm.listOfUsers = [];
 	vm.shareEnvironmentWindow = shareEnvironmentWindow;
@@ -116,6 +106,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	vm.addUser2Stack = addUser2Stack;
 	vm.removeUserFromStack = removeUserFromStack;
 	vm.containersTags = containersTags;
+
+
 	function addUser2Stack(user) {
 		vm.users2Add.push(angular.copy(user));
 		for (var i = 0; i < vm.listOfUsers.length; ++i) {
@@ -131,16 +123,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		vm.listOfUsers.push (vm.users2Add[key]);
 		vm.users2Add.splice(key, 1);
 	}
-
-
-
-
-/*	function actionShare (data, type, full, meta) {
-		return '<a href="" class="b-btn b-btn_blue g-left" ng-click="environmentViewCtrl.shareEnvironmentWindow(\'' + data.id + '\')" ng-show = "' + (data.status === "HEALTHY") + '">Share</a>';
-	}*/
-
-
-
 
 	vm.currentUser = {};
 	environmentService.getCurrentUser().success (function (data) {
