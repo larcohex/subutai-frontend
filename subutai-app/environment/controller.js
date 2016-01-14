@@ -62,29 +62,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 						break;
 					}
 				}
-				/*for (var j = 0; j < vm.environments.length; ++j) {
-					var data = vm.environments[j];
-					var containersTotal = [];
-					for (var k = 0; k < data.containers.length; k++) {
-						if(containersTotal[data.containers[k].templateName] === undefined) {
-							containersTotal[data.containers[k].templateName] = [];
-						}
-
-						if(containersTotal[data.containers[k].templateName][data.containers[k].type] === undefined) {
-							containersTotal[data.containers[k].templateName][data.containers[k].type] = 0;
-						}
-
-						if(data.containers[k].state != 'RUNNING') {
-							if(containersTotal[data.containers[k].templateName]['INACTIVE'] === undefined) {
-								containersTotal[data.containers[k].templateName]['INACTIVE'] = 0;
-							}
-							containersTotal[data.containers[k].templateName]['INACTIVE'] += 1;
-						} else {
-							containersTotal[data.containers[k].templateName][data.containers[k].type] += 1;
-						}
-					}
-					vm.environments[j].containersTotal = containersTotal;
-				}*/
 			}
 		});
 	}
@@ -333,7 +310,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 					} else {
 						var tooltipContent = 'State: <b>INACTIVE</b>';
 					}
-					containersHTML += '<a ui-sref="containers({environmentId:\'' + data.id + '\'})" '
+					containersHTML += '<a href="/#/containers/' + data.id + '" '
 						+ ' class="b-tags b-tags_' + quotaColors[type] + '" '
 						+ 'tooltips tooltip-template=\'' + tooltipContent + '\''
 						+ '>'
@@ -343,7 +320,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 			}
 		}
 
-		return containersHTML;
+		return $sce.trustAsHtml(containersHTML);
 	}
 
 /*	function actionDelete(data, type, full, meta) {
