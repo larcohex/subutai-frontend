@@ -950,6 +950,10 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 		.state('about', {
 			url: '/about',
 			templateUrl: 'subutai-app/about/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
@@ -961,6 +965,29 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 							]
 						}
 					])
+				}]
+			}
+		})
+		.state('plugin_integrator', {
+			url: '/plugin_integrator',
+			templateUrl: 'subutai-app/plugin_integrator/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugin_integrator',
+							files: [
+								'subutai-app/plugin_integrator/plugin_integrator.js',
+								'subutai-app/plugin_integrator/controller.js',
+								'subutai-app/plugin_integrator/service.js',
+								'subutai-app/identity/service.js'
+							]
+						}
+					]);
 				}]
 			}
 		})
