@@ -1,6 +1,6 @@
 <div class="b-workspace-content b-workspace-content_border">
 	<div class="b-workspace-content__row">
-		<div class="b-main-table-border">
+		<div class="b-data-table">
 			<table datatable="ng" 
 				dt-options="environmentViewCtrl.dtOptionsPendingTable" 
 				dt-column-defs="environmentViewCtrl.dtColumnDefsPendingTable" 
@@ -24,7 +24,11 @@
 						</td>
 						<td>{{ environment.name }}</td>
 						<td>
-							<button class="b-btn b-btn_blue" ng-click="environmentViewCtrl.startEnvironmentBuild(environment)">Build</button>
+							<a href
+							   ng-click="environmentViewCtrl.startEnvironmentBuild(environment)"
+							   class="b-icon b-icon_build"
+							   tooltips tooltip-template="Build">
+							</a>
 							<a href class="b-icon b-icon_remove" ng-click="environmentViewCtrl.destroyEnvironment(environment.id)" style = "margin-left: 10px; margin-top: 7px"></a>
 						</td>
 					</tr>
