@@ -947,6 +947,31 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
+		.state('ceph', {
+			url: '/plugins/ceph',
+			templateUrl: 'plugins/ceph/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'vtortola.ng-terminal'
+						},
+						{
+							name: 'subutai.plugins.ceph',
+							files: [
+								'plugins/ceph/ceph.js',
+								'plugins/ceph/controller.js',
+								'plugins/ceph/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('about', {
 			url: '/about',
 			templateUrl: 'subutai-app/about/partials/view.html',
@@ -1014,7 +1039,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmFhNTliMS0wZDQyLTQzMzYtYjM3Yy0zNDA0ZGEzNWFlYzgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.2ZUDC8mQcpsRQhDslqktuTBBP9daUKdo6iB8Zz3GRPU';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMWM3NDA3YS04YjNlLTQwNjItYjExMy04OGU4NTlhZjU2ZjgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.yfcXK3h5Osm5vl37aJkRpRDXHUCNUDCVS3KtiKVbszI';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1096,7 +1121,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://10.10.12.163:8080/';
+var SERVER_URL = 'http://10.10.12.96:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
