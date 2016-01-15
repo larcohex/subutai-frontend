@@ -221,7 +221,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 /*	var refreshTable;
 	var reloadTableData = function() {
 		refreshTable = $timeout(function myFunction() {
-			vm.dtInstance.reloadData(null, false);
+			if(typeof(vm.dtInstance.reloadData) == 'function') {
+				vm.dtInstance.reloadData(null, false);
+			}
 			refreshTable = $timeout(reloadTableData, 30000);
 		}, 30000);
 	};
@@ -238,12 +240,12 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	}
 
 	function statusHTML(environmentStatus, type, full, meta) {
-		return '<div class="b-status-icon b-status-icon_' + environmentStatus + '" tooltips tooltip-title="' + environmentStatus + '"></div>';
+		return '<div class="b-status-icon b-status-icon_' + environmentStatus + '" tooltips tooltip-template="' + environmentStatus + '" tooltip-side="right"></div>';
 	}
 
 	function environmentNameTooltip(data, type, full, meta) {
 		vm.users[data.id] = data;
-		return '<span tooltips tooltip-content="ID: <b>' + data.id + '</b>">' + data.name + '</span>';
+		return "<span tooltips tooltip-template='<span class=\"b-nowrap\">ID: <b>" + data.id + "</b></span>'>" + data.name + "</span>";
 	}
 
 	function sshKeyLinks(data, type, full, meta) {

@@ -98,7 +98,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 			}
 		})
 		.state('home', {
-			url: '',
+			url: '/',
 			templateUrl: 'subutai-app/monitoring/partials/view.html',
 			data: {
 				bodyClass: '',
@@ -1029,7 +1029,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 		return {
 			'responseError': function(rejection) {
 				if (rejection.status == 401 && $.inArray($location.path(), ['/login']) === -1) {
-					//$location.path('/login');
+					$location.path('/login');
 				}
 				return $q.reject(rejection);
 			}

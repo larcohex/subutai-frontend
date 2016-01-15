@@ -8,7 +8,7 @@ LoginCtrl.$inject = ['loginSrv', '$http', '$location', '$rootScope'];
 SignupCtrl.$inject = ['ngDialog', '$http', '$scope', 'SweetAlert'];
 
 
-function LoginCtrl( loginSrv, $http, $location, $rootScope )
+function LoginCtrl( loginSrv, $http, $location, $rootScope, $state )
 {
 	var vm = this;
 
@@ -25,7 +25,7 @@ function LoginCtrl( loginSrv, $http, $location, $rootScope )
 			$rootScope.currentUser = vm.name;
 			$http.defaults.headers.common['sptoken']= getCookie('sptoken');
 			//$location.path('');
-			window.location.href = '/';
+			$state.go('home');
 		}).error(function(error){
 			console.log(error);
 			vm.errorMessage = error;
