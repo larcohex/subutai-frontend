@@ -161,7 +161,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 				}
 				vm.currentEnvironment = environment;
 				ngDialog.open ({
-					template: "subutai-app/environment/partials/shareEnv.html",
+					template: "subutai-app/environment/partials/popups/shareEnv.html",
 					scope: $scope
 				});
 			});
@@ -336,8 +336,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
     function startEnvironmentBuild (environment) {
     	vm.currentEnvironment = environment;
 		ngDialog.open ({
-			template: "subutai-app/environment/partials/decryptMsg.html",
-			scope: $scope
+			template: "subutai-app/environment/partials/popups/decryptMsg.html",
+			scope: $scope,
+			className: 'environmentDialog'
 		});
     }
 
@@ -438,7 +439,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	function showSSHKeyForm(environmentId) {
 		vm.sshKeyForEnvironment = environmentId;
 		ngDialog.open({
-			template: 'subutai-app/environment/partials/sshKeyForm.html',
+			template: 'subutai-app/environment/partials/popups/sshKeyForm.html',
 			scope: $scope
 		});
 	}
@@ -450,7 +451,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		environmentService.getDomain(environmentId).success(function (data) {
 			vm.currentDomain = data;
 			ngDialog.open({
-				template: 'subutai-app/environment/partials/domainForm.html',
+				template: 'subutai-app/environment/partials/popups/domainForm.html',
 				scope: $scope
 			});
 			LOADING_SCREEN('none');

@@ -104,3 +104,11 @@
 body.ngdialog-open {
   overflow: hidden;
 }
+
+.environmentDialog.ngdialog {
+  z-index: 10000;
+}
+
+.environmentDialog .ngdialog-content {
+  height: 450px;
+}
