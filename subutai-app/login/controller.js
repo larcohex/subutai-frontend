@@ -4,7 +4,7 @@ angular.module('subutai.login.controller', [])
 	.controller('LoginCtrl', LoginCtrl)
 	.controller('SignupCtrl', SignupCtrl);
 
-LoginCtrl.$inject = ['loginSrv', '$http', '$location', '$rootScope'];
+LoginCtrl.$inject = ['loginSrv', '$http', '$location', '$rootScope', '$state'];
 SignupCtrl.$inject = ['ngDialog', '$http', '$scope', 'SweetAlert'];
 
 
