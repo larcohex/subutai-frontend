@@ -298,6 +298,10 @@ input[type=checkbox] {
     position: relative;
 }
 
+.b-main-table-border_add-bottom {
+	border-bottom: 1px solid #dcdcdc;
+}
+
 .b-main-table-border_half {
     width: 50%;
 }
@@ -1682,7 +1686,7 @@ td.b-main-table__status-col {
 .b-tabs-menu {
     position: relative;
     bottom: -1px;
-    z-index: 100;
+    z-index: 8;
 }
 
 .b-tabs-menu ul {

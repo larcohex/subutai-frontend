@@ -78,7 +78,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 	vm.dtColumnDefsInstallTable = [
-		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		DTColumnDefBuilder.newColumnDef(1),
 		DTColumnDefBuilder.newColumnDef(2).notSortable(),
 		DTColumnDefBuilder.newColumnDef(3).notSortable(),
@@ -93,9 +93,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 	vm.dtColumnDefsPendingTable = [
-		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		DTColumnDefBuilder.newColumnDef(1),
-		DTColumnDefBuilder.newColumnDef(2).notSortable(),
+		DTColumnDefBuilder.newColumnDef(2).notSortable()
 	];
 
 	vm.listOfUsers = [];

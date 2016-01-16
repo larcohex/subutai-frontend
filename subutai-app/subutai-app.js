@@ -1029,7 +1029,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 		return {
 			'responseError': function(rejection) {
 				if (rejection.status == 401 && $.inArray($location.path(), ['/login']) === -1) {
-					$location.path('/login');
+					//$location.path('/login');
 				}
 				return $q.reject(rejection);
 			}
@@ -1039,7 +1039,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMWM3NDA3YS04YjNlLTQwNjItYjExMy04OGU4NTlhZjU2ZjgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.yfcXK3h5Osm5vl37aJkRpRDXHUCNUDCVS3KtiKVbszI';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWVhMjIwNC0wZjI0LTRlODktYWRhOS0xNzcxY2FlZTU4MDUiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ffoFco4DNCgno4GSiI3Ir3HqLKRjWrey7m6BF9z1nSQ';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
