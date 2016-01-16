@@ -247,10 +247,10 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 
 	function resourceHostsTable() {
 		vm.dtOptions = DTOptionsBuilder
-				.newOptions()
-				.withOption('order', [[ 2, "asc" ]])
-				.withOption('stateSave', true)
-				.withPaginationType('full_numbers');
+			.newOptions()
+			.withOption('order', [[ 2, "asc" ]])
+			.withOption('stateSave', true)
+			.withPaginationType('full_numbers');
 
 		vm.dtColumnDefs = [
 			DTColumnDefBuilder.newColumnDef(0),
@@ -261,6 +261,10 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 			DTColumnDefBuilder.newColumnDef(5),
 			DTColumnDefBuilder.newColumnDef(6).notSortable()
 		];
+		getResourceHostsStatuses();
+	}
+
+	function getResourceHostsStatuses() {
 		vm.resourceHostsStatuses = [];
 		keshigSrv.getStatuses().then(function (response) {
 			vm.resourceHostsKeshig = response.data;
@@ -282,7 +286,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 				}
 			}
 			LOADING_SCREEN('none');
-		});
+		});		
 	}
 
 	function showPeerInfo(resourceHost) {
@@ -318,20 +322,26 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	};
 
 	function getResourceHostsUpdates() {
-		keshigSrv.getResourceHostsUpdates().success(function () {
-			resourceHostsTable();
+		keshigSrv.getResourceHostsUpdates().success(function (data) {
+			console.log(data);
+			getResourceHostsStatuses();
 		});
 	};
 
 	function updateResourceHost(resourceHost) {
 		LOADING_SCREEN();
+		console.log(resourceHost);
 		keshigSrv.updateResourceHost({
 			hostname: resourceHost.hostname,
 			serverIp: resourceHost.peer.ip,
 			usedBy: resourceHost.peer.usedBy,
 			comment: resourceHost.comment
 		}).success(function () {
-			resourceHostsTable();
+			//resourceHostsTable();
+			getResourceHostsStatuses();
+		}).error(function(error){
+			SweetAlert.swal("ERROR!", "Error: " + error.replace(/\\n/g, ' '), 'error');
+			LOADING_SCREEN('none');
 		});
 	};
 
