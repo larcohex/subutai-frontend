@@ -4,8 +4,8 @@ angular.module('subutai.plugins.keshig.controller', [])
     .controller('KeshigCtrl', KeshigCtrl)
 	.directive('checkboxListDropdown', checkboxListDropdown);
 
-KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService', 'ngDialog'];
-function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resource, $compile, SweetAlert, peerRegistrationService, ngDialog) {
+KeshigCtrl.$inject = ['$scope', 'keshigSrv', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', '$resource', '$compile', 'SweetAlert', 'peerRegistrationService', 'ngDialog'];
+function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource, $compile, SweetAlert, peerRegistrationService, ngDialog) {
     var vm = this;
 
 	vm.activeTab = 'servers';
@@ -29,9 +29,13 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	vm.profiles2Add = {};
 	vm.profilesFormUpdate = false;
 
-	vm.serversByType = {};	
+	vm.serversByType = {};
 	vm.optionsByType = [];
 	vm.playbooks = [];
+
+	vm.resourceHostsStatuses = [];
+	vm.resourceHostsKeshig = [];
+	vm.resourceHostInfo = [];
 
 	//functions
 	vm.updateOption = updateOption;
@@ -54,6 +58,10 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 
 	vm.exportBuild = exportBuild;
 	vm.getTPR = getTPR;
+
+	vm.showPeerInfo = showPeerInfo;
+	vm.getResourceHostsUpdates = getResourceHostsUpdates;
+	vm.updateResourceHost = updateResourceHost;
 
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
@@ -136,6 +144,8 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			historyTable();
 		} else if(vm.activeTab == 'export') {
 			getProfileValues();
+		} else if(vm.activeTab == 'rh') {
+			resourceHostsTable();
 		}
 	}
 
@@ -234,6 +244,96 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 			DTColumnBuilder.newColumn(null).withTitle('Results').renderWith(renderHistoryOutput)
 		];
 	}
+
+	function resourceHostsTable() {
+		vm.dtOptions = DTOptionsBuilder
+				.newOptions()
+				.withOption('order', [[ 2, "asc" ]])
+				.withOption('stateSave', true)
+				.withPaginationType('full_numbers');
+
+		vm.dtColumnDefs = [
+			DTColumnDefBuilder.newColumnDef(0),
+			DTColumnDefBuilder.newColumnDef(1),
+			DTColumnDefBuilder.newColumnDef(2),
+			DTColumnDefBuilder.newColumnDef(3).notSortable(),
+			DTColumnDefBuilder.newColumnDef(4),
+			DTColumnDefBuilder.newColumnDef(5),
+			DTColumnDefBuilder.newColumnDef(6).notSortable()
+		];
+		vm.resourceHostsStatuses = [];
+		keshigSrv.getStatuses().then(function (response) {
+			vm.resourceHostsKeshig = response.data;
+			for(var resourceHost in vm.resourceHostsKeshig) {
+				if(angular.equals(vm.resourceHostsKeshig[resourceHost].peers, {})) {
+					vm.resourceHostsStatuses.push({
+						hostname: vm.resourceHostsKeshig[resourceHost].hostname,
+						peer: "NONE",
+						lastUpdated: moment(vm.resourceHostsKeshig[resourceHost].lastUpdated).format("YYYY, MMMM DD, HH:m")
+					});
+				} else {
+					for(var peer in vm.resourceHostsKeshig[resourceHost].peers) {
+						vm.resourceHostsStatuses.push({
+							hostname: vm.resourceHostsKeshig[resourceHost].hostname,
+							peer: vm.resourceHostsKeshig[resourceHost].peers[peer],
+							lastUpdated: moment(vm.resourceHostsKeshig[resourceHost].lastUpdated).format("YYYY, MMMM DD, HH:m")
+						});
+					}
+				}
+			}
+			LOADING_SCREEN('none');
+		});
+	}
+
+	function showPeerInfo(resourceHost) {
+		vm.resourceHostInfo = [];
+		if(resourceHost.peer !== 'NONE') {
+			for(var item in resourceHost.peer) {
+				if(item !== 'details') {
+					vm.resourceHostInfo.push({
+						key: item,
+						value: resourceHost.peer[item]
+					});
+				}
+			}
+			for(var item in resourceHost.peer.details) {
+				vm.resourceHostInfo.push({
+					key: item,
+					value: resourceHost.peer.details[item]
+				});
+			}
+		} else {
+			for(var item in resourceHost) {
+				vm.resourceHostInfo.push({
+					key: item,
+					value: resourceHost[item]
+				});
+			}
+		}
+		ngDialog.open({
+			template: 'plugins/keshig/partials/resourceHostInfo.html',
+			scope: $scope,
+			className: 'keshigDialog'
+		});
+	};
+
+	function getResourceHostsUpdates() {
+		keshigSrv.getResourceHostsUpdates().success(function () {
+			resourceHostsTable();
+		});
+	};
+
+	function updateResourceHost(resourceHost) {
+		LOADING_SCREEN();
+		keshigSrv.updateResourceHost({
+			hostname: resourceHost.hostname,
+			serverIp: resourceHost.peer.ip,
+			usedBy: resourceHost.peer.usedBy,
+			comment: resourceHost.comment
+		}).success(function () {
+			resourceHostsTable();
+		});
+	};
 
 	function createdRow(row, data, dataIndex) {
 		$compile(angular.element(row).contents())($scope);
@@ -366,7 +466,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	}
 
 	function runOptionForm(optionName) {
-		vm.servers2Test = [];		
+		vm.servers2Test = [];
 		if(vm.optionType == 'DEPLOY') {
 			vm.servers2Test = vm.serversByType['DEPLOY_SERVER'];
 		} else if(vm.optionType == 'TEST') {
@@ -596,9 +696,9 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, $resou
 	function dateToFormat(date) {
 		if(date === undefined || date === null) return 'In progress';
 		var dateFormat = new Date(date);
-		return (dateFormat.getMonth() + 1) + '/' 
-			+ dateFormat.getDate() + '/' 
-			+ dateFormat.getFullYear() + ' ' 
+		return (dateFormat.getMonth() + 1) + '/'
+			+ dateFormat.getDate() + '/'
+			+ dateFormat.getFullYear() + ' '
 			+ dateFormat.getHours() + ':' + dateFormat.getMinutes() + ':' + dateFormat.getSeconds();
 	}
 

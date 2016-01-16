@@ -12,6 +12,7 @@ function keshigSrv($http) {
 	var OPTIONS_URL = BASE_URL + 'option/';
 	var PROFILES_URL = BASE_URL + 'profiles/';
 	var HISTORY_URL = BASE_URL + 'history/';
+	var STATUSES_URL = BASE_URL + 'statuses/';
 
 
 	var keshigSrv = {
@@ -34,6 +35,9 @@ function keshigSrv($http) {
 		getBuilds: getBuilds,
 		getPlaybooks: getPlaybooks,
 		updateOption : updateOption,
+		getStatuses : getStatuses,
+		getResourceHostsUpdates: getResourceHostsUpdates,
+		updateResourceHost: updateResourceHost,
 
 		exportBuild : exportBuild,
 		getTPR : getTPR,
@@ -183,6 +187,29 @@ function keshigSrv($http) {
 		return $http.put(OPTIONS_URL + type.toLowerCase(), object, {
 			withCredentials: true,
 			headers: { 'Content-Type': 'application/json' }
+		});
+	}
+
+	function getStatuses() {
+		return $http.get( STATUSES_URL, {
+			withCredentials: true
+		});
+	}
+
+	function getResourceHostsUpdates() {
+		return $http.put( STATUSES_URL, {
+			withCredentials: true
+		});
+	}
+
+	function updateResourceHost(params) {
+		var postData = 'hostname=' + params.hostname
+				+ '&serverIp=' + params.serverIp
+				+ '&comment=' + params.comment
+				+ '&usedBy=' + params.usedBy;
+		return $http.post( STATUSES_URL, postData, {
+			withCredentials: true,
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		});
 	}
 }

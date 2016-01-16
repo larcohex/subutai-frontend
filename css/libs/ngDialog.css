@@ -112,3 +112,7 @@ body.ngdialog-open {
 .environmentDialog .ngdialog-content {
   height: 450px;
 }
+
+.keshigDialog.ngdialog {
+  z-index: 10000;
+}
