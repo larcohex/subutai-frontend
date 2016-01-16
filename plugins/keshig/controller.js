@@ -322,6 +322,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	};
 
 	function getResourceHostsUpdates() {
+		LOADING_SCREEN();		
 		keshigSrv.getResourceHostsUpdates().success(function (data) {
 			console.log(data);
 			getResourceHostsStatuses();
