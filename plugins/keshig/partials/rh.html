@@ -31,9 +31,22 @@
                 <td>{{ resourceHost.peer.usedBy ? resourceHost.peer.usedBy : 'null' }}</td>
                 <td>{{ resourceHost.peer.free !== undefined ? resourceHost.peer.free : '' }}</td>
                 <td>
-                    <i class="fa fa-info-circle" style="cursor: pointer" ng-click="keshigCtrl.showPeerInfo(resourceHost)"></i>
-                    <i class="fa fa-pencil-square-o" style="cursor: pointer" ng-click="keshigCtrl.editPeerData(resourceHost)"></i>
-                    <i class="fa fa-times" style="cursor: pointer" ng-click="keshigCtrl.unapproveResourceHost(resourceHost)"></i>
+
+					<a href class="b-icon b-icon_info" 
+			 			tooltips 
+			 			tooltip-template="Info" 
+						ng-click="keshigCtrl.showPeerInfo(resourceHost)">
+					</a>
+  
+					<a href class="b-icon b-icon_edit" style="visibility: visible;" 
+			 			tooltips 
+			 			tooltip-template="Edit" 
+						ng-click="keshigCtrl.editPeerData(resourceHost)">
+					</a>
+
+					<a href class="b-icon b-icon_remove"
+						ng-click="keshigCtrl.unapproveResourceHost(resourceHost)">
+					</a>					
                 </td>
             </tr>
             </tbody>

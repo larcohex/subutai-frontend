@@ -710,6 +710,14 @@ tooltip:last-child tip-cont .b-icon {
     transform: rotateY(360deg);
 }
 
+.b-icon_info {
+    background-image: url('../assets/elements/buttons/Info_icon-01.svg');
+}
+
+.b-icon_info:hover {
+    transform: rotate(360deg);
+}
+
 .b-icon_settings {
     background-image: url('../assets/elements/buttons/b-icon-settings.svg');
 }
