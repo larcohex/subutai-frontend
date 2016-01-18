@@ -65,6 +65,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.updateResourceHost = updateResourceHost;
 	vm.editPeerData = editPeerData;
 	vm.unapproveResourceHost = unapproveResourceHost;
+	vm.dtInstanceCallback = dtInstanceCallback;
 
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
@@ -267,6 +268,24 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 		getResourceHostsStatuses();
 	}
 
+    function dtInstanceCallback(instance) {
+        instance.DataTable.on('draw.dt', function () {
+            var api = instance.dataTable.api();
+            var rows = api.rows().nodes();
+            var last = null;
+            api.column(0)
+                .data().each(function (group, i) {
+                if (last !== group) {
+                    $(rows).eq(i).before(
+                        '<tr class="group"><td colspan="7"><b>' + group + '</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        });
+        instance.dataTable.api().draw();
+    };
+
 	function getResourceHostsStatuses() {
 		var temp = [];
 		keshigSrv.getStatuses().then(function (response) {
@@ -334,7 +353,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	};
 
 	function getResourceHostsUpdates() {
-		LOADING_SCREEN();		
+		LOADING_SCREEN();
 		keshigSrv.getResourceHostsUpdates().success(function (data) {
 			console.log(data);
 			getResourceHostsStatuses();
