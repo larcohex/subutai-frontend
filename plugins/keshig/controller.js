@@ -265,19 +265,19 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	}
 
 	function getResourceHostsStatuses() {
-		vm.resourceHostsStatuses = [];
+		var temp = [];
 		keshigSrv.getStatuses().then(function (response) {
 			vm.resourceHostsKeshig = response.data;
 			for(var resourceHost in vm.resourceHostsKeshig) {
 				if(angular.equals(vm.resourceHostsKeshig[resourceHost].peers, {})) {
-					vm.resourceHostsStatuses.push({
+					temp.push({
 						hostname: vm.resourceHostsKeshig[resourceHost].hostname,
 						peer: "NONE",
 						lastUpdated: moment(vm.resourceHostsKeshig[resourceHost].lastUpdated).format("YYYY, MMMM DD, HH:m")
 					});
 				} else {
 					for(var peer in vm.resourceHostsKeshig[resourceHost].peers) {
-						vm.resourceHostsStatuses.push({
+						temp.push({
 							hostname: vm.resourceHostsKeshig[resourceHost].hostname,
 							peer: vm.resourceHostsKeshig[resourceHost].peers[peer],
 							lastUpdated: moment(vm.resourceHostsKeshig[resourceHost].lastUpdated).format("YYYY, MMMM DD, HH:m")
@@ -285,6 +285,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 					}
 				}
 			}
+			vm.resourceHostsStatuses = temp;
 			LOADING_SCREEN('none');
 		});		
 	}
