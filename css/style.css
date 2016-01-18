@@ -435,7 +435,7 @@ input[type=checkbox] {
     text-decoration: none;
     font-size: 11px;
     border-radius: 5px;
-    margin: 0;
+    margin: 0 5px 5px 0;
     /*transition: all .4s ease-in-out;	*/
 }
 
@@ -970,7 +970,7 @@ input.b-popup-body-checkbox {
 }
 
 .b-popup-body-input_margin-bttm {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .b-popup-body-input_role {
@@ -2166,3 +2166,17 @@ td.b-main-table__status-col {
 .b-workspace__environments .b {
     display: block;
 }
+
+.b-form_sign-up .b-popup-body-input_box {
+	float: none;
+	width: auto;
+}
+
+.b-select-roles-approve {
+	padding-bottom: 20px;
+}
+
+.b-select-roles-approve .b-workspace-content-row_col-2 {
+	width: 180px;
+}
+
