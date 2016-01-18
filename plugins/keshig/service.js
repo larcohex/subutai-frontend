@@ -38,6 +38,7 @@ function keshigSrv($http) {
 		getStatuses : getStatuses,
 		getResourceHostsUpdates: getResourceHostsUpdates,
 		updateResourceHost: updateResourceHost,
+		unapprovePeer: unapprovePeer,
 
 		exportBuild : exportBuild,
 		getTPR : getTPR,
@@ -203,11 +204,18 @@ function keshigSrv($http) {
 	}
 
 	function updateResourceHost(params) {
-		var postData = 'hostname=' + params.hostname
+		var postParams = 'hostname=' + params.hostname
 				+ '&serverIp=' + params.serverIp
 				+ '&comment=' + params.comment
 				+ '&usedBy=' + params.usedBy;
-		return $http.post( STATUSES_URL, postData, {
+		return $http.post( STATUSES_URL, postParams, {
+			withCredentials: true,
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		});
+	}
+
+	function unapprovePeer(params) {
+		return $http.delete( STATUSES_URL + params.hostname + '/' + params.serverIp, {
 			withCredentials: true,
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		});

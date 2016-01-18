@@ -36,7 +36,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.resourceHostsStatuses = [];
 	vm.resourceHostsKeshig = [];
 	vm.resourceHostInfo = [];
-	vm.currentPeer = null;
+	vm.currentResourceHost = {};
 
 	//functions
 	vm.updateOption = updateOption;
@@ -64,6 +64,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.getResourceHostsUpdates = getResourceHostsUpdates;
 	vm.updateResourceHost = updateResourceHost;
 	vm.editPeerData = editPeerData;
+	vm.unapproveResourceHost = unapproveResourceHost;
 
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
@@ -289,7 +290,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 			}
 			vm.resourceHostsStatuses = temp;
 			LOADING_SCREEN('none');
-		});		
+		});
 	}
 
 	function showPeerInfo(resourceHost) {
@@ -325,38 +326,53 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	};
 
 	function editPeerData(resourceHost) {
-		console.log(resourceHost);
-		vm.currentPeer = resourceHost;
+		vm.currentResourceHost = angular.copy(resourceHost);
 		ngDialog.open({
 			template: 'plugins/keshig/partials/editPeerData.html',
 			scope: $scope
 		});
-	}
+	};
 
 	function getResourceHostsUpdates() {
 		LOADING_SCREEN();		
 		keshigSrv.getResourceHostsUpdates().success(function (data) {
 			console.log(data);
 			getResourceHostsStatuses();
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", "Error: " + error.replace(/\\n/g, ' '), 'error');
+			LOADING_SCREEN('none');
 		});
 	};
 
-	function updateResourceHost(resourceHost) {
+	function updateResourceHost() {
 		LOADING_SCREEN();
-		console.log(resourceHost);
 		keshigSrv.updateResourceHost({
-			hostname: resourceHost.hostname,
-			serverIp: resourceHost.peer.ip,
-			usedBy: resourceHost.peer.usedBy,
-			comment: resourceHost.comment
+			hostname: vm.currentResourceHost.hostname,
+			serverIp: vm.currentResourceHost.peer.ip,
+			usedBy: vm.currentResourceHost.peer.usedBy,
+			comment: vm.currentResourceHost.peer.comment
 		}).success(function () {
-			//resourceHostsTable();
+			ngDialog.closeAll();
 			getResourceHostsStatuses();
 		}).error(function(error){
 			SweetAlert.swal("ERROR!", "Error: " + error.replace(/\\n/g, ' '), 'error');
 			LOADING_SCREEN('none');
 		});
 	};
+
+	function unapproveResourceHost(resourceHost) {
+		LOADING_SCREEN();
+		keshigSrv.unapprovePeer({
+			hostname: resourceHost.hostname,
+			serverIp: resourceHost.peer.ip
+		}).success(function () {
+			getResourceHostsStatuses();
+			LOADING_SCREEN('none');
+		}).error(function (error) {
+			SweetAlert.swal("ERROR!", "Error: " + error.replace(/\\n/g, ' '), 'error');
+			LOADING_SCREEN('none');
+		});
+	}
 
 	function createdRow(row, data, dataIndex) {
 		$compile(angular.element(row).contents())($scope);
