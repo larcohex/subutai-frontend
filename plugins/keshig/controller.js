@@ -36,6 +36,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.resourceHostsStatuses = [];
 	vm.resourceHostsKeshig = [];
 	vm.resourceHostInfo = [];
+	vm.currentPeer = null;
 
 	//functions
 	vm.updateOption = updateOption;
@@ -62,6 +63,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.showPeerInfo = showPeerInfo;
 	vm.getResourceHostsUpdates = getResourceHostsUpdates;
 	vm.updateResourceHost = updateResourceHost;
+	vm.editPeerData = editPeerData;
 
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
@@ -321,6 +323,15 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 			className: 'keshigDialog'
 		});
 	};
+
+	function editPeerData(resourceHost) {
+		console.log(resourceHost);
+		vm.currentPeer = resourceHost;
+		ngDialog.open({
+			template: 'plugins/keshig/partials/editPeerData.html',
+			scope: $scope
+		});
+	}
 
 	function getResourceHostsUpdates() {
 		LOADING_SCREEN();		

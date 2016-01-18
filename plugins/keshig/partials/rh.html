@@ -13,7 +13,7 @@
                     <th>Peer IP Address</th>
                     <th>Last Updated</th>
                     <th>Comment</th>
-                    <th>Status</th>
+                    <th>Used By</th>
                     <th>Free</th>
                     <th>Details</th>
                 </tr>
@@ -24,21 +24,16 @@
                 <td>{{ resourceHost.peer.ip ? resourceHost.peer.ip : resourceHost.peer }}</td>
                 <td>{{ resourceHost.lastUpdated }}</td>
                 <td>
-                    <div style="display: inline-flex">
-                        <input type="text" ng-model="resourceHost.comment" class="b-form-input" ng-change="resourceHost.changed = true">
-                        <button 
-						class="b-btn b-btn_green" 
-						ng-if="resourceHost.changed" 
-	  					style="margin-left: 10px" 
-						ng-click="keshigCtrl.updateResourceHost(resourceHost)">
-							Edit
-						</button>
-                    </div>
+                    <!--<input type="text" ng-model="resourceHost.comment" class="b-form-input" ng-change="resourceHost.changed = true">-->
+                    <!--<button class="b-btn b-btn_green" ng-if="resourceHost.changed" ng-click="keshigCtrl.updateResourceHost(resourceHost)">Edit</button>-->
+                    {{ resourceHost.comment ? resourceHost.comment : 'null' }}
                 </td>
-                <td>{{ resourceHost.peer.status ? resourceHost.peer.status : '' }}</td>
+                <td>{{ resourceHost.peer.usedBy ? resourceHost.peer.usedBy : 'null' }}</td>
                 <td>{{ resourceHost.peer.free !== undefined ? resourceHost.peer.free : '' }}</td>
                 <td>
-                    <span class="b-icon b-icon_edit" ng-click="keshigCtrl.showPeerInfo(resourceHost)"></span>
+                    <i class="fa fa-info-circle" style="cursor: pointer" ng-click="keshigCtrl.showPeerInfo(resourceHost)"></i>
+                    <i class="fa fa-pencil-square-o" style="cursor: pointer" ng-click="keshigCtrl.editPeerData(resourceHost)"></i>
+                    <i class="fa fa-times" style="cursor: pointer" ng-click="keshigCtrl.unapproveResourceHost(resourceHost)"></i>
                 </td>
             </tr>
             </tbody>
