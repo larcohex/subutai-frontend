@@ -26,7 +26,13 @@
                 <td>
                     <div style="display: inline-flex">
                         <input type="text" ng-model="resourceHost.comment" class="b-form-input" ng-change="resourceHost.changed = true">
-                        <button class="b-btn b-btn_green" ng-if="resourceHost.changed" ng-click="keshigCtrl.updateResourceHost(resourceHost)">Edit</button>
+                        <button 
+						class="b-btn b-btn_green" 
+						ng-if="resourceHost.changed" 
+	  					style="margin-left: 10px" 
+						ng-click="keshigCtrl.updateResourceHost(resourceHost)">
+							Edit
+						</button>
                     </div>
                 </td>
                 <td>{{ resourceHost.peer.status ? resourceHost.peer.status : '' }}</td>
