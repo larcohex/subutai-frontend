@@ -23,15 +23,10 @@
                 <td>{{ resourceHost.hostname }}</td>
                 <td>{{ resourceHost.peer.ip ? resourceHost.peer.ip : resourceHost.peer }}</td>
                 <td>{{ resourceHost.lastUpdated }}</td>
-                <td>
-                    <!--<input type="text" ng-model="resourceHost.comment" class="b-form-input" ng-change="resourceHost.changed = true">-->
-                    <!--<button class="b-btn b-btn_green" ng-if="resourceHost.changed" ng-click="keshigCtrl.updateResourceHost(resourceHost)">Edit</button>-->
-                    {{ resourceHost.comment ? resourceHost.comment : 'null' }}
-                </td>
+                <td>{{ resourceHost.peer.comment ? resourceHost.peer.comment : 'null' }}</td>
                 <td>{{ resourceHost.peer.usedBy ? resourceHost.peer.usedBy : 'null' }}</td>
                 <td>{{ resourceHost.peer.free !== undefined ? resourceHost.peer.free : '' }}</td>
                 <td>
-
 					<a href class="b-icon b-icon_info" 
 			 			tooltips 
 			 			tooltip-template="Info" 
@@ -40,12 +35,16 @@
   
 					<a href class="b-icon b-icon_edit" style="visibility: visible;" 
 			 			tooltips 
-			 			tooltip-template="Edit" 
+			 			tooltip-template="Edit"
+                        ng-if="resourceHost.peer !== 'NONE'"
 						ng-click="keshigCtrl.editPeerData(resourceHost)">
 					</a>
 
 					<a href class="b-icon b-icon_remove"
-						ng-click="keshigCtrl.unapproveResourceHost(resourceHost)">
+                       tooltips
+                       tooltip-template="Unapprove"
+                       ng-if="resourceHost.peer !== 'NONE'"
+                       ng-click="keshigCtrl.unapproveResourceHost(resourceHost)">
 					</a>					
                 </td>
             </tr>
