@@ -26,6 +26,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.sshKeyForEnvironment = '';
 	vm.environmentForDomain = '';
 	vm.currentDomain = {};
+	vm.selectedPeers = [];
 
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
@@ -43,6 +44,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.setDomain = setDomain;
 	vm.removeDomain = removeDomain;
 	vm.createEnvironment = createEnvironment;
+	vm.togglePeer = togglePeer;
 	vm.installed = false;
 	vm.pending = false;
 
@@ -366,6 +368,12 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	function createEnvironment(environment) {
 		console.log(environment);
+	}
+
+	function togglePeer(peer) {
+		vm.selectedPeers.indexOf(peer) === -1 ?
+				vm.selectedPeers.push(peer) :
+				vm.selectedPeers.splice(vm.selectedPeers.indexOf(peer), 1);
 	}
 
 	function buildEnvironment() {
