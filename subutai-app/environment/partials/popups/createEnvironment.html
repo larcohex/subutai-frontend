@@ -1,4 +1,4 @@
-<div class="b-popup b-popup_wide">
+<div class="b-popup b-popup">
     <div class="b-popup__header">
 		<span>Create Environment</span>
         <a href ng-click="closeThisDialog()">
@@ -7,7 +7,11 @@
     </div>
     <form ng-submit="environmentViewCtrl.createEnvironment(environment)">
         <div class="b-popup__body">
-
+            <div class="popup-body-box">
+                <label class="b-popup-body-label">Advanced</label>
+                <switch id="enabled" name="enabled" ng-model="enabled" class="green small"></switch>
+                <div class="clear"></div>
+            </div>
             <div class="popup-body-box">
                 <label class="b-popup-body-label">Environment name</label>
                 <input type="text"
@@ -17,7 +21,7 @@
             </div>
             <div class="popup-body-box">
                 <label class="b-popup-body-label">Strategy</label>
-                <select ng-init="domain.strategy = environmentViewCtrl.domainStrategies[0]"
+                <select ng-init="environment.strategy = environmentViewCtrl.domainStrategies[0]"
                         class="b-popup-body-input b-popup-body-input_box"
                         ng-model="environment.strategy"
                         ng-options="strategy for strategy in environmentViewCtrl.domainStrategies"
@@ -34,6 +38,30 @@
                         ng-options="peer.peerInfo.id for peer in environmentViewCtrl.peers"
                         multiple required>
                 </select>
+                <div class="clear"></div>
+            </div>
+
+            <div class="popup-body-box">
+                <label class="b-popup-body-label">More</label>
+                <a href ng-click="isOptionsEnabled = !isOptionsEnabled">
+                        <i class="fa fa-lg" ng-class="isOptionsEnabled ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                </a>
+                <div class="clear"></div>
+            </div>
+
+            <div class="popup-body-box" ng-show="isOptionsEnabled">
+                <label class="b-popup-body-label">SSH Group Id</label>
+                <input type="text"
+                       class="b-popup-body-input b-popup-body-input_box"
+                       ng-model="environment.sshGroupId" required>
+                <div class="clear"></div>
+            </div>
+
+            <div class="popup-body-box" ng-show="isOptionsEnabled">
+                <label class="b-popup-body-label">Host Group Id</label>
+                <input type="text"
+                       class="b-popup-body-input b-popup-body-input_box"
+                       ng-model="environment.sshGroupId" required>
                 <div class="clear"></div>
             </div>
 
