@@ -13,7 +13,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	var vm = this;
 	vm.activeTab = $stateParams.activeTab;
-	console.log ($stateParams);
 	if (vm.activeTab !== "pending") {
 		vm.activeTab = "installed";
 	}
