@@ -5,7 +5,7 @@
             <img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
         </a>
     </div>
-    <form ng-submit="environmentViewCtrl.setupStrategyRequisites()">
+    <form ng-submit="environmentViewCtrl.setupStrategyRequisites(environment)">
         <div class="b-popup__body">
             <div class="popup-body-box">
                 <label class="b-popup-body-label" ng-click="advancedModeEnabled = !advancedModeEnabled">Advanced</label>
@@ -71,7 +71,7 @@
                 <input type="text"
                        id="host-group-id"
                        class="b-popup-body-input b-popup-body-input_box"
-                       ng-model="environment.sshGroupId">
+                       ng-model="environment.hostGroupId">
                 <div class="clear"></div>
             </div>
 

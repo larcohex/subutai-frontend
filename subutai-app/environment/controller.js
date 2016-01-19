@@ -45,6 +45,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.removeDomain = removeDomain;
 	vm.createEnvironment = createEnvironment;
 	vm.togglePeer = togglePeer;
+	vm.setupStrategyRequisites = setupStrategyRequisites;
 	vm.installed = false;
 	vm.pending = false;
 
@@ -211,9 +212,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		});
 	}
 
-	function setupStrategyRequisites() {
-		console.log("test " + environment);
-		//environmentService.setupStrategyRequisites(  );
+	function setupStrategyRequisites(environment) {
+		console.log( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers);
+		//environmentService.setupStrategyRequisites( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers );
 	}
 
 

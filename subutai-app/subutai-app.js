@@ -1041,7 +1041,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiNGE5N2E3Mi02ZDYxLTRjMTEtOWE3OS0zYzE1MWU5NzRiMmMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.psVVq1zP5qILScRFQmjWcx-4DkDI0i8z2neflef1ano';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMjRiYTBmYS1mYjIzLTQyYTctODEzZC1kNTFhZmNmM2Y4ODIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.6tFV9Rr2Dc_4-j5tC5tMl04bbiEhs8Cc2uB_N7mnGfQ';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1123,7 +1123,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://172.16.193.251:8080/';
+var SERVER_URL = 'http://172.16.192.100:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
