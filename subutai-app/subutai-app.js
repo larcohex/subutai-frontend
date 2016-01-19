@@ -9,7 +9,8 @@ var app = angular.module('subutai-app', [
 		'720kb.tooltips',
 		'ngTagsInput',
 		'nvd3',
-		'cfp.loadingBar'
+		'cfp.loadingBar',
+		'uiSwitch'
 	])
 	.config(routesConf)
 
