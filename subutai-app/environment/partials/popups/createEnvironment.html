@@ -1,4 +1,4 @@
-<div class="b-popup b-popup">
+<div class="b-popup b-popup_environment_creation">
     <div class="b-popup__header">
 		<span>Create Environment</span>
         <a href ng-click="closeThisDialog()">
@@ -32,12 +32,17 @@
 
             <div class="popup-body-box">
                 <label class="b-popup-body-label">Select Peers</label>
-                <select ng-init="domain.strategy = environmentViewCtrl.domainStrategies[0]"
-                        class="b-popup-body-input b-popup-body-input_full"
-                        ng-model="environment.peers"
-                        ng-options="peer.peerInfo.id for peer in environmentViewCtrl.peers"
-                        multiple required>
-                </select>
+                <div class="popup-body-box_item">
+                    <ul class="b-popup-box__peer-list">
+                        <li ng-repeat="peer in environmentViewCtrl.peers track by $index" class="b-popup-box__peer">
+                            <div class="g-left peer-selected" ng-if="environmentViewCtrl.selectedPeers.indexOf(peer) > -1">
+                                <span class="fa fa-check fa-1 b-btn-light-grey-icon_green"></span>
+                            </div>
+                            <div ng-click="environmentViewCtrl.togglePeer(peer)"  class="g-right peer-info" ng-class="environmentViewCtrl.selectedPeers.indexOf(peer) > -1 ? 'peer-selected' : ''">{{peer.peerInfo.id}}</div>
+                            <div class="clear"></div>
+                        </li>
+                    </ul>
+                </div>
                 <div class="clear"></div>
             </div>
 
