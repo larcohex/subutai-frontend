@@ -22,6 +22,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	vm.environments = [];
 	vm.domainStrategies = [];
+	vm.strategies = [];
 	vm.sshKeyForEnvironment = '';
 	vm.environmentForDomain = '';
 	vm.currentDomain = {};
@@ -67,6 +68,10 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		});
 	}
 	loadEnvironments();
+
+	environmentService.getStrategies().success(function (data) {
+		vm.strategies = data;
+	});
 
 	environmentService.getDomainStrategies().success(function (data) {
 		vm.domainStrategies = data;
