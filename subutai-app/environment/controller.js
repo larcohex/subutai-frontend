@@ -208,6 +208,11 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		});
 	}
 
+	function setupStrategyRequisites() {
+		console.log("test " + environment);
+		//environmentService.setupStrategyRequisites(  );
+	}
+
 
 	function actionSwitch (data, type, full, meta) {
 /*		return '<input type = "checkbox" class = "check" ng-click="environmentViewCtrl.revoke(\''+data.id+'\') ng-checked =\'' + data.revoked + '\'>';*/

@@ -5,7 +5,7 @@
             <img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
         </a>
     </div>
-    <form ng-submit="environmentViewCtrl.createEnvironment(environment)">
+    <form ng-submit="environmentViewCtrl.setupStrategyRequisites()">
         <div class="b-popup__body">
             <div class="popup-body-box">
                 <label class="b-popup-body-label">Advanced</label>
@@ -16,27 +16,26 @@
                 <label class="b-popup-body-label">Environment name</label>
                 <input type="text"
                        class="b-popup-body-input b-popup-body-input_box"
-                       ng-model="environment.name" required>
+                       ng-model="environment.name">
                 <div class="clear"></div>
             </div>
             <div class="popup-body-box">
                 <label class="b-popup-body-label">Strategy</label>
-                <select ng-init="environment.strategy = environmentViewCtrl.domainStrategies[0]"
+                <select ng-init="environment.strategy = environmentViewCtrl.strategies[0]"
                         class="b-popup-body-input b-popup-body-input_box"
                         ng-model="environment.strategy"
-                        ng-options="strategy for strategy in environmentViewCtrl.domainStrategies"
-                        required>
+                        ng-options="strategy for strategy in environmentViewCtrl.strategies">
                 </select>
                 <div class="clear"></div>
             </div>
 
             <div class="popup-body-box">
                 <label class="b-popup-body-label">Select Peers</label>
-                <select ng-init="domain.strategy = environmentViewCtrl.domainStrategies[0]"
+                <select ng-init="environment.strategy = environmentViewCtrl.strategies[0]"
                         class="b-popup-body-input b-popup-body-input_full"
                         ng-model="environment.peers"
                         ng-options="peer.peerInfo.id for peer in environmentViewCtrl.peers"
-                        multiple required>
+                        multiple>
                 </select>
                 <div class="clear"></div>
             </div>
@@ -53,7 +52,7 @@
                 <label class="b-popup-body-label">SSH Group Id</label>
                 <input type="text"
                        class="b-popup-body-input b-popup-body-input_box"
-                       ng-model="environment.sshGroupId" required>
+                       ng-model="environment.sshGroupId">
                 <div class="clear"></div>
             </div>
 
@@ -61,7 +60,7 @@
                 <label class="b-popup-body-label">Host Group Id</label>
                 <input type="text"
                        class="b-popup-body-input b-popup-body-input_box"
-                       ng-model="environment.sshGroupId" required>
+                       ng-model="environment.sshGroupId">
                 <div class="clear"></div>
             </div>
 
