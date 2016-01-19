@@ -972,6 +972,28 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
+		.state('appscale', {
+			url: '/plugins/appscale',
+			templateUrl: 'plugins/appscale/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.appscale',
+							files: [
+								'plugins/appscale/appscale.js',
+								'plugins/appscale/controller.js',
+								'plugins/appscale/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('about', {
 			url: '/about',
 			templateUrl: 'subutai-app/about/partials/view.html',
@@ -1039,7 +1061,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMWM3NDA3YS04YjNlLTQwNjItYjExMy04OGU4NTlhZjU2ZjgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.yfcXK3h5Osm5vl37aJkRpRDXHUCNUDCVS3KtiKVbszI';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ODRhNmVhYi05Zjk5LTRmMGMtOTY1NC1kNzIyYTY3NmMzMzIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.rzeJn4LVZ64HmA4OQn3n_NIpCUA3G05Qngc30QIfouw';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
