@@ -36,12 +36,12 @@
                 <div class="popup-body-box_item">
                     <ul class="b-popup-box__peer-list">
                         <li ng-repeat="peer in environmentViewCtrl.peers track by $index"
-                            ng-click="environmentViewCtrl.togglePeer(peer)"
+                            ng-click="environmentViewCtrl.togglePeer(peer.peerInfo.id)"
                             class="b-popup-box__peer">
-                            <div class="g-left peer-selected" ng-if="environmentViewCtrl.selectedPeers.indexOf(peer) > -1">
+                            <div class="g-left peer-selected" ng-if="environmentViewCtrl.selectedPeers.indexOf(peer.peerInfo.id) > -1">
                                 <span class="fa fa-check fa-1 b-btn-light-grey-icon_green"></span>
                             </div>
-                            <div class="g-right peer-info" ng-class="environmentViewCtrl.selectedPeers.indexOf(peer) > -1 ? 'peer-selected' : ''">{{peer.peerInfo.id}}</div>
+                            <div class="g-right peer-info" ng-class="environmentViewCtrl.selectedPeers.indexOf(peer.peerInfo.id) > -1 ? 'peer-selected' : ''">{{peer.peerInfo.id}}</div>
                             <div class="clear"></div>
                         </li>
                     </ul>
@@ -57,7 +57,7 @@
                 <div class="clear"></div>
             </div>
 
-            <div class="popup-body-box" ng-show="isOptionsEnabled">
+            <div class="popup-body-box " ng-show="isOptionsEnabled">
                 <label class="b-popup-body-label" for="ssh-group-id">SSH Group Id</label>
                 <input type="text"
                        id="ssh-group-id"

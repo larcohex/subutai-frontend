@@ -372,10 +372,10 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		console.log(environment);
 	}
 
-	function togglePeer(peer) {
-		vm.selectedPeers.indexOf(peer) === -1 ?
-				vm.selectedPeers.push(peer) :
-				vm.selectedPeers.splice(vm.selectedPeers.indexOf(peer), 1);
+	function togglePeer(peerId) {
+		vm.selectedPeers.indexOf(peerId) === -1 ?
+				vm.selectedPeers.push(peerId) :
+				vm.selectedPeers.splice(vm.selectedPeers.indexOf(peerId), 1);
 	}
 
 	function buildEnvironment() {
