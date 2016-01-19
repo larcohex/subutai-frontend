@@ -8,7 +8,6 @@ EnvironmentViewCtrl.$inject = ['$scope', '$rootScope', 'environmentService', 'pe
 fileModel.$inject = ['$parse'];
 
 var fileUploder = {};
-	console.log ('lololo');
 
 function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistrationService, SweetAlert, $resource, $compile, ngDialog, $timeout, $sce, $stateParams, DTOptionsBuilder, DTColumnDefBuilder) {
 
