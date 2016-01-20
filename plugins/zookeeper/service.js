@@ -10,6 +10,7 @@ function zookeeperSrv($http, environmentService, hadoopSrv) {
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var zookeeperSrv = {
+		getPluginInfo: getPluginInfo,
 		getEnvironments: getEnvironments,
 		createZookeeper: createZookeeper,
 		getClusters: getClusters,
@@ -104,4 +105,8 @@ function zookeeperSrv($http, environmentService, hadoopSrv) {
 			{withCredentials: true, headers: {'Content-Type': 'application/json'}}
 		);
 	}
+
+	function getPluginInfo() {
+    	return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+    }
 }

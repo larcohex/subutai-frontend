@@ -10,6 +10,7 @@ function genericSrv($http, environmentService) {
 	var BASE_URL = SERVER_URL + 'rest/generic/';
 
 	var genericSrv = {
+		getPluginInfo: getPluginInfo,
 		listProfiles: listProfiles,
 		saveProfile: saveProfile,
 		deleteProfile: deleteProfile,
@@ -95,4 +96,8 @@ function genericSrv($http, environmentService) {
 		console.log (putData);
 		return $http.put (BASE_URL + "execute", putData, {withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
 	}
+
+	function getPluginInfo() {
+    	return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+    }
 }

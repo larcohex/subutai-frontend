@@ -11,6 +11,7 @@ function cassandraSrv($http, environmentService) {
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var cassandraSrv = {
+		getPluginInfo: getPluginInfo,
 		getClusters: getClusters,
 		createCassandra: createCassandra,
 		changeClusterScaling: changeClusterScaling,
@@ -77,5 +78,9 @@ function cassandraSrv($http, environmentService) {
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
+	}
+
+	function getPluginInfo() {
+		return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 }

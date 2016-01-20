@@ -11,6 +11,7 @@ function solrSrv($http, environmentService) {
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var solrSrv = {
+		getPluginInfo: getPluginInfo,
 		getClusters: getClusters,
 		createSolr: createSolr,
 		changeClusterScaling: changeClusterScaling,
@@ -87,4 +88,8 @@ function solrSrv($http, environmentService) {
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
+
+	function getPluginInfo() {
+    	return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+    }
 }

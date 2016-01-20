@@ -29,6 +29,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.selectedPeers = [];
 	vm.installed = false;
 	vm.pending = false;
+	vm.isDataValid = isDataValid;
 
 	vm.advancedEnv = {};
 	vm.advancedEnv.currentNode = getDefaultValues();
@@ -111,7 +112,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	});
 
 	peerRegistrationService.getRequestedPeers().success(function (peers) {
-		peers.push({peerInfo: {id: 'local'}});
+		peers.unshift({peerInfo: {id: 'local'}});
 		vm.peers = peers;
 	});
 
@@ -242,10 +243,24 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	}
 
 	function setupStrategyRequisites(environment) {
-		console.log( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers);
-		//environmentService.setupStrategyRequisites( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers );
+		environmentService.setupStrategyRequisites(
+			environment.name,
+			environment.strategy,
+			environment.sshGroupId,
+			environment.hostGroupId,
+			vm.selectedPeers
+		).success(function () {
+			vm.selectedPeers = [];
+			ngDialog.closeAll();
+			SweetAlert.swal("Success!!", "Your environment was successfully configured, please approve it.", "success");
+		}).error(function (data) {
+			SweetAlert.swal("ERROR!", "Your container is safe :). Error: " + data.ERROR, "error");
+		});
 	}
 
+	function isDataValid() {
+		return vm.selectedPeers.length > 0;
+	}
 
 	function actionSwitch (data, type, full, meta) {
 /*		return '<input type = "checkbox" class = "check" ng-click="environmentViewCtrl.revoke(\''+data.id+'\') ng-checked =\'' + data.revoked + '\'>';*/

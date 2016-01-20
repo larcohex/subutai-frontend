@@ -367,4 +367,9 @@ function GenericCtrl($scope, genericSrv, SweetAlert, DTOptionsBuilder, DTColumnD
 		}
 		vm.getOperations();
 	}
+
+	vm.info = {};
+    genericSrv.getPluginInfo().success (function (data) {
+    	vm.info = data;
+    });
 }

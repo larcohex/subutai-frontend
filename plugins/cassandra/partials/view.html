@@ -17,16 +17,26 @@
 				ng-class="cassandraCtrl.activeTab == 'manage' ? 'b-tabs-menu__item_active' : ''">
 					Manage
 				</li>
+				<li class="b-tabs-menu__item"
+					ng-click="cassandraCtrl.activeTab = 'about'"
+					ng-class="cassandraCtrl.activeTab == 'about' ? 'b-tabs-menu__item_active' : ''">
+					About
+				</li>
 			</ul>
 		</div>
 		<div 
-			ng-if="cassandraCtrl.activeTab == 'install'" 
+			ng-if="cassandraCtrl.activeTab == 'install'"
 			ng-include="'plugins/cassandra/partials/install.html'">
 		</div>
 
 		<div 
 			ng-if="cassandraCtrl.activeTab == 'manage'" 
 			ng-include="'plugins/cassandra/partials/manage.html'">
+		</div>
+
+		<div
+			ng-if="cassandraCtrl.activeTab == 'about'"
+			ng-include="'plugins/cassandra/partials/about.html'">
 		</div>
 
 	</div>

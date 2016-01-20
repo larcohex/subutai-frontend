@@ -243,6 +243,12 @@ function ElasticSearchCtrl($scope, elasticSearchSrv, SweetAlert, DTOptionsBuilde
 		vm.elasticSearchInstall.nodes = [];
 	}
 
+
+	vm.info = {};
+	elasticSearchSrv.getPluginInfo().success (function (data) {
+		vm.info = data;
+	});
+
 }
 
 function colSelectElasticSearchNodes() {

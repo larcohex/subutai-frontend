@@ -11,6 +11,7 @@ function hadoopSrv($http, environmentService) {
 	var HADOOP_CREATE_URL = BASE_URL + 'configure_environment';
 
 	var hadoopSrv = {
+		getPluginInfo: getPluginInfo,
 		createHadoop: createHadoop,
 		getClusters: getClusters,
 		changeClusterScaling: changeClusterScaling,
@@ -73,4 +74,8 @@ function hadoopSrv($http, environmentService) {
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
+
+	function getPluginInfo() {
+    	return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+    }
 }

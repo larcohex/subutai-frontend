@@ -17,6 +17,11 @@
 				ng-class="elasticSearchCtrl.activeTab == 'manage' ? 'b-tabs-menu__item_active' : ''">
 					Manage
 				</li>
+				<li class="b-tabs-menu__item"
+					ng-click="elasticSearchCtrl.activeTab = 'about'"
+					ng-class="elasticSearchCtrl.activeTab == 'about' ? 'b-tabs-menu__item_active' : ''">
+					About
+				</li>
 			</ul>
 		</div>
 
@@ -30,6 +35,10 @@
 			ng-include="'plugins/elasticsearch/partials/manage.html'">
 		</div>
 
+		<div
+				ng-if="elasticSearchCtrl.activeTab == 'about'"
+				ng-include="'plugins/elasticSearch/partials/about.html'">
+		</div>
 	</div>
 
 </div>

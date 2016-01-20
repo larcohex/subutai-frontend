@@ -271,6 +271,11 @@ function MongoCtrl(mongoSrv, SweetAlert) {
 			SweetAlert.swal("ERROR!", 'Cluster error while adding data node: ' + error.ERROR, "error");
 		});
 	}
+
+	vm.info = {};
+    mongoSrv.getPluginInfo().success (function (data) {
+    	vm.info = data;
+    });
 }
 
 function colSelectConfignodes() {

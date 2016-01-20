@@ -148,18 +148,11 @@ function environmentService($http) {
 	}
 
 	function setupStrategyRequisites( name, strategy, sshId, hostId, peers ) {
-		//var postDate = new FormData();
-		//fd.append('name', name);
-		//fd.append('strategy', strategy);
-		//fd.append('sshId', sshId);
-		//fd.append('hostId', hostId);
-		//fd.append('peers', peers);
-
 		var postDate = 'name=' + name +
-						'strategy=' + strategy +
-						'sshId=' + sshId +
-						'hostId=' + hostId +
-						'peers=' + peers;
+						'&strategy=' + strategy +
+						'&sshId=' + sshId +
+						'&hostId=' + hostId +
+						'&peers=' + JSON.stringify(peers);
 
 		return $http.post(
 			ENVIRONMENT_STRATEGY_REQUISITES,

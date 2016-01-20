@@ -282,6 +282,11 @@ function FlumeCtrl($scope, flumeSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 		vm.flumeInstall.nodes = [];
 	}
 
+
+	vm.info = {};
+	flumeSrv.getPluginInfo().success (function (data) {
+		vm.info = data;
+	});
 }
 
 function colSelectFlumeNodes() {

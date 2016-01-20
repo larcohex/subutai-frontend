@@ -10,6 +10,7 @@ function elasticSearchSrv($http, environmentService) {
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var elasticSearchSrv = {
+		getPluginInfo: getPluginInfo,
 		getEnvironments: getEnvironments,
 		createElasticSearch: createElasticSearch,
 		getClusters: getClusters,
@@ -78,4 +79,9 @@ function elasticSearchSrv($http, environmentService) {
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
+
+
+	function getPluginInfo() {
+    	return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+    }
 }

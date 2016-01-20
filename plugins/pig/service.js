@@ -10,6 +10,7 @@ function pigSrv($http, hadoopSrv) {
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var pigSrv = {
+		getPluginInfo: getPluginInfo,
 		getHadoopClusters: getHadoopClusters,
 		createPig: createPig,
 		getClusters: getClusters,
@@ -60,4 +61,9 @@ function pigSrv($http, hadoopSrv) {
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
+
+
+	function getPluginInfo() {
+    	return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+    }
 }

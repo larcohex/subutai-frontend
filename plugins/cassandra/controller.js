@@ -255,6 +255,12 @@ function CassandraCtrl(cassandraSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			}
 		}
 	}
+
+
+	vm.info = {};
+	cassandraSrv.getPluginInfo().success (function (data) {
+		vm.info = data;
+	});
 }
 
 function colSelectContainers() {
