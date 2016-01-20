@@ -213,8 +213,19 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	}
 
 	function setupStrategyRequisites(environment) {
-		environmentService.setupStrategyRequisites( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers );
-		vm.selectedPeers = [];
+		environmentService.setupStrategyRequisites(
+			environment.name,
+			environment.strategy,
+			environment.sshGroupId,
+			environment.hostGroupId,
+			vm.selectedPeers
+		).success(function () {
+			vm.selectedPeers = [];
+			ngDialog.closeAll();
+			SweetAlert.swal("Success!!", "Your environment was successfully created.", "success");
+		}).error(function (data) {
+			SweetAlert.swal("ERROR!", "Your container is safe :). Error: " + data.ERROR, "error");
+		});
 	}
 
 
