@@ -81,7 +81,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	});
 
 	peerRegistrationService.getRequestedPeers().success(function (peers) {
-		peers.push({peerInfo: {id: 'local'}});
+		peers.unshift({peerInfo: {id: 'local'}});
 		vm.peers = peers;
 	});
 
