@@ -253,7 +253,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			vm.selectedPeers = [];
 			ngDialog.closeAll();
 			SweetAlert.swal("Success!!", "Your environment was successfully configured, please approve it.", "success");
+			vm.activeTab = 'pending';
 		}).error(function (data) {
+			ngDialog.closeAll();
 			SweetAlert.swal("ERROR!", "Your container is safe :). Error: " + data.ERROR, "error");
 		});
 	}
