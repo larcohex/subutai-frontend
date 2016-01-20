@@ -11,6 +11,7 @@ function sparkSrv($http, hadoopSrv) {
 	var CLUSTER_URL = BASE_URL + 'clusters/';
 
 	var sparkSrv = {
+		getPluginInfo: getPluginInfo,
 		getHadoopClusters: getHadoopClusters,
 		createSpark: createSpark,
 		getClusters: getClusters,
@@ -94,4 +95,8 @@ function sparkSrv($http, hadoopSrv) {
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
+
+	function getPluginInfo() {
+    	return $http.get (BASE_URL + "about", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+    }
 }

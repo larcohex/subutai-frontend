@@ -214,6 +214,10 @@ function PigCtrl($scope, pigSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilde
 		vm.pigInstall.nodes = [];
 	}
 
+	vm.info = {};
+    pigSrv.getPluginInfo().success (function (data) {
+    	vm.info = data;
+    });
 }
 
 function colSelectPigNodes() {

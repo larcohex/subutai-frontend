@@ -9,7 +9,8 @@ var app = angular.module('subutai-app', [
 		'720kb.tooltips',
 		'ngTagsInput',
 		'nvd3',
-		'cfp.loadingBar'
+		'cfp.loadingBar',
+		'uiSwitch'
 	])
 	.config(routesConf)
 
@@ -188,7 +189,8 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 							files: [
 								'subutai-app/environment/environment.js',
 								'subutai-app/environment/controller.js',
-								'subutai-app/environment/service.js'
+								'subutai-app/environment/service.js',
+								'subutai-app/peerRegistration/service.js'
 							]
 						}
 					]);
@@ -972,28 +974,6 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
-		.state('appscale', {
-			url: '/plugins/appscale',
-			templateUrl: 'plugins/appscale/partials/view.html',
-			data: {
-				bodyClass: '',
-				layout: 'default'
-			},
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.appscale',
-							files: [
-								'plugins/appscale/appscale.js',
-								'plugins/appscale/controller.js',
-								'plugins/appscale/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
 		.state('about', {
 			url: '/about',
 			templateUrl: 'subutai-app/about/partials/view.html',
@@ -1051,7 +1031,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 		return {
 			'responseError': function(rejection) {
 				if (rejection.status == 401 && $.inArray($location.path(), ['/login']) === -1) {
-					$location.path('/login');
+					//$location.path('/login');
 				}
 				return $q.reject(rejection);
 			}
@@ -1061,7 +1041,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ODRhNmVhYi05Zjk5LTRmMGMtOTY1NC1kNzIyYTY3NmMzMzIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.rzeJn4LVZ64HmA4OQn3n_NIpCUA3G05Qngc30QIfouw';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Y2UyN2Q4Ny02MWYyLTRiYWUtYmY4Mi04MjlkN2QwZTc1OGMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.asEWrk6sTyuUp_FNxVHOnoNYC2CoY4oGsLrxD372az8';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1143,7 +1123,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://10.10.12.96:8080/';
+var SERVER_URL = 'http://10.10.12.58:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;

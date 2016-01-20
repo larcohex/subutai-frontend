@@ -299,6 +299,11 @@ function SparkCtrl($scope, sparkSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBu
 			vm.currentCluster.server.status = 'ERROR';
 		});
 	}
+
+	vm.info = {};
+    sparkSrv.getPluginInfo().success (function (data) {
+    	vm.info = data;
+    });
 }
 
 function colSelectSparkNodes() {

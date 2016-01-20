@@ -4,16 +4,15 @@ angular.module('subutai.environment.controller', [])
 	.controller('EnvironmentViewCtrl', EnvironmentViewCtrl)
 	.directive('fileModel', fileModel);
 
-EnvironmentViewCtrl.$inject = ['$scope', '$rootScope', 'environmentService', 'SweetAlert', '$resource', '$compile', 'ngDialog', '$timeout', '$sce', '$stateParams', 'DTOptionsBuilder', 'DTColumnDefBuilder'];
+EnvironmentViewCtrl.$inject = ['$scope', '$rootScope', 'environmentService', 'peerRegistrationService', 'SweetAlert', '$resource', '$compile', 'ngDialog', '$timeout', '$sce', '$stateParams', 'DTOptionsBuilder', 'DTColumnDefBuilder'];
 fileModel.$inject = ['$parse'];
 
 var fileUploder = {};
 
-function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert, $resource, $compile, ngDialog, $timeout, $sce, $stateParams, DTOptionsBuilder, DTColumnDefBuilder) {
+function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistrationService, SweetAlert, $resource, $compile, ngDialog, $timeout, $sce, $stateParams, DTOptionsBuilder, DTColumnDefBuilder) {
 
 	var vm = this;
 	vm.activeTab = $stateParams.activeTab;
-	console.log ($stateParams);
 	if (vm.activeTab !== "pending") {
 		vm.activeTab = "installed";
 	}
@@ -28,6 +27,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	vm.currentDomain = {};
 
 	// functions
+	vm.showEnvironmentForm = showEnvironmentForm;
 	vm.destroyEnvironment = destroyEnvironment;
 	vm.startEnvironmentBuild = startEnvironmentBuild;
 	vm.sshKey = sshKey;
@@ -41,6 +41,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	vm.showDomainForm = showDomainForm;
 	vm.setDomain = setDomain;
 	vm.removeDomain = removeDomain;
+	vm.createEnvironment = createEnvironment;
 	vm.installed = false;
 	vm.pending = false;
 
@@ -71,6 +72,10 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		vm.domainStrategies = data;
 	});
 
+	peerRegistrationService.getRequestedPeers().success(function (peers) {
+		vm.peers = peers;
+	});
+
 	//installed environment table options
 	vm.dtOptionsInstallTable = DTOptionsBuilder
 		.newOptions()
@@ -78,7 +83,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 	vm.dtColumnDefsInstallTable = [
-		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		DTColumnDefBuilder.newColumnDef(1),
 		DTColumnDefBuilder.newColumnDef(2).notSortable(),
 		DTColumnDefBuilder.newColumnDef(3).notSortable(),
@@ -93,9 +98,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		.withOption('stateSave', true)
 		.withPaginationType('full_numbers');
 	vm.dtColumnDefsPendingTable = [
-		DTColumnDefBuilder.newColumnDef(0),
+		DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		DTColumnDefBuilder.newColumnDef(1),
-		DTColumnDefBuilder.newColumnDef(2).notSortable(),
+		DTColumnDefBuilder.newColumnDef(2).notSortable()
 	];
 
 	vm.listOfUsers = [];
@@ -161,7 +166,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 				}
 				vm.currentEnvironment = environment;
 				ngDialog.open ({
-					template: "subutai-app/environment/partials/shareEnv.html",
+					template: "subutai-app/environment/partials/popups/shareEnv.html",
 					scope: $scope
 				});
 			});
@@ -336,10 +341,22 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
     function startEnvironmentBuild (environment) {
     	vm.currentEnvironment = environment;
 		ngDialog.open ({
-			template: "subutai-app/environment/partials/decryptMsg.html",
-			scope: $scope
+			template: "subutai-app/environment/partials/popups/decryptMsg.html",
+			scope: $scope,
+			className: 'environmentDialog'
 		});
     }
+
+	function showEnvironmentForm() {
+		ngDialog.open({
+			template: 'subutai-app/environment/partials/popups/createEnvironment.html',
+			scope: $scope
+		})
+	}
+
+	function createEnvironment(environment) {
+		console.log(environment);
+	}
 
 	function buildEnvironment() {
 		environmentService.startEnvironmentBuild (vm.currentEnvironment.id, encodeURIComponent(vm.currentEnvironment.relationDeclaration)).success(function (data) {
@@ -438,7 +455,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 	function showSSHKeyForm(environmentId) {
 		vm.sshKeyForEnvironment = environmentId;
 		ngDialog.open({
-			template: 'subutai-app/environment/partials/sshKeyForm.html',
+			template: 'subutai-app/environment/partials/popups/sshKeyForm.html',
 			scope: $scope
 		});
 	}
@@ -450,7 +467,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, SweetAlert,
 		environmentService.getDomain(environmentId).success(function (data) {
 			vm.currentDomain = data;
 			ngDialog.open({
-				template: 'subutai-app/environment/partials/domainForm.html',
+				template: 'subutai-app/environment/partials/popups/domainForm.html',
 				scope: $scope
 			});
 			LOADING_SCREEN('none');

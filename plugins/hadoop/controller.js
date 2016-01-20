@@ -177,6 +177,11 @@ function HadoopCtrl(hadoopSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder)
 		vm.hadoopInstall.slaves = [];
 	}	
 
+
+	vm.info = {};
+	hadoopSrv.getPluginInfo().success (function (data) {
+		vm.info = data;
+	});
 }
 
 function colSelectHadoopContainers() {

@@ -64,4 +64,9 @@ function CephCtrl($scope, cephSrv, SweetAlert, ngDialog) {
 			SweetAlert.swal ("ERROR!", "Environment create error: " + error.replace(/\\n/g, " "), "error");
 		});
 	}
+
+	vm.info = {};
+    cephSrv.getPluginInfo().success (function (data) {
+    	vm.info = data;
+    });
 }

@@ -228,6 +228,12 @@ function SolrCtrl(solrSrv, SweetAlert) {
 	function setDefaultValues() {
 		vm.solrInstall.containers = [];
 	}
+
+	vm.info = {};
+    solrSrv.getPluginInfo().success (function (data) {
+    	vm.info = data;
+    });
+
 }
 
 function colSelectContainers() {

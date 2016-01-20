@@ -332,6 +332,11 @@ function ZookeeperCtrl($scope, zookeeperSrv, SweetAlert, DTOptionsBuilder, DTCol
 			SweetAlert.swal("ERROR!", 'Adding node error: ' + error.replace(/\\n/g, ' '), "error");
 		});
 	}
+
+	vm.info = {};
+    zookeeperSrv.getPluginInfo().success (function (data) {
+    	vm.info = data;
+    });
 }
 
 function colSelectZookeeperNodes() {
