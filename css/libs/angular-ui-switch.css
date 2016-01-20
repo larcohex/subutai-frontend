@@ -37,7 +37,7 @@
   border-color: rgb(100, 189, 99);
 }
 .switch.checked small {
-  left: 15px;
+  left: 13px;
 }
 /*wider switch text moves small further to the right*/
 .switch.wide.checked small {
