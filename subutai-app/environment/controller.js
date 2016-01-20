@@ -213,8 +213,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	}
 
 	function setupStrategyRequisites(environment) {
-		console.log( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers);
-		//environmentService.setupStrategyRequisites( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers );
+		environmentService.setupStrategyRequisites( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers );
 		vm.selectedPeers = [];
 	}
 
