@@ -184,7 +184,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
-						{
+					{
 							name: 'subutai.environment',
 							files: [
 								'subutai-app/environment/environment.js',
@@ -1041,7 +1041,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMjRiYTBmYS1mYjIzLTQyYTctODEzZC1kNTFhZmNmM2Y4ODIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.6tFV9Rr2Dc_4-j5tC5tMl04bbiEhs8Cc2uB_N7mnGfQ';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2YzhhNjY2MS1mMjYwLTQ3OTktYjBiNS01MDgxZDI2NDc5YWEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.JVWUTElmjXMMDBMPXivihYF3GrgtTNrjescWoLxaCr0';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');

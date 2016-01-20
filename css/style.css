@@ -812,7 +812,7 @@ tooltip:last-child tip-cont .b-icon {
     width: 355px;
 }
 
-.b-popup_environment_creation {
+.b-popup_environment-creation {
     width: 430px;
 }
 
@@ -2216,5 +2216,9 @@ td.b-main-table__status-col {
 
 .b-select-roles-approve .b-workspace-content-row_col-2 {
 	width: 180px;
+}
+
+.b-popup-body__box tooltip {
+	width: 100%;
 }
 

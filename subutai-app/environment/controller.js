@@ -27,6 +27,17 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.environmentForDomain = '';
 	vm.currentDomain = {};
 	vm.selectedPeers = [];
+	vm.installed = false;
+	vm.pending = false;
+
+	vm.advancedEnv = {};
+	vm.advancedEnv.currentNode = getDefaultValues();
+	vm.advancedModeEnabled = false;
+	vm.nodeStatus = 'Add to';
+	vm.nodeList = [];
+	vm.colors = quotaColors;
+	vm.templates = [];
+	vm.containersType = [];
 
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
@@ -46,8 +57,27 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.createEnvironment = createEnvironment;
 	vm.togglePeer = togglePeer;
 	vm.setupStrategyRequisites = setupStrategyRequisites;
-	vm.installed = false;
-	vm.pending = false;
+
+	vm.addNewNode = addNewNode;
+	vm.removeNodeGroup = removeNodeGroup;
+	vm.setNodeData = setNodeData;
+	vm.createAdvancedEnvironment = createAdvancedEnvironment;
+
+	environmentService.getTemplates()
+		.success(function (data) {
+			vm.templates = data;
+		})
+		.error(function (data) {
+			VARS_MODAL_ERROR( SweetAlert, 'Error on getting templates ' + data );
+		});
+
+	environmentService.getContainersType()
+		.success(function (data) {
+			vm.containersType = data;
+		})
+		.error(function (data) {
+			VARS_MODAL_ERROR( SweetAlert, data );
+		});
 
 	vm.containersTotal = [];
 	function loadEnvironments() {
@@ -144,7 +174,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	function shareEnvironmentWindow (environment) {
 		vm.listOfUsers = [];
 		vm.checkedUsers = [];
-		environmentService.getUsers().success (function (data) {
+		environmentService.getUsers().success(function (data) {
 			for (var i = 0; i < data.length; ++i) {
 				if (data[i].id !== vm.currentUser.id) {
 					vm.listOfUsers.push (data[i]);
@@ -156,8 +186,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				vm.listOfUsers[i].update = true;
 				vm.listOfUsers[i].delete = true;
 			}
-			environmentService.getShared (environment.id).success (function (data2) {
-				console.log (data2);
+			environmentService.getShared(environment.id).success(function (data2) {
 				vm.users2Add = data2;
 				for (var i = 0; i < vm.users2Add.length; ++i) {
 					if (vm.users2Add[i].id === vm.currentUser.id) {
@@ -550,6 +579,79 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	function setHtml (html) {
 		return $sce.trustAsHtml(html.toString());
 	};
+
+
+	function addNewNode() {
+		if(vm.nodeStatus == 'Add to') {
+			var tempNode = vm.advancedEnv.currentNode;
+
+			if(tempNode === undefined) return;
+			if(tempNode.name === undefined || tempNode.name.length < 1) return;
+			if(tempNode.numberOfContainers === undefined || tempNode.numberOfContainers < 1) return;
+			if(tempNode.sshGroupId === undefined) return;
+			if(tempNode.hostsGroupId === undefined) return;
+
+			if( jQuery.grep( vm.nodeList, function( i ) {
+					return tempNode.name == i.name;
+				}).length != 0
+			) return;
+
+			vm.nodeList.push(tempNode);
+		} else {
+			vm.nodeStatus = 'Add to';
+		}
+
+
+		vm.advancedEnv.currentNode = angular.copy( vm.advancedEnv.currentNode );
+		vm.advancedEnv.currentNode.name = "";
+	}
+
+	function setNodeData(key) {
+		vm.nodeStatus = 'Update in';
+		vm.advancedEnv.currentNode = vm.nodeList[key];
+	}
+
+	function removeNodeGroup(key)
+	{
+		vm.nodeList.splice(key, 1);
+	}
+
+	function getDefaultValues() {
+		var defaultVal = {
+			'templateName': 'master',
+			'numberOfContainers': 2,
+			'sshGroupId': 0,
+			'hostsGroupId': 0,
+			'type': 'TINY'
+		};
+		return defaultVal;
+	}
+
+	function createAdvancedEnvironment() {
+		if(vm.advancedEnv.name === undefined) return;
+		if(vm.nodeList === undefined || vm.nodeList.length == 0) return;
+
+		var finalEnvironment = vm.advancedEnv;
+		finalEnvironment.nodeGroups = vm.nodeList;
+		if(finalEnvironment.currentNod !== undefined) {
+			finalEnvironment.nodeGroups.push(finalEnvironment.currentNode);
+		}
+		delete finalEnvironment.currentNode;
+
+		console.log(finalEnvironment);
+
+		/*environmentService.saveBlueprint(JSON.stringify(finalEnvironment))
+			.success(function (data) {
+				ngDialog.closeAll();
+			})
+			.error(function (data) {
+				VARS_MODAL_ERROR( SweetAlert, data );
+			});*/
+
+		vm.nodeList = [];
+		vm.advancedEnv = {};
+		vm.advancedEnv.currentNode = getDefaultValues();
+	}
 }
 
 function fileModel($parse) {
