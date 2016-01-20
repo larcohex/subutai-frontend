@@ -5,7 +5,7 @@
             <img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
         </a>
     </div>
-    <form ng-submit="environmentViewCtrl.setupStrategyRequisites(environment); isSubmitSended = true">
+    <form ng-submit="environmentViewCtrl.setupStrategyRequisites(environment); environment.requestSent = true">
         <div class="b-popup__body">
             <div class="popup-body-box">
                 <label class="b-popup-body-label" ng-click="advancedModeEnabled = !advancedModeEnabled">Advanced</label>
@@ -62,7 +62,9 @@
                 <input type="text"
                        id="ssh-group-id"
                        class="b-popup-body-input b-popup-body-input_box"
-                       ng-model="environment.sshGroupId">
+                       ng-init="environment.sshGroupId = 0"
+                       ng-model="environment.sshGroupId"
+                       required>
                 <div class="clear"></div>
             </div>
 
@@ -71,13 +73,20 @@
                 <input type="text"
                        id="host-group-id"
                        class="b-popup-body-input b-popup-body-input_box"
-                       ng-model="environment.hostGroupId">
+                       ng-init="environment.hostGroupId = 0"
+                       ng-model="environment.hostGroupId"
+                       required>
                 <div class="clear"></div>
             </div>
 
         </div>
         <div class="b-popup__footer">
-            <button class="b-btn b-btn_green g-right" type="submit" id="subt_button__environment-add-domain" ng-init="isSubmitSended = false" ng-disabled="isSubmitSended">
+            <button
+                    class="b-btn b-btn_green g-right"
+                    type="submit"
+                    id="subt_button__environment-add-domain"
+                    ng-init="environment.requestSent = false"
+                    ng-disabled="!environmentViewCtrl.isDataValid() || environment.requestSent">
                 Create
             </button>
             <div class="clear"></div>

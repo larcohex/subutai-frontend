@@ -46,6 +46,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.createEnvironment = createEnvironment;
 	vm.togglePeer = togglePeer;
 	vm.setupStrategyRequisites = setupStrategyRequisites;
+	vm.isDataValid = isDataValid;
 	vm.installed = false;
 	vm.pending = false;
 
@@ -222,12 +223,15 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		).success(function () {
 			vm.selectedPeers = [];
 			ngDialog.closeAll();
-			SweetAlert.swal("Success!!", "Your environment was successfully created.", "success");
+			SweetAlert.swal("Success!!", "Your environment was successfully configured, please approve it.", "success");
 		}).error(function (data) {
 			SweetAlert.swal("ERROR!", "Your container is safe :). Error: " + data.ERROR, "error");
 		});
 	}
 
+	function isDataValid() {
+		return vm.selectedPeers.length > 0;
+	}
 
 	function actionSwitch (data, type, full, meta) {
 /*		return '<input type = "checkbox" class = "check" ng-click="environmentViewCtrl.revoke(\''+data.id+'\') ng-checked =\'' + data.revoked + '\'>';*/
