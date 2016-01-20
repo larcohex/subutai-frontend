@@ -812,6 +812,10 @@ tooltip:last-child tip-cont .b-icon {
     width: 355px;
 }
 
+.b-popup_environment_creation {
+    width: 430px;
+}
+
 .b-popup__header {
     box-sizing: border-box;
     width: 100%;
@@ -1020,6 +1024,40 @@ input.b-popup-body-checkbox {
     list-style-type: none;
     padding: 0;
     margin: 10px 0;
+}
+
+.b-popup-box__peer-list {
+    list-style: none;
+    padding: 0;
+}
+
+.popup-body-box_item {
+    max-height: 200px;
+    overflow: auto;
+}
+
+.popup-body-box_item .peer-selected span {
+    vertical-align: middle;
+}
+
+.b-popup-box__peer-list .b-popup-box__peer {
+    height: 25px;
+    cursor: pointer;
+}
+
+.b-popup-box__peer-list .b-popup-box__peer .peer-info:hover {
+    background-color: rgba(96, 255, 47, 0.38);
+}
+
+.b-popup-box__peer-list .b-popup-box__peer .peer-info.peer-selected {
+    background-color: rgba(151, 255, 125, 0.31);
+}
+
+.b-popup-box__peer-list .b-popup-box__peer .peer-info {
+    border-radius: 5px;
+    font-size: 10pt;
+    padding: 4px;
+    -webkit-user-select: none;
 }
 
 .b-popup-box-node-list {

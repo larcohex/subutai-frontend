@@ -26,6 +26,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.sshKeyForEnvironment = '';
 	vm.environmentForDomain = '';
 	vm.currentDomain = {};
+	vm.selectedPeers = [];
 
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
@@ -43,6 +44,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.setDomain = setDomain;
 	vm.removeDomain = removeDomain;
 	vm.createEnvironment = createEnvironment;
+	vm.togglePeer = togglePeer;
+	vm.setupStrategyRequisites = setupStrategyRequisites;
 	vm.installed = false;
 	vm.pending = false;
 
@@ -78,6 +81,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	});
 
 	peerRegistrationService.getRequestedPeers().success(function (peers) {
+		peers.push({peerInfo: {id: 'local'}});
 		vm.peers = peers;
 	});
 
@@ -206,6 +210,11 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		}).error(function (data) {
 			SweetAlert.swal("ERROR!", "Your container is safe :). Error: " + data.ERROR, "error");
 		});
+	}
+
+	function setupStrategyRequisites(environment) {
+		console.log( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers);
+		//environmentService.setupStrategyRequisites( environment.name, environment.strategy, environment.sshGroupId, environment.hostGroupId, vm.selectedPeers );
 	}
 
 
@@ -361,6 +370,12 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	function createEnvironment(environment) {
 		console.log(environment);
+	}
+
+	function togglePeer(peerId) {
+		vm.selectedPeers.indexOf(peerId) === -1 ?
+				vm.selectedPeers.push(peerId) :
+				vm.selectedPeers.splice(vm.selectedPeers.indexOf(peerId), 1);
 	}
 
 	function buildEnvironment() {
