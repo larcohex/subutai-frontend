@@ -5,7 +5,7 @@
             <img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
         </a>
     </div>
-    <form ng-submit="environmentViewCtrl.setupStrategyRequisites(environment)">
+    <form ng-submit="environmentViewCtrl.setupStrategyRequisites(environment); isSubmitSended = true">
         <div class="b-popup__body">
             <div class="popup-body-box">
                 <label class="b-popup-body-label" ng-click="advancedModeEnabled = !advancedModeEnabled">Advanced</label>
@@ -77,7 +77,7 @@
 
         </div>
         <div class="b-popup__footer">
-            <button class="b-btn b-btn_green g-right" type="submit" id="subt_button__environment-add-domain">
+            <button class="b-btn b-btn_green g-right" type="submit" id="subt_button__environment-add-domain" ng-init="isSubmitSended = false" ng-disabled="isSubmitSended">
                 Create
             </button>
             <div class="clear"></div>
