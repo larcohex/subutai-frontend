@@ -57,13 +57,13 @@ function keshigSrv($http) {
 	 * */
 
 	function getBuilds() {
-		return $http.get(BASE_URL + 'build', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		//return $http.get(BASE_URL + 'build', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function exportBuild(build) {
-		return $http.get(BASE_URL + 'export/' + build.serverId + '/' + build.buildName + '/start', {
-			withCredentials: true
-		});
+		//return $http.get(BASE_URL + 'export/' + build.serverId + '/' + build.buildName + '/start', {
+		//	withCredentials: true
+		//});
 	}
 
 	function getTPR(serverId) {
@@ -114,18 +114,15 @@ function keshigSrv($http) {
 		});
 	}
 
-	function addServer( server ) {
-		var postData = 'serverName=' + server.serverName 
-			+ '&serverType=' + server.serverType 
-			+ '&serverId=' + server.serverId;
-		return $http.post(SERVERS_URL, postData, {
+	function addServer( serverId ) {
+		return $http.post(SERVERS_URL + serverId, {
 			withCredentials: true,
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		});
 	}
 
-	function removeServer(hostId) {
-		return $http.delete(SERVERS_URL + hostId, {
+	function removeServer(serverId) {
+		return $http.delete(SERVERS_URL + serverId, {
 			withCredentials: true
 		});
 	}
