@@ -31,6 +31,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.pending = false;
 	vm.isDataValid = isDataValid;
 
+	vm.resourceHosts = [];
 	vm.advancedEnv = {};
 	vm.advancedEnv.currentNode = getDefaultValues();
 	vm.advancedModeEnabled = false;
@@ -39,6 +40,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.colors = quotaColors;
 	vm.templates = [];
 	vm.containersType = [];
+
+	vm.sshKeys = [];
 
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
@@ -52,17 +55,17 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.destroyContainer = destroyContainer;
 	vm.setSSHKey = setSSHKey;
 	vm.showSSHKeyForm = showSSHKeyForm;
+	vm.showSSHKeysPopup = showSSHKeysPopup;
 	vm.showDomainForm = showDomainForm;
 	vm.setDomain = setDomain;
 	vm.removeDomain = removeDomain;
-	vm.createEnvironment = createEnvironment;
 	vm.togglePeer = togglePeer;
 	vm.setupStrategyRequisites = setupStrategyRequisites;
 
 	vm.addNewNode = addNewNode;
 	vm.removeNodeGroup = removeNodeGroup;
 	vm.setNodeData = setNodeData;
-	vm.createAdvancedEnvironment = createAdvancedEnvironment;
+	vm.setupAdvancedEnvironment = setupAdvancedEnvironment;
 
 	environmentService.getTemplates()
 		.success(function (data) {
@@ -114,6 +117,13 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	peerRegistrationService.getRequestedPeers().success(function (peers) {
 		peers.unshift({peerInfo: {id: 'local'}});
 		vm.peers = peers;
+	});
+
+	peerRegistrationService.getResourceHosts().success(function (data) {
+		console.log(data);
+		vm.resourceHosts = data;
+	}).error(function (error) {
+		VARS_MODAL_ERROR( SweetAlert, error );
 	});
 
 	//installed environment table options
@@ -243,6 +253,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	}
 
 	function setupStrategyRequisites(environment) {
+		LOADING_SCREEN();
 		environmentService.setupStrategyRequisites(
 			environment.name,
 			environment.strategy,
@@ -253,8 +264,12 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			vm.selectedPeers = [];
 			ngDialog.closeAll();
 			SweetAlert.swal("Success!!", "Your environment was successfully configured, please approve it.", "success");
+			vm.activeTab = 'pending';
+			LOADING_SCREEN("none");
 		}).error(function (data) {
+			ngDialog.closeAll();
 			SweetAlert.swal("ERROR!", "Your container is safe :). Error: " + data.ERROR, "error");
+			LOADING_SCREEN("none");
 		});
 	}
 
@@ -412,10 +427,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		})
 	}
 
-	function createEnvironment(environment) {
-		console.log(environment);
-	}
-
 	function togglePeer(peerId) {
 		vm.selectedPeers.indexOf(peerId) === -1 ?
 				vm.selectedPeers.push(peerId) :
@@ -522,6 +533,24 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			template: 'subutai-app/environment/partials/popups/sshKeyForm.html',
 			scope: $scope
 		});
+	}
+
+	function showSSHKeysPopup(environmentId) {
+
+		environmentService.getSshKey(environmentId).success( function (data) {
+			console.log( data );
+		})
+		.error( function(data) {
+			SweetAlert.swal("Cancelled", "Error: " + data.ERROR, "error");
+			ngDialog.closeAll();
+			LOADING_SCREEN('none');
+		});
+
+
+		//ngDialog.open({
+		//	template: 'subutai-app/environment/partials/popups/sshKeysPopup.html',
+		//	scope: $scope
+		//});
 	}
 
 	function showDomainForm(environmentId) {
@@ -642,7 +671,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		return defaultVal;
 	}
 
-	function createAdvancedEnvironment() {
+	function setupAdvancedEnvironment() {
 		if(vm.advancedEnv.name === undefined) return;
 		if(vm.nodeList === undefined || vm.nodeList.length == 0) return;
 
@@ -653,15 +682,27 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		}
 		delete finalEnvironment.currentNode;
 
-		console.log(finalEnvironment);
+		var cloneContainers = {};
 
-		/*environmentService.saveBlueprint(JSON.stringify(finalEnvironment))
-			.success(function (data) {
-				ngDialog.closeAll();
-			})
-			.error(function (data) {
-				VARS_MODAL_ERROR( SweetAlert, data );
-			});*/
+		for( var i = 0; i < finalEnvironment.nodeGroups.length; i++ )
+		{
+			var node = finalEnvironment.nodeGroups[i];
+			for( var j = 0; j < node.numberOfContainers; j++ )
+			{
+				if( j < 0 ) break;
+
+				if( cloneContainers[node.resourceHost] === undefined )
+				{
+					cloneContainers[node.resourceHost] = [];
+				}
+
+				cloneContainers[node.resourceHost].push( node );
+			}
+		}
+
+		console.log(finalEnvironment);
+		console.log(cloneContainers);
+		environmentService.setupAdvancedEnvironment( finalEnvironment.name, cloneContainers );
 
 		vm.nodeList = [];
 		vm.advancedEnv = {};

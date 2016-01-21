@@ -116,7 +116,7 @@
 				<div class="b-popup-body__name">
 					<label class="b-popup-body-label">Environment name</label>
 					<input type="text" 
-						id="subt-input__blueprint-name" 
+						id="subt-input__environment-name" 
 						class="b-popup-body-input b-popup-body-input_name" 
 						ng-model="environmentViewCtrl.advancedEnv.name" required>
 					<div class="clear"></div>
@@ -125,7 +125,7 @@
 					<div class="popup-body-box">
 						<label class="b-popup-body-label">Enter group name</label>
 						<input type="text" 
-							id="subt-input__blueprint-node-name" 
+							id="subt-input__environment-node-name" 
 							class="b-popup-body-input b-popup-body-input_box" 
 							ng-model="environmentViewCtrl.advancedEnv.currentNode.name" required>
 						<div class="clear"></div>
@@ -133,7 +133,7 @@
 					<div class="popup-body-box">
 						<label class="b-popup-body-label">Select template</label>
 						<select class="b-popup-body-input b-popup-body-input_box" 
-							id="subt-select__blueprint-template" 
+							id="subt-select__environment-template" 
 							ng-change="environmentViewCtrl.changeTemplate(environmentViewCtrl.advancedEnv.currentNode.templateName)" 
 							ng-model="environmentViewCtrl.advancedEnv.currentNode.templateName"
 						>
@@ -146,7 +146,7 @@
 					<div class="popup-body-box">
 						<label class="b-popup-body-label">Number of containers</label>
 						<input type="number" 
-							id="subt-input__blueprint-number-of-containers" 
+							id="subt-input__environment-number-of-containers" 
 							class="b-popup-body-input b-popup-body-input_box" 
 							ng-model="environmentViewCtrl.advancedEnv.currentNode.numberOfContainers" required>
 						<div class="clear"></div>
@@ -161,7 +161,7 @@
 					>
 						<label class="b-popup-body-label">Enter SSH Group ID </label>
 						<input type="number" 
-							id="subt-input__blueprint-ssh-group-id" 
+							id="subt-input__environment-ssh-group-id" 
 							class="b-popup-body-input b-popup-body-input_box" 
 							ng-model="environmentViewCtrl.advancedEnv.currentNode.sshGroupId" required>
 						<div class="clear"></div>
@@ -176,7 +176,7 @@
 					>
 						<label class="b-popup-body-label">Enter host Group ID </label>
 						<input type="number" 
-							id="subt-input__blueprint-host-group-id" 
+							id="subt-input__environment-host-group-id" 
 							class="b-popup-body-input b-popup-body-input_box" 
 							ng-model="environmentViewCtrl.advancedEnv.currentNode.hostsGroupId" required>
 						<div class="clear"></div>
@@ -184,7 +184,7 @@
 					<div class="popup-body-box">
 						<label class="b-popup-body-label">Select quota size</label>
 						<select class="b-popup-body-input b-popup-body-input_box" 
-							id="subt-select__blueprint-quota-size" 
+							id="subt-select__environment-quota-size" 
 							ng-model="environmentViewCtrl.advancedEnv.currentNode.type"
 						>
 							<option ng-repeat="type in environmentViewCtrl.containersType" value="{{ type }}">
@@ -193,12 +193,24 @@
 						</select>
 						<div class="clear"></div>
 					</div>
+					<div class="popup-body-box">
+						<label class="b-popup-body-label">Select resource host</label>
+						<select class="b-popup-body-input b-popup-body-input_box" 
+							id="subt-select__environment-resource-host" 
+							ng-model="environmentViewCtrl.advancedEnv.currentNode.resourceHost"
+						>
+							<option ng-repeat="resourceHost in environmentViewCtrl.resourceHosts" value="{{ resourceHost.id }}">
+								{{ resourceHost.id }}
+							</option>
+						</select>
+						<div class="clear"></div>
+					</div>
 					<div class="popup-body-box popup-body-box_btn">
 						<a href 
-						id="subt_button__blueprint-add-to-node-list" 
+						id="subt_button__environment-add-to-node-list" 
 						class="b-btn b-btn_blue g-right" 
 						ng-click="environmentViewCtrl.addNewNode()"
-						id="subt-button__blueprint-add-node">
+						id="subt-button__environment-add-node">
 							{{ environmentViewCtrl.nodeStatus }} node groups &rarr;
 						</a>
 						<div class="clear"></div>
@@ -210,11 +222,11 @@
 							Node groups
 						</div>
 						<ul class="b-popup-box__node-list">
-							<li ng-repeat="(key, blueprintNode) in environmentViewCtrl.nodeList"
-								class="subt_button__blueprint-node-list-item
-								b-tags b-tags_{{ environmentViewCtrl.colors[blueprintNode.type] }}" 
+							<li ng-repeat="(key, environmentNode) in environmentViewCtrl.nodeList"
+								class="subt_button__environment-node-list-item
+								b-tags b-tags_{{ environmentViewCtrl.colors[environmentNode.type] }}" 
 								ng-click="environmentViewCtrl.setNodeData(key)">
-								<i class="fa fa-cube"></i> {{ blueprintNode.name }}: {{ blueprintNode.numberOfContainers }}
+								<i class="fa fa-cube"></i> {{ environmentNode.name }}: {{ environmentNode.numberOfContainers }}
 								<i class="fa fa-times" ng-click="environmentViewCtrl.removeNodeGroup(key)"></i>
 							</li>
 						</ul>
@@ -223,10 +235,10 @@
 			</div>
 		</div>
 		<div class="b-popup__footer">
-			<button type="button" 
+			<button type="button"
 				class="b-btn b-btn_green g-right" 
-				id="subt_button__blueprint-create" 
-				ng-click="environmentViewCtrl.createAdvancedEnvironment()">
+				id="subt_button__environment-create" 
+				ng-click="environmentViewCtrl.setupAdvancedEnvironment()">
 				Save
 			</button>
 			<div class="clear"></div>

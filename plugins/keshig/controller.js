@@ -11,13 +11,12 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.activeTab = 'servers';
 	vm.optionType = "CLONE";
 
-	vm.servers = {};
+	vm.servers = [];
 	vm.server2Add = {};
 	vm.serverFormUpdate = false;
 
 	vm.serverTypes = [];
 	vm.resourceHosts = [];
-	vm.servers = {};
 
 	vm.optionsType = [];
 	vm.optionsDeployBuilds = [];
@@ -51,13 +50,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.changeOptionsType = changeOptionsType;
 	vm.addServer2From = addServer2From;
 	vm.addOption2From = addOption2From;
+	vm.addServer = addServer;
 	vm.runOption = runOption;
 	vm.pushPlaybook = pushPlaybook;
 	vm.addAllPlaybooks = addAllPlaybooks;
 	vm.runProfile = runProfile;
 	vm.runOptionForm = runOptionForm;
 
-	vm.exportBuild = exportBuild;
+	//vm.exportBuild = exportBuild;
 	vm.getTPR = getTPR;
 
 	vm.showPeerInfo = showPeerInfo;
@@ -75,24 +75,24 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 		vm.optionsType = data;
 	});
 
-	keshigSrv.getBuilds().success(function (data) {
-		for(var i = 0; i < data.length; i++) {
-			data[i].dateFormated = dateToFormat(data[i].date);
-		}
-		vm.optionsDeployBuilds = data;
-	});
+	//keshigSrv.getBuilds().success(function (data) {
+	//	for(var i = 0; i < data.length; i++) {
+	//		data[i].dateFormated = dateToFormat(data[i].date);
+	//	}
+	//	vm.optionsDeployBuilds = data;
+	//});
 
 	keshigSrv.getPlaybooks().success(function (data) {
 		vm.playbooks = data;
 	});
 
-	function exportBuild(build) {
-		keshigSrv.exportBuild(build).success(function (data) {
-			SweetAlert.swal("Success!", 'Build "' + deploy.buildName + '" start export.', "success");
-		}).error(function(error){
-			SweetAlert.swal("ERROR!", 'Error: ' + error.replace(/\\n/g, ' '), 'error');
-		});
-	}
+	//function exportBuild(build) {
+	//	keshigSrv.exportBuild(build).success(function (data) {
+	//		SweetAlert.swal("Success!", 'Build "' + deploy.buildName + '" start export.', "success");
+	//	}).error(function(error){
+	//		SweetAlert.swal("ERROR!", 'Error: ' + error.replace(/\\n/g, ' '), 'error');
+	//	});
+	//}
 
 	function getProfileValues() {
 		vm.serversByType = [];
@@ -184,21 +184,20 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	function serversTable() {
 		vm.dtInstance = {};
 		vm.dtOptions = DTOptionsBuilder
-			.fromFnPromise(function() {
-				return $resource(keshigSrv.getServersUrl()).query().$promise;
-			})
-			.withPaginationType('full_numbers')
+			.newOptions()
+			.withOption('order', [[ 0, "asc" ]])
 			.withOption('stateSave', true)
-			.withOption('order', [[ 1, "asc" ]])
-			.withOption('createdRow', createdRow);
+			.withPaginationType('full_numbers');
 
-		vm.dtColumns = [
-			DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(actionEditServer),
-			DTColumnBuilder.newColumn('serverName').withTitle('Name'),
-			DTColumnBuilder.newColumn('type').withTitle('Type'),
-			DTColumnBuilder.newColumn('serverAddress').withTitle('Address'),
-			DTColumnBuilder.newColumn(null).withTitle('').notSortable().renderWith(deleteAction)
+		vm.dtColumnDefs = [
+			DTColumnDefBuilder.newColumnDef(0),
+			DTColumnDefBuilder.newColumnDef(1),
+			DTColumnDefBuilder.newColumnDef(2).notSortable(),
+			DTColumnDefBuilder.newColumnDef(3).notSortable()
 		];
+		keshigSrv.getServers().success(function (data) {
+			vm.servers = data;
+		});
 	}
 	serversTable();
 
@@ -397,11 +396,6 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 		$compile(angular.element(row).contents())($scope);
 	}
 
-	function actionEditServer(data, type, full, meta) {
-		vm.servers[data.serverName] = data;
-		return '<a href class="b-icon b-icon_edit" ng-click="keshigCtrl.addServer2From(keshigCtrl.servers[\'' + data.serverName + '\'])"></a>';
-	}
-
 	function actionEditOption(data, type, full, meta) {
 		vm.options[data.name] = data;
 		return '<a href class="b-icon b-icon_edit" ng-click="keshigCtrl.addOption2From(keshigCtrl.options[\'' + data.name + '\'])"></a>';
@@ -504,6 +498,16 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 			SweetAlert.swal("Success!", '"' + profileName + '" profile start running.', "success");
 		}).error(function (error) {
 			SweetAlert.swal("ERROR!", '"' + profileName + '" profile run error. Error: ' + error.replace(/\\n/g, ' '), 'error');
+		});
+	}
+
+	function addServer(serverId) {
+		LOADING_SCREEN();
+		keshigSrv.addServer(serverId).success(function () {
+			keshigSrv.getServers().success(function (data) {
+				vm.servers = data;
+				LOADING_SCREEN('none');
+			});
 		});
 	}
 
@@ -634,11 +638,11 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 		});
 	}
 
-	function deleteServer(serverName)	{
-		if(serverName === undefined) return;
+	function deleteServer(serverId)	{
+		if(serverId === undefined) return;
 		SweetAlert.swal({
 			title: "Are you sure?",
-			text: "Delete server " + serverName + "!",
+			text: "Delete server " + serverId + "!",
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#ff3f3c",
@@ -650,9 +654,11 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				keshigSrv.removeServer(serverName).success(function (data) {
+				keshigSrv.removeServer(serverId).success(function (data) {
 					SweetAlert.swal("Deleted!", "Your server has been deleted.", "success");
-					vm.dtInstance.reloadData(null, false);
+					keshigSrv.getServers().success(function (data) {
+						vm.servers = data;
+					});
 				}).error(function (error) {
 					SweetAlert.swal("ERROR!", "Your server is safe. Error: " + error.replace(/\\n/g, ' '), "error");
 				});
