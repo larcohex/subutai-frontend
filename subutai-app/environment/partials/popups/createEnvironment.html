@@ -194,13 +194,25 @@
 						<div class="clear"></div>
 					</div>
 					<div class="popup-body-box">
-						<label class="b-popup-body-label">Select resource host</label>
+						<label class="b-popup-body-label">Select peer</label>
 						<select class="b-popup-body-input b-popup-body-input_box" 
-							id="subt-select__environment-resource-host" 
-							ng-model="environmentViewCtrl.advancedEnv.currentNode.resourceHost"
+							id="subt-select__environment-peerId" 
+							ng-model="environmentViewCtrl.advancedEnv.currentNode.peerId"
 						>
-							<option ng-repeat="resourceHost in environmentViewCtrl.resourceHosts" value="{{ resourceHost.id }}">
-								{{ resourceHost.id }}
+							<option ng-repeat="(peerId, hostIds) in environmentViewCtrl.peerIds" value="{{ peerId }}">
+								{{ peerId }}
+							</option>
+						</select>
+						<div class="clear"></div>
+					</div>
+					<div class="popup-body-box">
+						<label class="b-popup-body-label">Select host</label>
+						<select class="b-popup-body-input b-popup-body-input_box" 
+							id="subt-select__environment-hostId" 
+							ng-model="environmentViewCtrl.advancedEnv.currentNode.hostId"
+						>
+							<option ng-repeat="hostId in environmentViewCtrl.peerIds[environmentViewCtrl.advancedEnv.currentNode.peerId]" value="{{ hostId }}">
+								{{ hostId }}
 							</option>
 						</select>
 						<div class="clear"></div>
@@ -239,7 +251,7 @@
 				class="b-btn b-btn_green g-right" 
 				id="subt_button__environment-create" 
 				ng-click="environmentViewCtrl.setupAdvancedEnvironment()">
-				Save
+				Create	
 			</button>
 			<div class="clear"></div>
 		</div>

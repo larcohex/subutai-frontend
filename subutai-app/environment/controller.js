@@ -31,7 +31,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.pending = false;
 	vm.isDataValid = isDataValid;
 
-	vm.resourceHosts = [];
+	vm.peerIds = [];
 	vm.advancedEnv = {};
 	vm.advancedEnv.currentNode = getDefaultValues();
 	vm.advancedModeEnabled = false;
@@ -114,16 +114,13 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		vm.domainStrategies = data;
 	});
 
+	environmentService.getPeers().success(function (data) {
+		vm.peerIds = data;
+	});
+
 	peerRegistrationService.getRequestedPeers().success(function (peers) {
 		peers.unshift({peerInfo: {id: 'local'}});
 		vm.peers = peers;
-	});
-
-	peerRegistrationService.getResourceHosts().success(function (data) {
-		console.log(data);
-		vm.resourceHosts = data;
-	}).error(function (error) {
-		VARS_MODAL_ERROR( SweetAlert, error );
 	});
 
 	//installed environment table options
@@ -691,18 +688,25 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			{
 				if( j < 0 ) break;
 
-				if( cloneContainers[node.resourceHost] === undefined )
+				if( cloneContainers[node.peerId] === undefined )
 				{
-					cloneContainers[node.resourceHost] = [];
+					cloneContainers[node.peerId] = [];
 				}
 
-				cloneContainers[node.resourceHost].push( node );
+				cloneContainers[node.peerId].push(node);
 			}
 		}
 
-		console.log(finalEnvironment);
 		console.log(cloneContainers);
-		environmentService.setupAdvancedEnvironment( finalEnvironment.name, cloneContainers );
+		LOADING_SCREEN();
+		environmentService.setupAdvancedEnvironment(finalEnvironment.name, cloneContainers)
+			.success(function(data){
+				console.log(data);
+				LOADING_SCREEN('none');
+			}).error(function(error){
+				console.log(error);
+				LOADING_SCREEN('none');
+			});
 
 		vm.nodeList = [];
 		vm.advancedEnv = {};
