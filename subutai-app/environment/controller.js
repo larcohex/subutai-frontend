@@ -699,9 +699,12 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 		console.log(cloneContainers);
 		LOADING_SCREEN();
+		ngDialog.closeAll();
+		vm.activeTab = 'pending';
 		environmentService.setupAdvancedEnvironment(finalEnvironment.name, cloneContainers)
 			.success(function(data){
 				console.log(data);
+				loadEnvironments();
 				LOADING_SCREEN('none');
 			}).error(function(error){
 				console.log(error);
