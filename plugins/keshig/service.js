@@ -73,7 +73,12 @@ function keshigSrv($http) {
 	}
 
 	function getPlaybooks() {
-		return $http.get(BASE_URL + 'tests', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return {
+			success: function (callback) {
+				callback(['sadasdas', 'asdasda', 'asdadasd', 'asdasdasd']);
+			}
+		}
+		//return $http.get(BASE_URL + 'tests', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function getProfiles() {
@@ -163,7 +168,7 @@ function keshigSrv($http) {
 	}
 
 	function deleteOption(type, optionName) {
-		return $http.delete(OPTIONS_URL + type.toLowerCase() + '/' + optionName, {
+		return $http.delete(OPTIONS_URL  + optionName, {
 			withCredentials: true
 		});
 	}
