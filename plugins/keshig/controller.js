@@ -61,11 +61,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.proceedOption = proceedOption;
 	vm.addServer = addServer;
 	vm.runOption = runOption;
-	vm.pushPlaybook = pushPlaybook;
 	vm.toggleItem = toggleItem;
-	vm.togglePlaybook = togglePlaybook;
-	vm.toggleTargetIP = toggleTargetIP;
-	vm.toggleAdditionalIP = toggleAdditionalIP;
 	vm.addAllPlaybooks = addAllPlaybooks;
 	vm.addCustomTargetIP = addCustomTargetIP;
 	vm.runProfile = runProfile;
@@ -133,43 +129,6 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 			}
 		}
 	});
-
-	function pushPlaybook(playbook) {
-		if(vm.option2Add.playbooks === undefined) vm.option2Add.playbooks = [];
-		if(vm.option2Add.playbooks.indexOf(playbook) >= 0) {
-			vm.option2Add.playbooks.splice(vm.nodes2Action.indexOf(playbook), 1);
-		} else {
-			vm.option2Add.playbooks.push(playbook);
-		}
-	}
-
-	function togglePlaybook(playbook) {
-		if(!vm.currentOption.playbooks) vm.currentOption.playbooks = [];
-		if(vm.currentOption.playbooks.indexOf(playbook) >= 0) {
-			vm.currentOption.playbooks.splice(vm.currentOption.playbooks.indexOf(playbook), 1);
-			vm.selectedAllPlaybooks = false;
-		} else {
-			vm.currentOption.playbooks.push(playbook);
-		}
-	}
-
-	function toggleTargetIP(targetIP) {
-		if(!vm.currentOption.targetIps) vm.currentOption.targetIps = [];
-		if(vm.currentOption.targetIps.indexOf(targetIP) >= 0) {
-			vm.currentOption.targetIps.splice(vm.currentOption.targetIps.indexOf(targetIP), 1);
-		} else {
-			vm.currentOption.targetIps.push(targetIP);
-		}
-	}
-
-	function toggleAdditionalIP(targetIP) {
-		if(!vm.additionalIPs) vm.additionalIPs = [];
-		if(vm.additionalIPs.indexOf(targetIP) >= 0) {
-			vm.additionalIPs.splice(vm.additionalIPs.indexOf(targetIP), 1);
-		} else {
-			vm.additionalIPs.push(targetIP);
-		}
-	}
 
 	function toggleItem(item, collection) {
 		if(!collection) collection = [];

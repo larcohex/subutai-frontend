@@ -31,7 +31,7 @@
                                     <label class="b-form-input-dropdown-list-li-label">
                                         <input
                                                 type="checkbox"
-                                                ng-click="keshigCtrl.togglePlaybook(playbook)"
+                                                ng-click="keshigCtrl.toggleItem(playbook, keshigCtrl.currentOption.playbooks)"
                                                 ng-checked="keshigCtrl.currentOption.playbooks.indexOf(playbook) >= 0">
                                         {{ playbook }}
                                     </label>
@@ -62,7 +62,7 @@
                                     <label class="b-form-input-dropdown-list-li-label">
                                         <input
                                                 type="checkbox"
-                                                ng-click="keshigCtrl.toggleTargetIP(targetIP)"
+                                                ng-click="keshigCtrl.toggleItem(targetIP, keshigCtrl.currentOption.targetIps)"
                                                 ng-checked="keshigCtrl.currentOption.targetIps.indexOf(targetIP) >= 0">
                                         {{ targetIP }}
                                     </label>
@@ -86,7 +86,7 @@
                 <div class="popup-body-box_item">
                     <ul class="b-popup-box__peer-list">
                         <li ng-repeat="additionalIP in keshigCtrl.additionalIPs track by $index"
-                            ng-click="keshigCtrl.toggleAdditionalIP(additionalIP)"
+                            ng-click="keshigCtrl.toggleItem(additionalIP, keshigCtrl.additionalIPs)"
                             class="b-popup-box__peer">
                             <div class="g-left peer-selected" ng-if="keshigCtrl.additionalIPs.indexOf(additionalIP) > -1">
                                 <span class="fa fa-check fa-1 b-btn-light-grey-icon_green"></span>
