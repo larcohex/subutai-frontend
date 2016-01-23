@@ -822,11 +822,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		);
 
 
-		devElement.on( 'change:position', function(element) {
-			element.get
-			element.position();
-		});
-
 		graph.addCell(devElement);
 
 		$('.js-add-dev-element').on('click', function(){
