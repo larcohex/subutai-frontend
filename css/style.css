@@ -2314,8 +2314,8 @@ td.b-main-table__status-col {
     vertical-align: middle;
 }
 .b-cloud-item img {
-    max-width: 30px;
-    max-height: 30px;
+    max-width: 25px;
+    max-height: 25px;
     display: inline-block;
     vertical-align: middle;
 }
