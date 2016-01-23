@@ -243,7 +243,8 @@ Do not allow adding new vertices: .connection-wrap { pointer-events: none; }
 
 .element .element-tools {
 	display: none;
-	cursor: pointer
+	cursor: pointer;
+	transform: translate(51px, 5px);
 }
 
 .element:hover .element-tools {

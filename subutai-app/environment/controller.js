@@ -689,8 +689,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 			toolMarkup: [
 				'<g class="element-tools">',
-					'<g class="element-tool-remove"><circle fill="red" r="11"/>',
-						'<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
+					'<g class="element-tool-remove">',
+						'<circle fill="#F8FBFD" r="8" stroke="#dcdcdc"/>',
+						'<polygon transform="scale(1.2) translate(-5, -5)" fill="#292F6C" points="8.4,2.4 7.6,1.6 5,4.3 2.4,1.6 1.6,2.4 4.3,5 1.6,7.6 2.4,8.4 5,5.7 7.6,8.4 8.4,7.6 5.7,5 "/>',
 						'<title>Remove</title>',
 					'</g>',
 				'</g>'
@@ -720,9 +721,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				type: 'tm.devElement',
 				size: { width: 70, height: 70 },
 				attrs: {
-					'rect.b-border': {fill: '#fff', stroke: '#ccc', 'stroke-width': 1, width: 70, height: 70, rx: 5, ry: 5},
-					'rect.b-magnet': {fill: '#104eab', width: 10, height: 10, rx: 2, ry: 2, magnet: true, transform: 'translate(30,55)'},
-					image: {'ref-x': 2, 'ref-y': 2, ref: 'rect', width: 66, height: 66},
+					'rect.b-border': {fill: '#fff', stroke: '#dcdcdc', 'stroke-width': 1, width: 70, height: 70, rx: 50, ry: 50},
+					'rect.b-magnet': {fill: '#04346E', width: 10, height: 10, rx: 2, ry: 2, magnet: true, transform: 'translate(30,53)'},
+					image: {'ref-x': 9, 'ref-y': 9, ref: 'rect', width: 50, height: 50},
 				}
 			}, joint.shapes.tm.toolElement.prototype.defaults)
 		});
@@ -804,7 +805,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 		var devElement = new joint.shapes.tm.devElement({
 			position: { x: 100, y: 30 },
-			size: { width: 70, height: 70 },
 			attrs: {
 				image: { 'xlink:href': 'plugins/cassandra/cassandra.png' },
 			}
