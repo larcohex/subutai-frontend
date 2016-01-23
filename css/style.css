@@ -2327,8 +2327,13 @@ td.b-main-table__status-col {
 }
 .b-cloud-space_border-right {
     border-right: 1px solid #e6eaf5;
+    background: #fff url("../assets/elements/patter-stripes.png");
 }
 .b-cloud-space__work {
     height: 400px;
-    background: #fff url("../assets/elements/patter-stripes.png");
 }
+
+.b-cloud-space-work {
+	height: 100%;
+}
+
