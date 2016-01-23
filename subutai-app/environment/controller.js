@@ -809,35 +809,33 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				image: { 'xlink:href': 'plugins/cassandra/cassandra.png' },
 			}
 		});
+		//graph.addCell(devElement);
 
 		paper.on('cell:pointerup',
 			function(cellView, evt, x, y) {
 
 				var pos = cellView.model.get('position');
 				var p0 = this._p0;
-				var p1 = { x: g.snapToGrid(pos.x, 150), y: g.snapToGrid(pos.y, 150) };
+				var p1 = { x: g.snapToGrid(pos.x, 100) + 20, y: g.snapToGrid(pos.y, 100) + 20 };
 
 				cellView.model.set('position', p1);
 			}
 		);
 
 
-		graph.addCell(devElement);
-
+		var position = 0;
 		$('.js-add-dev-element').on('click', function(){
-			if(!$(this).hasClass('b-devops-menu__li-link_unactive') && !$(this).hasClass('b-devops-menu__li-link_active')) {
-				var devElement = new joint.shapes.tm.devElement({
-					position: { x: 100, y: 30 },
-					size: { width: 70, height: 70 },
-					devType: $(this).data('type'),
-					devTypeId: $(this).data('id'),
-					attrs: {
-						image: { 'xlink:href': $(this).data('img') },
-					}
-				});
-				graph.addCell(devElement);
-				$(this).addClass('b-devops-menu__li-link_active');
-			}
+			var devElement = new joint.shapes.tm.devElement({
+				position: { x: (100 * position) + 20, y: 20 },
+				//devType: $(this).data('type'),
+				//devTypeId: $(this).data('id'),
+				attrs: {
+					image: { 'xlink:href': $(this).data('img') },
+				}
+			});
+			graph.addCell(devElement);
+			position++;
+			return false;
 		});
 	}
 }

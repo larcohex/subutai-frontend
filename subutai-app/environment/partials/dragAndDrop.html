@@ -22,19 +22,36 @@
 				<div class="b-cloud-tools">
 					<div class="b-tabs-menu b-tabs-menu_cloud-env">
 						<ul>
-							<li class="b-tabs-menu__item b-tabs-menu__item_active" ng-click="identityUserCtrl.activeTab = 'approved'" ng-class="identityUserCtrl.activeTab == 'approved' ? 'b-tabs-menu__item_active' : ''" style="z-index: 1">
+							<li class="b-tabs-menu__item b-tabs-menu__item_active" 
+								ng-click="environmentViewCtrl.activeCloudTab = 'templates'" 
+								ng-class="environmentViewCtrl.activeCloudTab == 'templates' ? 'b-tabs-menu__item_active' : ''">
 								Templates
 							</li>
-							<li class="b-tabs-menu__item" ng-click="identityUserCtrl.activeTab = 'pending'" ng-class="identityUserCtrl.activeTab == 'pending' ? 'b-tabs-menu__item_active' : ''" style="z-index: 1">
+							<li class="b-tabs-menu__item" 
+								ng-click="environmentViewCtrl.activeCloudTab = 'more'" 
+								ng-class="environmentViewCtrl.activeCloudTab == 'more' ? 'b-tabs-menu__item_active' : ''">
 								More
 							</li>
 						</ul>
 					</div>
 					<div class="b-tools-menu">
 						<ul>
-							<li><a href="#"><span class="b-cloud-item"><img src="plugins\cassandra\cassandra.png" alt="" ></span> <span class="b-cloud-item-text">Cassandra</span></a></li>
-							<li><a href="#"><span class="b-cloud-item"><img src="plugins\accumulo\accumulo.png" alt="" ></span> <span class="b-cloud-item-text">Cassandra</span></a></li>
-
+							<li>
+								<a href="#" class="js-add-dev-element" data-img="plugins/cassandra/cassandra.png">
+									<span class="b-cloud-item">
+										<img src="plugins\cassandra\cassandra.png" alt="" >
+									</span> 
+									<span class="b-cloud-item-text">Cassandra</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="js-add-dev-element" data-img="plugins/cassandra/cassandra.png">
+									<span class="b-cloud-item">
+										<img src="plugins\accumulo\accumulo.png" alt="" >
+									</span> 
+									<span class="b-cloud-item-text">Cassandra</span>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
