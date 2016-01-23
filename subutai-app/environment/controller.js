@@ -804,11 +804,24 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		});
 
 		var devElement = new joint.shapes.tm.devElement({
-			position: { x: 100, y: 30 },
+			position: { x: 50, y: 50 },
 			attrs: {
 				image: { 'xlink:href': 'plugins/cassandra/cassandra.png' },
 			}
 		});
+
+		paper.on('cell:pointerup',
+			function(cellView, evt, x, y) {
+
+				var pos = cellView.model.get('position');
+				var p0 = this._p0;
+				var p1 = { x: g.snapToGrid(pos.x, 150), y: g.snapToGrid(pos.y, 150) };
+
+				cellView.model.set('position', p1);
+			}
+		);
+
+
 		graph.addCell(devElement);
 
 		$('.js-add-dev-element').on('click', function(){
