@@ -804,7 +804,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		});
 
 		var devElement = new joint.shapes.tm.devElement({
-			position: { x: 50, y: 50 },
+			position: { x: 0, y: 0 },
 			attrs: {
 				image: { 'xlink:href': 'plugins/cassandra/cassandra.png' },
 			}
