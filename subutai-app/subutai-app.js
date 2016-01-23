@@ -176,7 +176,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 		})
 		.state('environments', {
 			url: '/environments/{activeTab}',
-			templateUrl: 'subutai-app/environment/partials/view.html',
+			templateUrl: 'subutai-app/environment/partials/dragAndDrop.html',
 			data: {
 				bodyClass: '',
 				layout: 'default'
@@ -184,7 +184,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
-					{
+						{
 							name: 'subutai.environment',
 							files: [
 								'subutai-app/environment/environment.js',
@@ -1041,7 +1041,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NDlmYTZkYS02OTFlLTQ3NTEtYjgwMS1hNmViNzhkMjNjZDMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.vXb7QcGfWJ0eUajSqMIMYFxgO7ri4d7UquWCrhFdMX8';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NmQwNjZjOS03Y2E4LTQ2MTEtYjZiNS0xNGI3ZDYzOWEyOTAiLCJpc3MiOiJpby5zdWJ1dGFpIn0.HBSwsAPZRH8J4yTPbiP6ktDVplIuhttgDyJWsVHYAYY';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1123,7 +1123,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://172.16.192.28:8080/';
+var SERVER_URL = 'http://172.16.192.70:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
