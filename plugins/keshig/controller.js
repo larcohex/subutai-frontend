@@ -485,9 +485,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	function renderHistoryOutput(data, type, full, meta) {
 		var contentOutput = '';
 		if(data.type == 'TEST') {
-			contentOutput = '<a href="' + getBaseUrl() + ':80' + data.id + '/serenity/index.html' + '" target="_blank">Report</a>';
-		} else {
-			contentOutput = data.id;
+			contentOutput = '<a href="' + getBaseUrl() + ':80/' + data.id + '/serenity/index.html' + '" target="_blank">Report</a>';
 		}
 		return contentOutput;
 	}
