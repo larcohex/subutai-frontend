@@ -49,6 +49,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	vm.templateGrid = [];
 	vm.cubeGrowth = 1;
+	vm.environment2BuildName = 'Environment name';
 
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
@@ -76,6 +77,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.initJointJs = initJointJs;
 	vm.buildEnvironmentByJoint = buildEnvironmentByJoint;
 	vm.sendToPending = sendToPending;
+	vm.addSettingsToTemplate = addSettingsToTemplate;
 
 	environmentService.getTemplates()
 		.success(function (data) {
@@ -406,9 +408,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	function buildEnvironment() {
 		ngDialog.closeAll();
-		vm.activeTab = "installed";
-		environmentService.startEnvironmentBuild (vm.currentEnvironment.id, encodeURIComponent(vm.currentEnvironment.relationDeclaration)).success(function (data) {
-			SweetAlert.swal("Success!", "Your environment has started building.", "success");
+		environmentService.startEnvironmentBuild (vm.newEnvID[0], encodeURIComponent(vm.newEnvID[1])).success(function (data) {
+			SweetAlert.swal("Success!", "Your environment has been built successfully.", "success");
 			loadEnvironments();
 		}).error(function (data) {
 			SweetAlert.swal("ERROR!", "Environment build error. Error: " + data.ERROR, "error");
@@ -774,6 +775,11 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 						break;
 					case 'rotatable':
 						console.log(this.model);
+						vm.currentTemplate = this.model;
+						ngDialog.open({
+							template: 'subutai-app/environment/partials/popups/templateSettings.html',
+							scope: $scope
+						});
 						return;
 						break;
 					default:
@@ -812,15 +818,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			console.log(buildObj);
 			return false;
 		});
-
-		var devElement = new joint.shapes.tm.devElement({
-			position: { x: 0, y: 0 },
-			attrs: {
-				image: { 'xlink:href': 'plugins/cassandra/cassandra.png' },
-			}
-		});
-		//graph.addCell(devElement);
-
 
 		var p0;
 		paper.on('cell:pointerdown', function(cellView) {
@@ -865,6 +862,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				position: { x: (GRID_CELL_SIZE * pos.x) + 20, y: (GRID_CELL_SIZE * pos.y) + 20 },
 				//devType: $(this).data('type'),
 				templateName: $(this).data('template'),
+				quotaSize: 'SMALL',
 				attrs: {
 					image: { 'xlink:href': $(this).data('img') },
 				}
@@ -906,14 +904,18 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	function buildEnvironmentByJoint() {
 		var allElements = graph.getCells();
 		vm.env2Build = {};
+		vm.containers2Build = [];
 		vm.buildStep = 'confirm';
+		console.log(allElements);
 		for(var i = 0; i < allElements.length; i++) {
-			var currentElement = allElements[i];
-			if(vm.env2Build[currentElement.attributes.templateName] === undefined) {
-				vm.env2Build[currentElement.attributes.templateName] = 1;
+			var currentElement = allElements[i].get('templateName');
+			var container2Build = {"size": allElements[i].get('quotaSize'), "template": currentElement};
+			if(vm.env2Build[currentElement] === undefined) {
+				vm.env2Build[currentElement] = 1;
 			} else {
-				vm.env2Build[currentElement.attributes.templateName]++;
+				vm.env2Build[currentElement]++;
 			}
+			vm.containers2Build.push(container2Build);
 		}
 		ngDialog.open({
 			template: 'subutai-app/environment/partials/popups/environment-build-info.html',
@@ -923,8 +925,22 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	}
 
 	function sendToPending() {
-		console.log(vm.env2Build);
-		vm.buildStep = 'pgpKey';
+		LOADING_SCREEN();
+		environmentService.startEnvironmentAutoBuild(vm.environment2BuildName, JSON.stringify(vm.containers2Build))
+			.success(function(data){
+				console.log(data);
+				vm.newEnvID = data;
+				vm.buildStep = 'pgpKey';
+				LOADING_SCREEN('none');
+			}).error(function(error){
+				VARS_MODAL_ERROR( SweetAlert, 'Error: ' + data );
+				LOADING_SCREEN('none');
+			});
+	}
+
+	function addSettingsToTemplate(settings) {
+		vm.currentTemplate.set('quotaSize', settings.quotaSize);
+		ngDialog.closeAll();
 	}
 }
 

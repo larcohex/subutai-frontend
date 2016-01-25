@@ -27,7 +27,7 @@
 			</div>
 			<div>
 				<textarea class="b-form-input b-form-input_full b-form-input_textarea bp-sign-target"
-					ng-model="environmentViewCtrl.currentEnvironment.relationDeclaration" 
+					ng-model="environmentViewCtrl.newEnvID[1]" 
 					style = "width: 540px; height: 300px; font-family: monospace; overflow: scroll; resize: none">
 				</textarea>
 			</div>
@@ -38,7 +38,7 @@
 
 		<button class="b-btn b-btn_green" 
 		ng-if="environmentViewCtrl.buildStep == 'pgpKey'" 
-		ng-click="">
+		ng-click="environmentViewCtrl.buildEnvironment()">
 			Build
 		</button>
 
