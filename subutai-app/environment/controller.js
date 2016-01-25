@@ -853,6 +853,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 					delete vm.templateGrid[i][j];
 				}
+				else
+					cellView.model.set('position', p0);
 			}
 		);
 
@@ -870,6 +872,34 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			graph.addCell(devElement);
 			return false;
 		});
+
+		function findEmptyCubePostion()
+		{
+			for( var j = 0; j < vm.cubeGrowth; j++ )
+			{
+				for( var i = 0; i < vm.cubeGrowth; i++ )
+				{
+					if( vm.templateGrid[i] === undefined )
+					{
+						vm.templateGrid[i] = new Array();
+						vm.templateGrid[i][j] = 1;
+
+						return {x:i, y:j};
+					}
+
+					if( vm.templateGrid[i][j] !== 1 )
+					{
+						vm.templateGrid[i][j] = 1;
+						return {x:i, y:j};
+					}
+				}
+			}
+
+			vm.templateGrid[vm.cubeGrowth] = new Array();
+			vm.templateGrid[vm.cubeGrowth][0] = 1;
+			vm.cubeGrowth++;
+			return { x : vm.cubeGrowth - 1, y : 0 };
+		}
 	}
 
 	vm.buildStep = 'confirm';
@@ -889,40 +919,12 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			template: 'subutai-app/environment/partials/popups/environment-build-info.html',
 			scope: $scope,
 			className: 'b-build-environment-info'
-		});		
+		});
 	}
 
 	function sendToPending() {
 		console.log(vm.env2Build);
 		vm.buildStep = 'pgpKey';
-	}
-
-	function findEmptyCubePostion()
-	{
-		for( var j = 0; j < vm.cubeGrowth; j++ )
-		{
-			for( var i = 0; i < vm.cubeGrowth; i++ )
-			{
-				if( vm.templateGrid[i] === undefined )
-				{
-					vm.templateGrid[i] = new Array();
-					vm.templateGrid[i][j] = 1;
-
-					return {x:i, y:j};
-				}
-
-				if( vm.templateGrid[i][j] !== 1 )
-				{
-					vm.templateGrid[i][j] = 1;
-					return {x:i, y:j};
-				}
-			}
-		}
-
-		vm.templateGrid[vm.cubeGrowth] = new Array();
-		vm.templateGrid[vm.cubeGrowth][0] = 1;
-		vm.cubeGrowth++;
-		return { x : vm.cubeGrowth - 1, y : 0 };
 	}
 }
 
