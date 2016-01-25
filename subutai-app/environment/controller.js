@@ -12,6 +12,9 @@ var fileUploder = {};
 function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistrationService, SweetAlert, $resource, $compile, ngDialog, $timeout, $sce, $stateParams, DTOptionsBuilder, DTColumnDefBuilder) {
 
 	var vm = this;
+	var GRID_CELL_SIZE = 100;
+	var GRID_SIZE = 100;
+
 	vm.activeTab = $stateParams.activeTab;
 	if (vm.activeTab !== "pending") {
 		vm.activeTab = "installed";
@@ -43,6 +46,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	vm.sshKeys = [];
 	vm.activeCloudTab = 'templates';
+
+	vm.templateGrid = [];
+	vm.cubeGrowth = 1;
 
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
@@ -684,6 +690,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	function initJointJs() {
 		//custom shapes
+
 		joint.shapes.tm = {};
 
 		joint.shapes.tm.toolElement = joint.shapes.basic.Generic.extend({
@@ -759,6 +766,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 							.removeClass('b-devops-menu__li-link_active');
 						this.model.remove();
 						$('.js-devops-item-info-block').hide();
+						delete vm.templateGrid[Math.floor( x / GRID_CELL_SIZE )][ Math.floor( y / GRID_CELL_SIZE )];
 						return;
 						break;
 					case 'rotatable':
@@ -812,23 +820,49 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		});
 		//graph.addCell(devElement);
 
+
+		var p0;
+		paper.on('cell:pointerdown', function(cellView) {
+			p0 = cellView.model.get('position');
+		});
+
 		paper.on('cell:pointerup',
 			function(cellView, evt, x, y) {
 
 				var pos = cellView.model.get('position');
-				var p0 = this._p0;
-				var p1 = { x: g.snapToGrid(pos.x, 100) + 20, y: g.snapToGrid(pos.y, 100) + 20 };
+				var p1 = { x: g.snapToGrid(pos.x, GRID_CELL_SIZE) + 20, y: g.snapToGrid(pos.y, GRID_CELL_SIZE) + 20 };
 
-				cellView.model.set('position', p1);
+				var i = Math.floor( p1.x / GRID_CELL_SIZE );
+				var j = Math.floor( p1.y / GRID_CELL_SIZE );
+
+				if( vm.templateGrid[i] === undefined )
+				{
+					vm.templateGrid[i] = new Array();
+				}
+
+				if( vm.templateGrid[i][j] !== 1 )
+				{
+					vm.templateGrid[i][j] = 1;
+					cellView.model.set('position', p1);
+					vm.cubeGrowth = vm.cubeGrowth < i ? i : vm.cubeGrowth;
+					vm.cubeGrowth = vm.cubeGrowth < j ? j : vm.cubeGrowth;
+
+					i = Math.floor( p0.x / GRID_CELL_SIZE );
+					j = Math.floor( p0.y / GRID_CELL_SIZE );
+
+					delete vm.templateGrid[i][j];
+				}
 			}
 		);
 
 
-		var position = 0;
 		$('.js-scrollbar').perfectScrollbar();
 		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
+
+			var pos = findEmptyCubePostion();
+
 			var devElement = new joint.shapes.tm.devElement({
-				position: { x: (100 * position) + 20, y: 20 },
+				position: { x: (GRID_CELL_SIZE * pos.x) + 20, y: (GRID_CELL_SIZE * pos.y) + 20 },
 				//devType: $(this).data('type'),
 				templateName: $(this).data('template'),
 				attrs: {
@@ -836,9 +870,36 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				}
 			});
 			graph.addCell(devElement);
-			position++;
 			return false;
 		});
+	}
+
+	function findEmptyCubePostion()
+	{
+		for( var j = 0; j < vm.cubeGrowth; j++ )
+		{
+			for( var i = 0; i < vm.cubeGrowth; i++ )
+			{
+				if( vm.templateGrid[i] === undefined )
+				{
+					vm.templateGrid[i] = new Array();
+					vm.templateGrid[i][j] = 1;
+
+					return {x:i, y:j};
+				}
+
+				if( vm.templateGrid[i][j] !== 1 )
+				{
+					vm.templateGrid[i][j] = 1;
+					return {x:i, y:j};
+				}
+			}
+		}
+
+		vm.templateGrid[vm.cubeGrowth] = new Array();
+		vm.templateGrid[vm.cubeGrowth][0] = 1;
+		vm.cubeGrowth++;
+		return { x : vm.cubeGrowth - 1, y : 0 };
 	}
 }
 
