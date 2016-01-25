@@ -86,6 +86,7 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 	vm.openOptionForm = openOptionForm;
 	vm.openProfileForm = openProfileForm;
 	vm.isTestOptionFormValid = isTestOptionFormValid;
+	vm.isProfileFormValid = isProfileFormValid;
 
 	keshigSrv.getServerTypes().success(function (data) {
 		vm.serverTypes = data;
@@ -693,6 +694,14 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 			template: 'plugins/keshig/partials/profile-form.html',
 			scope: $scope
 		});
+	}
+
+	function isProfileFormValid() {
+		return !vm.currentProfile.name ||
+				!vm.currentProfile.deployServer ||
+				!vm.currentProfile.deployOption ||
+				!vm.currentProfile.testServer ||
+				!vm.currentProfile.testOption;
 	}
 
 	function runOptionForm(optionName) {
