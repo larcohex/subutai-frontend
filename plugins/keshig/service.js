@@ -39,6 +39,7 @@ function keshigSrv($http) {
 		getResourceHostsUpdates: getResourceHostsUpdates,
 		updateResourceHost: updateResourceHost,
 		unapprovePeer: unapprovePeer,
+		updateNightlyBuildStatus: updateNightlyBuildStatus,
 
 		exportBuild : exportBuild,
 		getTPR : getTPR,
@@ -73,12 +74,10 @@ function keshigSrv($http) {
 	}
 
 	function getPlaybooks() {
-		return {
-			success: function (callback) {
-				callback(['sadasdas', 'asdasda', 'asdadasd', 'asdasdasd']);
-			}
-		}
-		//return $http.get(BASE_URL + 'tests', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return $http.get(BASE_URL + 'tests', {
+			withCredentials: true,
+			headers: {'Content-Type': 'application/json'}
+		});
 	}
 
 	function getProfiles() {
@@ -168,7 +167,7 @@ function keshigSrv($http) {
 	}
 
 	function deleteOption(type, optionName) {
-		return $http.delete(OPTIONS_URL  + optionName, {
+		return $http.delete(OPTIONS_URL  + type + '/' + optionName, {
 			withCredentials: true
 		});
 	}
@@ -218,6 +217,13 @@ function keshigSrv($http) {
 
 	function unapprovePeer(params) {
 		return $http.delete( STATUSES_URL + params.hostname + '/' + params.serverIp, {
+			withCredentials: true,
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		});
+	}
+
+	function updateNightlyBuildStatus(hostname, status) {
+		return $http.put( SERVERS_URL + hostname + '/' + status, {
 			withCredentials: true,
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		});
