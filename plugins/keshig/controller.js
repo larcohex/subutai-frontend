@@ -783,10 +783,12 @@ function KeshigCtrl($scope, keshigSrv, DTOptionsBuilder, DTColumnBuilder, DTColu
 
 	function editOption(option) {
 		vm.currentOption = angular.copy(option);
-		!vm.currentOption.targetIps ? vm.currentOption.targetIps = [] : null;
-		!vm.currentOption.playbooks ? vm.currentOption.playbooks = [] : null;
-		vm.additionalIPs = filterArray(vm.currentOption.targetIps, vm.targetIPs);
-		vm.currentOption.targetIps = filterArray(vm.currentOption.targetIps, vm.additionalIPs);
+		if(vm.optionType === 'TEST') {
+			!vm.currentOption.targetIps ? vm.currentOption.targetIps = [] : null;
+			!vm.currentOption.playbooks ? vm.currentOption.playbooks = [] : null;
+			vm.additionalIPs = filterArray(vm.currentOption.targetIps, vm.targetIPs);
+			vm.currentOption.targetIps = filterArray(vm.currentOption.targetIps, vm.additionalIPs);
+		}
 		vm.optionFormUpdate = true;
 		openOptionForm();
 	}
