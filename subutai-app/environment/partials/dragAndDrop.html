@@ -3,13 +3,13 @@
 	<div class="b-workspace__header b-workspace__header_cloud-env">
 		<div class="b-header__userbar b-header__userbar_right" ng-controller="CurrentUserCtrl as currentUserCtrl">
 			<a href ng-click="currentUserCtrl.logout()"
-			   class="b-header-userbar-name"
-			   ng-if="currentUserCtrl.currentUser">
+				class="b-header-userbar-name"
+				ng-if="currentUserCtrl.currentUser">
 				{{ currentUserCtrl.currentUser }} / Logout
 			</a>
 			<a href ui-sref="login"
-			   class="b-header-userbar-name"
-			   ng-if="!currentUserCtrl.currentUser">
+				class="b-header-userbar-name"
+				ng-if="!currentUserCtrl.currentUser">
 				Login
 			</a>
 		</div>
@@ -34,15 +34,15 @@
 							</li>
 						</ul>
 					</div>
-					<div class="b-tools-menu">
+					<div class="b-tools-menu js-scrollbar">
 						<ul>
 							<li ng-repeat="template in environmentViewCtrl.templates">
 								<a href="#" 
 									class="js-add-dev-element" 
-									data-img="plugins/cassandra/cassandra.png" 
+									data-img="assets/templates/{{ template }}.jpg" 
 									data-template="{{ template }}">
 									<span class="b-cloud-item">
-										<img src="plugins\cassandra\cassandra.png" alt="" >
+										<img src="assets/templates/{{ template }}.jpg" alt="" >
 									</span> 
 									<span class="b-cloud-item-text">{{ template }}</span>
 								</a>
@@ -66,6 +66,10 @@
 							class="b-cloud-space-work" 
 							id="js-environment-creation" 
 							ng-init="environmentViewCtrl.initJointJs()">
+						</div>
+						<div class="b-cloud-create-buttons">
+							<button class="b-btn b-btn_white">Cansel</button>
+							<button class="b-btn b-btn_green">Save</button>
 						</div>
 					</div>
 					<table datatable="ng" 

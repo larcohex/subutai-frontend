@@ -30,6 +30,8 @@ $(".b-form-input-dropdown-list").click(function(e) {
 	e.stopPropagation();
 });
 
+$('.js-scrollbar').perfectScrollbar();
+
 var UPDATE_NIGHTLY_BUILD_STATUS;
 
 //document.getElementById("uploadBtn").onchange = function () {

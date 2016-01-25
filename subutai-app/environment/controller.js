@@ -42,6 +42,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.containersType = [];
 
 	vm.sshKeys = [];
+	vm.activeCloudTab = 'templates';
 
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
@@ -824,6 +825,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 
 		var position = 0;
+		$('.js-scrollbar').perfectScrollbar();
 		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
 			var devElement = new joint.shapes.tm.devElement({
 				position: { x: (100 * position) + 20, y: 20 },

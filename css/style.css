@@ -214,6 +214,16 @@ input[type=checkbox] {
     background-color: #04346E;
 }
 
+.b-btn_white {
+	background-color: #FFF;
+	color: #04346E;
+	border: 1px solid #e6eaf5;
+}
+
+.b-btn_white:hover {
+	background-color: #ccc;
+}
+
 .b-btn_green {
     background-color: #39b54a;
 }
@@ -2293,6 +2303,13 @@ td.b-main-table__status-col {
     width: 247px;
 /*    border-left: 1px solid #e6eaf5;*/
 }
+
+.b-tools-menu {
+	height: 400px;
+	position: relative;
+	overflow: hidden;
+}
+
 .b-tools-menu ul {
     margin: 0;
     padding: 0;
@@ -2345,5 +2362,14 @@ td.b-main-table__status-col {
 
 .b-cloud-space-work {
 	height: 100%;
+}
+
+.b-cloud-create-buttons {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.b-cloud-create-buttons .b-btn {
+	vertical-align: middle;
 }
 
