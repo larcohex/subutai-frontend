@@ -15,7 +15,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="option in keshigCtrl.optionsByType['TEST']">
+		<tr ng-repeat="option in keshigCtrl.optionsByType['TEST'] track by $index">
 			<td>{{ option.name }}</td>
 			<td>
 				<label ng-repeat="targetIP in option.targetIps">{{ targetIP }}<br/></label>

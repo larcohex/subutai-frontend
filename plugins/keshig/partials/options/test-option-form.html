@@ -1,7 +1,7 @@
 <div class="b-popup b-popup_middle">
     <div class="b-popup__header">
-        <span ng-if="!keshigCtrl.optionFormUpdate">Add TEST Option</span>
-        <span ng-if="keshigCtrl.optionFormUpdate">Edit TEST Option</span>
+        <span ng-if="!keshigCtrl.optionFormUpdate">Add Test option</span>
+        <span ng-if="keshigCtrl.optionFormUpdate">Edit Test option</span>
         <a href ng-click="closeThisDialog()">
             <img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
         </a>
@@ -19,6 +19,15 @@
                 <div class="clear"></div>
             </div>
             <div class="popup-body-box">
+                <label class="b-popup-body-label">Name</label>
+                <input type="text"
+                       ng-model="keshigCtrl.currentOption.name"
+                       ng-disabled="keshigCtrl.optionFormUpdate"
+                       class="b-popup-body-input b-popup-body-input_box ng-pristine ng-untouched ng-valid"
+                       required>
+                <div class="clear"></div>
+            </div>
+            <div class="popup-body-box">
                 <div class="b-form__wrapper b-form__wrapper_margin-bottom">
                     <label class="b-form-label b-form-label_fix-size-2 g-left">Playbooks</label>
 
@@ -33,21 +42,13 @@
                                                 type="checkbox"
                                                 ng-click="keshigCtrl.toggleItem(playbook, keshigCtrl.currentOption.playbooks)"
                                                 ng-checked="keshigCtrl.currentOption.playbooks.indexOf(playbook) >= 0">
-                                        {{ playbook }}
+                                        <span>{{ playbook }}</span>
                                     </label>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="popup-body-box">
-                <label class="b-popup-body-label">Name</label>
-                <input type="text"
-                       ng-model="keshigCtrl.currentOption.name"
-                       class="b-popup-body-input b-popup-body-input_box ng-pristine ng-untouched ng-valid"
-                       required>
-                <div class="clear"></div>
             </div>
             <div class="popup-body-box">
                 <div class="b-form__wrapper b-form__wrapper_margin-bottom">
