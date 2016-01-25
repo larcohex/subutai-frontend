@@ -68,6 +68,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.setNodeData = setNodeData;
 	vm.setupAdvancedEnvironment = setupAdvancedEnvironment;
 	vm.initJointJs = initJointJs;
+	vm.buildEnvironmentByJoint = buildEnvironmentByJoint;
+	vm.sendToPending = sendToPending;
 
 	environmentService.getTemplates()
 		.success(function (data) {
@@ -682,6 +684,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		vm.advancedEnv.currentNode = getDefaultValues();
 	}
 
+	var graph = new joint.dia.Graph;
 	function initJointJs() {
 		//custom shapes
 		joint.shapes.tm = {};
@@ -772,8 +775,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		});
 		joint.shapes.tm.devElementView = joint.shapes.tm.ToolElementView;
 
-		var graph = new joint.dia.Graph;
-
 		var paper = new joint.dia.Paper({
 			el: $('#js-environment-creation'),
 			width: '100%',
@@ -823,7 +824,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			}
 		);
 
-
 		var position = 0;
 		$('.js-scrollbar').perfectScrollbar();
 		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
@@ -839,6 +839,31 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			position++;
 			return false;
 		});
+	}
+
+	vm.buildStep = 'confirm';
+	function buildEnvironmentByJoint() {
+		var allElements = graph.getCells();
+		vm.env2Build = {};
+		vm.buildStep = 'confirm';
+		for(var i = 0; i < allElements.length; i++) {
+			var currentElement = allElements[i];
+			if(vm.env2Build[currentElement.attributes.templateName] === undefined) {
+				vm.env2Build[currentElement.attributes.templateName] = 1;
+			} else {
+				vm.env2Build[currentElement.attributes.templateName]++;
+			}
+		}
+		ngDialog.open({
+			template: 'subutai-app/environment/partials/popups/environment-build-info.html',
+			scope: $scope,
+			className: 'b-build-environment-info'
+		});		
+	}
+
+	function sendToPending() {
+		console.log(vm.env2Build);
+		vm.buildStep = 'pgpKey';
 	}
 }
 

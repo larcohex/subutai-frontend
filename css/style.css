@@ -892,6 +892,11 @@ tip.description-tooltip {
     padding: 0 30px 15px 30px;
 }
 
+.b-popup__footer_undertable {
+	padding-top: 10px;
+	text-align: right;
+}
+
 .b-popup_min .b-popup__footer {
     padding: 0 20px 15px 20px;
 }
