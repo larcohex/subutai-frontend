@@ -824,11 +824,11 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 
 		var position = 0;
-		$('.js-add-dev-element').on('click', function(){
+		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
 			var devElement = new joint.shapes.tm.devElement({
 				position: { x: (100 * position) + 20, y: 20 },
 				//devType: $(this).data('type'),
-				//devTypeId: $(this).data('id'),
+				templateName: $(this).data('template'),
 				attrs: {
 					image: { 'xlink:href': $(this).data('img') },
 				}
