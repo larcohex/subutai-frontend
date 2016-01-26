@@ -875,22 +875,17 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			return false;
 		});
 
-		function findEmptyCubePostion()
-		{
-			for( var j = 0; j < vm.cubeGrowth; j++ )
-			{
-				for( var i = 0; i < vm.cubeGrowth; i++ )
-				{
-					if( vm.templateGrid[i] === undefined )
-					{
+		function findEmptyCubePostion() {
+			for( var j = 0; j < vm.cubeGrowth; j++ ) {
+				for( var i = 0; i < vm.cubeGrowth; i++ ) {
+					if( vm.templateGrid[i] === undefined ) {
 						vm.templateGrid[i] = new Array();
 						vm.templateGrid[i][j] = 1;
 
 						return {x:i, y:j};
 					}
 
-					if( vm.templateGrid[i][j] !== 1 )
-					{
+					if( vm.templateGrid[i][j] !== 1 ) {
 						vm.templateGrid[i][j] = 1;
 						return {x:i, y:j};
 					}
@@ -901,6 +896,34 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			vm.templateGrid[vm.cubeGrowth][0] = 1;
 			vm.cubeGrowth++;
 			return { x : vm.cubeGrowth - 1, y : 0 };
+		}
+
+		paper.$el.on('mousewheel DOMMouseScroll', onMouseWheel);
+
+		function onMouseWheel(e) {
+
+			e.preventDefault();
+			e = e.originalEvent;
+
+			var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) / 50;
+			var offsetX = (e.offsetX || e.clientX - $(this).offset().left); // offsetX is not defined in FF
+			var offsetY = (e.offsetY || e.clientY - $(this).offset().top); // offsetY is not defined in FF
+			var p = offsetToLocalPoint(offsetX, offsetY);
+			var newScale = V(paper.viewport).scale().sx + delta; // the current paper scale changed by delta
+
+			if (newScale > 0.4 && newScale < 2) {
+				paper.setOrigin(0, 0); // reset the previous viewport translation
+				paper.scale(newScale, newScale, p.x, p.y);
+			}
+		}
+
+		function offsetToLocalPoint(x, y) {
+			var svgPoint = paper.svg.createSVGPoint();
+			svgPoint.x = x;
+			svgPoint.y = y;
+			// Transform point into the viewport coordinate system.
+			var pointTransformed = svgPoint.matrixTransform(paper.viewport.getCTM().inverse());
+			return pointTransformed;
 		}
 	}
 
