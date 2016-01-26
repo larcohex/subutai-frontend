@@ -844,8 +844,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				{
 					vm.templateGrid[i][j] = 1;
 					cellView.model.set('position', p1);
-					vm.cubeGrowth = vm.cubeGrowth < i ? i : vm.cubeGrowth;
-					vm.cubeGrowth = vm.cubeGrowth < j ? j : vm.cubeGrowth;
+					vm.cubeGrowth = vm.cubeGrowth < ( i + 1 ) ? ( i + 1 ) : vm.cubeGrowth;
+					vm.cubeGrowth = vm.cubeGrowth < ( j + 1 ) ? ( j + 1 ) : vm.cubeGrowth;
 
 					i = Math.floor( p0.x / GRID_CELL_SIZE );
 					j = Math.floor( p0.y / GRID_CELL_SIZE );
