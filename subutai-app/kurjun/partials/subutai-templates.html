@@ -3,7 +3,7 @@
 
 		<h2 class="b-workspace-content-row-h2">
 			Templates List
-			<button class="b-btn b-btn_green b-btn_header-button" ng-click="kurjunViewCtrl.addTemplateForm()">
+			<button class="b-btn b-btn_green b-btn_header-button" ng-click="kurjunViewCtrl.addSubutaiTemplateForm()">
 				<i class="fa fa-plus"></i> Add Template
 			</button>
 		</h2>
@@ -15,19 +15,19 @@
 				class="row-border hover subt_table-containers-table">
 				<thead>
 					<tr>
-						<th>ID</th>
 						<th>Name</th>
+						<th>Context</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="(key, template) in kurjunViewCtrl.templates">
-						<td>{{ template.id }}</td>
+					<tr ng-repeat="template in kurjunViewCtrl.templates">
 						<td>{{ template.name }}</td>
+						<td>{{ template.repository }}</td>
 						<td>
 							<a href 
 								class="b-icon b-icon_remove" 
-								ng-click="kurjunViewCtrl.deleteTemplate(template.id, key)">
+								ng-click="kurjunViewCtrl.deleteTemplate(template)">
 							</a>
 						</td>
 					</tr>
