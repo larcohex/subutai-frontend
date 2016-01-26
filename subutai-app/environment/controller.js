@@ -858,6 +858,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		);
 
 		$('.js-scrollbar').perfectScrollbar();
+		var containerCounter = 1;
 		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
 			var pos = findEmptyCubePostion();
 			var img = $(this).find('img');
@@ -866,6 +867,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				//devType: $(this).data('type'),
 				templateName: $(this).data('template'),
 				quotaSize: 'SMALL',
+				containerName: vm.environment2BuildName + ' ' + (containerCounter++).toString(),
 				attrs: {
 					image: { 'xlink:href': img.attr('src') },
 					title: {text: $(this).data('template')}
@@ -935,15 +937,22 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		vm.buildStep = 'confirm';
 		console.log(allElements);
 		for(var i = 0; i < allElements.length; i++) {
-			var currentElement = allElements[i].get('templateName');
-			var container2Build = {"size": allElements[i].get('quotaSize'), "template": currentElement};
-			if(vm.env2Build[currentElement] === undefined) {
-				vm.env2Build[currentElement] = 1;
+			var currentElement = allElements[i];
+			var currentTemplateName = allElements[i].get('templateName');
+			var container2Build = {
+				"size": currentElement.get('quotaSize'),
+				"templateName": currentTemplateName,
+				"name": currentElement.get('containerName'),
+				"position": currentElement.get('position')
+			};
+			if(vm.env2Build[currentTemplateName] === undefined) {
+				vm.env2Build[currentTemplateName] = 1;
 			} else {
-				vm.env2Build[currentElement]++;
+				vm.env2Build[currentTemplateName]++;
 			}
 			vm.containers2Build.push(container2Build);
 		}
+		console.log(vm.containers2Build);
 		ngDialog.open({
 			template: 'subutai-app/environment/partials/popups/environment-build-info.html',
 			scope: $scope,
@@ -960,13 +969,18 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				vm.buildStep = 'pgpKey';
 				LOADING_SCREEN('none');
 			}).error(function(error){
-				VARS_MODAL_ERROR( SweetAlert, 'Error: ' + data );
+				if(error.ERROR === undefined) {
+					VARS_MODAL_ERROR( SweetAlert, 'Error: ' + error );
+				} else {
+					VARS_MODAL_ERROR( SweetAlert, 'Error: ' + error.ERROR );
+				}
 				LOADING_SCREEN('none');
 			});
 	}
 
 	function addSettingsToTemplate(settings) {
 		vm.currentTemplate.set('quotaSize', settings.quotaSize);
+		vm.currentTemplate.set('containerName', settings.containerName);
 		ngDialog.closeAll();
 	}
 }
