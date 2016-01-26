@@ -128,7 +128,8 @@ input[type=checkbox] {
     color: #04346E;
 }
 
-.b-title a {
+.b-title a,
+.b-title span {
     text-decoration: none;
     color: #04346E;
     position: relative;
@@ -137,7 +138,29 @@ input[type=checkbox] {
 .b-title a:hover {
     text-decoration: underline;
 }
-.b-title_edit a:hover:after {
+
+.b-title_edit {
+	display: inline-block;
+}
+
+.b-title_edit input {
+	border: none;
+	padding: 0 0 0 0;
+	resize: horizontal;
+}
+
+.b-title_edit input:active {
+	width: auto;
+}
+
+.b-title_edit input:focus,
+.b-title_edit span:hover input{
+	border-bottom: 1px solid #04346E;
+	min-width: 200px;
+}
+
+.b-title_edit a:hover:after,
+.b-title_edit span:hover:after {
     font-family: FontAwesome;
     content: "\f040";
     position: absolute;
@@ -890,6 +913,11 @@ tip.description-tooltip {
 
 .b-popup__footer {
     padding: 0 30px 15px 30px;
+}
+
+.b-popup__footer_undertable {
+	padding-top: 10px;
+	text-align: right;
 }
 
 .b-popup_min .b-popup__footer {

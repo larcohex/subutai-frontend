@@ -12,6 +12,9 @@ var fileUploder = {};
 function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistrationService, SweetAlert, $resource, $compile, ngDialog, $timeout, $sce, $stateParams, DTOptionsBuilder, DTColumnDefBuilder) {
 
 	var vm = this;
+	var GRID_CELL_SIZE = 100;
+	var GRID_SIZE = 100;
+
 	vm.activeTab = $stateParams.activeTab;
 	if (vm.activeTab !== "pending") {
 		vm.activeTab = "installed";
@@ -44,6 +47,10 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.sshKeys = [];
 	vm.activeCloudTab = 'templates';
 
+	vm.templateGrid = [];
+	vm.cubeGrowth = 1;
+	vm.environment2BuildName = 'Environment name';
+
 	// functions
 	vm.showEnvironmentForm = showEnvironmentForm;
 	vm.destroyEnvironment = destroyEnvironment;
@@ -68,6 +75,9 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 	vm.setNodeData = setNodeData;
 	vm.setupAdvancedEnvironment = setupAdvancedEnvironment;
 	vm.initJointJs = initJointJs;
+	vm.buildEnvironmentByJoint = buildEnvironmentByJoint;
+	vm.sendToPending = sendToPending;
+	vm.addSettingsToTemplate = addSettingsToTemplate;
 
 	environmentService.getTemplates()
 		.success(function (data) {
@@ -398,9 +408,8 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	function buildEnvironment() {
 		ngDialog.closeAll();
-		vm.activeTab = "installed";
-		environmentService.startEnvironmentBuild (vm.currentEnvironment.id, encodeURIComponent(vm.currentEnvironment.relationDeclaration)).success(function (data) {
-			SweetAlert.swal("Success!", "Your environment has started building.", "success");
+		environmentService.startEnvironmentBuild (vm.newEnvID[0], encodeURIComponent(vm.newEnvID[1])).success(function (data) {
+			SweetAlert.swal("Success!", "Your environment has been built successfully.", "success");
 			loadEnvironments();
 		}).error(function (data) {
 			SweetAlert.swal("ERROR!", "Environment build error. Error: " + data.ERROR, "error");
@@ -682,8 +691,10 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		vm.advancedEnv.currentNode = getDefaultValues();
 	}
 
+	var graph = new joint.dia.Graph;
 	function initJointJs() {
 		//custom shapes
+
 		joint.shapes.tm = {};
 
 		joint.shapes.tm.toolElement = joint.shapes.basic.Generic.extend({
@@ -759,10 +770,16 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 							.removeClass('b-devops-menu__li-link_active');
 						this.model.remove();
 						$('.js-devops-item-info-block').hide();
+						delete vm.templateGrid[Math.floor( x / GRID_CELL_SIZE )][ Math.floor( y / GRID_CELL_SIZE )];
 						return;
 						break;
 					case 'rotatable':
 						console.log(this.model);
+						vm.currentTemplate = this.model;
+						ngDialog.open({
+							template: 'subutai-app/environment/partials/popups/templateSettings.html',
+							scope: $scope
+						});
 						return;
 						break;
 					default:
@@ -771,8 +788,6 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			}
 		});
 		joint.shapes.tm.devElementView = joint.shapes.tm.ToolElementView;
-
-		var graph = new joint.dia.Graph;
 
 		var paper = new joint.dia.Paper({
 			el: $('#js-environment-creation'),
@@ -804,41 +819,128 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 			return false;
 		});
 
-		var devElement = new joint.shapes.tm.devElement({
-			position: { x: 0, y: 0 },
-			attrs: {
-				image: { 'xlink:href': 'plugins/cassandra/cassandra.png' },
-			}
+		var p0;
+		paper.on('cell:pointerdown', function(cellView) {
+			p0 = cellView.model.get('position');
 		});
-		//graph.addCell(devElement);
 
 		paper.on('cell:pointerup',
 			function(cellView, evt, x, y) {
 
 				var pos = cellView.model.get('position');
-				var p0 = this._p0;
-				var p1 = { x: g.snapToGrid(pos.x, 100) + 20, y: g.snapToGrid(pos.y, 100) + 20 };
+				var p1 = { x: g.snapToGrid(pos.x, GRID_CELL_SIZE) + 20, y: g.snapToGrid(pos.y, GRID_CELL_SIZE) + 20 };
 
-				cellView.model.set('position', p1);
+				var i = Math.floor( p1.x / GRID_CELL_SIZE );
+				var j = Math.floor( p1.y / GRID_CELL_SIZE );
+
+				if( vm.templateGrid[i] === undefined )
+				{
+					vm.templateGrid[i] = new Array();
+				}
+
+				if( vm.templateGrid[i][j] !== 1 )
+				{
+					vm.templateGrid[i][j] = 1;
+					cellView.model.set('position', p1);
+					vm.cubeGrowth = vm.cubeGrowth < i ? i : vm.cubeGrowth;
+					vm.cubeGrowth = vm.cubeGrowth < j ? j : vm.cubeGrowth;
+
+					i = Math.floor( p0.x / GRID_CELL_SIZE );
+					j = Math.floor( p0.y / GRID_CELL_SIZE );
+
+					delete vm.templateGrid[i][j];
+				}
+				else
+					cellView.model.set('position', p0);
 			}
 		);
 
-
-		var position = 0;
 		$('.js-scrollbar').perfectScrollbar();
 		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
+			var pos = findEmptyCubePostion();
 			var devElement = new joint.shapes.tm.devElement({
-				position: { x: (100 * position) + 20, y: 20 },
+				position: { x: (GRID_CELL_SIZE * pos.x) + 20, y: (GRID_CELL_SIZE * pos.y) + 20 },
 				//devType: $(this).data('type'),
 				templateName: $(this).data('template'),
+				quotaSize: 'SMALL',
 				attrs: {
 					image: { 'xlink:href': $(this).data('img') },
 				}
 			});
 			graph.addCell(devElement);
-			position++;
 			return false;
 		});
+
+		function findEmptyCubePostion()
+		{
+			for( var j = 0; j < vm.cubeGrowth; j++ )
+			{
+				for( var i = 0; i < vm.cubeGrowth; i++ )
+				{
+					if( vm.templateGrid[i] === undefined )
+					{
+						vm.templateGrid[i] = new Array();
+						vm.templateGrid[i][j] = 1;
+
+						return {x:i, y:j};
+					}
+
+					if( vm.templateGrid[i][j] !== 1 )
+					{
+						vm.templateGrid[i][j] = 1;
+						return {x:i, y:j};
+					}
+				}
+			}
+
+			vm.templateGrid[vm.cubeGrowth] = new Array();
+			vm.templateGrid[vm.cubeGrowth][0] = 1;
+			vm.cubeGrowth++;
+			return { x : vm.cubeGrowth - 1, y : 0 };
+		}
+	}
+
+	vm.buildStep = 'confirm';
+	function buildEnvironmentByJoint() {
+		var allElements = graph.getCells();
+		vm.env2Build = {};
+		vm.containers2Build = [];
+		vm.buildStep = 'confirm';
+		console.log(allElements);
+		for(var i = 0; i < allElements.length; i++) {
+			var currentElement = allElements[i].get('templateName');
+			var container2Build = {"size": allElements[i].get('quotaSize'), "template": currentElement};
+			if(vm.env2Build[currentElement] === undefined) {
+				vm.env2Build[currentElement] = 1;
+			} else {
+				vm.env2Build[currentElement]++;
+			}
+			vm.containers2Build.push(container2Build);
+		}
+		ngDialog.open({
+			template: 'subutai-app/environment/partials/popups/environment-build-info.html',
+			scope: $scope,
+			className: 'b-build-environment-info'
+		});
+	}
+
+	function sendToPending() {
+		LOADING_SCREEN();
+		environmentService.startEnvironmentAutoBuild(vm.environment2BuildName, JSON.stringify(vm.containers2Build))
+			.success(function(data){
+				console.log(data);
+				vm.newEnvID = data;
+				vm.buildStep = 'pgpKey';
+				LOADING_SCREEN('none');
+			}).error(function(error){
+				VARS_MODAL_ERROR( SweetAlert, 'Error: ' + data );
+				LOADING_SCREEN('none');
+			});
+	}
+
+	function addSettingsToTemplate(settings) {
+		vm.currentTemplate.set('quotaSize', settings.quotaSize);
+		ngDialog.closeAll();
 	}
 }
 
