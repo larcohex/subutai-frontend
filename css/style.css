@@ -58,7 +58,10 @@ input[type=checkbox] {
     float: right;
     display: inline-block;
 }
-
+.b-header-userbar__icon {
+    color: #838093;
+    font-size: 13px;
+}
 .b-header-userbar__name {
     display: inline-block;
     vertical-align: top;
@@ -104,14 +107,14 @@ input[type=checkbox] {
 
 .b-workspace__header {
     padding: 15px;
-    margin: 0 0 21px 0;
+    /*margin: 0 0 21px 0;*/
     border-bottom: 1px solid #e6eaf5;
 }
 .b-workspace__header_cloud-env {
     margin: 0;
 }
 .b-workspace__content {
-    padding: 0 25px 21px 25px;
+    padding: 15px;
 }
 .b-workspace__content_cloud-env {
     padding: 0;
@@ -187,8 +190,8 @@ input[type=checkbox] {
     border: none;
     display: inline-block;
     padding: 0 15px;
-    height: 26px;
-    line-height: 26px;
+    height: 30px;
+    line-height: 30px;
     background-color: #7f8ea4;
     border-radius: 2px;
     color: #fff;
@@ -201,6 +204,7 @@ input[type=checkbox] {
     -ms-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .b-btn_light-grey {
@@ -230,11 +234,11 @@ input[type=checkbox] {
 }
 
 .b-btn_blue {
-    background-color: #255fb5;
+    background-color: #179cee;
 }
 
 .b-btn_blue:hover {
-    background-color: #04346E;
+    background-color: #0568e6;
 }
 
 .b-btn_white {
@@ -252,7 +256,7 @@ input[type=checkbox] {
 }
 
 .b-btn_green:hover {
-    background-color: #009245;
+    background-color: #348f6c;
 }
 
 .b-btn_red {
@@ -260,7 +264,7 @@ input[type=checkbox] {
 }
 
 .b-btn_red:hover {
-    background-color: #c1272d;
+    background-color: #d23561;
 }
 
 .b-btn_light-grey {
@@ -303,6 +307,9 @@ input[type=checkbox] {
     -o-transition: all .4s ease-in-out;
     -ms-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
+}
+.b-btn_full-width {
+    width: 100%;
 }
 
 .b-btn-grey:hover {
@@ -858,7 +865,12 @@ tip.description-tooltip {
 .g-left {
     float: left;
 }
-
+.g-margin-bottom {
+    margin-bottom: 15px !important;
+}
+.g-margin-bottom-half {
+    margin-bottom: 7px !important;
+}
 /*Popup*/
 .b-popup {
     box-sizing: border-box;
@@ -1491,7 +1503,7 @@ td.b-main-table__status-col {
 
 .b-form-input {
     box-sizing: border-box;
-    height: 29px;
+    height: 30px;
     border: 1px solid #e6eaf5;
     /*border-radius: 5px;*/
     padding: 0 5px;
@@ -2080,22 +2092,43 @@ td.b-main-table__status-col {
     top: 50%;
     left: 50%;
     margin-left: -162px;
-    margin-top: -188px;
+    margin-top: -214px;
 }
 
 .b-login-form-header {
-    padding: 25px 45px;
+    padding: 25px 0;
 }
 
 .b-workspace_login {
     margin: 0;
-    padding: 16px 0 0 0;
+    padding: 0;
 }
 
 .b-login-form-btn {
     text-align: center;
 }
-
+.b-login-form-btn hr {
+    position: relative;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    display: block;
+    border: 1px solid #e6eaf5;
+}
+.b-login-form-btn hr:before {
+    content: "or";
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+    line-height: 26px;
+    border-radius: 50%;
+    border: 1px solid #e6eaf5;
+    background-color: #fff;
+    top: -13px;
+    left: 50%;
+    color: #04346E;
+    margin-left: -13px;
+}
 .b-logs-view_ssh {
     height: auto;
     text-align: center;
