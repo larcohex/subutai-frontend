@@ -724,6 +724,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 					'<g class="scalable">',
 						'<rect class="b-border"/>',
 					'</g>',
+					'<title/>',
 					'<image/>',
 					'<rect class="b-magnet"/>',
 				'</g>'
@@ -733,6 +734,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				type: 'tm.devElement',
 				size: { width: 70, height: 70 },
 				attrs: {
+					title: {text: 'Static Tooltip'},
 					'rect.b-border': {fill: '#fff', stroke: '#dcdcdc', 'stroke-width': 1, width: 70, height: 70, rx: 50, ry: 50},
 					'rect.b-magnet': {fill: '#04346E', width: 10, height: 10, rx: 2, ry: 2, magnet: true, transform: 'translate(30,53)'},
 					image: {'ref-x': 9, 'ref-y': 9, ref: 'rect', width: 50, height: 50},
@@ -865,6 +867,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				quotaSize: 'SMALL',
 				attrs: {
 					image: { 'xlink:href': $(this).data('img') },
+					title: {text: $(this).data('template')}
 				}
 			});
 			graph.addCell(devElement);
