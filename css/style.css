@@ -217,7 +217,7 @@ input[type=checkbox] {
 }
 
 .b-btn-light-grey-icon_red {
-    color: #FF3F3C;
+    color: #ef3f61;
 }
 
 .b-btn_margin-r {
@@ -248,7 +248,7 @@ input[type=checkbox] {
 }
 
 .b-btn_green {
-    background-color: #39b54a;
+    background-color: #4bbc6e;
 }
 
 .b-btn_green:hover {
@@ -256,7 +256,7 @@ input[type=checkbox] {
 }
 
 .b-btn_red {
-    background-color: #ff3f3c;
+    background-color: #ef3f61;
 }
 
 .b-btn_red:hover {
@@ -281,7 +281,7 @@ input[type=checkbox] {
 }
 
 .b-btn-light-grey-icon_red {
-    color: #FF3F3C;
+    color: #ef3f61;
 }
 
 .b-btn_header-button {
@@ -810,7 +810,7 @@ tip.description-tooltip {
     position: fixed;
     right: 0;
     top: 45%;
-    background-color: #39b54a;
+    background-color: #4bbc6e;
     /*border-radius: 5px 0 0 5px;*/
 }
 
@@ -841,7 +841,7 @@ tip.description-tooltip {
     top: 4px;
     border-radius: 10px;
     font-size: 10px;
-    color: #39b54a;
+    color: #4bbc6e;
     line-height: 15px;
     text-align: center;
 }
@@ -1233,7 +1233,7 @@ input.b-popup-body-checkbox {
 
 .noUi-horizontal {
     height: 3px;
-    background: #39b54a none;
+    background: #4bbc6e none;
 }
 
 .noUi-horizontal .noUi-handle {
