@@ -860,13 +860,14 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		$('.js-scrollbar').perfectScrollbar();
 		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
 			var pos = findEmptyCubePostion();
+			var img = $(this).find('img');
 			var devElement = new joint.shapes.tm.devElement({
 				position: { x: (GRID_CELL_SIZE * pos.x) + 20, y: (GRID_CELL_SIZE * pos.y) + 20 },
 				//devType: $(this).data('type'),
 				templateName: $(this).data('template'),
 				quotaSize: 'SMALL',
 				attrs: {
-					image: { 'xlink:href': $(this).data('img') },
+					image: { 'xlink:href': img.attr('src') },
 					title: {text: $(this).data('template')}
 				}
 			});
