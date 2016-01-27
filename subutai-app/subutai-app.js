@@ -458,6 +458,9 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
+							files: ['plugins/keshig/keshig.css']
+						},
+						{
 							name: 'subutai.plugins.keshig',
 							files: [
 								'plugins/keshig/keshig.js',
