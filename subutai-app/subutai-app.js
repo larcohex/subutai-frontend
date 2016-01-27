@@ -1042,7 +1042,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NTkzZjYyMi01YTA4LTRjZGEtYTE4MS04ZjdlYWM1NTMwZjEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.fO1kecGC8C-XpTC9H3CSXuqLQZNrdzvZzKIciZGkesE';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMjMxMjRkNC0wOTVjLTRjYWYtYmMxYS0yYmRlNTg2OWNlMWEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.wPaosiGRZl-wZ0W-GHrXkXRowoZlys1w5YKKKClKrBI';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
