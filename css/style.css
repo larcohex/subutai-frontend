@@ -768,7 +768,7 @@ input[type=checkbox] {
 }
 
 tooltip tip-cont .b-icon {
-    margin-right: 9px !important;
+    margin: 0 9px !important;
 }
 
 tooltip:last-child tip-cont .b-icon {
