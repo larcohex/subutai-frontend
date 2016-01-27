@@ -1,23 +1,15 @@
 <div ng-controller="EnvironmentViewCtrl as environmentViewCtrl" class="b-workspace__environments">
 
 	<div class="b-workspace__header b-workspace__header_cloud-env">
-		<div class="b-header__userbar b-header__userbar_right" ng-controller="CurrentUserCtrl as currentUserCtrl">
-			<a href ng-click="currentUserCtrl.logout()"
-				class="b-header-userbar-name"
-				ng-if="currentUserCtrl.currentUser">
-				{{ currentUserCtrl.currentUser }} <i class="fa fa-sign-out b-header-userbar__icon"></i>
-			</a>
-			<a href ui-sref="login"
-				class="b-header-userbar-name"
-				ng-if="!currentUserCtrl.currentUser">
-				<i class="fa fa-sign-in b-header-userbar__icon"></i>
-			</a>
-		</div>
+
+		<div ng-include="'subutai-app/common/partials/login-header.html'"></div>
+
 		<div class="b-title b-title_edit">
 			<span>
 				<input type="text" ng-model="environmentViewCtrl.environment2BuildName">
 			</span>
 		</div>
+
 	</div>
 
 	<div class="b-workspace__content b-workspace__content_cloud-env">
