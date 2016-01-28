@@ -37,7 +37,10 @@
 
         </div>
         <div class="b-popup__footer">
-            <button class="b-btn b-btn_green g-right" type="submit" id="subt_button__environment-add-domain">
+            <button class="b-btn b-btn_green g-right"
+                    type="submit"
+                    id="subt_button__environment-add-domain"
+                    ng-disabled="!kurjunViewCtrl.currentTemplate.file">
                 Add
             </button>
             <div class="clear"></div>
