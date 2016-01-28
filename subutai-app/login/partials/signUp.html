@@ -14,7 +14,8 @@
 						<input type="text"
 							placeholder="Enter username"
 							class="b-popup-body-input b-popup-body-input_box" 
-							ng-model="signupCtrl.user2Add.username"
+							ng-model="signupCtrl.user2Add.username" 
+	   						autocomplete="off" 
 							required>
 						<div class="clear"></div>
 					</div>
@@ -25,7 +26,8 @@
 						<input type="text"
 							placeholder="Enter full name"
 							class="b-popup-body-input b-popup-body-input_box" 
-							ng-model="signupCtrl.user2Add.fullName"
+							ng-model="signupCtrl.user2Add.fullName" 
+	   						autocomplete="off" 
 							required>
 						<div class="clear"></div>
 					</div>
@@ -36,7 +38,8 @@
 						<input type="email"
 							placeholder="email@mail.com"
 							class="b-popup-body-input b-popup-body-input_box" 
-							ng-model="signupCtrl.user2Add.email"
+							ng-model="signupCtrl.user2Add.email" 
+	   						autocomplete="off" 
 							required>
 							<div class="clear"></div>
 					</div>
@@ -48,6 +51,7 @@
 							placeholder="***********"
 							class="b-popup-body-input b-popup-body-input_box" 
 							ng-model="signupCtrl.user2Add.password"
+	   						autocomplete="off" 
 							id="js-password"
 							required>
 						<div class="clear"></div>
@@ -62,6 +66,7 @@
 							ng-model="signupCtrl.user2Add.confirm_password"
 							pw-check="js-password"
 							name="confirm_password"
+	   						autocomplete="off" 
 							ng-attr-required="signupCtrl.user2Add.password.length > 0">
 						<div class="clear"></div>
 					</div>

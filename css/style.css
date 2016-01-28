@@ -2495,6 +2495,7 @@ td.b-main-table__status-col {
 }
 .b-cloud-space-work {
 	height: 100%;
+	position: relative;
 }
 
 .b-cloud-create-buttons {

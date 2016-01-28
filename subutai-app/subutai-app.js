@@ -1045,7 +1045,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOGEzZTAwZS01NmJjLTQ2MjctYWI2My00NDMwM2ZhM2VhNzgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ygQZ3Aa1SEuMcDTCI-VUY16NjwJXR29A7jl9mW1Ddqk';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmODI4ODVkOS1lMzI1LTRiMTYtYWZjMi1jNjY3MmQ1MGY2MTkiLCJpc3MiOiJpby5zdWJ1dGFpIn0.NsN8tp3OppeBp7npik9hgqru11y_GtZNgt8ATeh9kG0';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1169,13 +1169,13 @@ function VARS_MODAL_ERROR( object, text )
 }
 
 quotaColors = [];
-quotaColors['CUSTOM'] = 'blue';
-quotaColors['HUGE'] = 'bark-red';
-quotaColors['LARGE'] = 'red';
-quotaColors['MEDIUM'] = 'orange';
-quotaColors['SMALL'] = 'yellow';
-quotaColors['TINY'] = 'green';
-quotaColors['INACTIVE'] = 'grey';
+quotaColors['CUSTOM'] = '#0000ff';
+quotaColors['HUGE'] = '#8B0000';
+quotaColors['LARGE'] = '#ff0000';
+quotaColors['MEDIUM'] = '#ffa500';
+quotaColors['SMALL'] = '#ffff00';
+quotaColors['TINY'] = '#00FF00';
+quotaColors['INACTIVE'] = '#808080';
 
 var permissionsDefault = [
 	{

@@ -720,12 +720,18 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 						'<polygon transform="scale(1.2) translate(-5, -5)" fill="#292F6C" points="8.4,2.4 7.6,1.6 5,4.3 2.4,1.6 1.6,2.4 4.3,5 1.6,7.6 2.4,8.4 5,5.7 7.6,8.4 8.4,7.6 5.7,5 "/>',
 						'<title>Remove</title>',
 					'</g>',
+					'<g class="element-call-menu">',
+						'<circle fill="#F8FBFD" r="8" stroke="#dcdcdc"/>',
+						'<polygon transform="scale(1.2) translate(-5, -5)" fill="#292F6C" points="8.4,2.4 7.6,1.6 5,4.3 2.4,1.6 1.6,2.4 4.3,5 1.6,7.6 2.4,8.4 5,5.7 7.6,8.4 8.4,7.6 5.7,5 "/>',
+						'<title>Menu</title>',
+					'</g>',
 				'</g>'
 			].join(''),
 
 			defaults: joint.util.deepSupplement({
 				attrs: {
-					text: { 'font-weight': 400, 'font-size': 'small', fill: 'black', 'text-anchor': 'middle', 'ref-x': .5, 'ref-y': .5, 'y-alignment': 'middle' },
+					text: {'font-weight': 400, 'font-size': 'small', fill: 'black', 'text-anchor': 'middle', 'ref-x': .5, 'ref-y': .5, 'y-alignment': 'middle'},
+					'g.element-call-menu': {'ref-x': 10, 'ref-y': 20}
 				},
 			}, joint.shapes.basic.Generic.prototype.defaults)
 
@@ -750,7 +756,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				attrs: {
 					title: {text: 'Static Tooltip'},
 					'rect.b-border': {fill: '#fff', stroke: '#dcdcdc', 'stroke-width': 1, width: 70, height: 70, rx: 50, ry: 50},
-					'rect.b-magnet': {fill: '#04346E', width: 10, height: 10, rx: 2, ry: 2, magnet: true, transform: 'translate(30,53)'},
+					'rect.b-magnet': {fill: '#04346E', width: 10, height: 10, rx: 50, ry: 50, magnet: true, transform: 'translate(30,53)'},
 					image: {'ref-x': 9, 'ref-y': 9, ref: 'rect', width: 50, height: 50},
 				}
 			}, joint.shapes.tm.toolElement.prototype.defaults)
@@ -774,6 +780,17 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 					V(this.el).append(nodes);
 				}
 				return this;
+			},
+			mouseover: function(evt, x, y) {
+				var className = evt.target.parentNode.getAttribute('class');
+				console.log(evt);
+				console.log(className);
+				console.log(this.model);
+				var elementPos = this.model.get('position');
+				$('.js-dropen-menu').css({
+					'left': elementPos.x + 'px',
+					'top': elementPos.y + 'px'
+				});
 			},
 			pointerclick: function (evt, x, y) {
 				this._dx = x;
@@ -876,6 +893,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 		$('.b-tools-menu').on('click', '.js-add-dev-element', function(){
 			var pos = findEmptyCubePostion();
 			var img = $(this).find('img');
+			
 			var devElement = new joint.shapes.tm.devElement({
 				position: { x: (GRID_CELL_SIZE * pos.x) + 20, y: (GRID_CELL_SIZE * pos.y) + 20 },
 				//devType: $(this).data('type'),
@@ -884,6 +902,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 				containerName: vm.environment2BuildName + ' ' + (containerCounter++).toString(),
 				attrs: {
 					image: { 'xlink:href': img.attr('src') },
+					'rect.b-magnet': {fill: vm.colors['SMALL']},
 					title: {text: $(this).data('template')}
 				}
 			});
@@ -994,6 +1013,7 @@ function EnvironmentViewCtrl($scope, $rootScope, environmentService, peerRegistr
 
 	function addSettingsToTemplate(settings) {
 		vm.currentTemplate.set('quotaSize', settings.quotaSize);
+		vm.currentTemplate.attr('rect.b-magnet/fill', vm.colors[settings.quotaSize]);
 		vm.currentTemplate.set('containerName', settings.containerName);
 		ngDialog.closeAll();
 	}
