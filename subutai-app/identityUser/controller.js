@@ -16,7 +16,7 @@ function userPostData(user) {
 		'&full_name=' + user.fullName +
 		'&password=' + user.password +
 		'&email=' + user.email +
-		'&public_key=' + encodeURI( user.public_key );
+		'&public_key=' + encodeURIComponent( user.public_key );
 
 	if(currentUserRoles !== undefined) {
 		postData += '&roles=' + currentUserRoles;
@@ -117,7 +117,8 @@ function IdentityUserCtrl($scope, identitySrv, SweetAlert, ngDialog, cfpLoadingB
 				console.log(postData);
 				identitySrv.addUser(postData).success(function (data) {
 					SweetAlert.swal("Removed!", "Role has been removed.", "success");
-					vm.dtInstance.reloadData(null, false);
+					//vm.dtInstance.reloadData(null, false);
+					getUsers();
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User role is safe :). Error: " + data, "error");
 				});
@@ -142,7 +143,8 @@ function IdentityUserCtrl($scope, identitySrv, SweetAlert, ngDialog, cfpLoadingB
 			if (isConfirm) {
 				identitySrv.deleteUser(user.id).success(function (data) {
 					SweetAlert.swal("Deleted!", "User has been deleted.", "success");
-					vm.dtInstance.reloadData(null, false);
+					//vm.dtInstance.reloadData(null, false);
+					getUsers();
 				}).error(function (data) {
 					SweetAlert.swal("ERROR!", "User is safe :). Error: " + data, "error");
 				});

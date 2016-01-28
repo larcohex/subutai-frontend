@@ -28,7 +28,7 @@ startup.$inject = ['$rootScope', '$state', '$location', '$http'];
 
 function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
 	var vm = this;
-	vm.currentUser = sessionStorage.getItem('currentUser');
+	vm.currentUser = localStorage.getItem('currentUser');
 	vm.currentUserRoles = [];
 
 	//function
@@ -37,13 +37,13 @@ function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
 
 	function logout() {
 		removeCookie('sptoken');
-		sessionStorage.removeItem('currentUser');
+		localStorage.removeItem('currentUser');
 		$location.path('login');
 	}
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		if(localStorage.getItem('currentUser') !== undefined) {
-			vm.currentUser = sessionStorage.getItem('currentUser');
+			vm.currentUser = localStorage.getItem('currentUser');
 		} else if($rootScope.currentUser !== undefined) {
 			vm.currentUser = $rootScope.currentUser;
 		}
@@ -457,6 +457,9 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
+						{
+							files: ['plugins/keshig/keshig.css']
+						},
 						{
 							name: 'subutai.plugins.keshig',
 							files: [
@@ -1042,13 +1045,13 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDY2MjhmYS1iNjIzLTRiMjYtYjZhYS05YzM2NDM2YTAxZWMiLCJpc3MiOiJpby5zdWJ1dGFpIn0.Lg7rRuFYxXnsZluvcZW3K7LU4I1RQ8hV9zRPPcXKZCA';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOGEzZTAwZS01NmJjLTQ2MjctYWI2My00NDMwM2ZhM2VhNzgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.ygQZ3Aa1SEuMcDTCI-VUY16NjwJXR29A7jl9mW1Ddqk';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
 		/*var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
 		if (restrictedPage && !getCookie('sptoken')) {
-			sessionStorage.removeItem('currentUser');
+			localStorage.removeItem('currentUser');
 			$location.path('/login');
 		}*/
 	});
@@ -1124,7 +1127,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://172.16.193.78:8080/';
+var SERVER_URL = 'http://172.16.193.148:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
