@@ -1,4 +1,4 @@
-<div class="b-popup b-popup_middle">
+<div class="b-popup b-popup">
 	<div class="b-popup__header">
 		<span>Add template</span>
 		<a href ng-click="closeThisDialog()">
@@ -11,7 +11,7 @@
 			<div class="popup-body-box">
 				<label class="b-popup-body-label">Repository</label>
 				<select ng-init=""
-						class="b-popup-body-input b-popup-body-input_box"
+						class="b-popup-body-input b-popup-body-input_full"
 						ng-change="kurjunViewCtrl.checkRepositoryStatus(kurjunViewCtrl.currentTemplate.repository)"
 						ng-model="kurjunViewCtrl.currentTemplate.repository"
 						ng-options="repository for repository in kurjunViewCtrl.repositories">
@@ -21,21 +21,25 @@
 
 			<div class="popup-body-box">
 				<label class="b-popup-body-label">Template upload</label>
+
 				<div class="b-file-uploader">
-					<div class="fileUpload b-btn b-btn_light-grey">
-						<span>Upload archive</span>
-						<input id="js-uploadBtn"
-							   type="file"
-							   class="upload"
-							   ngf-select
-							   ng-model="kurjunViewCtrl.currentTemplate.file"
-							   ng-disabled="!kurjunViewCtrl.isUploadAllowed"
-							   required/>
-					</div>
-					<input id="js-uploadFile"
-						   class="b-form-input b-form-input_fix-size-1"
-						   placeholder="{{ kurjunViewCtrl.currentTemplate.file.name ? kurjunViewCtrl.currentTemplate.file.name :  'Choose File' }}"
-						   disabled="disabled" />
+					<input type="text"
+						   placeholder="{{ kurjunViewCtrl.currentTemplate.file.name ? kurjunViewCtrl.currentTemplate.file.name : 'File name' }}"
+						   class="b-popup-body-input"
+						   disabled="disabled"
+						   required>
+					<label for="js-uploadBtn"
+						   class="b-popup-body-label"
+						   ng-class="!kurjunViewCtrl.isUploadAllowed ? 'disabled' : ''">Browse</label>
+					<input id="js-uploadBtn"
+						   type="file"
+						   class="upload"
+						   accept=".tar.gz, .deb"
+						   ng-hide="true"
+						   ngf-select
+						   ng-model="kurjunViewCtrl.currentTemplate.file"
+						   ng-disabled="!kurjunViewCtrl.isUploadAllowed"
+						   required/>
 				</div>
 				<div class="b-progress" ng-style="processing ? {'display':'block'} : {'display':'none'}">
 					<div class="b-progress-bar" ng-style="{'width': kurjunViewCtrl.currentTemplate.file.progress + '%'}">
