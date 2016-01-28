@@ -26,8 +26,7 @@
 					<input type="text"
 						   placeholder="{{ kurjunViewCtrl.currentTemplate.file.name ? kurjunViewCtrl.currentTemplate.file.name : 'File name' }}"
 						   class="b-popup-body-input"
-						   disabled="disabled"
-						   required>
+						   disabled="disabled">
 					<label for="js-uploadBtn"
 						   class="b-popup-body-label"
 						   ng-class="!kurjunViewCtrl.isUploadAllowed ? 'disabled' : ''">Browse</label>
@@ -55,7 +54,10 @@
 					class="b-btn b-btn_green g-right"
 					type="submit"
 					id="subt_button__environment-add-domain"
-					ng-disabled="!kurjunViewCtrl.currentTemplate.repository || !kurjunViewCtrl.isUploadAllowed || !kurjunViewCtrl.currentTemplate.file">
+					ng-disabled="!kurjunViewCtrl.currentTemplate.repository ||
+					!kurjunViewCtrl.isUploadAllowed ||
+					!kurjunViewCtrl.currentTemplate.file ||
+					processing">
 				Add
 			</button>
 			<div class="clear"></div>
