@@ -3,15 +3,15 @@
 
 		<h2 class="b-workspace-content-row-h2">
 			Repositories List
-			<button class="b-btn b-btn_green b-btn_header-button" ng-click="kurjunViewCtrl.addRepositoryForm()">
+			<button class="b-btn b-btn_green b-btn_header-button" ng-click="kurjunCtrl.addRepositoryForm()">
 				<i class="fa fa-plus"></i> Add repository
 			</button>
 		</h2>
 
 		<div class="b-data-table">
 			<table datatable="ng" 
-				dt-options="kurjunViewCtrl.dtOptions" 
-				dt-column-defs="kurjunViewCtrl.dtColumnDefs" 
+				dt-options="kurjunCtrl.dtOptions"
+				dt-column-defs="kurjunCtrl.dtColumnDefs"
 				class="row-border hover subt_table-containers-table">
 				<thead>
 					<tr>
@@ -21,13 +21,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="(key, repository) in kurjunViewCtrl.repositories">
+					<tr ng-repeat="(key, repository) in kurjunCtrl.repositories">
 						<td>{{ repository.id }}</td>
 						<td>{{ repository.url }}</td>
 						<td>
 							<a href 
 								class="b-icon b-icon_remove" 
-								ng-click="kurjunViewCtrl.deleteRepository(repository.id, key)">
+								ng-click="kurjunCtrl.deleteRepository(repository.id, key)">
 							</a>
 						</td>
 					</tr>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('subutai.kurjun.controller', [])
-	.controller('KurjunViewCtrl', KurjunViewCtrl)
+	.controller('KurjunCtrl', KurjunViewCtrl)
 	.directive('fileModel', fileModel);
 
 KurjunViewCtrl.$inject = ['$scope', '$rootScope', 'kurjunSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$resource', '$compile', 'ngDialog', '$timeout', 'cfpLoadingBar'];
@@ -24,6 +24,7 @@ function KurjunViewCtrl($scope, $rootScope, kurjunSrv, SweetAlert, DTOptionsBuil
 	vm.deleteTemplate = deleteTemplate;
 	vm.deleteAPT = deleteAPT;
 	vm.checkRepositoryStatus = checkRepositoryStatus;
+	vm.setDefaultRepository = setDefaultRepository;
 
 	/*** Get templates according to repositories ***/
 	function getTemplates() {
@@ -187,7 +188,7 @@ function KurjunViewCtrl($scope, $rootScope, kurjunSrv, SweetAlert, DTOptionsBuil
 						LOADING_SCREEN();
 						kurjunSrv.deleteTemplate(template.md5Sum, template.repository).success(function (data) {
 							LOADING_SCREEN('none');
-							SweetAlert.swal("Deleted!", "Your template has been deleted.", "success");
+							SweetAlert.swal("Deleted!", "Template has been deleted.", "success");
 							getTemplates();
 						}).error(function (data) {
 							LOADING_SCREEN('none');
@@ -215,11 +216,11 @@ function KurjunViewCtrl($scope, $rootScope, kurjunSrv, SweetAlert, DTOptionsBuil
 						LOADING_SCREEN();
 						kurjunSrv.deleteAPT(apt.md5Sum).success(function (data) {
 							LOADING_SCREEN('none');
-							SweetAlert.swal("Deleted!", "Your APT has been deleted.", "success");
+							SweetAlert.swal("Deleted!", "APT package has been deleted.", "success");
 							getAPTs();
 						}).error(function (data) {
 							LOADING_SCREEN('none');
-							SweetAlert.swal("ERROR!", "Your template is safe. Error: REST Endpoint is under modification", "error");
+							SweetAlert.swal("ERROR!", data, "error");
 						});
 					}
 				});
@@ -229,6 +230,11 @@ function KurjunViewCtrl($scope, $rootScope, kurjunSrv, SweetAlert, DTOptionsBuil
 		kurjunSrv.isUploadAllowed(repository).success(function (data) {
 			vm.isUploadAllowed = (data === 'false' ? false : true);
 		});
+	}
+
+	function setDefaultRepository() {
+		vm.currentTemplate.repository = vm.repositories[0];
+		vm.checkRepositoryStatus(vm.currentTemplate.repository)
 	}
 
 	cfpLoadingBar.start();

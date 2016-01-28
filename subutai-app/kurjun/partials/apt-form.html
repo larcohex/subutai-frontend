@@ -5,14 +5,14 @@
             <img src="assets/elements/buttons/b-icon-close.svg" class="b-icon g-right"/>
         </a>
     </div>
-    <form ng-submit="kurjunViewCtrl.proceedTemplate(kurjunViewCtrl.currentTemplate); processing=true">
+    <form ng-submit="kurjunCtrl.proceedTemplate(kurjunCtrl.currentTemplate); processing=true">
         <div class="b-popup__body">
 
             <div class="popup-body-box">
                 <label class="b-popup-body-label">Template upload</label>
                 <div class="b-file-uploader">
                     <input type="text"
-                           placeholder="{{ kurjunViewCtrl.currentTemplate.file.name ? kurjunViewCtrl.currentTemplate.file.name : 'File name' }}"
+                           placeholder="{{ kurjunCtrl.currentTemplate.file.name ? kurjunCtrl.currentTemplate.file.name : 'File name' }}"
                            class="b-popup-body-input"
                            disabled="disabled">
                     <label for="js-uploadBtn"
@@ -23,12 +23,12 @@
                            accept=".deb"
                            ng-hide="true"
                            ngf-select
-                           ng-model="kurjunViewCtrl.currentTemplate.file"
+                           ng-model="kurjunCtrl.currentTemplate.file"
                            required/>
                 </div>
                 <div class="b-progress" ng-style="processing ? {'display':'block'} : {'display':'none'}">
-                    <div class="b-progress-bar" ng-style="{'width': kurjunViewCtrl.currentTemplate.file.progress + '%'}">
-                        {{ kurjunViewCtrl.currentTemplate.file.progress }}%
+                    <div class="b-progress-bar" ng-style="{'width': kurjunCtrl.currentTemplate.file.progress + '%'}">
+                        {{ kurjunCtrl.currentTemplate.file.progress }}%
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -39,7 +39,7 @@
             <button class="b-btn b-btn_green g-right"
                     type="submit"
                     id="subt_button__environment-add-domain"
-                    ng-disabled="!kurjunViewCtrl.currentTemplate.file || processing">
+                    ng-disabled="!kurjunCtrl.currentTemplate.file || processing">
                 Add
             </button>
             <div class="clear"></div>

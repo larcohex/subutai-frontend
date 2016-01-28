@@ -49,7 +49,7 @@ function kurjunService($http, Upload) {
 	}
 
 	function deleteAPT(md5) {
-		return $http.delete(KURJUN_URL + 'apt/delete', {params: {md5: md5}}, {withCredentials: true,headers: {'Content-Type': 'application/json'}});
+		return $http.delete(KURJUN_URL + 'vapt/delete', {params: {md5: md5}}, {withCredentials: true,headers: {'Content-Type': 'application/json'}});
 	}
 
 	function isUploadAllowed(repository) {
