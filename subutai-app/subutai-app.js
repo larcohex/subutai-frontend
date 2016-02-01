@@ -28,7 +28,7 @@ startup.$inject = ['$rootScope', '$state', '$location', '$http'];
 
 function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
 	var vm = this;
-	vm.currentUser = localStorage.getItem('currentUser');
+	vm.currentUser = sessionStorage.getItem('currentUser');
 	vm.currentUserRoles = [];
 
 	//function
@@ -37,13 +37,13 @@ function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
 
 	function logout() {
 		removeCookie('sptoken');
-		localStorage.removeItem('currentUser');
+		sessionStorage.removeItem('currentUser');
 		$location.path('login');
 	}
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		if(localStorage.getItem('currentUser') !== undefined) {
-			vm.currentUser = localStorage.getItem('currentUser');
+			vm.currentUser = sessionStorage.getItem('currentUser');
 		} else if($rootScope.currentUser !== undefined) {
 			vm.currentUser = $rootScope.currentUser;
 		}
@@ -457,9 +457,6 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 			resolve: {
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
-						{
-							files: ['plugins/keshig/keshig.css']
-						},
 						{
 							name: 'subutai.plugins.keshig',
 							files: [
@@ -953,6 +950,50 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
+		.state('bazaar', {
+			url: '/plugins/bazaar',
+			templateUrl: 'plugins/bazaar/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.bazaar',
+							files: [
+								'plugins/bazaar/bazaar.js',
+								'plugins/bazaar/controller.js',
+								'plugins/bazaar/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('appscale', {
+			url: '/plugins/appscale',
+			templateUrl: 'plugins/appscale/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.appscale',
+							files: [
+								'plugins/appscale/appscale.js',
+								'plugins/appscale/controller.js',
+								'plugins/appscale/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('ceph', {
 			url: '/plugins/ceph',
 			templateUrl: 'plugins/ceph/partials/view.html',
@@ -1022,6 +1063,28 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
+		.state('settings-peer', {
+			url: '/settings-peer',
+			templateUrl: 'subutai-app/settingsPeer/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.settings-peer',
+							files: [
+								'subutai-app/settingsPeer/settingsPeer.js',
+								'subutai-app/settingsPeer/controller.js',
+								'subutai-app/settingsPeer/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			templateUrl: 'subutai-app/common/partials/404.html',
@@ -1045,13 +1108,13 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmODI4ODVkOS1lMzI1LTRiMTYtYWZjMi1jNjY3MmQ1MGY2MTkiLCJpc3MiOiJpby5zdWJ1dGFpIn0.NsN8tp3OppeBp7npik9hgqru11y_GtZNgt8ATeh9kG0';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMjYwMjI1My1kN2FjLTQyY2YtOTk5My1kMjU5ZmJkMGRlNzgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.zpb-q8XcMQAiuzh5_BqwvMErvN8ERGR3Nv9EV_1gfRY';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
 		/*var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
 		if (restrictedPage && !getCookie('sptoken')) {
-			localStorage.removeItem('currentUser');
+			sessionStorage.removeItem('currentUser');
 			$location.path('/login');
 		}*/
 	});
@@ -1127,7 +1190,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://172.16.193.148:8080/';
+var SERVER_URL = 'http://10.10.12.54:8080/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
@@ -1169,13 +1232,13 @@ function VARS_MODAL_ERROR( object, text )
 }
 
 quotaColors = [];
-quotaColors['CUSTOM'] = '#0000ff';
-quotaColors['HUGE'] = '#8B0000';
-quotaColors['LARGE'] = '#ff0000';
-quotaColors['MEDIUM'] = '#ffa500';
-quotaColors['SMALL'] = '#ffff00';
-quotaColors['TINY'] = '#00FF00';
-quotaColors['INACTIVE'] = '#808080';
+quotaColors['CUSTOM'] = 'blue';
+quotaColors['HUGE'] = 'bark-red';
+quotaColors['LARGE'] = 'red';
+quotaColors['MEDIUM'] = 'orange';
+quotaColors['SMALL'] = 'yellow';
+quotaColors['TINY'] = 'green';
+quotaColors['INACTIVE'] = 'grey';
 
 var permissionsDefault = [
 	{

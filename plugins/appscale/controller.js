@@ -7,7 +7,7 @@
 
 'use strict';
 
-angular.module('subutai.plugins.appscale.controller', [])
+angular.module('subutai.plugins.appscale.controller', ['ngDroplet'])
         .controller('AppscaleCtrl', AppscaleCtrl)
         .directive('colSelectAppscaleContainers', colSelectAppscaleContainers)
         .directive('checkboxListDown', checkboxListDown);
@@ -15,14 +15,34 @@ angular.module('subutai.plugins.appscale.controller', [])
 AppscaleCtrl.$inject = ['appscaleSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder'];
 
 function AppscaleCtrl(appscaleSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder) {
-    var vm = this;
+	var vm = this;
     vm.activeTab = 'install';
     vm.appscaleInstall = [];
     vm.environments = [];
     vm.containers = [];
     vm.clusters = [];
     
-    
+/*    var holder = document.getElementById('holder'), state = document.getElementById('status');
+
+    holder.ondragover = function () { this.className = 'hover'; return false; };
+    holder.ondragend = function () { this.className = ''; return false; };
+    holder.ondrop = function (e) {
+		this.className = '';
+		e.preventDefault();
+
+		var file = e.dataTransfer.files[0],
+		reader = new FileReader();
+		reader.onload = function (event) {
+			holder.style.background = 'url(' + event.target.result + ') no-repeat center';
+		};
+		reader.readAsDataURL(file);
+		appscaleSrv.sendPackage (file).success (function (data) {
+			// TODO: go to the next step
+		}).error (function (error) {
+			// TODO: alert about error
+		});
+		return false;
+    };*/
     // functions...
     
 //    vm.getClusters = getClusters;
