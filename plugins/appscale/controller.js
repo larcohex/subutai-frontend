@@ -12,37 +12,18 @@ angular.module('subutai.plugins.appscale.controller', ['ngDroplet'])
         .directive('colSelectAppscaleContainers', colSelectAppscaleContainers)
         .directive('checkboxListDown', checkboxListDown);
 
-AppscaleCtrl.$inject = ['appscaleSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder'];
+AppscaleCtrl.$inject = ['appscaleSrv', 'SweetAlert', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$scope', 'ngDialog'];
 
-function AppscaleCtrl(appscaleSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder) {
+var file = {};
+
+function AppscaleCtrl (appscaleSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuilder, $scope, ngDialog) {
 	var vm = this;
     vm.activeTab = 'install';
     vm.appscaleInstall = [];
     vm.environments = [];
     vm.containers = [];
     vm.clusters = [];
-    
-/*    var holder = document.getElementById('holder'), state = document.getElementById('status');
 
-    holder.ondragover = function () { this.className = 'hover'; return false; };
-    holder.ondragend = function () { this.className = ''; return false; };
-    holder.ondrop = function (e) {
-		this.className = '';
-		e.preventDefault();
-
-		var file = e.dataTransfer.files[0],
-		reader = new FileReader();
-		reader.onload = function (event) {
-			holder.style.background = 'url(' + event.target.result + ') no-repeat center';
-		};
-		reader.readAsDataURL(file);
-		appscaleSrv.sendPackage (file).success (function (data) {
-			// TODO: go to the next step
-		}).error (function (error) {
-			// TODO: alert about error
-		});
-		return false;
-    };*/
     // functions...
     
 //    vm.getClusters = getClusters;
@@ -51,10 +32,10 @@ function AppscaleCtrl(appscaleSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
     
     setDefaultValues ();
     
-    appscaleSrv.getEnvironments().success( function (data) {
+/*    appscaleSrv.getEnvironments().success( function (data) {
         vm.environments = data;
         console.log (vm.environments);
-    } );
+    } );*/
     
 /*    function getClusters () {
         appscaleSrv.listClusters().success ( function (data) {
@@ -106,7 +87,56 @@ function AppscaleCtrl(appscaleSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBuil
         vm.appscaleInstall = {};
         vm.appscaleInstall.domainName = 'intra.lan';
     }
-    
+
+
+    vm.uploadPackage = uploadPackage;
+	// TODO: take container id and deploy on it
+    function uploadPackage() {
+		ngDialog.open ({
+			template: "plugins/appscale/partials/upload.html",
+			scope: $scope
+		});
+		$scope.$on('ngDialog.opened', function (e, $dialog) {
+			var holder = document.getElementById('holder');
+
+			holder.ondragover = function () { this.innerHTML = "+"; return false; };
+			holder.ondragend = function () { this.innerHTML = "Drop package here"; return false; };
+			holder.ondrop = function (e) {
+				readPackage (e, holder);
+				return false;
+			};
+			document.getElementById ("uploadBtn").addEventListener ("change", readPackage, false);
+		});
+    }
+    function readPackage (e, holder) {
+    	this.innerHTML = "";
+        this.style.backgroundImage = "url(plugins/appscale/loading.gif)"
+		e.preventDefault();
+		// TODO: design moar
+		if (e.dataTransfer !== undefined) {
+			file = e.dataTransfer.files[0];
+		}
+		else {
+			file = e.target.files[0];
+		}
+		var reader = new FileReader();
+		reader.onload = function (event) {
+			if (file.type != "application/x-tar" && file.type != "application/zip" && file.type != "application/gzip" && file.type != "application/x-rar-compressed") {
+				holder.innerHTML = "Wrong file type";
+				holder.style.backgroundImage = "";
+			}
+			else {
+				console.log (file);
+				ngDialog.closeAll();
+			}
+		};
+		reader.readAsDataURL(file);
+/*			appscaleSrv.sendPackage (file).success (function (data) {
+			// TODO: go to the next step
+		}).error (function (error) {
+			// TODO: alert about error
+		});*/
+    }
 };
 function colSelectAppscaleContainers() {
     return {
