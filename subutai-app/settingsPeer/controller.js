@@ -432,6 +432,7 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
     	}];
 	function traverse (tree) {
 		var result = document.createElement ("ul");
+		result.className = "tree_ul";
 		for (var i = 0; i < tree.length; ++i) {
 			var temp = document.createElement ("li");
 			var span = document.createElement ("span");

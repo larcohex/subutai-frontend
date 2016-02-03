@@ -401,9 +401,9 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
-		.state('system-manager', {
-			url: '/system-manager',
-			templateUrl: 'subutai-app/systemManager/partials/view.html',
+		.state('configurations', {
+			url: '/configurations',
+			templateUrl: 'subutai-app/configurations/partials/view.html',
 			data: {
 				bodyClass: '',
 				layout: 'default'
@@ -412,11 +412,11 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
-							name: 'subutai.system-manager',
+							name: 'subutai.configurations',
 							files: [
-								'subutai-app/systemManager/systemManager.js',
-								'subutai-app/systemManager/controller.js',
-								'subutai-app/systemManager/service.js'
+								'subutai-app/configurations/configurations.js',
+								'subutai-app/configurations/controller.js',
+								'subutai-app/configurations/service.js'
 							]
 						}
 					]);
