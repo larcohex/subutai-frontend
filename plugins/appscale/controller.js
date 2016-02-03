@@ -127,15 +127,15 @@ function AppscaleCtrl (appscaleSrv, SweetAlert, DTOptionsBuilder, DTColumnDefBui
 			}
 			else {
 				console.log (file);
-				ngDialog.closeAll();
+				/*appscaleSrv.sendPackage (file).success (function (data) {
+                	*/ngDialog.closeAll();/*
+                	TODO: update info, show applications, show address for application reach
+                }).error (function (error) {
+                	TODO: alert about error
+                });*/
 			}
 		};
 		reader.readAsDataURL(file);
-/*			appscaleSrv.sendPackage (file).success (function (data) {
-			// TODO: go to the next step
-		}).error (function (error) {
-			// TODO: alert about error
-		});*/
     }
 };
 function colSelectAppscaleContainers() {
