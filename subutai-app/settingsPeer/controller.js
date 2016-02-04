@@ -4,8 +4,8 @@ angular.module("subutai.settings-peer.controller", [])
 	.controller("SettingsPeerCtrl", SettingsPeerCtrl);
 
 
-SettingsPeerCtrl.$inject = ["$scope", "SettingsPeerSrv"];
-function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
+SettingsPeerCtrl.$inject = ["$scope", "SettingsPeerSrv", "ngDialog"];
+function SettingsPeerCtrl ($scope, SettingsPeerSrv, ngDialog) {
 
 	var vm = this;
 
@@ -399,37 +399,37 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
                  }
                 ]
                };
-		var test_tree = [{
-    		name: "root",
-    		children: [
-    			{
-    				name: "child1",
-    				children: []
-    			},
-    			{
-    				name: "child2",
-    				children: [
-    					{
-    						name: "grandchild2_1",
-    						children: []
-    					},
-    					{
-    						name: "grandchild2_2",
-    						children: []
-    					}
-    				]
-    			},
-    			{
-    				name: "child3",
-    				children: [
-    					{
-    						name: "grandchild3_1",
-    						children: []
-    					}
-    				]
-    			}
-    		]
-    	}];
+	var test_tree = [{
+		name: "root",
+		children: [
+			{
+				name: "child1",
+				children: []
+			},
+			{
+				name: "child2",
+				children: [
+					{
+						name: "grandchild2_1",
+						children: []
+					},
+					{
+						name: "grandchild2_2",
+						children: []
+					}
+				]
+			},
+			{
+				name: "child3",
+				children: [
+					{
+						name: "grandchild3_1",
+						children: []
+					}
+				]
+			}
+		]
+	}];
 	function traverse (tree) {
 		var result = document.createElement ("ul");
 		result.className = "tree_ul";
@@ -451,6 +451,13 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
 			}
 			$(span).prepend (label);
 			temp.appendChild (span);
+			var a = document.createElement ("a");
+			a.innerHTML = "Add trust";
+			a.style.marginLeft = "5px";
+			a.style.fontSize = "14px";
+			a.style.cursor = "pointer";
+			$(a).on ("click", {name: tree[i].name}, addTrustWindow);
+			temp.appendChild (a);
 			if (tree[i].children !== undefined) {
 				temp.appendChild (traverse (tree[i].children));
 			}
@@ -459,18 +466,25 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
 		return result;
 	}
 
+	function addTrustWindow (event) {
+		vm.currentNode = event.data.name;
+		ngDialog.open ({
+			template: "subutai-app/settingsPeer/partials/addTrust.html",
+			scope: $scope
+		});
+	}
 
 	document.getElementById ("peer_tree").appendChild (traverse ([root]));
-	$('.tree > ul').attr('role', 'tree').find('ul').attr('role', 'group');
-	$('.tree').find('li:has(ul)').addClass('parent_li').attr('role', 'treeitem').find(' > span').attr('title', 'Collapse this branch').on('click', function (e) {
-		var children = $(this).parent('li.parent_li').find(' > ul > li');
-		if (children.is(':visible')) {
-			children.hide('fast');
-			$(this).attr('title', 'Expand this branch').find(' > i').addClass('fa-plus-circle').removeClass('fa-minus-circle').css ("color", "black");
+	$(".tree > ul").attr ("role", "tree").find ("ul").attr ("role", "group");
+	$(".tree").find ("li:has(ul)").addClass ("parent_li").attr ("role", "treeitem").find (" > span").attr ("title", "Collapse this branch").on ("click", function (e) {
+		var children = $(this).parent ("li.parent_li").find (" > ul > li");
+		if (children.is (":visible")) {
+			children.hide ("fast");
+			$(this).attr ("title", "Expand this branch").find (" > i").addClass ("fa-plus-circle").removeClass ("fa-minus-circle").css ("color", "black");
 		}
 		else {
-			children.show('fast');
-			$(this).attr('title', 'Collapse this branch').find(' > i').addClass('fa-minus-circle').removeClass('fa-plus-circle').css ("color", "#9C0606");
+			children.show ("fast");
+			$(this).attr ("title", "Collapse this branch").find (" > i").addClass ("fa-minus-circle").removeClass ("fa-plus-circle").css ("color", "#9C0606");
 		}
 		e.stopPropagation();
 	});
@@ -525,7 +539,7 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
 		var node = svg.selectAll("g.node")
 			.data(nodes, function(d) { return d.id || (d.id = ++i); });
 
-		// Enter any new nodes at the parent's previous position.
+		// Enter any new nodes at the parent"s previous position.
 		var nodeEnter = node.enter().append("g")
 			.attr("class", "node")
 			.attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
@@ -554,7 +568,7 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
 		nodeUpdate.select("text")
 			.style("fill-opacity", 1);
 
-		// Transition exiting nodes to the parent's new position.
+		// Transition exiting nodes to the parent"s new position.
 		var nodeExit = node.exit().transition()
 			.duration(duration)
 			.attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
@@ -570,7 +584,7 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
 		var link = svg.selectAll("path.link")
 			.data(links, function(d) { return d.target.id; });
 
-		// Enter any new links at the parent's previous position.
+		// Enter any new links at the parent"s previous position.
 		link.enter().insert("path", "g")
 			.attr("class", "link")
 			.attr("d", function(d) {
@@ -583,7 +597,7 @@ function SettingsPeerCtrl ($scope, SettingsPeerSrv) {
 			.duration(duration)
 			.attr("d", diagonal);
 
-		// Transition exiting nodes to the parent's new position.
+		// Transition exiting nodes to the parent"s new position.
 		link.exit().transition()
 			.duration(duration)
 			.attr("d", function(d) {
