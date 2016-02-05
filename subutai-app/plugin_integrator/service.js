@@ -20,10 +20,6 @@ function IntegratorSrv($http) {
 	return IntegratorSrv;
 
 	function uploadPlugin (pluginName, pluginVersion, kar, permissions) {
-		console.log (pluginName);
-		console.log (pluginVersion);
-		console.log (kar);
-		console.log (permissions);
 		var fd = new FormData();
 		fd.append('name', pluginName);
 		fd.append('version', pluginVersion);

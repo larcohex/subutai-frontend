@@ -401,28 +401,6 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
-		.state('configurations', {
-			url: '/configurations',
-			templateUrl: 'subutai-app/configurations/partials/view.html',
-			data: {
-				bodyClass: '',
-				layout: 'default'
-			},
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.configurations',
-							files: [
-								'subutai-app/configurations/configurations.js',
-								'subutai-app/configurations/controller.js',
-								'subutai-app/configurations/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
 		.state('plugins', {
 			url: '/plugins',
 			templateUrl: 'subutai-app/plugins/partials/view.html',
@@ -1101,6 +1079,50 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 								'subutai-app/settingsPeer/settingsPeer.js',
 								'subutai-app/settingsPeer/controller.js',
 								'subutai-app/settingsPeer/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('settings-kurjun', {
+			url: '/settings-kurjun',
+			templateUrl: 'subutai-app/settingsKurjun/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.settings-kurjun',
+							files: [
+								'subutai-app/settingsKurjun/settingsKurjun.js',
+								'subutai-app/settingsKurjun/controller.js',
+								'subutai-app/settingsKurjun/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('peer-policy', {
+			url: '/peer-policy',
+			templateUrl: 'subutai-app/peerPolicy/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.peer-policy',
+							files: [
+								'subutai-app/peerPolicy/peerPolicy.js',
+								'subutai-app/peerPolicy/controller.js',
+								'subutai-app/peerPolicy/service.js'
 							]
 						}
 					]);
