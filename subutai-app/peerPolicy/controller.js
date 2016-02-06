@@ -18,7 +18,7 @@ function PeerPolicyCtrl ($scope, PeerPolicySrv) {
 	};
 
 	function getConfig() {
-		SettingsPeerSrv.getConfig().success (function (data) {
+		PeerPolicySrv.getConfig().success (function (data) {
 			vm.config = data;
 		});
 	}

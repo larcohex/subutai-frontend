@@ -7,16 +7,14 @@ angular.module ("subutai.settings-kurjun.controller", [])
 SettingsKurjunCtrl.$inject = ["$scope", "SettingsKurjunSrv"];
 function SettingsKurjunCtrl ($scope, SettingsKurjunSrv) {
 	var vm = this;
-	vm.config = {
-		globalKurjunUrls: "http://repo.critical-factor.com:8081/rest/kurjun/templates/public"
-	};
+	vm.config = {};
 
 	function getConfig() {
-		SettingsPeerSrv.getConfig().success (function (data) {
+		SettingsKurjunSrv.getConfig().success (function (data) {
 			vm.config = data;
 		});
 	}
-//	getConfig();
+	getConfig();
 
 
 	vm.updateConfig = updateConfig;
