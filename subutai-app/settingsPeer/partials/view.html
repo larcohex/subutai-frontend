@@ -18,49 +18,49 @@
 					<tr>
 						<th>Encryption</th>
 						<td style = "padding-right: 18px">
-							<div class="onoffswitch">
-								<input type="checkbox" class="onoffswitch-checkbox" ng-model = "settingsPeerCtrl.config.encryptionEnabled">
-								<label class="onoffswitch-label" ng-click = "settingsPeerCtrl.reverse (0)">
-									<span class="onoffswitch-inner"></span>
-									<span class="onoffswitch-switch"></span>
-								</label>
+							<div class="b-toggle">
+								<input type="checkbox" class="b-check" ng-model = "settingsPeerCtrl.config.encryptionEnabled">
+								<label ng-click = "settingsPeerCtrl.reverse (0)">
+                                </label>
+								<div class="b-toggle-bg"></div>
+								<b class="b-b b-switch"></b>
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<th>REST Encryption</th>
 						<td style = "padding-right: 18px">
-							<div class="onoffswitch">
-								<input type="checkbox" class="onoffswitch-checkbox" ng-model = "settingsPeerCtrl.config.restEncryptionEnabled">
-								<label class="onoffswitch-label" ng-click = "settingsPeerCtrl.reverse (1)">
-									<span class="onoffswitch-inner"></span>
-									<span class="onoffswitch-switch"></span>
-								</label>
-							</div>
+                            <div class="b-toggle">
+                                <input type="checkbox" class="b-check" ng-model = "settingsPeerCtrl.config.restEncryptionEnabled">
+                                <label ng-click = "settingsPeerCtrl.reverse (1)">
+                                </label>
+                                <div class="b-toggle-bg"></div>
+                                <b class="b-b b-switch"></b>
+                            </div>
 						</td>
 					</tr>
 					<tr>
 						<th>Integration</th>
 						<td style = "padding-right: 18px">
-							<div class="onoffswitch">
-								<input type="checkbox" class="onoffswitch-checkbox" ng-model = "settingsPeerCtrl.config.integrationEnabled">
-								<label class="onoffswitch-label" ng-click = "settingsPeerCtrl.reverse (2)">
-									<span class="onoffswitch-inner"></span>
-									<span class="onoffswitch-switch"></span>
-								</label>
-							</div>
+                            <div class="b-toggle">
+                                <input type="checkbox" class="b-check" ng-model = "settingsPeerCtrl.config.integrationEnabled">
+                                <label ng-click = "settingsPeerCtrl.reverse (2)">
+                                </label>
+                                <div class="b-toggle-bg"></div>
+                                <b class="b-b b-switch"></b>
+                            </div>
 						</td>
 					</tr>
 					<tr>
 						<th>Key Trust Check</th>
 						<td style = "padding-right: 18px">
-							<div class="onoffswitch">
-								<input type="checkbox" class="onoffswitch-checkbox" ng-model = "settingsPeerCtrl.config.keyTrustCheckEnabled">
-								<label class="onoffswitch-label" ng-click = "settingsPeerCtrl.reverse (3)">
-									<span class="onoffswitch-inner"></span>
-									<span class="onoffswitch-switch"></span>
-								</label>
-							</div>
+                            <div class="b-toggle">
+                                <input type="checkbox" class="b-check" ng-model = "settingsPeerCtrl.config.keyTrustCheckEnabled">
+                                <label ng-click = "settingsPeerCtrl.reverse (3)">
+                                </label>
+                                <div class="b-toggle-bg"></div>
+                                <b class="b-b b-switch"></b>
+                            </div>
 						</td>
 					</tr>
 				</table>
