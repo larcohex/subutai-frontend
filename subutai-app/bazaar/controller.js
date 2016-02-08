@@ -1,15 +1,40 @@
 'use strict';
 
-angular.module('subutai.plugin_integrator.controller', [])
-	.controller('IntegratorCtrl', IntegratorCtrl)
+angular.module('subutai.bazaar.controller', [])
+	.controller('BazaarCtrl', BazaarCtrl)
 	.directive('fileModel', fileModel);
 fileModel.$inject = ["$parse"];
 
 var karUploader = {};
-IntegratorCtrl.$inject = ['$scope', 'IntegratorSrv', 'ngDialog', 'SweetAlert'];
-function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
+BazaarCtrl.$inject = ['$scope', 'BazaarSrv', 'ngDialog', 'SweetAlert'];
+function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 
 	var vm = this;
+
+
+	vm.activeTab = "hub";
+	vm.plugins = [];
+	vm.installedPlugins = [];
+	BazaarSrv.getHubPlugins().success (function (data) {
+		vm.plugins = data.productsDto;
+		console.log (vm.plugins);
+	});
+
+
+	vm.currentHubPlugin = {};
+	vm.showPluginInfo = showPluginInfo;
+	function showPluginInfo (plugin) {
+		vm.currentHubPlugin = plugin;
+		ngDialog.open ({
+			template: "subutai-app/bazaar/partials/pluginInfo.html",
+			scope: $scope
+		});
+	}
+
+
+
+
+
 	vm.newPlugin = {};
 	vm.currentPlugin = {};
 	vm.isNew = false;
@@ -90,7 +115,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 			postData += '&permission=' + JSON.stringify (vm.permissions2Add);
 		}
 
-		IntegratorSrv.editPermissions (postData).success(function (data) {
+		BazaarSrv.editPermissions (postData).success(function (data) {
 			ngDialog.closeAll();
 			getInstalledPlugins();
 			SweetAlert.swal ("Success!", "Your permissions were updated.", "success");
@@ -101,7 +126,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 
 	function uploadPlugin() {
 		ngDialog.closeAll();
-		IntegratorSrv.uploadPlugin (vm.newPlugin.name, vm.newPlugin.version, karUploader, JSON.stringify(vm.permissions2Add)).success (function (data) {
+		BazaarSrv.uploadPlugin (vm.newPlugin.name, vm.newPlugin.version, karUploader, JSON.stringify(vm.permissions2Add)).success (function (data) {
 			SweetAlert.swal ("Success!", "Your plugin was installed.", "success");
 			vm.newPlugin = {};
 			vm.permissions2Add = {};
@@ -120,7 +145,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 
 	function getInstalledPlugins() {
 		vm.installedPlugins = [];
-		IntegratorSrv.getInstalledPlugins().success (function (data) {
+		BazaarSrv.getInstalledPlugins().success (function (data) {
 			vm.installedPlugins = data;
 			console.log (data);
 		});
@@ -132,7 +157,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 		vm.step = "upload";
 		ngDialog.closeAll();
 		ngDialog.open ({
-			template: "subutai-app/plugin_integrator/partials/uploadPlugin.html",
+			template: "subutai-app/bazaar/partials/uploadPlugin.html",
 			scope: $scope
 		});
 	}
@@ -187,7 +212,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 		}
 		else {
 			vm.currentPlugin = plugin;
-			IntegratorSrv.getPermissions (vm.currentPlugin.id).success (function (data) {
+			BazaarSrv.getPermissions (vm.currentPlugin.id).success (function (data) {
 				vm.permissions2Add = data.permissions;
 				for(var i = 0; i < vm.permissions2Add.length; i++) {
 					for(var j = 0; j < vm.permissions.length; j++) {
@@ -200,7 +225,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 					}
 				}
 				ngDialog.open ({
-					template: "subutai-app/plugin_integrator/partials/uploadPlugin.html",
+					template: "subutai-app/bazaar/partials/uploadPlugin.html",
 					scope: $scope
 				});
 			});
@@ -225,7 +250,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				IntegratorSrv.deletePlugin (plugin.id).success (function (data) {
+				BazaarSrv.deletePlugin (plugin.id).success (function (data) {
 					SweetAlert.swal ("Success!", "Your plugin was deleted.", "success");
 					getInstalledPlugins();
 					ngDialog.closeAll();

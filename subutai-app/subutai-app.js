@@ -950,28 +950,6 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
-		.state('bazaar', {
-			url: '/plugins/bazaar',
-			templateUrl: 'plugins/bazaar/partials/view.html',
-			data: {
-				bodyClass: '',
-				layout: 'default'
-			},
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.bazaar',
-							files: [
-								'plugins/bazaar/bazaar.js',
-								'plugins/bazaar/controller.js',
-								'plugins/bazaar/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
 		.state('appscale', {
 			url: '/plugins/appscale',
 			templateUrl: 'plugins/appscale/partials/view.html',
@@ -1040,9 +1018,9 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
-		.state('plugin_integrator', {
-			url: '/plugin_integrator',
-			templateUrl: 'subutai-app/plugin_integrator/partials/view.html',
+		.state('bazaar', {
+			url: '/bazaar',
+			templateUrl: 'subutai-app/bazaar/partials/view.html',
 			data: {
 				bodyClass: '',
 				layout: 'default'
@@ -1051,11 +1029,11 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
-							name: 'subutai.plugin_integrator',
+							name: 'subutai.bazaar',
 							files: [
-								'subutai-app/plugin_integrator/plugin_integrator.js',
-								'subutai-app/plugin_integrator/controller.js',
-								'subutai-app/plugin_integrator/service.js',
+								'subutai-app/bazaar/bazaar.js',
+								'subutai-app/bazaar/controller.js',
+								'subutai-app/bazaar/service.js',
 								'subutai-app/identity/service.js'
 							]
 						}
@@ -1152,7 +1130,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZjY1NDFhYy00M2E4LTQyNGUtYTM1Ni1iYTE2ZmY3YzA5MzIiLCJpc3MiOiJpby5zdWJ1dGFpIn0.oXVDlDRI0TusJGXJ9Fo9K_YKfrQ_meO9mgW_evOH_Rk';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMGZjOTIzYy0yNDJlLTQwNjItYWJjZC0zYjI2YzQyNmFmMTgiLCJpc3MiOiJpby5zdWJ1dGFpIn0.yjxMEy0bFE1hdz5DOpNKmI58U5HgaJ-x-bNqmbiTJX4';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1234,7 +1212,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://keshig.ddns.net:8080/';
+var SERVER_URL = 'http://dilshat.ddns.net:3084/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;

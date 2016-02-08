@@ -1,23 +1,24 @@
 'use strict';
 
-angular.module('subutai.plugin_integrator.service',[])
-	.factory('IntegratorSrv', IntegratorSrv);
+angular.module('subutai.bazaar.service',[])
+	.factory('BazaarSrv', BazaarSrv);
 
-IntegratorSrv.$inject = ['$http'];
+BazaarSrv.$inject = ['$http'];
 
-function IntegratorSrv($http) {
+function BazaarSrv($http) {
 
 	var BASE_URL = SERVER_URL + "rest/v1/plugininjector/";
 
-	var IntegratorSrv = {
+	var BazaarSrv = {
 		uploadPlugin: uploadPlugin,
 		getInstalledPlugins: getInstalledPlugins,
 		deletePlugin: deletePlugin,
 		editPermissions: editPermissions,
-		getPermissions: getPermissions
+		getPermissions: getPermissions,
+		getHubPlugins: getHubPlugins
 	};
 
-	return IntegratorSrv;
+	return BazaarSrv;
 
 	function uploadPlugin (pluginName, pluginVersion, kar, permissions) {
 		var fd = new FormData();
@@ -50,5 +51,11 @@ function IntegratorSrv($http) {
 
 	function getPermissions (pluginId) {
 		return $http.get (BASE_URL + "plugins/registered/" + pluginId);
+	}
+
+
+
+	function getHubPlugins() {
+		return $http.get (SERVER_URL + "rest/bazaar/products", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 }

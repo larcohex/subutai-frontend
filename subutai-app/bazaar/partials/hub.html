@@ -1,0 +1,28 @@
+<div class="b-workspace-content b-workspace-content_border">
+	<h2 class="b-workspace-content-row-h2 b-workspace-content-row-h2_inline">
+		Available plugins
+	</h2>
+	<div class="b-main-table-border">
+		<table class="b-main-table b-main-table_with-header">
+			<tr>
+				<th>Name</th>
+				<th>Version</th>
+				<th></th>
+				<th>Actions</th>
+				<th></th>
+			</tr>
+			<td colspan="4" class="b-main-table__empty-item" ng-show="bazaarCtrl.plugins.length ===0">
+				No data available in table
+			</td>
+			<tr ng-repeat="plugin in bazaarCtrl.plugins">
+				<td>{{ plugin.name }}</td>
+				<td>{{ plugin.version }}</td>
+				<td><a href class="b-icon b-icon_info" ng-click = "bazaarCtrl.showPluginInfo (plugin)"></a></td>
+				<td class="b-main-table__container-status">
+					<button class = "b-btn b-btn_green" ng-show = "plugin.name !== 'Plugin-common'" style = "width: 82.0781px">Install</button>
+					<button class = "b-btn" ng-show = "plugin.name === 'Plugin-common'" style = "background-color: red">Uninstall</button>
+				<td class="b-main-table__controls"></td>
+			</tr>
+		</table>
+	</div>
+</div>

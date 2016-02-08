@@ -7,22 +7,14 @@ angular.module ("subutai.peer-policy.controller", [])
 PeerPolicyCtrl.$inject = ["$scope", "PeerPolicySrv"];
 function PeerPolicyCtrl ($scope, PeerPolicySrv) {
 	var vm = this;
-	vm.config = {
-		peerId: "42",
-		diskUsageLimit: "2",
-		cpuUsageLimit: "1.5",
-		memoryUsageLimit: "4000",
-		//networkUsageLimit: "100 Mbps",
-		environmentLimit: "3",
-		containerLimit: "5"
-	};
+	vm.config = {};
 
 	function getConfig() {
 		PeerPolicySrv.getConfig().success (function (data) {
 			vm.config = data;
 		});
 	}
-//	getConfig();
+	getConfig();
 
 
 	vm.updateConfig = updateConfig;
