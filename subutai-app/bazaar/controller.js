@@ -13,12 +13,15 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 
 
 	vm.activeTab = "hub";
-	vm.plugins = [];
+	vm.plugins = [{id: "1", name: "test", version: "1"}, {id: "2", name: "hadoop", version: "2"}];
 	vm.installedPlugins = [];
-	BazaarSrv.getHubPlugins().success (function (data) {
-		vm.plugins = data.productsDto;
-		console.log (vm.plugins);
-	});
+	function getHubPlugins() {
+		BazaarSrv.getHubPlugins().success (function (data) {
+			vm.plugins = data.productsDto;
+			console.log (vm.plugins);
+		});
+	}
+	getHubPlugins();
 
 
 	vm.currentHubPlugin = {};
@@ -259,6 +262,46 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 				});
 			}
 		});
+	}
+
+	vm.installPlugin = installPlugin;
+	function installPlugin (plugin) {
+		plugin.prog.options.callback = function (instance) {
+			var progress = 0,
+				interval = setInterval (function() {
+					progress = Math.min (progress + Math.random() * 0.1, 0.99);
+					instance.setProgress (progress);
+					BazaarSrv.installHubPlugin (plugin.id).success (function (data) {
+						progress = 1;
+						instance.stop (1);
+                    	clearInterval (interval);
+					}).error (function (error) {
+						instance.stop (-1);
+						clearInterval (interval);
+					});
+				}, 150);
+		}
+	}
+
+	vm.buttonCheck = buttonCheck;
+	function buttonCheck (s) {
+		try {
+			s.$applyAsync (function() {
+				var index = 0;
+				[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
+					var prog = new UIProgressButton (bttn, {
+						callback: function (instance) {
+						}
+					});
+					vm.plugins[index].prog = prog;
+					++index;
+				});
+			});
+			console.log (vm.plugins);
+		}
+		catch (e) {
+        	$exceptionHandler(e);
+        }
 	}
 }
 

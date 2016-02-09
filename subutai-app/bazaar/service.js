@@ -15,7 +15,8 @@ function BazaarSrv($http) {
 		deletePlugin: deletePlugin,
 		editPermissions: editPermissions,
 		getPermissions: getPermissions,
-		getHubPlugins: getHubPlugins
+		getHubPlugins: getHubPlugins,
+		installHubPlugin: installHubPlugin
 	};
 
 	return BazaarSrv;
@@ -57,5 +58,14 @@ function BazaarSrv($http) {
 
 	function getHubPlugins() {
 		return $http.get (SERVER_URL + "rest/bazaar/products", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function installHubPlugin (id) {
+		var postData = "id=" + id;
+		return $http.post(
+			BASE_URL + "rest/bazaar/install",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
 	}
 }

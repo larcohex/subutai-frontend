@@ -1,3 +1,6 @@
+<link rel="stylesheet" type="text/css" href="subutai-app/bazaar/partials/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="subutai-app/bazaar/partials/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="subutai-app/bazaar/partials/css/component.css" />
 <div ng-controller="BazaarCtrl as bazaarCtrl">
 
 	<div class="b-workspace__header">
@@ -21,7 +24,7 @@
 		</div>
 		<div
 				ng-if="bazaarCtrl.activeTab == 'hub'"
-				ng-include="'subutai-app/bazaar/partials/hub.html'">
+				ng-include="'subutai-app/bazaar/partials/hub.html'" onload = "bazaarCtrl.buttonCheck (this)">
 		</div>
 
 		<div
