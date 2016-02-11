@@ -12,7 +12,10 @@
 				<table class="b-main-table b-main-table_with-header" style = "width: 500px" align = "center">
 					<tr>
 						<th>Global Kurjun URLs</th>
-						<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="settingsKurjunCtrl.config.globalKurjunUrls" required></td>
+						<td style = "padding-right: 18px; width: 300px">
+							<input ng-repeat = "url in settingsKurjunCtrl.config.globalKurjunUrls track by $index" class="b-form-input b-form-input_full" type="text" ng-model = "url" required style = "width: 300px; margin-top: 5px; margin-bottom: 5px">
+							<button class="b-btn b-btn_green" ng-click = "settingsKurjunCtrl.addUrl()"><i class="fa fa-plus"></i>&#160;&#160;Add</button>
+						</td>
 					</tr>
 				</table>
 			</div>

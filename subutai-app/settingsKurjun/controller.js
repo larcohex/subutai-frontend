@@ -7,7 +7,9 @@ angular.module ("subutai.settings-kurjun.controller", [])
 SettingsKurjunCtrl.$inject = ["$scope", "SettingsKurjunSrv"];
 function SettingsKurjunCtrl ($scope, SettingsKurjunSrv) {
 	var vm = this;
-	vm.config = {};
+	vm.config = {
+		globalKurjunUrls: ["test.com", "test2.com"]
+	};
 
 	function getConfig() {
 		SettingsKurjunSrv.getConfig().success (function (data) {
@@ -24,5 +26,10 @@ function SettingsKurjunCtrl ($scope, SettingsKurjunSrv) {
 		}).error (function (error) {
 			SweetAlert.swal ("ERROR!", "Save config error: " + error.replace(/\\n/g, " "), "error");
 		});
+	}
+
+	vm.addUrl = addUrl;
+	function addUrl() {
+		vm.config.globalKurjunUrls.push ("");
 	}
 }

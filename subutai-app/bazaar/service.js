@@ -60,10 +60,19 @@ function BazaarSrv($http) {
 		return $http.get (SERVER_URL + "rest/bazaar/products", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
-	function installHubPlugin (id) {
-		var postData = "id=" + id;
+
+	function installHubPlugin (plugin) {
+		var kar = "";
+		if (plugin.metadata[0].substring (plugin.metadata[0].length - 4, plugin.metadata[0].length) === ".kar") {
+			kar = plugin.metadata[0];
+		}
+		else {
+			kar = plugin.metadata[1];
+		}
+		var postData = "name=" + plugin.name + "&version=" + plugin.version + "&kar=" + kar + "&url=" + plugin.name.toLowerCase();
+		console.log (postData);
 		return $http.post(
-			BASE_URL + "rest/bazaar/install",
+			SERVER_URL + "rest/bazaar/install",
 			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
