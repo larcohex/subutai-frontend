@@ -124,6 +124,7 @@
 
 	// runs after the progress reaches 100%
 	UIProgressButton.prototype.stop = function( status ) {
+		console.log ("here");
 		var self = this,
 			endLoading = function() {
 				// first undraw progress stroke.

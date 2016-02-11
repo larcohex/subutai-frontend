@@ -16,7 +16,9 @@ function BazaarSrv($http) {
 		editPermissions: editPermissions,
 		getPermissions: getPermissions,
 		getHubPlugins: getHubPlugins,
-		installHubPlugin: installHubPlugin
+		installHubPlugin: installHubPlugin,
+		getInstalledHubPlugins: getInstalledHubPlugins,
+		uninstallHubPlugin: uninstallHubPlugin
 	};
 
 	return BazaarSrv;
@@ -76,5 +78,27 @@ function BazaarSrv($http) {
 			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
+	}
+
+
+	function uninstallHubPlugin (plugin) {
+		var kar = "";
+		if (plugin.metadata[0].substring (plugin.metadata[0].length - 4, plugin.metadata[0].length) === ".kar") {
+			kar = plugin.metadata[0];
+		}
+		else {
+			kar = plugin.metadata[1];
+		}
+		var postData = "id=" + plugin.hubId + "&kar=" + kar;
+		console.log (postData);
+		return $http.post(
+			SERVER_URL + "rest/bazaar/uninstall",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function getInstalledHubPlugins() {
+		return $http.get (SERVER_URL + "rest/bazaar/installed", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 }

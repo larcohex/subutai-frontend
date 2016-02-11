@@ -13,27 +13,87 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 
 
 	vm.activeTab = "hub";
-	vm.plugins = [];
+	vm.plugins = [{name: "test", version: "1", installed: true}];
 	vm.installedPlugins = [];
+	vm.installedHubPlugins = [];
 	function getHubPlugins() {
 		BazaarSrv.getHubPlugins().success (function (data) {
 			vm.plugins = data.productsDto;
+			console.log (data);
+			BazaarSrv.getInstalledHubPlugins().success (function (data) {
+				vm.installedHubPlugins = data;
+				for (var i = 0; i < vm.plugins.length; ++i) {
+					vm.plugins[i].installed = false;
+					for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
+						if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
+							vm.plugins[i].installed = true;
+							vm.plugins[i].hubId = vm.installedHubPlugins[j].id;
+							vm.plugins[i].url = vm.installedHubPlugins[j].url;
+							break;
+						}
+					}
+				}
+				$scope.$applyAsync (function() {
+					var index = 0;
+					var counter = 0;
+					[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
+						var prog = new UIProgressButton (bttn, {
+							callback: function (instance) {
+							}
+						});
+						if (counter === 0) {
+							vm.plugins[index].installButton = prog;
+						}
+						else {
+							vm.plugins[index].uninstallButton = prog;
+						}
+						counter = (counter + 1) % 2;
+						if (counter === 0) {
+							++index;
+						}
+					});
+				});
+			});
+		});
+	}
+	getHubPlugins();
+
+	function getInstalledHubPlugins() {
+		BazaarSrv.getInstalledHubPlugins().success (function (data) {
+			vm.installedHubPlugins = data;
+			console.log (data);
+			for (var i = 0; i < vm.plugins.length; ++i) {
+				vm.plugins[i].installed = false;
+				for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
+					if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
+						vm.plugins[i].installed = true;
+						vm.plugins[i].hubId = vm.installedHubPlugins[j].id;
+						break;
+					}
+				}
+			}
 			$scope.$applyAsync (function() {
 				var index = 0;
+				var counter = 0;
 				[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
 					var prog = new UIProgressButton (bttn, {
 						callback: function (instance) {
 						}
 					});
-					vm.plugins[index].prog = prog;
-					++index;
+					if (counter === 0) {
+						vm.plugins[index].installButton = prog;
+					}
+					else {
+						vm.plugins[index].uninstallButton = prog;
+					}
+					counter = (counter + 1) % 2;
+					if (counter === 0) {
+						++index;
+					}
 				});
 			});
-			console.log (vm.plugins);
 		});
 	}
-	getHubPlugins();
-
 
 	vm.currentHubPlugin = {};
 	vm.showPluginInfo = showPluginInfo;
@@ -277,26 +337,56 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 
 	vm.installPlugin = installPlugin;
 	function installPlugin (plugin) {
-		plugin.prog.options.callback = function (instance) {
+		plugin.installButton.options.callback = function (instance) {
 			var progress = 0,
 				interval = setInterval (function() {
 					progress = Math.min (progress + Math.random() * 0.1, 0.99);
 					instance.setProgress (progress);
-					BazaarSrv.installHubPlugin (plugin).success (function (data) {
-						progress = 1;
-						instance.stop (1);
-                    	clearInterval (interval);
-					}).error (function (error) {
-						instance.stop (-1);
-						clearInterval (interval);
-					});
 /*					if( progress === 0.99 ) {
 						progress = 1;
 						instance.stop(  -1 );
 						clearInterval( interval );
 					}*/
 				}, 150);
-		}
+			BazaarSrv.installHubPlugin (plugin).success (function (data) {
+				progress = 1;
+				instance.stop (1);
+				clearInterval (interval);
+				setTimeout (function() {
+					getInstalledHubPlugins();
+				}, 2000);
+			}).error (function (error) {
+				instance.stop (-1);
+				clearInterval (interval);
+			});
+		};
+	}
+
+	vm.uninstallPlugin = uninstallPlugin;
+	function uninstallPlugin (plugin) {
+		plugin.uninstallButton.options.callback = function (instance) {
+			var progress = 0,
+				interval = setInterval (function() {
+					progress = Math.min (progress + Math.random() * 0.1, 0.99);
+					instance.setProgress (progress);
+/*					if( progress === 0.99 ) {
+						progress = 1;
+						instance.stop(  -1 );
+						clearInterval( interval );
+					}*/
+				}, 150);
+			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
+				progress = 1;
+				instance.stop (1);
+				clearInterval (interval);
+				setTimeout (function() {
+					getInstalledHubPlugins();
+				}, 2000);
+			}).error (function (error) {
+				instance.stop (-1);
+				clearInterval (interval);
+			});
+		};
 	}
 }
 
