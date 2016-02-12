@@ -56,9 +56,9 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 			});
 		});
 	}
-	//getHubPlugins();
+	getHubPlugins();
 
-	vm.buttonCheck = buttonCheck;
+/*	vm.buttonCheck = buttonCheck;
 	function buttonCheck (s) {
 		s.$applyAsync (function() {
 			var index = 0;
@@ -80,7 +80,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 				}
 			});
 		});
-	}
+	}*/
 
 	function getInstalledHubPlugins() {
 		BazaarSrv.getInstalledHubPlugins().success (function (data) {

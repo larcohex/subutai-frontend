@@ -139,6 +139,7 @@
 }
 
 .launch-button a {
+	cursor: pointer;
 	text-decoration: none;
 	display: block;
 	margin: 0 auto;
