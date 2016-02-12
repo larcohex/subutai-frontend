@@ -13,7 +13,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 
 
 	vm.activeTab = "hub";
-	vm.plugins = [{name: "test", version: "1", installed: true}];
+	vm.plugins = [{name: "test", installed: true, version: "1", description: "sample desc..."}, {name: "test2", installed: false, version: "BETA", description: "sample desc..."}];
 	vm.installedPlugins = [];
 	vm.installedHubPlugins = [];
 	function getHubPlugins() {
@@ -56,7 +56,31 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 			});
 		});
 	}
-	getHubPlugins();
+	//getHubPlugins();
+
+	vm.buttonCheck = buttonCheck;
+	function buttonCheck (s) {
+		s.$applyAsync (function() {
+			var index = 0;
+			var counter = 0;
+			[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
+				var prog = new UIProgressButton (bttn, {
+					callback: function (instance) {
+					}
+				});
+				if (counter === 0) {
+					vm.plugins[index].installButton = prog;
+				}
+				else {
+					vm.plugins[index].uninstallButton = prog;
+				}
+				counter = (counter + 1) % 2;
+				if (counter === 0) {
+					++index;
+				}
+			});
+		});
+	}
 
 	function getInstalledHubPlugins() {
 		BazaarSrv.getInstalledHubPlugins().success (function (data) {
@@ -342,13 +366,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 				interval = setInterval (function() {
 					progress = Math.min (progress + Math.random() * 0.1, 0.99);
 					instance.setProgress (progress);
-/*					if( progress === 0.99 ) {
+					if( progress === 0.99 ) {
 						progress = 1;
 						instance.stop(  -1 );
 						clearInterval( interval );
-					}*/
+					}
 				}, 150);
-			BazaarSrv.installHubPlugin (plugin).success (function (data) {
+/*			BazaarSrv.installHubPlugin (plugin).success (function (data) {
 				progress = 1;
 				instance.stop (1);
 				clearInterval (interval);
@@ -358,7 +382,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 			}).error (function (error) {
 				instance.stop (-1);
 				clearInterval (interval);
-			});
+			});*/
 		};
 	}
 
@@ -369,13 +393,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 				interval = setInterval (function() {
 					progress = Math.min (progress + Math.random() * 0.1, 0.99);
 					instance.setProgress (progress);
-/*					if( progress === 0.99 ) {
+					if( progress === 0.99 ) {
 						progress = 1;
-						instance.stop(  -1 );
+						instance.stop(  1 );
 						clearInterval( interval );
-					}*/
+					}
 				}, 150);
-			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
+/*			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
 				progress = 1;
 				instance.stop (1);
 				clearInterval (interval);
@@ -385,7 +409,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 			}).error (function (error) {
 				instance.stop (-1);
 				clearInterval (interval);
-			});
+			});*/
 		};
 	}
 }

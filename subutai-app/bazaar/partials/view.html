@@ -24,7 +24,7 @@
 		</div>
 		<div
 				ng-if="bazaarCtrl.activeTab == 'hub'"
-				ng-include="'subutai-app/bazaar/partials/hub.html'">
+				ng-include="'subutai-app/bazaar/partials/hub.html'" onload = "bazaarCtrl.buttonCheck (this)">
 		</div>
 
 		<div
