@@ -81,6 +81,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 				}
 			});
 		});
+		console.log (vm.plugins);
 	}
 
 	function getInstalledHubPlugins() {

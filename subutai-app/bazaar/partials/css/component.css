@@ -10,6 +10,7 @@
 	text-transform: capitalize;
 	display: inline-block;
 	padding: 0 15px;
+	width: 80px;
 	height: 30px;
 	line-height: 30px;
 	background-color: #f8fbfd;
@@ -26,6 +27,7 @@
 	transition: all .4s ease-in-out;
 	cursor: pointer;
 	box-sizing: border-box;
+
 }
 
 .progress-button button:hover {
