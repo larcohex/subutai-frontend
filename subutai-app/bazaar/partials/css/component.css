@@ -9,7 +9,7 @@
 .progress-button button {
 	text-transform: capitalize;
 	display: inline-block;
-	padding: 0 15px;
+	padding: 0 10px;
 	width: 80px;
 	height: 30px;
 	line-height: 30px;
@@ -101,13 +101,13 @@
 }
 
 .success.progress-button button {
-	border-color: #1ECD97;
-	background-color: #1ECD97;
+	border-color: #4bbc6e;
+	background-color: #4bbc6e;
 }
 
 .error.progress-button button {
-	border-color: #FB797E;
-	background-color: #FB797E;
+	border-color: #ef3f61;
+	background-color: #ef3f61;
 }
 
 .loading.progress-button svg.progress-circle path,
