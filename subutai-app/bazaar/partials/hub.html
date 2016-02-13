@@ -12,7 +12,7 @@
 				No data available in table
 			</td>
 			<tr ng-repeat="plugin in bazaarCtrl.plugins">
-				<td><img src = "{{ plugin.img }}" /></td>
+				<td><img src = "{{ plugin.img }}" style = "height: 60px; width: 60px"/></td>
 				<td>{{ plugin.name }}</td>
 				<td>{{ plugin.version }}</td>
 				<td><a href class="b-icon b-icon_info" ng-click = "bazaarCtrl.showPluginInfo (plugin)"></a></td>
