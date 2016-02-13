@@ -8,15 +8,15 @@ SettingsKurjunCtrl.$inject = ["$scope", "SettingsKurjunSrv"];
 function SettingsKurjunCtrl ($scope, SettingsKurjunSrv) {
 	var vm = this;
 	vm.config = {
-		globalKurjunUrls: "http://repo.critical-factor.com:8081/rest/kurjun/templates/public"
+		globalKurjunUrls: ["test.com", "test2.com"]
 	};
 
 	function getConfig() {
-		SettingsPeerSrv.getConfig().success (function (data) {
+		SettingsKurjunSrv.getConfig().success (function (data) {
 			vm.config = data;
 		});
 	}
-//	getConfig();
+	//getConfig();
 
 
 	vm.updateConfig = updateConfig;
@@ -26,5 +26,24 @@ function SettingsKurjunCtrl ($scope, SettingsKurjunSrv) {
 		}).error (function (error) {
 			SweetAlert.swal ("ERROR!", "Save config error: " + error.replace(/\\n/g, " "), "error");
 		});
+	}
+
+	vm.addUrl = addUrl;
+	function addUrl() {
+		console.log (vm.config.globalKurjunUrls);
+		vm.config.globalKurjunUrls.push ("");
+		console.log (vm.config.globalKurjunUrls);
+	}
+
+	vm.removeUrl = removeUrl;
+	function removeUrl (index) {
+		console.log (vm.config.globalKurjunUrls);
+		if (vm.config.globalKurjunUrls.length !== 1) {
+			vm.config.globalKurjunUrls.splice (index, 1);
+		}
+		else {
+			vm.config.globalKurjunUrls[0] = "";
+		}
+		console.log (vm.config.globalKurjunUrls);
 	}
 }

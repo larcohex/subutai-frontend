@@ -1,7 +1,10 @@
+<link rel="stylesheet" type="text/css" href="subutai-app/bazaar/partials/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="subutai-app/bazaar/partials/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="subutai-app/bazaar/partials/css/component.css" />
 <div ng-controller="BazaarCtrl as bazaarCtrl">
 
 	<div class="b-workspace__header">
-		<h1 class="b-title">Plugins/<span class="b-title_breadcrumbs">Bazaar</span></h1>
+		<h1 class="b-title"><span class="b-title_breadcrumbs">Bazaar</span></h1>
 	</div>
 
 	<div class="b-workspace__content">
@@ -21,12 +24,12 @@
 		</div>
 		<div
 				ng-if="bazaarCtrl.activeTab == 'hub'"
-				ng-include="'plugins/bazaar/partials/hub.html'">
+				ng-include="'subutai-app/bazaar/partials/hub.html'" onload = "bazaarCtrl.buttonCheck (this)">
 		</div>
 
 		<div
 				ng-if="bazaarCtrl.activeTab == 'other'"
-				ng-include="'plugins/bazaar/partials/other.html'">
+				ng-include="'subutai-app/bazaar/partials/other.html'">
 		</div>
 
 	</div>

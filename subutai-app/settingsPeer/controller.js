@@ -7,20 +7,38 @@ angular.module ("subutai.settings-peer.controller", [])
 SettingsPeerCtrl.$inject = ["$scope", "SettingsPeerSrv", "SweetAlert"];
 function SettingsPeerCtrl ($scope, SettingsPeerSrv, SweetAlert) {
 	var vm = this;
-	vm.config = {
-		externalIpInterface: "eth1",
-        encryptionEnabled: true,
-        restEncryptionEnabled: true,
-        integrationEnabled: false,
-        keyTrustCheckEnabled: true
-	};
+	vm.config = {};
 
 	function getConfig() {
 		SettingsPeerSrv.getConfig().success (function (data) {
 			vm.config = data;
+			if (vm.config.encryptionState === "true") {
+				vm.config.encryptionState = true;
+			}
+			else {
+				vm.config.encryptionState = false;
+			}
+			if (vm.config.restEncryptionState === "true") {
+				vm.config.restEncryptionState = true;
+			}
+			else {
+				vm.config.restEncryptionState = false;
+			}
+			if (vm.config.integrationState === "true") {
+				vm.config.integrationState = true;
+			}
+			else {
+				vm.config.integrationState = false;
+			}
+			if (vm.config.keyTrustCheckState === "true") {
+				vm.config.keyTrustCheckState = true;
+			}
+			else {
+				vm.config.keyTrustCheckState = false;
+			}
 		});
 	}
-//	getConfig();
+	getConfig();
 
 
 	vm.updateConfig = updateConfig;

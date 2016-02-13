@@ -1,15 +1,137 @@
 'use strict';
 
-angular.module('subutai.plugin_integrator.controller', [])
-	.controller('IntegratorCtrl', IntegratorCtrl)
+angular.module('subutai.bazaar.controller', [])
+	.controller('BazaarCtrl', BazaarCtrl)
 	.directive('fileModel', fileModel);
 fileModel.$inject = ["$parse"];
 
 var karUploader = {};
-IntegratorCtrl.$inject = ['$scope', 'IntegratorSrv', 'ngDialog', 'SweetAlert'];
-function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
+BazaarCtrl.$inject = ['$scope', 'BazaarSrv', 'ngDialog', 'SweetAlert', '$location'];
+function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 
 	var vm = this;
+
+	vm.plugins = [];
+	vm.activeTab = "hub";
+	vm.installedPlugins = [];
+	vm.installedHubPlugins = [];
+	function getHubPlugins() {
+		BazaarSrv.getHubPlugins().success (function (data) {
+			vm.plugins = data.productsDto;
+			console.log (vm.plugins);
+			BazaarSrv.getInstalledHubPlugins().success (function (data) {
+				vm.installedHubPlugins = data;
+				for (var i = 0; i < vm.plugins.length; ++i) {
+					vm.plugins[i].img = "https://s3-eu-west-1.amazonaws.com/subutai-hub/products/" + vm.plugins[i].id + "/logo/logo.png";
+					vm.plugins[i].installed = false;
+					for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
+						if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
+							vm.plugins[i].installed = true;
+							vm.plugins[i].hubId = vm.installedHubPlugins[j].id;
+							vm.plugins[i].url = vm.installedHubPlugins[j].url;
+							break;
+						}
+					}
+				}
+				$scope.$applyAsync (function() {
+					var index = 0;
+					var counter = 0;
+					[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
+						var prog = new UIProgressButton (bttn, {
+							callback: function (instance) {
+							}
+						});
+						if (counter === 0) {
+							vm.plugins[index].installButton = prog;
+						}
+						else {
+							vm.plugins[index].uninstallButton = prog;
+						}
+						counter = (counter + 1) % 2;
+						if (counter === 0) {
+							++index;
+						}
+					});
+				});
+			});
+		});
+	}
+	getHubPlugins();
+
+/*	vm.buttonCheck = buttonCheck;
+	function buttonCheck (s) {
+		s.$applyAsync (function() {
+			var index = 0;
+			var counter = 0;
+			[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
+				var prog = new UIProgressButton (bttn, {
+					callback: function (instance) {
+					}
+				});
+				if (counter === 0) {
+					vm.plugins[index].installButton = prog;
+				}
+				else {
+					vm.plugins[index].uninstallButton = prog;
+				}
+				counter = (counter + 1) % 2;
+				if (counter === 0) {
+					++index;
+				}
+			});
+		});
+	}*/
+
+	function getInstalledHubPlugins() {
+		BazaarSrv.getInstalledHubPlugins().success (function (data) {
+			vm.installedHubPlugins = data;
+			for (var i = 0; i < vm.plugins.length; ++i) {
+				vm.plugins[i].installed = false;
+				for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
+					if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
+						vm.plugins[i].installed = true;
+						vm.plugins[i].hubId = vm.installedHubPlugins[j].id;
+						break;
+					}
+				}
+			}
+			$scope.$applyAsync (function() {
+				var index = 0;
+				var counter = 0;
+				[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
+					var prog = new UIProgressButton (bttn, {
+						callback: function (instance) {
+						}
+					});
+					if (counter === 0) {
+						vm.plugins[index].installButton = prog;
+					}
+					else {
+						vm.plugins[index].uninstallButton = prog;
+					}
+					counter = (counter + 1) % 2;
+					if (counter === 0) {
+						++index;
+					}
+				});
+			});
+		});
+	}
+
+	vm.currentHubPlugin = {};
+	vm.showPluginInfo = showPluginInfo;
+	function showPluginInfo (plugin) {
+		vm.currentHubPlugin = plugin;
+		ngDialog.open ({
+			template: "subutai-app/bazaar/partials/pluginInfo.html",
+			scope: $scope
+		});
+	}
+
+
+
+
+
 	vm.newPlugin = {};
 	vm.currentPlugin = {};
 	vm.isNew = false;
@@ -90,7 +212,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 			postData += '&permission=' + JSON.stringify (vm.permissions2Add);
 		}
 
-		IntegratorSrv.editPermissions (postData).success(function (data) {
+		BazaarSrv.editPermissions (postData).success(function (data) {
 			ngDialog.closeAll();
 			getInstalledPlugins();
 			SweetAlert.swal ("Success!", "Your permissions were updated.", "success");
@@ -101,7 +223,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 
 	function uploadPlugin() {
 		ngDialog.closeAll();
-		IntegratorSrv.uploadPlugin (vm.newPlugin.name, vm.newPlugin.version, karUploader, JSON.stringify(vm.permissions2Add)).success (function (data) {
+		BazaarSrv.uploadPlugin (vm.newPlugin.name, vm.newPlugin.version, karUploader, JSON.stringify(vm.permissions2Add)).success (function (data) {
 			SweetAlert.swal ("Success!", "Your plugin was installed.", "success");
 			vm.newPlugin = {};
 			vm.permissions2Add = {};
@@ -120,9 +242,8 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 
 	function getInstalledPlugins() {
 		vm.installedPlugins = [];
-		IntegratorSrv.getInstalledPlugins().success (function (data) {
+		BazaarSrv.getInstalledPlugins().success (function (data) {
 			vm.installedPlugins = data;
-			console.log (data);
 		});
 	}
 	getInstalledPlugins();
@@ -132,7 +253,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 		vm.step = "upload";
 		ngDialog.closeAll();
 		ngDialog.open ({
-			template: "subutai-app/plugin_integrator/partials/uploadPlugin.html",
+			template: "subutai-app/bazaar/partials/uploadPlugin.html",
 			scope: $scope
 		});
 	}
@@ -187,7 +308,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 		}
 		else {
 			vm.currentPlugin = plugin;
-			IntegratorSrv.getPermissions (vm.currentPlugin.id).success (function (data) {
+			BazaarSrv.getPermissions (vm.currentPlugin.id).success (function (data) {
 				vm.permissions2Add = data.permissions;
 				for(var i = 0; i < vm.permissions2Add.length; i++) {
 					for(var j = 0; j < vm.permissions.length; j++) {
@@ -200,7 +321,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 					}
 				}
 				ngDialog.open ({
-					template: "subutai-app/plugin_integrator/partials/uploadPlugin.html",
+					template: "subutai-app/bazaar/partials/uploadPlugin.html",
 					scope: $scope
 				});
 			});
@@ -225,7 +346,7 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 		},
 		function (isConfirm) {
 			if (isConfirm) {
-				IntegratorSrv.deletePlugin (plugin.id).success (function (data) {
+				BazaarSrv.deletePlugin (plugin.id).success (function (data) {
 					SweetAlert.swal ("Success!", "Your plugin was deleted.", "success");
 					getInstalledPlugins();
 					ngDialog.closeAll();
@@ -234,6 +355,66 @@ function IntegratorCtrl($scope, IntegratorSrv, ngDialog, SweetAlert) {
 				});
 			}
 		});
+	}
+
+	vm.installPlugin = installPlugin;
+	function installPlugin (plugin) {
+		plugin.installButton.options.callback = function (instance) {
+			var progress = 0,
+				interval = setInterval (function() {
+					progress = Math.min (progress + Math.random() * 0.1, 0.99);
+					instance.setProgress (progress);
+/*					if( progress === 0.99 ) {
+						progress = 1;
+						instance.stop(  -1 );
+						clearInterval( interval );
+					}*/
+				}, 150);
+			BazaarSrv.installHubPlugin (plugin).success (function (data) {
+				progress = 1;
+				instance.stop (1);
+				clearInterval (interval);
+				setTimeout (function() {
+					getInstalledHubPlugins();
+				}, 2000);
+			}).error (function (error) {
+				instance.stop (-1);
+				clearInterval (interval);
+			});
+		};
+	}
+
+	vm.uninstallPlugin = uninstallPlugin;
+	function uninstallPlugin (plugin) {
+		plugin.uninstallButton.options.callback = function (instance) {
+			var progress = 0,
+				interval = setInterval (function() {
+					progress = Math.min (progress + Math.random() * 0.1, 0.99);
+					instance.setProgress (progress);
+/*					if( progress === 0.99 ) {
+						progress = 1;
+						instance.stop(  1 );
+						clearInterval( interval );
+					}*/
+				}, 150);
+			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
+				progress = 1;
+				instance.stop (1);
+				clearInterval (interval);
+				setTimeout (function() {
+					getInstalledHubPlugins();
+				}, 2000);
+			}).error (function (error) {
+				instance.stop (-1);
+				clearInterval (interval);
+			});
+		};
+	}
+
+	vm.redirectToPlugin = redirectToPlugin;
+	function redirectToPlugin (url) {
+		console.log (url);
+		$location.path ("/plugins/" + url);
 	}
 }
 

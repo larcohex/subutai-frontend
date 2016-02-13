@@ -12,7 +12,7 @@ function PeerPolicySrv ($http) {
 	};
 
 	function getConfig() {
-		return $http.get (SERVER_URL + "", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return $http.get (SERVER_URL + "rest/v1/system/peer_policy", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 	function updateConfig (config) {
