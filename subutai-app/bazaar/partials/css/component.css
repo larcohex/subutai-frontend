@@ -2,32 +2,34 @@
 .progress-button {
 	position: relative;
 	display: inline-block;
-	text-align: center;
-	min-width: 80px;
-	margin: 10px;
 }
 
 
 /* Button style */
 .progress-button button {
-	display: block;
-	margin: 0 auto;
-	padding: 0;
-	width: 80px;
+	text-transform: capitalize;
+	display: inline-block;
+	padding: 0 15px;
 	height: 30px;
-	border: 1px solid #04346E;
-	background: transparent;
-	color: #04346E;
-	letter-spacing: 1px;
-	font-size: 12px;
-	-webkit-tap-highlight-color: transparent;
-	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
-	transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+	line-height: 30px;
+	background-color: #f8fbfd;
+	border: 1px solid #CCCEEE;
+	border-radius: 2px;
+	color: #333333;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 13px;
+	text-decoration: none;
+	-webkit-transition: all .4s ease-in-out;
+	-moz-transition: all .4s ease-in-out;
+	-o-transition: all .4s ease-in-out;
+	-ms-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;
+	cursor: pointer;
+	box-sizing: border-box;
 }
 
 .progress-button button:hover {
-	background-color: #04346E;
-	color: #fff;
+	background-color: #ebebf2;
 }
 
 .progress-button button:focus {
@@ -72,11 +74,11 @@
 /* Loading, success and error effects */
 .loading.progress-button button {
 	width: 30px; /* make a circle */
-	border-width: 1.5px;
-	border-color: #ddd;
+	border-width: 1px;
+	border-color: #ccceee;
 	border-radius: 40px;
 	background-color: transparent;
-	color: #fff;
+	color: #04346E;
 }
 
 .loading.progress-button span {
@@ -133,33 +135,32 @@
 .launch-button {
 	position: relative;
 	display: inline-block;
-	text-align: center;
-	min-width: 80px;
-	margin: 10px;
 }
 
 .launch-button a {
-	cursor: pointer;
-	text-decoration: none;
-	display: block;
-	margin: 0 auto;
-	padding: 0;
-	width: 80px;
+	border: none;
+	display: inline-block;
+	padding: 0 15px;
+	height: 30px;
 	line-height: 30px;
-	border: 1px solid #04346E;
-	background: transparent;
-	color: #04346E;
-	letter-spacing: 1px;
-	font-size: 12px;
-	-webkit-tap-highlight-color: transparent;
-	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
-	transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+	background-color: #179cee;
+	border-radius: 2px;
+	color: #fff;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 13px;
+	text-decoration: none;
+	-webkit-transition: all .4s ease-in-out;
+	-moz-transition: all .4s ease-in-out;
+	-o-transition: all .4s ease-in-out;
+	-ms-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;
+	cursor: pointer;
+	box-sizing: border-box;
 }
 
 
 .launch-button a:hover {
-	background-color: #04346E;
-	color: #fff;
+	background-color: #0568e6;
 }
 
 .launch-button a:focus {

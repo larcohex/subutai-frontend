@@ -438,7 +438,9 @@ input[type=checkbox] {
 .b-main-table__capitalize {
     text-transform: capitalize;
 }
-
+.b-main-table_200 {
+    width: 200px;
+}
 .b-main-table__tags {
     width: 250px;
 }
@@ -522,7 +524,7 @@ input[type=checkbox] {
 .b-main-table td {
     font-size: 13px;
     color: #04346E;
-    padding: 15px 0 15px 18px;
+    padding: 15px;
     text-align: left;
 }
 
@@ -956,6 +958,9 @@ tip.description-tooltip {
 }
 .g-block {
     display: block;
+}
+.g-block-inline {
+    display: inline-block !important;
 }
 .g-text-blue {
     color: #078DD0;
