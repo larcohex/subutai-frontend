@@ -16,7 +16,7 @@ function SettingsKurjunCtrl ($scope, SettingsKurjunSrv) {
 			vm.config = data;
 		});
 	}
-	getConfig();
+	//getConfig();
 
 
 	vm.updateConfig = updateConfig;
@@ -30,6 +30,20 @@ function SettingsKurjunCtrl ($scope, SettingsKurjunSrv) {
 
 	vm.addUrl = addUrl;
 	function addUrl() {
+		console.log (vm.config.globalKurjunUrls);
 		vm.config.globalKurjunUrls.push ("");
+		console.log (vm.config.globalKurjunUrls);
+	}
+
+	vm.removeUrl = removeUrl;
+	function removeUrl (index) {
+		console.log (vm.config.globalKurjunUrls);
+		if (vm.config.globalKurjunUrls.length !== 1) {
+			vm.config.globalKurjunUrls.splice (index, 1);
+		}
+		else {
+			vm.config.globalKurjunUrls[0] = "";
+		}
+		console.log (vm.config.globalKurjunUrls);
 	}
 }

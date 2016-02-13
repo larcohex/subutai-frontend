@@ -6,23 +6,23 @@ angular.module('subutai.bazaar.controller', [])
 fileModel.$inject = ["$parse"];
 
 var karUploader = {};
-BazaarCtrl.$inject = ['$scope', 'BazaarSrv', 'ngDialog', 'SweetAlert'];
-function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
+BazaarCtrl.$inject = ['$scope', 'BazaarSrv', 'ngDialog', 'SweetAlert', '$location'];
+function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 
 	var vm = this;
 
-
+	vm.plugins = [];
 	vm.activeTab = "hub";
-	vm.plugins = [{name: "test", installed: true, version: "1", description: "sample desc..."}, {name: "test2", installed: false, version: "BETA", description: "sample desc..."}];
 	vm.installedPlugins = [];
 	vm.installedHubPlugins = [];
 	function getHubPlugins() {
 		BazaarSrv.getHubPlugins().success (function (data) {
 			vm.plugins = data.productsDto;
-			console.log (data);
+			console.log (vm.plugins);
 			BazaarSrv.getInstalledHubPlugins().success (function (data) {
 				vm.installedHubPlugins = data;
 				for (var i = 0; i < vm.plugins.length; ++i) {
+					vm.plugins[i].img = "https://s3-eu-west-1.amazonaws.com/subutai-hub/products/" + vm.plugins[i].id + "/logo/logo.png";
 					vm.plugins[i].installed = false;
 					for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
 						if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
@@ -85,7 +85,6 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 	function getInstalledHubPlugins() {
 		BazaarSrv.getInstalledHubPlugins().success (function (data) {
 			vm.installedHubPlugins = data;
-			console.log (data);
 			for (var i = 0; i < vm.plugins.length; ++i) {
 				vm.plugins[i].installed = false;
 				for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
@@ -245,7 +244,6 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 		vm.installedPlugins = [];
 		BazaarSrv.getInstalledPlugins().success (function (data) {
 			vm.installedPlugins = data;
-			console.log (data);
 		});
 	}
 	getInstalledPlugins();
@@ -366,13 +364,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 				interval = setInterval (function() {
 					progress = Math.min (progress + Math.random() * 0.1, 0.99);
 					instance.setProgress (progress);
-					if( progress === 0.99 ) {
+/*					if( progress === 0.99 ) {
 						progress = 1;
 						instance.stop(  -1 );
 						clearInterval( interval );
-					}
+					}*/
 				}, 150);
-/*			BazaarSrv.installHubPlugin (plugin).success (function (data) {
+			BazaarSrv.installHubPlugin (plugin).success (function (data) {
 				progress = 1;
 				instance.stop (1);
 				clearInterval (interval);
@@ -382,7 +380,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 			}).error (function (error) {
 				instance.stop (-1);
 				clearInterval (interval);
-			});*/
+			});
 		};
 	}
 
@@ -393,13 +391,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 				interval = setInterval (function() {
 					progress = Math.min (progress + Math.random() * 0.1, 0.99);
 					instance.setProgress (progress);
-					if( progress === 0.99 ) {
+/*					if( progress === 0.99 ) {
 						progress = 1;
 						instance.stop(  1 );
 						clearInterval( interval );
-					}
+					}*/
 				}, 150);
-/*			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
+			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
 				progress = 1;
 				instance.stop (1);
 				clearInterval (interval);
@@ -409,8 +407,14 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert) {
 			}).error (function (error) {
 				instance.stop (-1);
 				clearInterval (interval);
-			});*/
+			});
 		};
+	}
+
+	vm.redirectToPlugin = redirectToPlugin;
+	function redirectToPlugin (url) {
+		console.log (url);
+		$location.path ("/plugins/" + url);
 	}
 }
 

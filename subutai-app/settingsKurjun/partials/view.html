@@ -13,7 +13,9 @@
 					<tr>
 						<th>Global Kurjun URLs</th>
 						<td style = "padding-right: 18px; width: 300px">
-							<input ng-repeat = "url in settingsKurjunCtrl.config.globalKurjunUrls track by $index" class="b-form-input b-form-input_full" type="text" ng-model = "url" required style = "width: 300px; margin-top: 5px; margin-bottom: 5px">
+							<div ng-repeat = "url in settingsKurjunCtrl.config.globalKurjunUrls track by $index">
+								<input class="b-form-input b-form-input_full" type="text" ng-model = "settingsKurjunCtrl.config.globalKurjunUrls[$index]" required style = "display: inline; width: 280px; margin-top: 5px; margin-bottom: 5px"><i class="fa fa-times" ng-click = "settingsKurjunCtrl.removeUrl ($index)" style = "width: 10px; float: right; margin-top: 13px; cursor: pointer"></i>
+							</div>
 							<button class="b-btn b-btn_green" ng-click = "settingsKurjunCtrl.addUrl()"><i class="fa fa-plus"></i>&#160;&#160;Add</button>
 						</td>
 					</tr>
