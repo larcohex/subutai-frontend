@@ -1107,6 +1107,50 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
+		.state('settings-network', {
+			url: '/settings-network',
+			templateUrl: 'subutai-app/settingsNetwork/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.settings-network',
+							files: [
+								'subutai-app/settingsNetwork/settingsNetwork.js',
+								'subutai-app/settingsNetwork/controller.js',
+								'subutai-app/settingsNetwork/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('settings-security', {
+			url: '/settings-security',
+			templateUrl: 'subutai-app/settingsSecurity/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.settings-security',
+							files: [
+								'subutai-app/settingsSecurity/settingsSecurity.js',
+								'subutai-app/settingsSecurity/controller.js',
+								'subutai-app/settingsSecurity/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
 		.state('404', {
 			url: '/404',
 			templateUrl: 'subutai-app/common/partials/404.html',
@@ -1130,7 +1174,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGQxMmM1Zi00ZjkyLTRiY2UtYjU4MC1lOGNjODZjNmUyNGUiLCJpc3MiOiJpby5zdWJ1dGFpIn0.uTSI_qoLIWjLYNdsp48xFd11noeYbZUOUg-P-EL8l0E';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MjY2NDkzNC1kMDFlLTRlZjYtOWFkMS00NjQ1NGY0ZjQwNmQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.P171keEBobqxlGrP0f-54Yg_zdDIjYbO7pbaZQwhahM';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');

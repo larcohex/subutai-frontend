@@ -1,0 +1,73 @@
+<div ng-controller="SettingsNetworkCtrl as settingsNetworkCtrl">
+
+	<div class="b-workspace__header">
+		<div ng-include="'subutai-app/common/partials/login-header.html'"></div>
+
+		<h1 class="b-title"><span class="b-title_breadcrumbs">Network Settings</span></h1>
+	</div>
+
+	<div class="b-workspace__content">
+		<div class="b-workspace-content__row">
+			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+				<div class="b-main-table-border" style = "width: 500px">
+					<table class="b-main-table b-main-table_with-header" style = "width: 500px" align = "center">
+						<tr>
+							<th>External IP Interface</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="settingsNetworkCtrl.config.externalIpInterface" ng-focus = "settingsNetworkCtrl.config.externalIpInterfaceHint = true" ng-blur = "settingsNetworkCtrl.config.externalIpInterfaceHint = false" required></td>
+						</tr>
+						<tr>
+							<th>Open HTTP Port</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="settingsNetworkCtrl.config.openPort" ng-focus = "settingsNetworkCtrl.config.openPortHint = true" ng-blur = "settingsNetworkCtrl.config.openPortHint = false" required></td>
+						</tr>
+						<tr>
+							<th>SSL Port</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="settingsNetworkCtrl.config.securePortX1" ng-focus = "settingsNetworkCtrl.config.securePortX1Hint = true" ng-blur = "settingsNetworkCtrl.config.securePortX1Hint = false" required></td>
+						</tr>
+						<tr>
+							<th>SSL Mutual Port</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="settingsNetworkCtrl.config.securePortX2" ng-focus = "settingsNetworkCtrl.config.securePortX2Hint = true" ng-blur = "settingsNetworkCtrl.config.securePortX2Hint = false" required></td>
+						</tr>
+						<tr>
+							<th>Reserved SSL Port</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="settingsNetworkCtrl.config.securePortX3" ng-focus = "settingsNetworkCtrl.config.securePortX3Hint = true" ng-blur = "settingsNetworkCtrl.config.securePortX3Hint = false" required></td>
+						</tr>
+						<tr>
+							<th>Reserved HTTP Port</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="settingsNetworkCtrl.config.specialPortX1" ng-focus = "settingsNetworkCtrl.config.specialPortX1Hint = true" ng-blur = "settingsNetworkCtrl.config.specialPortX1Hint = false" required></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
+				<div class="b-main-table-border" style="width: 400px; border: none">
+					<table class="b-main-table" style="width: 400px" align="center">
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "settingsNetworkCtrl.config.externalIpInterfaceHint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "settingsNetworkCtrl.config.openPortHint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "settingsNetworkCtrl.config.securePortX1Hint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "settingsNetworkCtrl.config.securePortX2Hint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "settingsNetworkCtrl.config.securePortX3Hint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "settingsNetworkCtrl.config.specialPortX1Hint">test</span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<button
+					class="b-btn b-btn_green g-left g-margin-bottom"
+					ng-click="settingsNetworkCtrl.updateConfig()"
+					style = "margin-top: 15px">
+				<i class="fa fa-floppy-o"></i>&#160;&#160;Save
+			</button>
+		</div>
+	</div>
+</div>

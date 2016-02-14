@@ -11,14 +11,17 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 
 	var vm = this;
 
-	vm.plugins = [{name: "test", version: "BETA", description: "Some desc...", installed: true, img: "http://twimgs.com/informationweek/galleries/automated/723/01_Hadoop_full.jpg"}, {name: "test2", version: "ALPHA", description: "Some desc...", installed: false, img: "https://flume.apache.org/_static/flume-logo.png"}];
-	//vm.plugins = [];
+/*	vm.plugins = [{name: "test", version: "BETA", description: "Some desc...", installed: true, img: "http://twimgs.com/informationweek/galleries/automated/723/01_Hadoop_full.jpg"}, {name: "test2", version: "ALPHA", description: "Some desc...", installed: false, img: "https://flume.apache.org/_static/flume-logo.png"}];*/
+	vm.plugins = [];
 	vm.activeTab = "hub";
 	vm.installedPlugins = [];
 	vm.installedHubPlugins = [];
 	function getHubPlugins() {
 		BazaarSrv.getHubPlugins().success (function (data) {
 			vm.plugins = data.productsDto;
+			if (!vm.plugins) {
+				vm.plugins = [];
+			}
 			console.log (vm.plugins);
 			BazaarSrv.getInstalledHubPlugins().success (function (data) {
 				vm.installedHubPlugins = data;
@@ -57,9 +60,9 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 			});
 		});
 	}
-//	getHubPlugins();
+	getHubPlugins();
 
-	vm.buttonCheck = buttonCheck;
+/*	vm.buttonCheck = buttonCheck;
 	function buttonCheck (s) {
 		s.$applyAsync (function() {
 			var index = 0;
@@ -81,8 +84,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 				}
 			});
 		});
-		console.log (vm.plugins);
-	}
+	}*/
 
 	function getInstalledHubPlugins() {
 		BazaarSrv.getInstalledHubPlugins().success (function (data) {
@@ -366,13 +368,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 				interval = setInterval (function() {
 					progress = Math.min (progress + Math.random() * 0.1, 0.99);
 					instance.setProgress (progress);
-					if( progress === 0.99 ) {
+/*					if( progress === 0.99 ) {
 						progress = 1;
 						instance.stop(  -1 );
 						clearInterval( interval );
-					}
+					}*/
 				}, 150);
-/*			BazaarSrv.installHubPlugin (plugin).success (function (data) {
+			BazaarSrv.installHubPlugin (plugin).success (function (data) {
 				progress = 1;
 				instance.stop (1);
 				clearInterval (interval);
@@ -382,7 +384,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 			}).error (function (error) {
 				instance.stop (-1);
 				clearInterval (interval);
-			});*/
+			});
 		};
 	}
 
@@ -393,13 +395,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 				interval = setInterval (function() {
 					progress = Math.min (progress + Math.random() * 0.1, 0.99);
 					instance.setProgress (progress);
-					if( progress === 0.99 ) {
+/*					if( progress === 0.99 ) {
 						progress = 1;
 						instance.stop(  1 );
 						clearInterval( interval );
-					}
+					}*/
 				}, 150);
-/*			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
+			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
 				progress = 1;
 				instance.stop (1);
 				clearInterval (interval);
@@ -409,7 +411,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 			}).error (function (error) {
 				instance.stop (-1);
 				clearInterval (interval);
-			});*/
+			});
 		};
 	}
 

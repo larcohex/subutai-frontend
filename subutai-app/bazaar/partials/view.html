@@ -18,11 +18,15 @@
 				</li>
 			</ul>
 		</div>
-		</div>
+	</div>
 	<div class="b-workspace__content">
-		<div
+<!--		<div
 				ng-if="bazaarCtrl.activeTab == 'hub'"
 				ng-include="'subutai-app/bazaar/partials/hub.html'" onload = "bazaarCtrl.buttonCheck (this)">
+		</div>-->
+		<div
+				ng-if="bazaarCtrl.activeTab == 'hub'"
+				ng-include="'subutai-app/bazaar/partials/hub.html'">
 		</div>
 		<div
 				ng-if="bazaarCtrl.activeTab == 'other'"
