@@ -29,6 +29,9 @@ $(".b-form-input_dropdown").click(function () {
 $(".b-form-input-dropdown-list").click(function(e) {
 	e.stopPropagation();
 });
+$(".b-hub-status__btn").click(function () {
+	$(".b-hub-status__dropdown").toggleClass("show");
+});
 
 $('.js-scrollbar').perfectScrollbar();
 
