@@ -8,52 +8,78 @@
 
 	<div class="b-workspace__content">
 		<div class="b-workspace-content__row">
-			<div class="b-main-table-border" style = "width: 550px">
-				<table class="b-main-table b-main-table_with-header" style = "width: 550px" align = "center">
-					<tr>
-						<th>Peer ID</th>
-						<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.peerId" required></td>
-					</tr>
-					<tr>
-						<th>Disk Usage Limit</th>
-						<td style = "padding-right: 18px; width: 340px">
-							<div>
-								<input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.diskUsageLimit" required style = "display: inline; width: 290px" onkeypress = "return event.charCode >= 48 && event.charCode <= 57">
-								<label style = "font-style: italic; width: 40px; float: right; margin-top: 7px">in GB</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>CPU Usage Limit</th>
-						<td style = "padding-right: 18px; width: 340px">
-							<div>
-								<input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.cpuUsageLimit" required style = "display: inline; width: 290px" onkeypress = "return event.charCode >= 48 && event.charCode <= 57">
-								<label style = "font-style: italic; width: 40px; float: right; margin-top: 7px">in %</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>Memory Usage Limit</th>
-						<td style = "padding-right: 18px; width: 340px">
-							<div>
-								<input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.memoryUsageLimit" required style = "display: inline; width: 290px" onkeypress = "return event.charCode >= 48 && event.charCode <= 57">
-								<label style = "font-style: italic; width: 40px; float: right; margin-top: 7px">in MB</label>
-							</div>
-						</td>
-					</tr>
-					<!--<tr>
-						<th>Network Usage Limit</th>
-						<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.networkUsageLimit" required></td>
-					</tr>-->
-					<tr>
-						<th>Environment Limit</th>
-						<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.environmentLimit" required onkeypress = "return event.charCode >= 48 && event.charCode <= 57"></td>
-					</tr>
-					<tr>
-						<th>Container Limit</th>
-						<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.containerLimit" required onkeypress = "return event.charCode >= 48 && event.charCode <= 57"></td>
-					</tr>
-				</table>
+			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+				<div class="b-main-table-border" style = "width: 550px">
+					<table class="b-main-table b-main-table_with-header" style = "width: 550px" align = "center">
+						<tr>
+							<th>Peer ID</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.peerId" ng-focus = "peerPolicyCtrl.config.peerIdHint = true" ng-blur = "peerPolicyCtrl.config.peerIdHint = false" required></td>
+						</tr>
+						<tr>
+							<th>Disk Usage Limit</th>
+							<td style = "padding-right: 18px; width: 340px">
+								<div>
+									<input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.diskUsageLimit" ng-focus = "peerPolicyCtrl.config.diskUsageLimitHint = true" ng-blur = "peerPolicyCtrl.config.diskUsageLimitHint = false" required style = "display: inline; width: 290px" onkeypress = "return event.charCode >= 48 && event.charCode <= 57">
+									<label style = "font-style: italic; width: 40px; float: right; margin-top: 7px">in GB</label>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>CPU Usage Limit</th>
+							<td style = "padding-right: 18px; width: 340px">
+								<div>
+									<input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.cpuUsageLimit" ng-focus = "peerPolicyCtrl.config.cpuUsageLimitHint = true" ng-blur = "peerPolicyCtrl.config.cpuUsageLimitHint = false" required style = "display: inline; width: 290px" onkeypress = "return event.charCode >= 48 && event.charCode <= 57">
+									<label style = "font-style: italic; width: 40px; float: right; margin-top: 7px">in %</label>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>Memory Usage Limit</th>
+							<td style = "padding-right: 18px; width: 340px">
+								<div>
+									<input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.memoryUsageLimit" ng-focus = "peerPolicyCtrl.config.memoryUsageLimitHint = true" ng-blur = "peerPolicyCtrl.config.memoryUsageLimitHint = false" required style = "display: inline; width: 290px" onkeypress = "return event.charCode >= 48 && event.charCode <= 57">
+									<label style = "font-style: italic; width: 40px; float: right; margin-top: 7px">in MB</label>
+								</div>
+							</td>
+						</tr>
+						<!--<tr>
+							<th>Network Usage Limit</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.networkUsageLimit" required></td>
+						</tr>-->
+						<tr>
+							<th>Environment Limit</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.environmentLimit" ng-focus = "peerPolicyCtrl.config.environmentLimitHint = true" ng-blur = "peerPolicyCtrl.config.environmentLimitHint = false" required onkeypress = "return event.charCode >= 48 && event.charCode <= 57"></td>
+						</tr>
+						<tr>
+							<th>Container Limit</th>
+							<td style = "padding-right: 18px"><input class="b-form-input b-form-input_full" type="text" ng-model="peerPolicyCtrl.config.containerLimit" ng-focus = "peerPolicyCtrl.config.containerLimitHint = true" ng-blur = "peerPolicyCtrl.config.containerLimitHint = false" required onkeypress = "return event.charCode >= 48 && event.charCode <= 57"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right" style = "width: 465px">
+				<div class="b-main-table-border" style="width: 200px; border: none">
+					<table class="b-main-table" style="width: 200px" align="center">
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "peerPolicyCtrl.config.peerIdHint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "peerPolicyCtrl.config.diskUsageLimitHint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "peerPolicyCtrl.config.cpuUsageLimitHint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "peerPolicyCtrl.config.memoryUsageLimitHint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "peerPolicyCtrl.config.environmentLimitHint">test</span></td>
+						</tr>
+						<tr style = "border: none">
+							<td style="padding-right: 18px; height: 30px; font-style: italic"><span ng-show = "peerPolicyCtrl.config.containerLimitHint">test</span></td>
+						</tr>
+					</table>
+				</div>
 			</div>
 			<button
 					class="b-btn b-btn_green g-left g-margin-bottom"

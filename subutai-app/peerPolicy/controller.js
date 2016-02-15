@@ -12,6 +12,7 @@ function PeerPolicyCtrl($scope, PeerPolicySrv, SweetAlert) {
     function getConfig() {
         PeerPolicySrv.getConfig().success(function (data) {
             vm.config = data;
+            vm.config.peerIdHint = vm.config.diskUsageLimitHint = vm.config.cpuUsageLimitHint = vm.config.memoryUsageLimitHint = vm.config.environmentLimitHint = vm.config.containerLimitHint = false;
         });
     }
 

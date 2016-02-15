@@ -8,62 +8,82 @@
 
   <div class="b-workspace__content">
     <div class="b-workspace-content__row">
-      <div class="b-main-table-border" style = "width: 500px">
-        <table class="b-main-table b-main-table_with-header" style = "width: 500px" align = "center">
-          <tr>
-            <th>Encryption</th>
-            <td style="padding-right: 18px">
-              <div class="b-toggle">
-                <input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.encryptionState">
-                <label ng-click="settingsPeerCtrl.reverse (0)">
-                </label>
+	  <div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-right">
+		  <div class="b-main-table-border" style = "width: 500px">
+			<table class="b-main-table b-main-table_with-header" style = "width: 500px" align = "center">
+			  <tr>
+				<th>Encryption</th>
+				<td style="padding-right: 18px">
+				  <div class="b-toggle">
+					<input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.encryptionState">
+					<label ng-click="settingsPeerCtrl.reverse (0)">
+					</label>
 
-                <div class="b-toggle-bg"></div>
-                <b class="b-b b-switch"></b>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>REST Encryption</th>
-            <td style="padding-right: 18px">
-              <div class="b-toggle">
-                <input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.restEncryptionState">
-                <label ng-click="settingsPeerCtrl.reverse (1)">
-                </label>
+					<div class="b-toggle-bg"></div>
+					<b class="b-b b-switch"></b>
+				  </div>
+				</td>
+			  </tr>
+			  <tr>
+				<th>REST Encryption</th>
+				<td style="padding-right: 18px">
+				  <div class="b-toggle">
+					<input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.restEncryptionState">
+					<label ng-click="settingsPeerCtrl.reverse (1)">
+					</label>
 
-                <div class="b-toggle-bg"></div>
-                <b class="b-b b-switch"></b>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>Integration</th>
-            <td style="padding-right: 18px">
-              <div class="b-toggle">
-                <input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.integrationState">
-                <label ng-click="settingsPeerCtrl.reverse (2)">
-                </label>
+					<div class="b-toggle-bg"></div>
+					<b class="b-b b-switch"></b>
+				  </div>
+				</td>
+			  </tr>
+			  <tr>
+				<th>Integration</th>
+				<td style="padding-right: 18px">
+				  <div class="b-toggle">
+					<input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.integrationState">
+					<label ng-click="settingsPeerCtrl.reverse (2)">
+					</label>
 
-                <div class="b-toggle-bg"></div>
-                <b class="b-b b-switch"></b>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>Key Trust Check</th>
-            <td style="padding-right: 18px">
-              <div class="b-toggle">
-                <input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.keyTrustCheckState">
-                <label ng-click="settingsSecurityCtrl.reverse (3)">
-                </label>
+					<div class="b-toggle-bg"></div>
+					<b class="b-b b-switch"></b>
+				  </div>
+				</td>
+			  </tr>
+			  <tr>
+				<th>Key Trust Check</th>
+				<td style="padding-right: 18px">
+				  <div class="b-toggle">
+					<input type="checkbox" class="b-check" ng-model="settingsSecurityCtrl.config.keyTrustCheckState">
+					<label ng-click="settingsSecurityCtrl.reverse (3)">
+					</label>
 
-                <div class="b-toggle-bg"></div>
-                <b class="b-b b-switch"></b>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
+					<div class="b-toggle-bg"></div>
+					<b class="b-b b-switch"></b>
+				  </div>
+				</td>
+			  </tr>
+			</table>
+		  </div>
+	  </div>
+		<div class="b-workspace-content-row_col-2 b-workspace-content-row_col-2_padding-left g-right">
+			<div class="b-main-table-border" style="width: 400px; border: none">
+				<table class="b-main-table" style="width: 400px" align="center">
+					<tr style = "border: none">
+						<td style="padding-right: 18px; height: 20px; font-style: italic"><span>test</span></td>
+					</tr>
+					<tr style = "border: none">
+						<td style="padding-right: 18px; height: 20px; font-style: italic"><span>test</span></td>
+					</tr>
+					<tr style = "border: none">
+						<td style="padding-right: 18px; height: 20px; font-style: italic"><span>test</span></td>
+					</tr>
+					<tr style = "border: none">
+						<td style="padding-right: 18px; height: 20px; font-style: italic"><span>test</span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
       <button
           class="b-btn b-btn_green g-left g-margin-bottom"
           ng-click="settingsSecurityCtrl.updateConfig()"
