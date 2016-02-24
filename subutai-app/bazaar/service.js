@@ -7,7 +7,9 @@ BazaarSrv.$inject = ['$http'];
 
 function BazaarSrv($http) {
 
-	var BASE_URL = SERVER_URL + "rest/v1/plugininjector/";
+	var BAZAAR_URL = SERVER_URL + "rest/v1/bazaar/";
+	var PLUGIN_URL = SERVER_URL + "rest/v1/plugin-integrator/"
+	var PLUGINS_URL = SERVER_URL + 'js/plugins.json';
 
 	var BazaarSrv = {
 		uploadPlugin: uploadPlugin,
@@ -18,7 +20,10 @@ function BazaarSrv($http) {
 		getHubPlugins: getHubPlugins,
 		installHubPlugin: installHubPlugin,
 		getInstalledHubPlugins: getInstalledHubPlugins,
-		uninstallHubPlugin: uninstallHubPlugin
+		uninstallHubPlugin: uninstallHubPlugin,
+		registerPeer: registerPeer,
+		checkRegistration: checkRegistration,
+		getRefOldPlugins: getRefOldPlugins
 	};
 
 	return BazaarSrv;
@@ -30,36 +35,36 @@ function BazaarSrv($http) {
 		fd.append('kar', kar);
 		fd.append('permission', permissions);
 		return $http.post(
-			BASE_URL + 'upload',
+			PLUGIN_URL + 'upload',
 			fd,
 			{transformRequest: angular.identity, headers: {'Content-Type': undefined}}
 		);
 	}
 
 	function deletePlugin (plugin) {
-		return $http.delete (BASE_URL + "plugins/" + plugin);
+		return $http.delete (PLUGIN_URL + "plugins/" + plugin);
 	}
 
 	function getInstalledPlugins() {
-		return $http.get (BASE_URL + "plugins/registered");
+		return $http.get (PLUGIN_URL + "plugins/registered");
 	}
 
 	function editPermissions (postData) {
 		return $http.post(
-			BASE_URL + "plugins/permission",
+			PLUGIN_URL + "plugins/permission",
 			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
 
 	function getPermissions (pluginId) {
-		return $http.get (BASE_URL + "plugins/registered/" + pluginId);
+		return $http.get (PLUGIN_URL + "plugins/registered/" + pluginId);
 	}
 
 
 
 	function getHubPlugins() {
-		return $http.get (SERVER_URL + "rest/bazaar/products", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return $http.get (BAZAAR_URL + "products", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 
 
@@ -74,7 +79,7 @@ function BazaarSrv($http) {
 		var postData = "name=" + plugin.name + "&version=" + plugin.version + "&kar=" + kar + "&url=" + plugin.name.toLowerCase();
 		console.log (postData);
 		return $http.post(
-			SERVER_URL + "rest/bazaar/install",
+			BAZAAR_URL + "install",
 			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
@@ -92,13 +97,29 @@ function BazaarSrv($http) {
 		var postData = "id=" + plugin.hubId + "&kar=" + kar;
 		console.log (postData);
 		return $http.post(
-			SERVER_URL + "rest/bazaar/uninstall",
+			BAZAAR_URL + "uninstall",
 			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
 
 	function getInstalledHubPlugins() {
-		return $http.get (SERVER_URL + "rest/bazaar/installed", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+		return $http.get (BAZAAR_URL + "installed", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function registerPeer() {
+		return $http.post(
+    		BAZAAR_URL + "register",
+    		{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+    	);
+	}
+
+	function checkRegistration() {
+		return $http.get (SERVER_URL + "rest/v1/system/peer_settings", {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function getRefOldPlugins() {
+		return $http.get(PLUGINS_URL, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 }
+

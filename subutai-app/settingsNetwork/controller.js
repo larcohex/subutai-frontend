@@ -13,7 +13,6 @@ function SettingsNetworkCtrl ($scope, SettingsNetworkSrv, SweetAlert) {
         SettingsNetworkSrv.getConfig().success (function (data) {
             console.log(data);
             vm.config = data;
-            vm.config.externalIpInterfaceHint = vm.config.openPortHint = vm.config.securePortX1Hint = vm.config.securePortX2Hint = vm.config.securePortX3Hint = vm.config.specialPortX1Hint = false;
         });
     }
     getConfig();

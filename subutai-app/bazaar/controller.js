@@ -2,12 +2,13 @@
 
 angular.module('subutai.bazaar.controller', [])
 	.controller('BazaarCtrl', BazaarCtrl)
-	.directive('fileModel', fileModel);
+	.directive('fileModel', fileModel)
+	.directive('registerHtml', ['ngDialog', '$http', 'toaster', registerHtml]);
 fileModel.$inject = ["$parse"];
 
 var karUploader = {};
-BazaarCtrl.$inject = ['$scope', 'BazaarSrv', 'ngDialog', 'SweetAlert', '$location'];
-function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
+BazaarCtrl.$inject = ['$scope', 'BazaarSrv', 'ngDialog', 'SweetAlert', '$location', 'toaster', 'cfpLoadingBar'];
+function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster, cfpLoadingBar) {
 
 	var vm = this;
 
@@ -16,48 +17,69 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 	vm.activeTab = "hub";
 	vm.installedPlugins = [];
 	vm.installedHubPlugins = [];
+	vm.notRegistered = true;
 	function getHubPlugins() {
-		BazaarSrv.getHubPlugins().success (function (data) {
-			vm.plugins = data.productsDto;
-			if (!vm.plugins) {
-				vm.plugins = [];
-			}
-			console.log (vm.plugins);
-			BazaarSrv.getInstalledHubPlugins().success (function (data) {
-				vm.installedHubPlugins = data;
-				for (var i = 0; i < vm.plugins.length; ++i) {
-					vm.plugins[i].img = "https://s3-eu-west-1.amazonaws.com/subutai-hub/products/" + vm.plugins[i].id + "/logo/logo.png";
-					vm.plugins[i].installed = false;
-					for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
-						if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
-							vm.plugins[i].installed = true;
-							vm.plugins[i].hubId = vm.installedHubPlugins[j].id;
-							vm.plugins[i].url = vm.installedHubPlugins[j].url;
-							break;
-						}
+		BazaarSrv.checkRegistration().success (function (data) {
+			console.log (data);
+			if (data.isRegisteredToHub) {
+				vm.notRegistered = false;
+				BazaarSrv.getHubPlugins().success (function (data) {
+					vm.plugins = data.productsDto;
+					if (vm.plugins === undefined || vm.plugins === "") {
+						vm.plugins = [];
 					}
-				}
-				$scope.$applyAsync (function() {
-					var index = 0;
-					var counter = 0;
-					[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
-						var prog = new UIProgressButton (bttn, {
-							callback: function (instance) {
+					console.log (vm.plugins);
+					BazaarSrv.getInstalledHubPlugins().success (function (data) {
+						vm.installedHubPlugins = data;
+						for (var i = 0; i < vm.plugins.length; ++i) {
+							vm.plugins[i].img = "https://s3-eu-west-1.amazonaws.com/subutai-hub/products/" + vm.plugins[i].id + "/logo/logo.png";
+							vm.plugins[i].installed = false;
+							for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
+								if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
+									vm.plugins[i].installed = true;
+									vm.plugins[i].launch = true;
+									vm.plugins[i].hubId = vm.installedHubPlugins[j].id;
+									vm.plugins[i].url = vm.installedHubPlugins[j].url;
+									break;
+								}
 							}
+						}
+						$scope.$applyAsync (function() {
+							var index = 0;
+							var counter = 0;
+							[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
+								var prog = new UIProgressButton (bttn, {
+									callback: function (instance) {
+									}
+								});
+								if (counter === 0) {
+									vm.plugins[index].installButton = prog;
+								}
+								else {
+									vm.plugins[index].uninstallButton = prog;
+								}
+								counter = (counter + 1) % 2;
+								if (counter === 0) {
+									++index;
+								}
+							});
 						});
-						if (counter === 0) {
-							vm.plugins[index].installButton = prog;
-						}
-						else {
-							vm.plugins[index].uninstallButton = prog;
-						}
-						counter = (counter + 1) % 2;
-						if (counter === 0) {
-							++index;
-						}
 					});
 				});
-			});
+			}
+			else {
+				vm.notRegistered = true;
+/*				if (localStorage.getItem('ignoreHubRegister') != "true") {
+					toaster.pop ({
+						 type: 'error',
+						 title: 'Peer registration error',
+						 body: 'register-html',
+						 bodyOutputType: 'directive',
+						 showCloseButton: true,
+						 timeout: 0
+					});
+				}*/
+			}
 		});
 	}
 	getHubPlugins();
@@ -94,6 +116,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 				for (var j = 0; j < vm.installedHubPlugins.length; ++j) {
 					if (vm.plugins[i].name === vm.installedHubPlugins[j].name) {
 						vm.plugins[i].installed = true;
+						vm.plugins[i].launch = true;
 						vm.plugins[i].hubId = vm.installedHubPlugins[j].id;
 						break;
 					}
@@ -375,11 +398,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 					}*/
 				}, 150);
 			BazaarSrv.installHubPlugin (plugin).success (function (data) {
-				progress = 1;
-				instance.stop (1);
-				clearInterval (interval);
 				setTimeout (function() {
-					getInstalledHubPlugins();
+					progress = 1;
+					instance.stop (1);
+					clearInterval (interval);
+					setTimeout (function() {
+						getInstalledHubPlugins();
+					}, 2000);
 				}, 2000);
 			}).error (function (error) {
 				instance.stop (-1);
@@ -390,6 +415,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 
 	vm.uninstallPlugin = uninstallPlugin;
 	function uninstallPlugin (plugin) {
+		plugin.launch = false;
 		plugin.uninstallButton.options.callback = function (instance) {
 			var progress = 0,
 				interval = setInterval (function() {
@@ -402,11 +428,13 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 					}*/
 				}, 150);
 			BazaarSrv.uninstallHubPlugin (plugin).success (function (data) {
-				progress = 1;
-				instance.stop (1);
-				clearInterval (interval);
 				setTimeout (function() {
-					getInstalledHubPlugins();
+					progress = 1;
+					instance.stop (1);
+					clearInterval (interval);
+					setTimeout (function() {
+						getInstalledHubPlugins();
+					}, 2000);
 				}, 2000);
 			}).error (function (error) {
 				instance.stop (-1);
@@ -420,8 +448,76 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location) {
 		console.log (url);
 		$location.path ("/plugins/" + url);
 	}
+
+
+	vm.registerPeer = registerPeer;
+	function registerPeer() {
+		BazaarSrv.registerPeer().success (function (data) {
+			SweetAlert.swal ("Success!", "Your peer was registered.", "success");
+		}).error (function (error) {
+			SweetAlert.swal ("ERROR!", "Peer registration failed. Please, check the procedure of registering peer and come back again.", "error");
+		});
+	}
+
+
+	cfpLoadingBar.start();
+	angular.element(document).ready(function () {
+		cfpLoadingBar.complete();
+	});
+
+	vm.refOldPlugins = [];
+
+	function getRefOldPlugins() {
+		console.log ("here");
+		try {
+			BazaarSrv.getRefOldPlugins().success(function(data) {
+				vm.refOldPlugins = data;
+			});
+		} catch(e) {}
+	}
+	getRefOldPlugins();
+
+
+
 }
 
+
+function registerHtml (ngDialog, $http, toaster) {
+	return {
+		template: "<br>" +
+			"<span>Please register peer to Hub</span>" +
+			"<br><br>" +
+			"<button class = 'b-btn b-btn_green' ng-click = 'register()'>Register</button>" +
+			"<button class = 'b-btn b-btn_blue' ng-click = 'ignore()' style = 'margin-left: 10px'>Ignore</button>",
+		link: function (scope, element, attrs) {
+			scope.register = function() {
+				console.log (scope.$parent);
+				ngDialog.open ({
+					template: "subutai-app/bazaar/partials/registerPeer.html",
+					scope: scope
+				});
+			}
+			scope.login = "";
+			scope.password = "";
+			scope.error = false;
+			scope.hubRegister = function() {
+				console.log (login, password);
+				$http.post( SERVER_URL + 'rest/v1/hub/register?hubIp=hub.subut.ai&email=' + scope.login + '&password=' + scope.password, {withCredentials: true} )
+				.success(function () {
+					localStorage.setItem('hubRegistered', true);
+					vm.hubStatus = true;
+					toaster.clear();
+				}).error (function (error) {
+					scope.error = true;
+				});
+			}
+			scope.ignore = function() {
+				localStorage.setItem ('ignoreHubRegister', true);
+				toaster.clear();
+			}
+		}
+	};
+}
 
 
 function fileModel($parse) {

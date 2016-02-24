@@ -21,8 +21,6 @@ function environmentService($http) {
 
 	var BLUEPRINT_URL = ENVIRONMENTS_URL + 'blueprints/';
 
-	var GROW_BLUEPRINT_URL = ENVIRONMENTS_URL + 'grow/';
-
 	var STRATEGIES_URL = ENVIRONMENTS_URL + 'strategies/';
 
 	var TEMPLATES_URL = ENVIRONMENTS_URL + 'templates/';
@@ -49,6 +47,7 @@ function environmentService($http) {
 		startEnvironmentBuild : startEnvironmentBuild,
 		growEnvironment : growEnvironment,
 		destroyEnvironment: destroyEnvironment,
+		modifyEnvironment: modifyEnvironment,
 
 
 		setSshKey : setSshKey,
@@ -81,9 +80,6 @@ function environmentService($http) {
 
 		getPeers : getPeers,
 
-		getCurrentUser: getCurrentUser,
-		getUsers: getUsers,
-
 
 		getShared: getShared,
 		share: share,
@@ -96,7 +92,6 @@ function environmentService($http) {
 	};
 
 	return environmentService;
-
 
 
 
@@ -184,10 +179,10 @@ function environmentService($http) {
 		);
 	}
 
-	function growEnvironment(environmentId, data) {
-		var postData = 'environmentId=' + environmentId + '&blueprint_json=' + data;
+	function growEnvironment(environmentId, topology) {
+		var postData = 'topology=' + JSON.stringify( topology );
 		return $http.post(
-			GROW_BLUEPRINT_URL,
+			ENVIRONMENTS_URL + environmentId + '/grow',
 			postData, 
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
@@ -197,7 +192,14 @@ function environmentService($http) {
 		return $http.delete(ENVIRONMENTS_URL + environmentId);
 	}
 
-
+	function modifyEnvironment(containers) {
+		var postData = 'include=' + JSON.stringify( containers.included ) + '&exclude=' + JSON.stringify( containers.excluded );
+		return $http.post(
+			ENVIRONMENTS_URL + containers.environmentId + '/modify',
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
 
 	function switchContainer(containerId, type) {
 		return $http.post(
@@ -338,15 +340,6 @@ function environmentService($http) {
 		);
 	}
 
-	function getUsers() {
-		return $http.get (SERVER_URL + 'rest/ui/identity/', {withCredentials: true, headers: {'Content-Type': 'application/json'}});
-	}
-
-
-	function getCurrentUser() {
-		return $http.get (SERVER_URL + 'rest/ui/identity/user');
-	}
-
 	function revoke (environmentId) {
 		return $http.put (ENVIRONMENTS_URL + environmentId + "/revoke");
 	}
@@ -354,9 +347,10 @@ function environmentService($http) {
 	function startEnvironmentAutoBuild(environmentName, containers) {
 		var postData = 'name=' + environmentName + "&containers=" + containers;
 		return $http.post(
-			ENVIRONMENT_START_BUILD + 'auto',
+			ENVIRONMENT_START_BUILD,
 			postData,
 			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
 		);
 	}
+
 }

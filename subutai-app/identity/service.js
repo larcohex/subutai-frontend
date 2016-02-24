@@ -30,6 +30,14 @@ function identitySrv($http) {
 		getKey: getKey,
 		getCurrentUser: getCurrentUser,
 
+		updatePublicKey: updatePublicKey,
+		createIdentityDelegateDocument: createIdentityDelegateDocument,
+		getIdentityDelegateDocument: getIdentityDelegateDocument,
+		approveIdentityDelegate: approveIdentityDelegate,
+
+		getPublicKeyData: getPublicKeyData,
+		checkUserKey: checkUserKey,
+
 		getUsersUrl : function(){ return USERS_URL },
 		getRolesUrl : function(){ return ROLES_URL },
 		getTokensUrl : function(){ return TOKENS_URL }
@@ -122,6 +130,36 @@ function identitySrv($http) {
 		);
 	}
 
+	function updatePublicKey (publicKey) {
+		var postData = "publicKey=" + publicKey;
+		return $http.post(
+			USERS_URL + "set-public-key",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function createIdentityDelegateDocument() {
+		return $http.post(
+			USERS_URL + "delegate-identity",
+			"",
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
+	function getIdentityDelegateDocument() {
+		return $http.get( USERS_URL + "delegate-identity" );
+	}
+
+	function approveIdentityDelegate(signedDocument) {
+		var postData = "signedDocument="+signedDocument;
+		return $http.post(
+			USERS_URL + "approve-delegate",
+			postData,
+			{withCredentials: true, headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+		);
+	}
+
 	function approve (username, roles) {
 		var postData = "username=" + username + "&roles=" + roles;
 		console.log (postData);
@@ -133,6 +171,14 @@ function identitySrv($http) {
 	}
 
 	function getKey (id) {
-		return $http.get (SERVER_URL + "rest/v1/security/keyman/getpublickeyring", {params: {host_id: id}});
+		return $http.get (SERVER_URL + "rest/v1/security/keyman/getpublickey", {params: {hostid: id}});
+	}
+
+	function getPublicKeyData(userId) {
+		return $http.get(USERS_URL + 'key-data/' + userId, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
+	}
+
+	function checkUserKey(userId) {
+		return $http.get(USERS_URL + 'check-user-key/' + userId, {withCredentials: true, headers: {'Content-Type': 'application/json'}});
 	}
 }

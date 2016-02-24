@@ -11,39 +11,132 @@ var app = angular.module('subutai-app', [
 		'nvd3',
 		'cfp.loadingBar',
 		'uiSwitch',
-		'ngFileUpload'
+		'ngFileUpload',
+		'toaster'
 	])
 	.config(routesConf)
 
 	.controller('SubutaiController', SubutaiController)
 	.controller('CurrentUserCtrl', CurrentUserCtrl)
+	//.controller('RegisterCtrl', RegisterCtrl)
 	.controller('LiveTrackerCtrl', LiveTrackerCtrl)
 	.factory('liveTrackerSrv', liveTrackerSrv)
 
+	.controller('AccountCtrl', AccountCtrl)
+	.factory('identitySrv', identitySrv)
+	.directive('registerHtml', ['ngDialog', '$http', 'toaster', registerHtml])
+
 	.run(startup);
 
-CurrentUserCtrl.$inject = ['$location', '$rootScope'];
+CurrentUserCtrl.$inject = ['$location', '$rootScope', '$http', 'toaster'];
 routesConf.$inject = ['$httpProvider', '$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 startup.$inject = ['$rootScope', '$state', '$location', '$http'];
+RegisterCtrl.$inject = ['$http', 'ngDialog', '$scope', 'toaster']
 
-function CurrentUserCtrl($location, $rootScope, ngDialog, $http, SweetAlert) {
+function RegisterCtrl ($http, ngDialog, $scope, toaster) {
 	var vm = this;
-	vm.currentUser = sessionStorage.getItem('currentUser');
+	vm.login = "";
+	vm.password = "";
+	vm.hubRegister = hubRegister;
+	vm.error = false;
+	function hubRegister() {
+		console.log (vm.login, vm.password);
+		$http.post( SERVER_URL + 'rest/v1/hub/register?hubIp=hub.subut.ai&email=' + vm.login + '&password=' + vm.password, {withCredentials: true} )
+		.success(function () {
+			localStorage.setItem('hubRegistered', true);
+			console.log ("success");
+			vm.hubStatus = true;
+			ngDialog.closeAll();
+			toaster.clear();
+		}).error (function (error) {
+			vm.error = true;
+		});
+	}
+
+	vm.register = register;
+	function register() {
+		ngDialog.open ({
+			template: "subutai-app/bazaar/partials/registerPeer.html",
+			scope: $scope
+		});
+	}
+
+	vm.ignore = ignore;
+    function ignore() {
+		localStorage.setItem ('ignoreHubRegister', true);
+		toaster.clear();
+	}
+}
+
+
+function registerHtml (ngDialog, $http, toaster) {
+	return {
+		template: "<br>" +
+			"<span>Please register peer to Hub</span>" +
+			"<br><br>" +
+			"<button class = 'b-btn b-btn_green' ng-click = 'registerCtrl.register()'>Register</button>" +
+			"<button class = 'b-btn b-btn_blue' ng-click = 'registerCtrl.ignore()' style = 'margin-left: 10px'>Ignore</button>",
+		controller: RegisterCtrl,
+		controllerAs: "registerCtrl"
+	};
+}
+
+
+function CurrentUserCtrl($location, $rootScope, $http, toaster) {
+	var vm = this;
+	vm.currentUser = localStorage.getItem('currentUser');
+	vm.hubStatus = localStorage.getItem('hubRegistered');
 	vm.currentUserRoles = [];
+	if( vm.hubStatus != "true" )
+	{
+		vm.hubStatus = false;
+		if (localStorage.getItem('ignoreHubRegister') != "true") {
+			toaster.pop ({
+				 type: 'error',
+				 title: 'Peer registration error',
+				 body: 'register-html',
+				 bodyOutputType: 'directive',
+				 showCloseButton: true,
+				 timeout: 0,
+				 preventDuplicates: true
+			});
+		}
+	}
+	else {
+		vm.hubStatus = true;
+	}
+
+
+	vm.login;
+	vm.pass;
+
 
 	//function
 	vm.logout = logout;
+	vm.hubRegister = hubRegister;
 
 
-	function logout() {
+	function hubRegister()
+	{
+		$http.post( SERVER_URL + 'rest/v1/hub/register?hubIp=hub.subut.ai&email=' + vm.login + '&password=' + vm.pass, {withCredentials: true} )
+			.success(function () {
+				localStorage.setItem('hubRegistered', true);
+				vm.hubStatus = true;
+			}).error (function (error) {
+			console.log('hub/register error: ', error);
+		});
+	}
+
+	function logout()
+	{
 		removeCookie('sptoken');
-		sessionStorage.removeItem('currentUser');
+		localStorage.removeItem('currentUser');
 		$location.path('login');
 	}
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		if(localStorage.getItem('currentUser') !== undefined) {
-			vm.currentUser = sessionStorage.getItem('currentUser');
+			vm.currentUser = localStorage.getItem('currentUser');
 		} else if($rootScope.currentUser !== undefined) {
 			vm.currentUser = $rootScope.currentUser;
 		}
@@ -487,6 +580,29 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 								'plugins/hadoop/controller.js',
 								'plugins/hadoop/service.js',
 								'subutai-app/environment/service.js',
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('appscale', {
+			url: '/plugins/appscale',
+			templateUrl: 'plugins/appscale/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.appscale',
+							files: [
+								'plugins/appscale/appscale.js',
+								'plugins/appscale/controller.js',
+								'plugins/appscale/service.js',
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);
@@ -950,28 +1066,6 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				}]
 			}
 		})
-		.state('appscale', {
-			url: '/plugins/appscale',
-			templateUrl: 'plugins/appscale/partials/view.html',
-			data: {
-				bodyClass: '',
-				layout: 'default'
-			},
-			resolve: {
-				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-					return $ocLazyLoad.load([
-						{
-							name: 'subutai.plugins.appscale',
-							files: [
-								'plugins/appscale/appscale.js',
-								'plugins/appscale/controller.js',
-								'plugins/appscale/service.js'
-							]
-						}
-					]);
-				}]
-			}
-		})
 		.state('ceph', {
 			url: '/plugins/ceph',
 			templateUrl: 'plugins/ceph/partials/view.html',
@@ -983,14 +1077,34 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
 					return $ocLazyLoad.load([
 						{
-							name: 'vtortola.ng-terminal'
-						},
-						{
 							name: 'subutai.plugins.ceph',
 							files: [
 								'plugins/ceph/ceph.js',
 								'plugins/ceph/controller.js',
 								'plugins/ceph/service.js'
+							]
+						}
+					]);
+				}]
+			}
+		})
+		.state('backup', {
+			url: '/plugins/backup',
+			templateUrl: 'plugins/backup/partials/view.html',
+			data: {
+				bodyClass: '',
+				layout: 'default'
+			},
+			resolve: {
+				loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+					return $ocLazyLoad.load([
+						{
+							name: 'subutai.plugins.backup',
+							files: [
+								'plugins/backup/backup.js',
+								'plugins/backup/controller.js',
+								'plugins/backup/service.js',
+								'subutai-app/environment/service.js'
 							]
 						}
 					]);
@@ -1174,7 +1288,7 @@ function routesConf($httpProvider, $stateProvider, $urlRouterProvider, $ocLazyLo
 
 function startup($rootScope, $state, $location, $http) {
 
-	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MjY2NDkzNC1kMDFlLTRlZjYtOWFkMS00NjQ1NGY0ZjQwNmQiLCJpc3MiOiJpby5zdWJ1dGFpIn0.P171keEBobqxlGrP0f-54Yg_zdDIjYbO7pbaZQwhahM';
+	$http.defaults.headers.common['sptoken'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDczMTE2NS01MTRjLTQ1ZjUtYjdjMC05NzAxMDU5ZTBhNDEiLCJpc3MiOiJpby5zdWJ1dGFpIn0.3MNc_ZP8u-1E6MX07sI0ZVwtzZpS6ibqgkdOF1i3onQ';
 
 	$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 		LOADING_SCREEN('none');
@@ -1256,7 +1370,7 @@ app.directive('checkbox-list-dropdown', function() {
 
 //Global variables
 
-var SERVER_URL = 'http://keshig.ddns.net:8082/';
+var SERVER_URL = 'https://dilshat.ddns.net:9043/';
 
 var STATUS_UNDER_MODIFICATION = 'UNDER_MODIFICATION';
 var VARS_TOOLTIP_TIMEOUT = 1600;
@@ -1377,5 +1491,14 @@ function toggle (source, name) {
 	checkboxes = document.getElementsByName (name);
 	for (var i = 0; i < checkboxes.length; i++) {
 		checkboxes[i].checked = source.checked;
+	}
+}
+
+
+function hasPGPplugin() {
+	if($('#bp-plugin-version').val().length > 0) {
+		return true;
+	} else {
+		return false;
 	}
 }
