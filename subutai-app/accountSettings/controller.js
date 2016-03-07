@@ -3,9 +3,9 @@
 angular.module('subutai.accountSettings.controller', [])
 	.controller('AccountCtrl', AccountCtrl);
 
-AccountCtrl.$inject = ['identitySrv', '$scope', 'ngDialog', 'SweetAlert', 'cfpLoadingBar', '$timeout'];
+AccountCtrl.$inject = ['identitySrv', '$scope', '$rootScope', 'ngDialog', 'SweetAlert', 'cfpLoadingBar', '$timeout'];
 
-function AccountCtrl(identitySrv, $scope, ngDialog, SweetAlert, cfpLoadingBar, $timeout) {
+function AccountCtrl(identitySrv, $scope, $rootScope, ngDialog, SweetAlert, cfpLoadingBar, $timeout) {
 
 	var vm = this;
 
@@ -16,7 +16,17 @@ function AccountCtrl(identitySrv, $scope, ngDialog, SweetAlert, cfpLoadingBar, $
 	vm.hasPGPplugin = true;
 	$timeout(function() {
 		vm.hasPGPplugin = hasPGPplugin();
-	}, 2000);
+		if(!vm.hasPGPplugin) {
+			$rootScope.notifications = {
+				"message": "Life is hard when you're stupid dude! Install the subutai browser plugin for added security with end to end encryption.", 
+				"date": moment().format('MMMM Do YYYY, HH:mm:ss'),
+				"links": [
+					{"text": "Take it!", "href": "https://github.com/subutai-io/Tooling-pgp-plugin/releases/latest"},
+					{"text": "Set manualy", "href": "/#/account-settings"}
+				]
+			};
+		}
+	}, 4000);
 
 	cfpLoadingBar.start();
 	angular.element(document).ready(function () {
@@ -37,9 +47,11 @@ function AccountCtrl(identitySrv, $scope, ngDialog, SweetAlert, cfpLoadingBar, $
 		});
 
 		identitySrv.checkUserKey(vm.activeUser.id).success(function (data) {
-			if(data <= 1) {
+			if(data <= 1 && $rootScope.$state.current.name != 'account-settings') {
 				$('.js-auto-set-key').addClass('bp-set-pub-key');
-			}
+			} /*else {
+				$('.js-public-key-manager').remove();
+			}*/
 		});
 	});
 
@@ -58,10 +70,19 @@ function AccountCtrl(identitySrv, $scope, ngDialog, SweetAlert, cfpLoadingBar, $
 		LOADING_SCREEN();
 		identitySrv.approveIdentityDelegate(encodeURIComponent(vm.message)).success(function() {
 			LOADING_SCREEN('none');
-			SweetAlert.swal("Approved!", "Message was successfully approved.", "success");
+			//SweetAlert.swal("Approved!", "Message was successfully approved.", "success");
+			$rootScope.notifications = {
+				"message": "Message was successfully approved", 
+				"date": moment().format('MMMM Do YYYY, HH:mm:ss')
+			};
 		}).error(function(error) {
 			LOADING_SCREEN('none');
 			SweetAlert.swal("ERROR!", "Error: " + error, "error");
+
+			$rootScope.notifications = {
+				"message": "Error on approve Document. " + error, 
+				"date": moment().format('MMMM Do YYYY, HH:mm:ss')
+			};
 		});
 	};
 
@@ -77,6 +98,12 @@ function AccountCtrl(identitySrv, $scope, ngDialog, SweetAlert, cfpLoadingBar, $
 		identitySrv.updatePublicKey(encodeURIComponent(publicKey)).success(function(data) {
 			identitySrv.createIdentityDelegateDocument().success(function() {
 				LOADING_SCREEN('none');
+
+				$rootScope.notifications = {
+					"message": "Public key successfully set", 
+					"date": moment().format('MMMM Do YYYY, HH:mm:ss')
+				};
+
 				getDelegateDocument();
 			}).error(function(error) {
 				LOADING_SCREEN('none');
@@ -85,6 +112,11 @@ function AccountCtrl(identitySrv, $scope, ngDialog, SweetAlert, cfpLoadingBar, $
 		}).error(function(error) {
 			LOADING_SCREEN('none');
 			SweetAlert.swal("ERROR!", "Error: " + error, "error");
+
+			$rootScope.notifications = {
+				"message": "Error on adding Public key. " + error, 
+				"date": moment().format('MMMM Do YYYY, HH:mm:ss')
+			};
 		});
 	};
 }

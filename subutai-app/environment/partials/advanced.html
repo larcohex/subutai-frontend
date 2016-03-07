@@ -1,4 +1,4 @@
-<div class="b-cloud" ng-controller="AdvancedEnvironmentCtrl as advEnvCtrl">
+<div class="b-cloud" ng-controller="AdvancedEnvironmentCtrl as advEnvCtrl" ondragover="dragOver(event)">
 	<div class="b-cloud__tools">
 		<div class="b-cloud-tools">
 			<div class="b-tabs-menu b-tabs-menu_cloud-env">
@@ -18,7 +18,6 @@
 			<div class="b-tools-menu b-tools-menu_custom-scroll-huc js-scrollbar" ng-show="advEnvCtrl.activeCloudTab == 'templates'">
 				<ul class="">
 					<li ng-repeat="template in advEnvCtrl.templates" 
-						ondragstart="startDrag(event)" ondrop="drop(event)" draggable="true" 
 						data-template="{{ template }}">
 						<span class="b-tools-menu__item">
 							<span class="b-cloud-item">
@@ -29,6 +28,10 @@
 							</span>
 							<span class="b-cloud-item-text">{{ template }}</span>
 						</span>
+						<div class="b-dragAndDrop-item"
+							ondragstart="startDrag(event)" ondrop="drop(event)" ondragend="endtDrag(event)" draggable="true" 
+							data-template="{{ template }}">
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -46,14 +49,17 @@
 
 						<div class="b-progress__cloud">
 							<div class="b-progress-cloud g-margin-bottom-half">
-								<div class="b-progress-cloud-fill" style="width: 15%"></div>
+								<div class="b-progress-cloud-fill" style="width: 0%"></div>
 							</div>
 							<div class="b-progress-text">
-								<span class="g-text-blue">15%</span> resources used
+								<span class="g-text-blue">0%</span> resources used
 							</div>
 						</div>
 					</li>
 				</ul>
+				<div class="b-loading-screen js-peer-load-screen">
+					<div class="b-load-icon"></div>
+				</div>
 			</div>
 			<div class="b-cloud-add-tools">
 				<div class="b-tabs-menu b-tabs-menu_cloud-env">
@@ -67,7 +73,7 @@
 				<div class="b-tools-menu b-tools-menu_advanced js-scrollbar-cloud">
 					<ul ng-show="advEnvCtrl.currentResourceHosts.length > 0">
 						<li ng-repeat="resourceHost in advEnvCtrl.currentResourceHosts" 
-						ng-click="advEnvCtrl.addResource2Build(resourceHost, $index)">
+						ng-click="advEnvCtrl.addResource2Build(resourceHost, advEnvCtrl.currentPeer, $index)">
 							<span class="b-cloud-item-resource-name g-margin-bottom">
 								Recource Host {{$index + 1}}
 							</span>
@@ -82,10 +88,10 @@
 										HDD:2048MB
 									</div>
 									<div class="b-progress-cloud g-margin-bottom-half">
-										<div class="b-progress-cloud-fill" style="width: 15%"></div>
+										<div class="b-progress-cloud-fill" style="width: 0%"></div>
 									</div>
 									<div class="b-progress-text">
-										<span class="g-text-blue">1024MB</span> used
+										<span class="g-text-blue">0MB</span> used
 									</div>
 								</div>
 								<div>
@@ -94,10 +100,10 @@
 										RAM:  256MB
 									</div>
 									<div class="b-progress-cloud g-margin-bottom-half">
-										<div class="b-progress-cloud-fill" style="width: 15%"></div>
+										<div class="b-progress-cloud-fill" style="width: 0%"></div>
 									</div>
 									<div class="b-progress-text">
-										<span class="g-text-blue">21MB</span> used
+										<span class="g-text-blue">0MB</span> used
 									</div>
 								</div>
 							</div>
@@ -114,27 +120,65 @@
 				class="b-cloud-space-work"
 				id="js-environment-creation"
 				ng-init="advEnvCtrl.initJointJs()" 
-				ondragover="dragOver(event)" ondrop="drop(event)">
-					<div
-						class="js-dropen-menu"
-						style="width: 100px; height: 100px; background-color: red; position: absolute; display: none;">
+				ondrop="drop(event)">
+
+					<div class="b-template-settings__dropdown js-dropen-menu">
+						<form ng-submit="advEnvCtrl.addSettingsToTemplate(templateSettings)">
+							<div class="header"></div>
+							<div class="body">
+								<div class="b-form-group">
+									<div class="b-form-group__label">Container name</div>
+									<input type="text" 
+										id="js-container-name" 
+										class="b-form-input b-form-input_full" 
+										ng-model="templateSettings.containerName" required>									
+								</div>
+								<div class="b-form-group">
+									<div class="b-form-group__label">Select quota size</div>
+									<select class="b-form-input b-form-input_full" 
+										id="js-container-size" 
+										ng-model="templateSettings.quotaSize"
+									>
+										<option 
+										ng-repeat="type in environmentViewCtrl.containersType" 
+										value="{{ type }}" >
+											{{ type }}
+										</option>
+									</select>
+								</div>
+							</div>
+							<div class="footer">
+								<button type="submit" class="b-btn b-btn_green">Save</button>
+							</div>
+						</form>
 					</div>
+
 				</div>
 				<div class="b-cloud-create-buttons">
+
 					<button class="b-btn b-btn_white"
 					ng-click="advEnvCtrl.clearWorkspace()">
 						Cancel
 					</button>
+
 					<button
 					class="b-btn b-btn_green"
+					ng-if="!advEnvCtrl.isEditing" 
 					ng-click="advEnvCtrl.buildEnvironmentByJoint()">
+						Apply
+					</button>
+
+					<button
+					class="b-btn b-btn_green"
+					ng-if="advEnvCtrl.isEditing"
+					ng-click="advEnvCtrl.notifyChanges()">
 						Apply
 					</button>
 				</div>
 			</div>
 			<div class="b-cloud-space__table">
 				<table datatable="ng"
-				dt-options="environmentSimpleViewCtrl.dtOptionsInstallTable"
+				dt-options="environmentViewCtrl.dtOptionsInstallTable"
 				dt-column-defs="environmentViewCtrl.dtColumnDefsInstallTable"
 				class="row-border hover subt_table-containers-table">
 					<thead>
@@ -168,9 +212,13 @@
 								<a href ng-click="environmentViewCtrl.showSSHKeysPopup(environment.id)">Remove</a></td>
 							<td><button class="b-btn b-btn_grey" ng-click="environmentViewCtrl.showDomainForm(environment.id)">Configure</button></td>
 							<td ng-init="environmentViewCtrl.containersTags(environment)">
-								<a ng-repeat="(key, value) in environmentViewCtrl.installedContainers" ui-sref="containers({environmentId: value.dataID})" class="b-tags b-tags_{{value.color}}" tooltips tooltip-template="{{value.tooltip}}">
-									{{key}}:{{value.counts}}
-								</a>
+								<span class="g-circle-label g-circle-label_blue g-margin-left-quarter" 
+								ng-repeat="(key, value) in environment.containersByQuota" 
+								ng-style="{'background-color' : environmentViewCtrl.getQuotaColor(key)}" 
+								tooltips 
+								tooltip-template="{{value.tooltip}}">
+									{{value.quantity}}
+								</span>
 							</td>
 							<td>
 								<a href
@@ -181,7 +229,7 @@
 									ng-show = "environment.status === 'HEALTHY'"
 									style = "margin-left: 10px; margin-top: 5px">
 								</a>
-								<a href class="b-icon b-icon_edit" ng-click="environmentViewCtrl.editEnvironment(environment)" style = "margin-left: 10px; margin-top: 5px; visibility: visible"></a>
+								<a href class="b-icon b-icon_edit" ng-click="advEnvCtrl.editEnvironment(environment)" style = "margin-left: 10px; margin-top: 5px; visibility: visible"></a>
 								<a href class="b-icon b-icon_remove" ng-click="environmentViewCtrl.destroyEnvironment(environment.id)" style = "margin-left: 10px; margin-top: 5px"></a>
 							</td>
 						</tr>

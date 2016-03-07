@@ -11,7 +11,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="b-tools-menu js-scrollbar">
+			<div class="b-tools-menu js-scrollbar b-tools-menu_custom-scroll-huc">
 				<ul>
 					<li ng-repeat="template in environmentSimpleViewCtrl.templates">
 						<span class="b-tools-menu__item" ng-click="environmentSimpleViewCtrl.addContainer(template, $event)">
@@ -35,10 +35,38 @@
 					class="b-cloud-space-work"
 					id="js-environment-creation"
 					ng-init="environmentSimpleViewCtrl.initJointJs()">
-					<div
-						class="js-dropen-menu"
-						style="width: 100px; height: 100px; background-color: red; position: absolute; display: none;">
+
+					<div class="b-template-settings__dropdown js-dropen-menu">
+						<form ng-submit="environmentSimpleViewCtrl.addSettingsToTemplate(templateSettings)">
+							<div class="header"></div>
+							<div class="body">
+								<div class="b-form-group">
+									<div class="b-form-group__label">Container name</div>
+									<input type="text" 
+										id="js-container-name" 
+										class="b-form-input b-form-input_full" 
+										ng-model="templateSettings.containerName" required>									
+								</div>
+								<div class="b-form-group">
+									<div class="b-form-group__label">Select quota size</div>
+									<select class="b-form-input b-form-input_full" 
+										id="js-container-size" 
+										ng-model="templateSettings.quotaSize"
+									>
+										<option 
+										ng-repeat="type in environmentViewCtrl.containersType" 
+										value="{{ type }}" >
+											{{ type }}
+										</option>
+									</select>
+								</div>
+							</div>
+							<div class="footer">
+								<button type="submit" class="b-btn b-btn_green">Save</button>
+							</div>
+						</form>
 					</div>
+
 				</div>
 				<div class="b-cloud-create-buttons">
 					<button class="b-btn b-btn_white"
@@ -61,7 +89,7 @@
 			</div>
 			<div class="b-cloud-space__table">
 				<table datatable="ng"
-				dt-options="environmentSimpleViewCtrl.dtOptionsInstallTable"
+				dt-options="environmentViewCtrl.dtOptionsInstallTable"
 				dt-column-defs="environmentViewCtrl.dtColumnDefsInstallTable"
 				class="row-border hover subt_table-containers-table">
 					<thead>
@@ -97,7 +125,7 @@
 							<td>
 								<span class="g-circle-label g-circle-label_blue g-margin-left-quarter"
 									  ng-repeat="(key, value) in environment.containersByQuota"
-									  ng-style="{'background-color' : environmentSimpleViewCtrl.getQuotaColor(key)}"
+									  ng-style="{'background-color' : environmentViewCtrl.getQuotaColor(key)}"
 									  tooltips
 									  tooltip-template="{{value.tooltip}}">
 									{{value.quantity}}

@@ -3,18 +3,23 @@
 angular.module('subutai.bazaar.controller', [])
 	.controller('BazaarCtrl', BazaarCtrl)
 	.directive('fileModel', fileModel)
-	.directive('registerHtml', ['ngDialog', '$http', 'toaster', registerHtml]);
+
 fileModel.$inject = ["$parse"];
 
 var karUploader = {};
-BazaarCtrl.$inject = ['$scope', 'BazaarSrv', 'ngDialog', 'SweetAlert', '$location', 'toaster', 'cfpLoadingBar'];
-function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster, cfpLoadingBar) {
+BazaarCtrl.$inject = ['$scope', '$rootScope', 'BazaarSrv', 'ngDialog', 'SweetAlert', '$location', 'cfpLoadingBar'];
+function BazaarCtrl($scope, $rootScope, BazaarSrv, ngDialog, SweetAlert, $location, cfpLoadingBar) {
 
 	var vm = this;
 
 /*	vm.plugins = [{name: "test", version: "BETA", description: "Some desc...", installed: true, img: "http://twimgs.com/informationweek/galleries/automated/723/01_Hadoop_full.jpg"}, {name: "test2", version: "ALPHA", description: "Some desc...", installed: false, img: "https://flume.apache.org/_static/flume-logo.png"}];*/
 	vm.plugins = [];
 	vm.activeTab = "hub";
+	vm.changeTab = changeTab;
+	function changeTab (tab) {
+		vm.activeTab = tab;
+		getHubPlugins();
+	}
 	vm.installedPlugins = [];
 	vm.installedHubPlugins = [];
 	vm.notRegistered = true;
@@ -31,6 +36,7 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster,
 					console.log (vm.plugins);
 					BazaarSrv.getInstalledHubPlugins().success (function (data) {
 						vm.installedHubPlugins = data;
+						console.log (vm.installedHubPlugins);
 						for (var i = 0; i < vm.plugins.length; ++i) {
 							vm.plugins[i].img = "https://s3-eu-west-1.amazonaws.com/subutai-hub/products/" + vm.plugins[i].id + "/logo/logo.png";
 							vm.plugins[i].installed = false;
@@ -45,6 +51,11 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster,
 							}
 						}
 						$scope.$applyAsync (function() {
+							var toScroll = document.getElementById (localStorage.getItem ("bazaarScroll"));
+							if (toScroll !== null) {
+								toScroll.scrollIntoView();
+							}
+							localStorage.removeItem ("bazaarScroll");
 							var index = 0;
 							var counter = 0;
 							[].slice.call (document.querySelectorAll (".progress-button")).forEach (function (bttn, pos) {
@@ -69,16 +80,6 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster,
 			}
 			else {
 				vm.notRegistered = true;
-/*				if (localStorage.getItem('ignoreHubRegister') != "true") {
-					toaster.pop ({
-						 type: 'error',
-						 title: 'Peer registration error',
-						 body: 'register-html',
-						 bodyOutputType: 'directive',
-						 showCloseButton: true,
-						 timeout: 0
-					});
-				}*/
 			}
 		});
 	}
@@ -384,34 +385,123 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster,
 		});
 	}
 
+
+
+
+
 	vm.installPlugin = installPlugin;
 	function installPlugin (plugin) {
 		plugin.installButton.options.callback = function (instance) {
-			var progress = 0,
-				interval = setInterval (function() {
-					progress = Math.min (progress + Math.random() * 0.1, 0.99);
-					instance.setProgress (progress);
-/*					if( progress === 0.99 ) {
-						progress = 1;
-						instance.stop(  -1 );
-						clearInterval( interval );
-					}*/
-				}, 150);
-			BazaarSrv.installHubPlugin (plugin).success (function (data) {
-				setTimeout (function() {
-					progress = 1;
-					instance.stop (1);
-					clearInterval (interval);
+			var arr = plugin.dependencies.slice();
+			for (var i = 0; i < vm.installedHubPlugins.length; ++i) {
+				for (var j = 0; j < plugin.dependencies.length; ++j) {
+					if (vm.installedHubPlugins[i].uid === plugin.dependencies[j]) {
+						var index = arr.indexOf (plugin.dependencies[j]);
+						arr.splice (index, 1);
+					}
+				}
+			}
+			console.log (plugin.dependencies, arr);
+			if (arr.length > 0) {
+				SweetAlert.swal({
+					title: "Additional dependencies",
+					text: "It seems that there are dependencies that need to be installed. Are you sure you want to continue?",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#ff3f3c",
+					confirmButtonText: "Install",
+					cancelButtonText: "Cancel",
+					closeOnConfirm: true,
+					closeOnCancel: true,
+					showLoaderOnConfirm: false
+				},
+				function (isConfirm) {
+					if (isConfirm) {
+						var progress = 0,
+							interval = setInterval (function() {
+								progress = Math.min (progress + Math.random() * 0.1, 0.99);
+								instance.setProgress (progress);
+			/*					if( progress === 0.99 ) {
+									progress = 1;
+									instance.stop(  -1 );
+									clearInterval( interval );
+								}*/
+							}, 150);
+						var installPluginDependencies = function (dependencies, callback) {
+							var arr = dependencies.slice();
+							for (var i = 0; i < vm.installedHubPlugins.length; ++i) {
+								for (var j = 0; j < dependencies.length; ++j) {
+									if (vm.installedHubPlugins[i].uid === dependencies[j]) {
+										var index = arr.indexOf (dependencies[j]);
+										arr.splice (index, 1);
+									}
+								}
+							}
+							console.log (dependencies, arr);
+							for (var i = 0; i < arr.length; ++i) {
+								for (var j = 0; j < vm.plugins.length; ++j) {
+									if (arr[i] === vm.plugins[j].id) {
+										installPluginDependencies (vm.plugins[j].dependencies, function() {
+											return;
+										});
+										BazaarSrv.installHubPlugin (vm.plugins[j]).success (function (data) {;
+											callback();
+										});
+									}
+								}
+							}
+						}
+						installPluginDependencies (arr, function() {
+							BazaarSrv.installHubPlugin (plugin).success (function (data) {
+								setTimeout (function() {
+									progress = 1;
+									instance.stop (1);
+									clearInterval (interval);
+									setTimeout (function() {
+										localStorage.setItem ("bazaarScroll", plugin.id);
+										$rootScope.$emit('reloadPluginsStates');
+									}, 2000);
+								}, 2000);
+							}).error (function (error) {
+								instance.stop (-1);
+								clearInterval (interval);
+							});
+						});
+					}
+					else {
+						instance.stop (-1);
+					}
+				});
+			}
+			else {
+				var progress = 0,
+					interval = setInterval (function() {
+						progress = Math.min (progress + Math.random() * 0.1, 0.99);
+						instance.setProgress (progress);
+	/*					if( progress === 0.99 ) {
+							progress = 1;
+							instance.stop(  1 );
+							clearInterval( interval );
+						}*/
+					}, 150);
+				BazaarSrv.installHubPlugin (plugin).success (function (data) {
 					setTimeout (function() {
-						getInstalledHubPlugins();
+						progress = 1;
+						instance.stop (1);
+						clearInterval (interval);
+						setTimeout (function() {
+							localStorage.setItem ("bazaarScroll", plugin.id);
+							$rootScope.$emit('reloadPluginsStates');
+						}, 2000);
 					}, 2000);
-				}, 2000);
-			}).error (function (error) {
-				instance.stop (-1);
-				clearInterval (interval);
-			});
+				}).error (function (error) {
+					instance.stop (-1);
+					clearInterval (interval);
+				});
+			}
 		};
 	}
+
 
 	vm.uninstallPlugin = uninstallPlugin;
 	function uninstallPlugin (plugin) {
@@ -433,7 +523,8 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster,
 					instance.stop (1);
 					clearInterval (interval);
 					setTimeout (function() {
-						getInstalledHubPlugins();
+						localStorage.setItem ("bazaarScroll", plugin.id);
+						$rootScope.$emit('reloadPluginsStates');
 					}, 2000);
 				}, 2000);
 			}).error (function (error) {
@@ -479,44 +570,6 @@ function BazaarCtrl($scope, BazaarSrv, ngDialog, SweetAlert, $location, toaster,
 
 
 
-}
-
-
-function registerHtml (ngDialog, $http, toaster) {
-	return {
-		template: "<br>" +
-			"<span>Please register peer to Hub</span>" +
-			"<br><br>" +
-			"<button class = 'b-btn b-btn_green' ng-click = 'register()'>Register</button>" +
-			"<button class = 'b-btn b-btn_blue' ng-click = 'ignore()' style = 'margin-left: 10px'>Ignore</button>",
-		link: function (scope, element, attrs) {
-			scope.register = function() {
-				console.log (scope.$parent);
-				ngDialog.open ({
-					template: "subutai-app/bazaar/partials/registerPeer.html",
-					scope: scope
-				});
-			}
-			scope.login = "";
-			scope.password = "";
-			scope.error = false;
-			scope.hubRegister = function() {
-				console.log (login, password);
-				$http.post( SERVER_URL + 'rest/v1/hub/register?hubIp=hub.subut.ai&email=' + scope.login + '&password=' + scope.password, {withCredentials: true} )
-				.success(function () {
-					localStorage.setItem('hubRegistered', true);
-					vm.hubStatus = true;
-					toaster.clear();
-				}).error (function (error) {
-					scope.error = true;
-				});
-			}
-			scope.ignore = function() {
-				localStorage.setItem ('ignoreHubRegister', true);
-				toaster.clear();
-			}
-		}
-	};
 }
 
 

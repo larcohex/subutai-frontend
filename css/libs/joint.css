@@ -247,11 +247,20 @@ Do not allow adding new vertices: .connection-wrap { pointer-events: none; }
 	transform: translate(36px, 2px);
 }
 
+.element .element-tools_big {
+	transform: translate(58px, 5px);
+}
+
 .recourceHost .element-tools {
 	transform: translate(155px, 0);
 }
 
 .element:hover .element-tools {
 	display: inline;
+}
+
+.element-call-menu, 
+.element-tool-remove {
+	cursor: pointer;
 }
 

@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="favicon.ico" rel="icon" type="image/x-icon" />
 	<!--<base href="/">-->
 
-    <title>{{ Page.title() }}</title>
+    <title>Subutai Social</title>
 
 	<!--CSS Libs-->
 	<link rel="stylesheet" href="css/libs/font-awesome.min.css"/>
@@ -23,7 +24,6 @@
 	<link rel="stylesheet" href="css/libs/angular-ui-switch.css">
 	<link rel="stylesheet" href="css/libs/joint.css">
 	<link rel="stylesheet" href="css/libs/perfect-scrollbar.css">
-	<link rel="stylesheet" href="css/libs/toaster.min.css">
 	<!--CSS-->
 
 	<link rel="stylesheet" href="css/style.css"/>
@@ -32,7 +32,10 @@
     <!-- END DIRS -->
 </head>
 
+<body class="{{ subutaiController.bodyClass }}">
+
 <input type="hidden" id="bp-plugin-version" value="">
+
 <ng-include src="subutaiController.layoutType"></ng-include>
 
 <!-- BASE -->
@@ -68,24 +71,18 @@
 <script src="assets/js/plugins/ng-file-upload.min.js"></script>
 <script src="assets/js/plugins/ng-file-upload-shim.min.js"></script>
 
-<script src="subutai-app/live-tracker/service.js"></script>
-<script src="subutai-app/live-tracker/controller.js"></script>
-
 <script src="subutai-app/identity/service.js"></script>
 <script src="subutai-app/accountSettings/controller.js"></script>
 
 <script src="subutai-app/subutai-app.js"></script>
 
-<script src="subutai-app/bazaar/partials/js/modernizr.custom.js"></script>
+<script src = "subutai-app/bazaar/partials/js/modernizr.custom.js"></script>
 <script src="subutai-app/bazaar/partials/js/classie.js"></script>
 <script src="subutai-app/bazaar/partials/js/uiProgressButton.js"></script>
-<script src="assets/js/toaster/toaster.min.js"></script>
 <!-- ENDBASE -->
 
 <!--directive dep-->
 <script src="assets/js/directives.js"></script>
-
-<toaster-container></toaster-container>
 </body>
 
 </html>
